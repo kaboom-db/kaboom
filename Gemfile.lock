@@ -209,7 +209,7 @@ DEPENDENCIES
   jsbundling-rails
   pg (~> 1.1)
   puma (~> 5.0)
-  rails (~> 7.0.0)
+  rails (~> 7.0.4, >= 7.0.4.3)
   rspec-rails
   sprockets-rails
   stimulus-rails
