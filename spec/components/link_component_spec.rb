@@ -3,13 +3,8 @@
 require "rails_helper"
 
 RSpec.describe LinkComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
-
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "renders the component with specified href and text" do
+    render_inline(described_class.new(href: "/link/to/page", text: "I'm a link"))
+    expect(page).to have_link href: "/link/to/page", text: "I'm a link"
+  end
 end

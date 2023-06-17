@@ -3,13 +3,8 @@
 require "rails_helper"
 
 RSpec.describe ChipHeaderComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
-
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "renders the component with specified text" do
+    render_inline(described_class.new(text: "Hello there"))
+    expect(page).to have_content "Hello there"
+  end
 end

@@ -3,13 +3,8 @@
 require "rails_helper"
 
 RSpec.describe GradientBorderComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
-
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "renders the component with specified content" do
+    render_inline(described_class.new) { "Hey View Component" }
+    expect(page).to have_content "Hey View Component"
+  end
 end
