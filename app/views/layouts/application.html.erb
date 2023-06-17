@@ -13,16 +13,14 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <script src="https://kit.fontawesome.com/f1da3ec963.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
     <%= render "layouts/navbar" %>
-    <!-- TODO: Improve flash messages -->
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <main class="mt-16">
+    <main class="pt-16 min-h-screen">
       <% if @header %>
         <div class="p-12 bg-gradient-to-r from-primary to-secondary">
           <h1 class="font-bold text-4xl text-center"><%= @header %></h1>
@@ -30,14 +28,15 @@
       <% end %>
       <%= yield :custom_header %>
       <div class="mx-auto max-w-7xl px-4">
+        <%= render "layouts/flash" %>
         <%= yield %>
       </div>
-      <footer class="bg-gradient-to-r from-primary to-secondary text-white text-sm mt-6">
-        <div class=" mx-auto max-w-7xl p-4">
-          <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
-          developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a>
-        </div>
-      </footer>
     </main>
+    <footer class="bg-gradient-to-r from-primary to-secondary text-white text-sm mt-6">
+      <div class=" mx-auto max-w-7xl p-4">
+        <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
+        developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a>
+      </div>
+    </footer>
   </body>
 </html>

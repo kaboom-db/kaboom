@@ -10,7 +10,9 @@ module.exports = {
     extend: {
       colors: {
         primary: 'rgb(255, 95, 109)',
-        secondary: 'rgb(255, 195, 113)'
+        'primary-light': 'rgb(252, 153, 162)',
+        secondary: 'rgb(255, 195, 113)',
+        'secondary-light': 'rgb(249, 213, 162)'
       },
     },
     fontFamily: {
