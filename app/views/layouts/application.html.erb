@@ -6,13 +6,34 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
+    <%= render "layouts/navbar" %>
+    <!-- TODO: Improve flash messages -->
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <main class="mt-16">
+      <% if @header %>
+        <div class="p-12 bg-gradient-to-r from-primary to-secondary">
+          <h1 class="font-bold text-4xl text-center"><%= @header %></h1>
+        </div>
+      <% end %>
+      <%= yield :custom_header %>
+      <div class="mx-auto max-w-7xl px-4">
+        <%= yield %>
+      </div>
+      <footer class="bg-gradient-to-r from-primary to-secondary text-white text-sm mt-6">
+        <div class=" mx-auto max-w-7xl p-4">
+          <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
+          developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a>
+        </div>
+      </footer>
+    </main>
   </body>
 </html>
