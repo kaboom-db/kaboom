@@ -1,8 +1,7 @@
 <div class="my-6">
   <%= render GradientBorderComponent.new do %>
     <div class="flex flex-col items-center gap-4">
-      <!-- TODO: Remove hardcoded value -->
-      <img src="https://github.com/crxssed7.png" class="h-20 w-20 rounded-full border-[5px] border-black" />
+      <img src="<%= current_user.avatar %>" class="h-20 w-20 rounded-full border-[5px] border-black" />
       <h1 class="text-2xl font-bold"><%= current_user.email %></h1>
     </div>
   <% end %>

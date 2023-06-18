@@ -18,7 +18,7 @@ RSpec.describe "Pages", type: :request do
 
     context "when user is logged in" do
       before do
-        sign_in User.create!(email: "test@a.com", password: "123456")
+        sign_in FactoryBot.create(:user, :confirmed)
       end
 
       it "renders a successfull response" do
