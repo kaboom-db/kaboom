@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_12_185708) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_18_141549) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comics", force: :cascade do |t|
+    t.text "aliases"
+    t.string "api_detail_url"
+    t.integer "count_of_issues"
+    t.datetime "date_last_updated"
+    t.text "deck"
+    t.text "description"
+    t.integer "cv_id", null: false
+    t.string "image"
+    t.string "name", null: false
+    t.string "publisher"
+    t.string "site_detail_url"
+    t.integer "start_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
