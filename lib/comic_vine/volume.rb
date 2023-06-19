@@ -1,4 +1,3 @@
-# TODO: Needs specs with webmock
 module ComicVine
   class Volume < Request
     attr_accessor :id

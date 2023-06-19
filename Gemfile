@@ -87,3 +87,8 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+group :test do
+  # Stub API requests in specs
+  gem "webmock", "~> 3.18"
+end
