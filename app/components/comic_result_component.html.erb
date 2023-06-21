@@ -1,10 +1,11 @@
 <%= link_to @resource, data: {"turbo-frame": "_top"} do %>
-  <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary w-[150px]">
-    <div class="mb-1.5 overflow-hidden h-[150px] rounded-lg">
-      <img src="<%= @resource.image %>" alt="" />
+  <div class="w-[149px]">
+    <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary mb-2">
+      <div class="relative overflow-hidden h-[185px] rounded-lg">
+        <img src="<%= @resource.image %>" alt="" />
+        <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block bottom-2 right-2"><%= @resource.start_year %></div>
+      </div>
     </div>
-    <div class="bg-white p-4 text-center text-xs search-name-wrapper block overflow-hidden text-ellipsis rounded-lg">
-      <%= @resource.name %>
-    </div>
+    <small><%= @resource.name %></small>
   </div>
 <% end %>

@@ -9,7 +9,7 @@
     <% if @search.present? %>
       <div class="mb-4">
         <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-wrap gap-2">
           <% @search_results.each do |comic| %>
             <%= render ComicResultComponent.new(resource: comic) %>
           <% end %>
@@ -20,7 +20,7 @@
 
   <div class="mb-4">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-wrap gap-2">
       <% @comics.each do |comic| %>
         <%= render ComicResultComponent.new(resource: comic) %>
       <% end %>
