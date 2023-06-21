@@ -1,8 +1,33 @@
-<div class="my-6 grid grid-cols-3">
-  <div class="col-span-2">
-    <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
+<div class="my-6">
+  <div class="mb-4">
+    <form action="<%= comics_path %>" method="get" data-turbo-frame="search">
+      <%= render TextInputComponent.new(name: "search") %>
+    </form>
   </div>
-  <div class="col-span-1">
-    <%= render ChipHeaderComponent.new(text: "Newly Added Comics") %>
+
+  <%= turbo_frame_tag "search" do %>
+    <% if @search.present? %>
+      <div class="mb-4">
+        <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
+        <div class="flex flex-wrap gap-4">
+          <% @search_results.each do |comic| %>
+            <%= render ComicResultComponent.new(resource: comic) %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="mb-4">
+    <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
+    <div class="flex flex-wrap gap-4">
+      <% @comics.each do |comic| %>
+        <%= render ComicResultComponent.new(resource: comic) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
   </div>
 </div>
