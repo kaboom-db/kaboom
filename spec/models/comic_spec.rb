@@ -1,6 +1,60 @@
 require "rails_helper"
 
 RSpec.describe Comic, type: :model do
+  describe "#aliases_to_array" do
+    before do
+      @comic = FactoryBot.create(:comic, aliases:)
+    end
+
+    context "when there are no aliases" do
+      let(:aliases) { nil }
+
+      it "returns an empty array" do
+        expect(@comic.aliases_to_array).to eq []
+      end
+    end
+
+    context "when there are aliases" do
+      let(:aliases) { "Hello\nThere\nSpider-Man" }
+
+      it "returns an array with the aliases" do
+        expect(@comic.aliases_to_array).to eq ["Hello", "There", "Spider-Man"]
+      end
+
+      context "when there are empty aliases" do
+        let(:aliases) { "Hello\n\nThere\nSpider-Man\n" }
+
+        it "does not return the empty aliases" do
+          expect(@comic.aliases_to_array).to eq ["Hello", "There", "Spider-Man"]
+        end
+      end
+    end
+  end
+
+  describe "#safe_description" do
+    before do
+      @comic = FactoryBot.create(:comic, description:)
+    end
+
+    context "when there is no description" do
+      let(:description) { nil }
+
+      it "returns an empty string" do
+        expect(@comic.safe_description).to eq ""
+      end
+    end
+
+    context "when the is a description" do
+      let(:description) {
+        "<style>h1 { color: red; }</style><script src='malicious.js'></script><a href='some/link/'><em>Comic</em></a> <figure><img src='hello.png'  /><img src='hello.png'></img></figure><p>Hello</p>"
+      }
+
+      it "strips the unsafe html tags" do
+        expect(@comic.safe_description).to eq "h1 { color: red; }<em>Comic</em> <p>Hello</p>"
+      end
+    end
+  end
+
   describe "ComicVine API" do
     let!(:comic) {
       FactoryBot.create(
