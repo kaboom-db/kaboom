@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "comics/index", type: :view do
   before(:each) do
-    assign(:comics, [
+    assign(:recently_updated, [
       FactoryBot.create(:comic, name: "Berserk", cv_id: 1),
       FactoryBot.create(:comic, name: "Spider-Man", cv_id: 2)
     ])

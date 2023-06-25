@@ -25,7 +25,7 @@ class Comic < ApplicationRecord
         deck: r[:deck],
         description: r[:description],
         image: r[:image][:medium_url],
-        issue_number: r[:issue_number],
+        issue_number: r[:issue_number].gsub(" + ", "."),
         name: r[:name] || "Issue ##{r[:issue_number]}",
         site_detail_url: r[:site_detail_url],
         store_date: r[:store_date]

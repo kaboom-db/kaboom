@@ -186,7 +186,7 @@ RSpec.describe Comic, type: :model do
             image: {
               medium_url: "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786545-one%20piece%202.jpg"
             },
-            issue_number: "2",
+            issue_number: "2 + 1",
             name: "Versus!! Buggy Kaizoku-Dan",
             site_detail_url: "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/",
             store_date: "1998-04-03"
@@ -237,7 +237,7 @@ RSpec.describe Comic, type: :model do
           expect(new_issue.deck).to eq nil
           expect(new_issue.description).to eq "AN EVEN LONGER DESCRIPTION"
           expect(new_issue.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786545-one%20piece%202.jpg"
-          expect(new_issue.issue_number).to eq 2
+          expect(new_issue.issue_number).to eq 2.1
           expect(new_issue.name).to eq "Versus!! Buggy Kaizoku-Dan"
           expect(new_issue.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/"
           expect(new_issue.store_date).to eq Date.parse("1998-04-03")
@@ -269,7 +269,7 @@ RSpec.describe Comic, type: :model do
           expect(new_issue2.deck).to eq nil
           expect(new_issue2.description).to eq "AN EVEN LONGER DESCRIPTION"
           expect(new_issue2.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786545-one%20piece%202.jpg"
-          expect(new_issue2.issue_number).to eq 2
+          expect(new_issue2.issue_number).to eq 2.1
           expect(new_issue2.name).to eq "Versus!! Buggy Kaizoku-Dan"
           expect(new_issue2.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/"
           expect(new_issue2.store_date).to eq Date.parse("1998-04-03")
