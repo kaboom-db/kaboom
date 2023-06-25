@@ -26,7 +26,7 @@ class Comic < ApplicationRecord
         description: r[:description],
         image: r[:image][:medium_url],
         issue_number: r[:issue_number],
-        name: r[:name],
+        name: r[:name] || "Issue ##{r[:issue_number]}",
         site_detail_url: r[:site_detail_url],
         store_date: r[:store_date]
       )

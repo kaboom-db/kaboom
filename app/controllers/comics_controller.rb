@@ -7,7 +7,7 @@ class ComicsController < ApplicationController
       @search = params[:search]
       @search_results = Comic.search(query: @search)
     end
-    @comics = Comic.all
+    @recently_updated = Comic.order(updated_at: :desc).limit(8)
   end
 
   def show

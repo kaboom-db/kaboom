@@ -21,7 +21,7 @@
   <div class="mb-4">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
     <div class="flex flex-wrap gap-2">
-      <% @comics.each do |comic| %>
+      <% @recently_updated.each do |comic| %>
         <%= render ResourcePosterComponent.new(resource: comic, resource_path: comic_path(comic)) %>
       <% end %>
     </div>
