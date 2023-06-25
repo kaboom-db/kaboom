@@ -1,4 +1,7 @@
 class Comic < ApplicationRecord
+  # associations
+  has_many :issues
+
   # validations
   validates :cv_id, :name, presence: true
   validates :cv_id, uniqueness: true
@@ -9,23 +12,34 @@ class Comic < ApplicationRecord
     aliases.split("\n").select { _1.present? }
   end
 
+  def import_issues
+    results = ComicVine::VolumeIssues.new(volume_id: cv_id, count_of_issues:).retrieve
+    results.each do |r|
+      issue = issues.find_or_initialize_by(cv_id: r[:id])
+      issue.update(
+        aliases: r[:aliases],
+        api_detail_url: r[:api_detail_url],
+        cover_date: r[:cover_date],
+        date_last_updated: r[:date_last_updated],
+        deck: r[:deck],
+        description: r[:description],
+        image: r[:image][:medium_url],
+        issue_number: r[:issue_number],
+        name: r[:name],
+        site_detail_url: r[:site_detail_url],
+        store_date: r[:store_date]
+      )
+    end
+  end
+
   def safe_description
     return "" unless description.present?
 
     description.gsub(/<\/?(a|script|figure|img|style)[^>]*>/, "")
   end
 
-  def self.import(comic_vine_id:)
-    comic = Comic.find_or_initialize_by(cv_id: comic_vine_id)
-    sync(comic:)
-  end
-
-  def self.search(query:)
-    where("lower(name) LIKE ?", "%#{query.downcase}%").or(where("lower(aliases) LIKE ?", "%#{query.downcase}%"))
-  end
-
-  def self.sync(comic:)
-    result = ComicVine::Volume.new(id: comic.cv_id).retrieve
+  def sync
+    result = ComicVine::Volume.new(id: cv_id).retrieve
     return unless result.present?
 
     volume = result[:results]
@@ -39,9 +53,9 @@ class Comic < ApplicationRecord
     name = volume[:name]
     publisher = volume[:publisher][:name]
     site_detail_url = volume[:site_detail_url]
-    start_year = volume[:start_year].to_i
+    start_year = volume[:start_year]
 
-    comic.update(
+    update(
       aliases:,
       api_detail_url:,
       count_of_issues:,
@@ -54,5 +68,15 @@ class Comic < ApplicationRecord
       site_detail_url:,
       start_year:
     )
+  end
+
+  def self.import(comic_vine_id:)
+    comic = Comic.find_or_initialize_by(cv_id: comic_vine_id)
+    comic.sync
+    comic
+  end
+
+  def self.search(query:)
+    where("lower(name) LIKE ?", "%#{query.downcase}%").or(where("lower(aliases) LIKE ?", "%#{query.downcase}%"))
   end
 end

@@ -1,16 +1,17 @@
 FactoryBot.define do
-  factory :comic do
+  factory :issue do
     aliases { "MyText" }
     api_detail_url { "MyString" }
-    count_of_issues { 1 }
-    date_last_updated { "2023-06-18 15:15:49" }
+    cover_date { "2023-06-25" }
+    date_last_updated { "2023-06-25 11:38:57" }
     deck { "MyText" }
     description { "MyText" }
-    sequence(:cv_id) { |n| n }
+    cv_id { 1 }
     image { "MyString" }
+    issue_number { 1.5 }
     name { "MyString" }
-    publisher { "MyString" }
     site_detail_url { "MyString" }
-    start_year { 1 }
+    store_date { "2023-06-25" }
+    comic
   end
 end

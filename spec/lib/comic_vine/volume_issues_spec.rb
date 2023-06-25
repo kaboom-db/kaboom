@@ -5,43 +5,61 @@ require "rails_helper"
 module ComicVine
   RSpec.describe VolumeIssues do
     describe "#retrieve" do
-      context "when API request succeeds" do
-        let(:body) {
-          {
-            results: "Hello world."
-          }.to_json
+      def stub_cv(results:, volume_id:, offset:, status:)
+        credentials = Rails.application.credentials.dig(:comic_vine)
+        base_url = credentials[:url]
+        api_key = credentials[:api_key]
+        options = {
+          api_key:,
+          format: "json",
+          field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume",
+          filter: "volume:#{volume_id}",
+          offset:
         }
+        params = URI.encode_www_form(options).to_s
+        stub_request(:get, "#{base_url}issues/?#{params}").to_return(status:, body: {results:}.to_json)
+      end
 
-        include_context "stub ComicVine API request" do
-          let(:options) {
-            {
-              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume",
-              filter: "volume:123"
-            }
-          }
-          let(:endpoint) { "issues/" }
-          let(:response) { {status: 200, body:} }
+      context "when the count of issues is less than 100" do
+        before do
+          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 200)
         end
 
-        it "returns valid json" do
-          expect(VolumeIssues.new(volume_id: 123).retrieve).to eq({results: "Hello world."})
+        it "returns an array of results" do
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 99).retrieve).to eq(["hello", "there"])
         end
       end
 
-      context "when API request fails" do
-        include_context "stub ComicVine API request" do
-          let(:options) {
-            {
-              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume",
-              filter: "volume:123"
-            }
-          }
-          let(:endpoint) { "issues/" }
-          let(:response) { {status: 404} }
+      context "when all API requests succeed" do
+        before do
+          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 200)
+          stub_cv(results: ["general", "kenobi!"], volume_id: 123, offset: 100, status: 200)
         end
 
-        it "returns nil" do
-          expect(VolumeIssues.new(volume_id: 123).retrieve).to eq nil
+        it "returns an array of results" do
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 106).retrieve).to eq(["hello", "there", "general", "kenobi!"])
+        end
+      end
+
+      context "when an API request fails" do
+        before do
+          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 400)
+          stub_cv(results: ["general", "kenobi!"], volume_id: 123, offset: 100, status: 200)
+        end
+
+        it "skips the failed response" do
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 199).retrieve).to eq ["general", "kenobi!"]
+        end
+      end
+
+      context "when all API requests fail" do
+        before do
+          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 400)
+          stub_cv(results: ["general", "kenobi!"], volume_id: 123, offset: 100, status: 400)
+        end
+
+        it "returns an empty array" do
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 106).retrieve).to eq([])
         end
       end
     end

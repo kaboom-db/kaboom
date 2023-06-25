@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_141549) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_25_103857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_141549) do
     t.integer "start_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "issues", force: :cascade do |t|
+    t.text "aliases"
+    t.string "api_detail_url"
+    t.date "cover_date"
+    t.datetime "date_last_updated"
+    t.text "deck"
+    t.text "description"
+    t.integer "cv_id", null: false
+    t.string "image"
+    t.float "issue_number"
+    t.string "name"
+    t.string "site_detail_url"
+    t.date "store_date"
+    t.bigint "comic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comic_id"], name: "index_issues_on_comic_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,4 +71,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_141549) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "issues", "comics"
 end
