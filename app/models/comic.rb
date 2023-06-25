@@ -35,7 +35,7 @@ class Comic < ApplicationRecord
 
   def sync
     result = ComicVine::Volume.new(id: cv_id).retrieve
-    return unless result.present?
+    return unless result.present? && result[:error] == "OK"
 
     volume = result[:results]
     aliases = volume[:aliases]

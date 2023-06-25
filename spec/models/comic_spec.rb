@@ -64,6 +64,7 @@ RSpec.describe Comic, type: :model do
     let(:cv_id) { 63559 }
     let(:body) {
       {
+        error: "OK",
         results: {
           aliases: "Some Alias",
           api_detail_url: "https://comicvine.gamespot.com/api/volume/4050-63559/",
@@ -311,7 +312,7 @@ RSpec.describe Comic, type: :model do
         end
       end
 
-      context "when the corresponding record does not exist on ComicVine" do
+      context "when the ComicVine api request fails" do
         include_context "stub ComicVine API request" do
           let(:options) {
             {
@@ -336,6 +337,28 @@ RSpec.describe Comic, type: :model do
           expect(comic.publisher).to eq "Marvel"
           expect(comic.site_detail_url).to eq "google.com"
           expect(comic.start_year).to eq 2013
+        end
+
+        it "returns a falsey value" do
+          expect(comic.sync).to be_falsey
+        end
+      end
+
+      context "when ComicVine responds with an error" do
+        let(:body) {
+          {
+            error: "Object not found."
+          }.to_json
+        }
+
+        include_context "stub ComicVine API request" do
+          let(:options) {
+            {
+              field_list: "id,aliases,api_detail_url,count_of_issues,date_last_updated,deck,description,image,name,publisher,site_detail_url,start_year,created_at,updated_at"
+            }
+          }
+          let(:endpoint) { "volume/4050-63559/" }
+          let(:response) { {status: 200, body:} }
         end
 
         it "returns a falsey value" do
