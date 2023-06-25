@@ -1,6 +1,13 @@
 require "rails_helper"
 
 RSpec.describe Comic, type: :model do
+  describe "validations" do
+    subject { FactoryBot.create(:comic) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:cv_id) }
+    it { should validate_uniqueness_of(:cv_id) }
+  end
+
   describe "#aliases_to_array" do
     before do
       @comic = FactoryBot.create(:comic, aliases:)

@@ -1,4 +1,8 @@
 class Comic < ApplicationRecord
+  # validations
+  validates :cv_id, :name, presence: true
+  validates :cv_id, uniqueness: true
+
   def aliases_to_array
     return [] unless aliases.present?
 
