@@ -1,6 +1,7 @@
 class Comic < ApplicationRecord
   # associations
   has_many :issues
+  has_many :ordered_issues, -> { order(issue_number: :asc) }, class_name: "Issue"
 
   # validations
   validates :cv_id, :name, presence: true
@@ -30,12 +31,6 @@ class Comic < ApplicationRecord
         store_date: r[:store_date]
       )
     end
-  end
-
-  def safe_description
-    return "" unless description.present?
-
-    description.gsub(/<\/?(a|script|figure|img|style)[^>]*>/, "")
   end
 
   def sync

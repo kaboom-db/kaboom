@@ -3,13 +3,8 @@
 require "rails_helper"
 
 RSpec.describe TextInputComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
-
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "renders a text input" do
+    render_inline(described_class.new(name: "Hey"))
+    expect(page).to have_css "input[type='input'][placeholder='Hey'][name='Hey']"
+  end
 end

@@ -11,7 +11,7 @@
         <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
         <div class="flex flex-wrap gap-2">
           <% @search_results.each do |comic| %>
-            <%= render ComicResultComponent.new(resource: comic) %>
+            <%= render ResourcePosterComponent.new(resource: comic, resource_path: comic_path(comic)) %>
           <% end %>
         </div>
       </div>
@@ -22,7 +22,7 @@
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
     <div class="flex flex-wrap gap-2">
       <% @comics.each do |comic| %>
-        <%= render ComicResultComponent.new(resource: comic) %>
+        <%= render ResourcePosterComponent.new(resource: comic, resource_path: comic_path(comic)) %>
       <% end %>
     </div>
   </div>

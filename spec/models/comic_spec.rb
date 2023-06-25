@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe Comic, type: :model do
   describe "associations" do
     it { should have_many(:issues) }
+    it { should have_many(:ordered_issues).class_name("Issue") }
   end
 
   describe "validations" do
@@ -38,30 +39,6 @@ RSpec.describe Comic, type: :model do
         it "does not return the empty aliases" do
           expect(@comic.aliases_to_array).to eq ["Hello", "There", "Spider-Man"]
         end
-      end
-    end
-  end
-
-  describe "#safe_description" do
-    before do
-      @comic = FactoryBot.create(:comic, description:)
-    end
-
-    context "when there is no description" do
-      let(:description) { nil }
-
-      it "returns an empty string" do
-        expect(@comic.safe_description).to eq ""
-      end
-    end
-
-    context "when the is a description" do
-      let(:description) {
-        "<style>h1 { color: red; }</style><script src='malicious.js'></script><a href='some/link/'><em>Comic</em></a> <figure><img src='hello.png'  /><img src='hello.png'></img></figure><p>Hello</p>"
-      }
-
-      it "strips the unsafe html tags" do
-        expect(@comic.safe_description).to eq "h1 { color: red; }<em>Comic</em> <p>Hello</p>"
       end
     end
   end

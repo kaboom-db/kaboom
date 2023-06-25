@@ -1,23 +1,10 @@
 <div class="my-6">
   <div class="grid grid-cols-1 sm:grid-cols-3">
     <div class="col-span-1">
-      <div class="flex flex-col px-4 gap-4 text-center items-center sm:sticky sm:top-[88px]">
-        <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary w-[150px]">
-          <img src="<%= @comic.image %>" alt="" class="rounded-lg max-w-[195px] w-full height-auto" />
-        </div>
-        <h1 class="text-2xl font-bold"><%= @comic.name %></h1>
-        <% if @comic.aliases.present? %>
-          <div class="flex flex-col">
-            <p>AKA:</p>
-            <% @comic.aliases_to_array.each do |a| %>
-              <small><%= a %></small>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+      <%= render partial: "sidebar", locals: {comic: @comic} %>
     </div>
     <div class="col-span-1 sm:col-span-2">
-      <%= render ChipHeaderComponent.new(text: "Comic Details") %>
+      <%= render ChipHeaderComponent.new(text: "#{@comic.name}") %>
       <div class="flex flex-col gap-4 mb-4">
         <%= render GradientBorderComponent.new do %>
           <div class="flex flex-wrap justify-around">
@@ -40,11 +27,16 @@
             <p class="font-bold text-xl mb-4"><%= @comic.deck %></p>
           <% end %>
           <div class="flex flex-col gap-2 resource-description">
-            <%= @comic.safe_description.html_safe %>
+            <%= safe_description(description: @comic.description) %>
           </div>
         <% end %>
       </div>
       <%= render ChipHeaderComponent.new(text: "Issues") %>
+      <div class="flex flex-wrap gap-2">
+        <% @comic.ordered_issues.each do |issue| %>
+          <%= render ResourcePosterComponent.new(resource: issue, resource_path: comic_issue_path(issue, comic_id: @comic.id)) %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

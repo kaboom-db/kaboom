@@ -1,0 +1,8 @@
+<div class="my-6">
+  <%= render ChipHeaderComponent.new(text: "Issues") %>
+  <div class="flex flex-wrap gap-4">
+    <% @comic.ordered_issues.each do |issue| %>
+      <%= render ResourcePosterComponent.new(resource: issue, resource_path: comic_issue_path(issue, comic_id: @comic.id)) %>
+    <% end %>
+  </div>
+</div>
