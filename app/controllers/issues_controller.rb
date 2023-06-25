@@ -6,6 +6,7 @@ class IssuesController < ApplicationController
   end
 
   def show
+    redirect_to comic_path(@comic), notice: "Could not find that issue." unless @issue.present?
   end
 
   private
@@ -15,6 +16,6 @@ class IssuesController < ApplicationController
   end
 
   def set_issue
-    @issue = @comic.issues.find(params[:id])
+    @issue = @comic.issues.find_by(issue_number: params[:id].gsub("_", ".").to_f)
   end
 end
