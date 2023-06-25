@@ -20,9 +20,16 @@
 
   <div class="mb-4">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
-    <div class="flex flex-wrap gap-2">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @recently_updated.each do |comic| %>
-        <%= render ResourcePosterComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+        <%= link_to comic_path(comic), data: {"turbo-frame": "_top"} do %>
+          <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary">
+            <div class="w-[100%] pb-[100%] h-[0] overflow-hidden rounded-lg">
+              <img src="<%= comic.image %>" alt="" class="w-full" />
+            </div>
+          </div>
+          <small class="font-bold"><%= comic.name %></small>
+        <% end %>
       <% end %>
     </div>
   </div>
