@@ -14,6 +14,7 @@
             <%= render ResourcePosterComponent.new(resource: comic, resource_path: comic_path(comic)) %>
           <% end %>
         </div>
+        <small class="font-bold">Can't find the comic you're looking for? <button onclick="importComic.showModal();" class="text-hint underline">Import it.</button></small>
       </div>
     <% end %>
   <% end %>
@@ -37,11 +38,4 @@
   <div class="mb-4">
     <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
   </div>
-
-  <!-- TODO: Make this look better -->
-  <%= form_tag(import_comics_path, method: "post") do |form| %>
-    <%= render TextInputComponent.new(name: "cv_id") %>
-
-    <%= submit_tag "Import", class: "inline-block py-1.5 px-3 bg-primary rounded-md text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out" %>
-  <% end %>
 </div>
