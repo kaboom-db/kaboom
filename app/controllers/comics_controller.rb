@@ -14,7 +14,6 @@ class ComicsController < ApplicationController
   def show
   end
 
-  # TODO: Add spec
   def import
     @comic = Comic.import(comic_vine_id: params[:comicvine_id])
     unless @comic.persisted?
