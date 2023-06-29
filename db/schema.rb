@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_103857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["comic_id"], name: "index_issues_on_comic_id"
+    t.index ["issue_number", "comic_id"], name: "index_issues_on_issue_number_and_comic_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

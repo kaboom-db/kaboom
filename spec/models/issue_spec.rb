@@ -5,6 +5,13 @@ RSpec.describe Issue, type: :model do
     it { should belong_to(:comic) }
   end
 
+  describe "validations" do
+    subject { FactoryBot.create(:issue) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:issue_number) }
+    it { should validate_uniqueness_of(:issue_number).scoped_to(:comic_id) }
+  end
+
   describe "#formatted_issue_number" do
     let(:issue) { FactoryBot.create(:issue, issue_number:) }
 
