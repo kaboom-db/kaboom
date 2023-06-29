@@ -1,5 +1,6 @@
 class ComicsController < ApplicationController
   before_action :set_comic, only: %i[show]
+  before_action :user_required, only: %i[import]
 
   def index
     @header = "📚 Comics"
@@ -11,6 +12,18 @@ class ComicsController < ApplicationController
   end
 
   def show
+  end
+
+  # TODO: Add spec
+  def import
+    @comic = Comic.import(comic_vine_id: params[:cv_id])
+    unless @comic.persisted?
+      return redirect_to comics_path, alert: "There was an error importing this comic."
+    end
+
+    @comic.import_issues
+
+    redirect_to comic_path(@comic), notice: "#{@comic.name} was successfully imported."
   end
 
   private
