@@ -4,5 +4,5 @@
 
 import { application } from "./application"
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import ImportDialogController from "./import_dialog_controller"
+application.register("import-dialog", ImportDialogController)
