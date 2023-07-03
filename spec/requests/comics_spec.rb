@@ -46,7 +46,7 @@ RSpec.describe "/comics", type: :request do
       expect(response).to be_successful
     end
 
-    context "when user is logged in" do
+    context "when user is not logged in" do
       it "adds a visit to the comic" do
         comic = FactoryBot.create(:comic)
         get comic_path(comic)
@@ -56,15 +56,27 @@ RSpec.describe "/comics", type: :request do
       end
     end
 
-    context "when user is not logged in" do
-      it "adds a visit to the comic" do
-        user = FactoryBot.create(:user, :confirmed)
+    context "when user is logged in" do
+      let(:user) { FactoryBot.create(:user, :confirmed) }
+
+      before do
         sign_in user
-        comic = FactoryBot.create(:comic)
-        get comic_path(comic)
+
+        @comic = FactoryBot.create(:comic)
+        get comic_path(@comic)
+      end
+
+      it "adds a visit to the comic" do
         visit = Visit.last
         expect(visit.user).to eq user
-        expect(visit.visited).to eq comic
+        expect(visit.visited).to eq @comic
+      end
+
+      context "when user visited page less than 5 mins ago" do
+        it "only adds one visit" do
+          get comic_path(@comic) # Visiting the comic page again
+          expect(@comic.visits.count).to eq 1
+        end
       end
     end
   end
