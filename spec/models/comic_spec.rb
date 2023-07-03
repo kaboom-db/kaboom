@@ -4,6 +4,7 @@ RSpec.describe Comic, type: :model do
   describe "associations" do
     it { should have_many(:issues) }
     it { should have_many(:ordered_issues).class_name("Issue") }
+    it { should have_many(:visits) }
   end
 
   describe "validations" do
