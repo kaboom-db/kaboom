@@ -1,4 +1,6 @@
 class ComicsController < ApplicationController
+  include VisitConcerns
+
   before_action :set_comic, only: %i[show]
   before_action :user_required, only: %i[import]
 
@@ -12,6 +14,7 @@ class ComicsController < ApplicationController
   end
 
   def show
+    add_visit(user: current_user, visited: @comic)
   end
 
   def import

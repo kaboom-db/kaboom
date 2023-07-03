@@ -45,6 +45,28 @@ RSpec.describe "/comics", type: :request do
       get comic_path(comic)
       expect(response).to be_successful
     end
+
+    context "when user is logged in" do
+      it "adds a visit to the comic" do
+        comic = FactoryBot.create(:comic)
+        get comic_path(comic)
+        visit = Visit.last
+        expect(visit.user).to be_nil
+        expect(visit.visited).to eq comic
+      end
+    end
+
+    context "when user is not logged in" do
+      it "adds a visit to the comic" do
+        user = FactoryBot.create(:user, :confirmed)
+        sign_in user
+        comic = FactoryBot.create(:comic)
+        get comic_path(comic)
+        visit = Visit.last
+        expect(visit.user).to eq user
+        expect(visit.visited).to eq comic
+      end
+    end
   end
 
   describe "POST /import" do

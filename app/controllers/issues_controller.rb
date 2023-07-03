@@ -1,4 +1,6 @@
 class IssuesController < ApplicationController
+  include VisitConcerns
+
   before_action :set_comic
   before_action :set_issue, only: %i[show]
 
@@ -6,7 +8,9 @@ class IssuesController < ApplicationController
   end
 
   def show
-    redirect_to comic_path(@comic), notice: "Could not find that issue." unless @issue.present?
+    return redirect_to comic_path(@comic), notice: "Could not find that issue." unless @issue.present?
+
+    add_visit(user: current_user, visited: @issue)
   end
 
   private
