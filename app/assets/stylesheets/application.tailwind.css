@@ -53,4 +53,8 @@
   .resource-description > ul {
     @apply list-disc ml-8
   }
+
+  :root {
+    --swiper-theme-color: rgba(255, 195, 113, 1);
+  }
 }

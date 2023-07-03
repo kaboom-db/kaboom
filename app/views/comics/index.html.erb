@@ -20,6 +20,36 @@
   <% end %>
 
   <div class="mb-4">
+    <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
+    <%= render GradientBorderComponent.new do %>
+      <div class="swiper" data-controller="swiper" data-swiper-target="container">
+        <div class="swiper-wrapper">
+          <% @trending.each_with_index do |comic, index| %>
+            <div class="swiper-slide !w-full !h-full">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="col-span-1 flex justify-center">
+                  <img src="<%= comic.image %>" alt="" class="max-h-[500px] min-h-[100%] rounded-lg">
+                </div>
+                <div class="col-span-1 flex flex-col gap-4 md:col-span-2">
+                  <p class="text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= index + 1 %></p>
+                  <p class="text-4xl font-bold"><%= comic.name %></p>
+                  <div class="max-h-[190px] overflow-hidden">
+                    <p><%= strip_description(description: comic.description) %></p>
+                  </div>
+                  <%= render LinkComponent.new(text: "View", href: comic_path(comic)) %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="swiper-pagination" data-swiper-target="pagination"></div>
+        <div class="swiper-button-prev" data-swiper-target="prev"></div>
+        <div class="swiper-button-next" data-swiper-target="next"></div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @recently_updated.each do |comic| %>
@@ -33,9 +63,5 @@
         <% end %>
       <% end %>
     </div>
-  </div>
-
-  <div class="mb-4">
-    <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
   </div>
 </div>

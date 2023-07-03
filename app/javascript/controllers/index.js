@@ -6,3 +6,6 @@ import { application } from "./application"
 
 import ImportDialogController from "./import_dialog_controller"
 application.register("import-dialog", ImportDialogController)
+
+import SwiperController from "./swiper_controller"
+application.register("swiper", SwiperController)

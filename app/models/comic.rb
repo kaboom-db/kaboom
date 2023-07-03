@@ -8,6 +8,12 @@ class Comic < ApplicationRecord
   validates :cv_id, :name, presence: true
   validates :cv_id, uniqueness: true
 
+  # scopes
+  # TODO: Add spec
+  scope :trending, -> {
+    select("comics.*, COUNT(visits.id) AS visit_count").joins(:visits).group("comics.id").order("visit_count DESC").limit(5)
+  }
+
   def aliases_to_array
     return [] unless aliases.present?
 
