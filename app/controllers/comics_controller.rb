@@ -12,6 +12,8 @@ class ComicsController < ApplicationController
     end
     @recently_updated = Comic.order(updated_at: :desc).limit(6)
     @trending = Comic.trending
+    @recently_updated_issues = Issue.order(updated_at: :desc).limit(6)
+    @trending_issues = Issue.trending
   end
 
   def show

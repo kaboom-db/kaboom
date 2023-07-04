@@ -7,6 +7,12 @@ class Issue < ApplicationRecord
   validates :name, :issue_number, presence: true
   validates :issue_number, uniqueness: {scope: :comic_id}
 
+  # scopes
+  # TODO: Add spec
+  scope :trending, -> {
+    select("issues.*, COUNT(visits.id) AS visit_count").joins(:visits).group("issues.id").order("visit_count DESC").limit(5)
+  }
+
   def formatted_issue_number
     issue_number.to_s.gsub(/\.0\b/, "")
   end
