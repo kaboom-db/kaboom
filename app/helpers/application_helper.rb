@@ -1,5 +1,4 @@
 module ApplicationHelper
-  # TODO: Add spec
   def strip_description(description:)
     return "" unless description.present?
 
