@@ -54,7 +54,7 @@ RSpec.describe Comic, type: :model do
     it "searches by name and alias" do
       comic_1 = FactoryBot.create(:comic, name: "Test Comic")
       comic_2 = FactoryBot.create(:comic, aliases: "Comic\nTesting", name: "Cool Comic")
-      comic_3 = FactoryBot.create(:comic, aliases: "Comic", name: "No Name")
+      FactoryBot.create(:comic, aliases: "Comic", name: "No Name")
       results = Comic.search(query: "test")
       expect(results).to contain_exactly(comic_1, comic_2)
     end
