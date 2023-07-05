@@ -14,6 +14,12 @@ RSpec.describe Comic, type: :model do
     it { should validate_uniqueness_of(:cv_id) }
   end
 
+  describe "scopes" do
+    describe ".trending" do
+      it_behaves_like "a trending resource", :comic
+    end
+  end
+
   describe "#aliases_to_array" do
     before do
       @comic = FactoryBot.create(:comic, aliases:)

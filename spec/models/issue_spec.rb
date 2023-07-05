@@ -13,6 +13,12 @@ RSpec.describe Issue, type: :model do
     it { should validate_uniqueness_of(:issue_number).scoped_to(:comic_id) }
   end
 
+  describe "scopes" do
+    describe ".trending" do
+      it_behaves_like "a trending resource", :issue
+    end
+  end
+
   describe "#formatted_issue_number" do
     let(:issue) { FactoryBot.create(:issue, issue_number:) }
 

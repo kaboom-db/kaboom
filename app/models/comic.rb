@@ -9,9 +9,13 @@ class Comic < ApplicationRecord
   validates :cv_id, uniqueness: true
 
   # scopes
-  # TODO: Add spec
   scope :trending, -> {
-    select("comics.*, COUNT(visits.id) AS visit_count").joins(:visits).group("comics.id").order("visit_count DESC").limit(5)
+    select("comics.*, COUNT(visits.id) AS visit_count")
+      .joins(:visits)
+      .where(visits: {created_at: (Time.current - 24.hours)..Time.current})
+      .group("comics.id")
+      .order("visit_count DESC")
+      .limit(5)
   }
 
   def aliases_to_array

@@ -8,9 +8,13 @@ class Issue < ApplicationRecord
   validates :issue_number, uniqueness: {scope: :comic_id}
 
   # scopes
-  # TODO: Add spec
   scope :trending, -> {
-    select("issues.*, COUNT(visits.id) AS visit_count").joins(:visits).group("issues.id").order("visit_count DESC").limit(5)
+    select("issues.*, COUNT(visits.id) AS visit_count")
+      .joins(:visits)
+      .where(visits: {created_at: (Time.current - 24.hours)..Time.current})
+      .group("issues.id")
+      .order("visit_count DESC")
+      .limit(5)
   }
 
   def formatted_issue_number
