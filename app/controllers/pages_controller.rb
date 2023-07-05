@@ -6,7 +6,7 @@ class PagesController < ApplicationController
     return if performed?
 
     @header = "💥 KABOOM!"
-    @comic_count = 0
+    @comic_count = Comic.count
     @user_count = User.count
   end
 
