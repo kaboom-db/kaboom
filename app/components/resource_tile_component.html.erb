@@ -1,0 +1,8 @@
+<%= link_to @resource_path, data: {"turbo-frame": "_top"} do %>
+  <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary">
+    <div class="w-[100%] pb-[100%] h-[0] overflow-hidden rounded-lg">
+      <img src="<%= @resource.image %>" alt="" class="w-full" />
+    </div>
+  </div>
+  <small class="font-bold"><%= @resource.name %></small>
+<% end %>
