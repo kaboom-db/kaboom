@@ -52,5 +52,5 @@ bundle exec standardrb --fix
 
 Lint all Javascript/Typescript files:
 ```bash
-yarn lint:js
+yarn lint:js --fix
 ```

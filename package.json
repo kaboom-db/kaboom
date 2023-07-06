@@ -13,7 +13,7 @@
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
-    "lint:js": "yarn run eslint app/javascript --fix"
+    "lint:js": "yarn run eslint app/javascript"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.40.1",
