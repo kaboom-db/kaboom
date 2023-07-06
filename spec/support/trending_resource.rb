@@ -18,15 +18,11 @@ RSpec.shared_examples "a trending resource" do |resource_type|
     trending_5 = FactoryBot.create(resource_type)
     FactoryBot.create_list(:visit, 3, visited: trending_5)
 
-    trending_6 = FactoryBot.create(resource_type)
-    FactoryBot.create_list(:visit, 2, visited: trending_6)
-
     trending = trending_1.class.trending
     expect(trending.first).to eq trending_1
     expect(trending.second).to eq trending_2
     expect(trending.third).to eq trending_3
     expect(trending.fourth).to eq trending_4
     expect(trending.fifth).to eq trending_5
-    expect(trending).not_to include(trending_6)
   end
 end

@@ -15,7 +15,6 @@ class Comic < ApplicationRecord
       .where(visits: {created_at: (Time.current - 24.hours)..Time.current})
       .group("comics.id")
       .order("visit_count DESC")
-      .limit(5)
   }
 
   def aliases_to_array

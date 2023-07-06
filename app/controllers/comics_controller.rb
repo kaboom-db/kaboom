@@ -11,9 +11,9 @@ class ComicsController < ApplicationController
       @search_results = Comic.search(query: @search)
     end
     @recently_updated = Comic.order(updated_at: :desc).limit(6)
-    @trending = Comic.trending
+    @trending = Comic.trending.limit(5)
     @recently_updated_issues = Issue.order(updated_at: :desc).limit(6)
-    @trending_issues = Issue.trending
+    @trending_issues = Issue.trending.limit(5)
   end
 
   def show

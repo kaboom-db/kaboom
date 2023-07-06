@@ -14,7 +14,6 @@ class Issue < ApplicationRecord
       .where(visits: {created_at: (Time.current - 24.hours)..Time.current})
       .group("issues.id")
       .order("visit_count DESC")
-      .limit(5)
   }
 
   def formatted_issue_number
