@@ -43,7 +43,7 @@ bundle exec guard
 
 #### Linting
 
-Kaboom uses standardrb for linting. CI will fail if linting isn't correct.
+Kaboom uses standardrb (.rb) and eslint (.js, .ts) for linting. CI will fail if linting isn't correct.
 
 To fix all fixable linting issues:
 ```bash
