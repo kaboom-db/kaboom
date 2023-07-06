@@ -1,24 +1,56 @@
-# README
+![Header](/brand/KABOOM.png)
+<h1><b>Kaboom</b></h1>
+Track your comic book collection. Kaboom is focused on tracking comic books and issues, and retrieves metadata from the ComicVine API. A bit like how Trakt does so with TMDb.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Development
 
-Things you may want to cover:
+Versions:
+- Ruby 3.1.2
+- Rails 7.0.5
 
-* Ruby version
+Requirements:
+- Redis 6.2+
+- Node (yarn)
 
-* System dependencies
+Easy setup:
+```bash
+bin/setup
+```
 
-* Configuration
+Seed the database:
+```bash
+bin/rails db:seed
+```
 
-* Database creation
+Run the dev server:
+```bash
+bin/dev
+```
 
-* Database initialization
+#### Testing
 
-* How to run the test suite
+All new code should be thoroughly tested. Kaboom uses RSpec as its testing framework.
 
-* Services (job queues, cache servers, search engines, etc.)
+To run all tests:
+```bash
+bundle exec rspec
+```
 
-* Deployment instructions
+While writing tests, you may find it useful for them to run when saving files. To do this, run:
+```bash
+bundle exec guard
+```
 
-* ...
+#### Linting
+
+Kaboom uses standardrb for linting. CI will fail if linting isn't correct.
+
+To fix all fixable linting issues:
+```bash
+bundle exec standardrb --fix
+```
+
+Lint all Javascript/Typescript files:
+```bash
+yarn lint:js
+```
