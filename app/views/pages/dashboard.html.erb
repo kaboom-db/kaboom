@@ -2,7 +2,7 @@
   <%= render GradientBorderComponent.new do %>
     <div class="flex flex-col items-center gap-4">
       <img src="<%= current_user.avatar %>" class="h-20 w-20 rounded-full border-[5px] border-black" />
-      <h1 class="text-2xl font-bold"><%= current_user.email %></h1>
+      <h1 class="text-2xl font-bold"><%= current_user.username %></h1>
     </div>
   <% end %>
 </div>

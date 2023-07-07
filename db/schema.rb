@@ -66,6 +66,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_173819) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "username", null: false
+    t.text "bio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -74,8 +76,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_173819) do
 
   create_table "visits", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "visited_type"
-    t.bigint "visited_id"
+    t.string "visited_type", null: false
+    t.bigint "visited_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_visits_on_user_id"

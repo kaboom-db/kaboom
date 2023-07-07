@@ -4,6 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, :confirmable
 
+  # Validations
+  validates :email, :username, presence: true
+  validates_uniqueness_of :username
+
   def avatar
     Gravatar::Image.new(email:).get
   end

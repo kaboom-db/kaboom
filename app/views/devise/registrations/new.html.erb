@@ -11,6 +11,8 @@
     <div class="flex flex-col gap-4 my-4">
       <%= render Forms::TextFieldComponent.new(form: f, field: :email, type: "email_field", autofocus: true, required: true) %>
 
+      <%= render Forms::TextFieldComponent.new(form: f, field: :username, type: "text_field", required: true) %>
+
       <%= render Forms::TextFieldComponent.new(form: f, field: :password, type: "password_field", required: true) %>
 
       <%= render Forms::TextFieldComponent.new(form: f, field: :password_confirmation, type: "password_field", required: true) %>
