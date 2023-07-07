@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe Issue, type: :model do
   describe "associations" do
     it { should belong_to(:comic) }
-    it { should have_many(:visits) }
+    it { should have_many(:visits).dependent(:delete_all) }
+    it { should have_many(:read_issues).dependent(:delete_all) }
   end
 
   describe "validations" do

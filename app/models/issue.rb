@@ -1,7 +1,8 @@
 class Issue < ApplicationRecord
   # associations
   belongs_to :comic
-  has_many :visits, as: :visited
+  has_many :visits, as: :visited, dependent: :delete_all
+  has_many :read_issues, dependent: :delete_all
 
   # validations
   validates :name, :issue_number, presence: true
