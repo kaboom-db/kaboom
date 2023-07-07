@@ -12,5 +12,7 @@ class PagesController < ApplicationController
 
   def dashboard
     @header = "Dashboard"
+
+    @issue_history = current_user.issues_read.order(read_at: :desc).limit(4)
   end
 end

@@ -18,9 +18,9 @@
 
 <div class="my-6">
   <%= render ChipHeaderComponent.new(text: "Your history") %>
-  <%= render GradientBorderComponent.new do %>
-    <div class="flex flex-col items-center gap-4">
-      History coming soon
-    </div>
-  <% end %>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <% @issue_history.each do |issue| %>
+      <%= render ResourceTileComponent.new(resource: issue, resource_path: comic_issue_path(issue, comic_id: issue.comic.id)) %>
+    <% end %>
+  </div>
 </div>
