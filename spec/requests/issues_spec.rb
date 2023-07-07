@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "/issues", type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   describe "GET /index" do
     it "renders a successful response" do
       comic = FactoryBot.create(:comic)
@@ -47,6 +49,98 @@ RSpec.describe "/issues", type: :request do
         it "only adds one visit" do
           get comic_issue_path(@issue, comic_id: @issue.comic.id) # Visiting the issue page again
           expect(@issue.visits.count).to eq 1
+        end
+      end
+    end
+  end
+
+  describe "POST /read" do
+    let(:comic) { FactoryBot.create(:comic) }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    context "when the user is not logged in" do
+      it "redirects to the sign in page" do
+        post read_comic_issue_path("1", comic_id: comic.id)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      before do
+        sign_in user
+      end
+
+      context "when issue does not exist" do
+        before do
+          post read_comic_issue_path("1", comic_id: comic.id)
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not find that issue."
+        end
+      end
+
+      context "when read_at is invalid" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post read_comic_issue_path(@issue, comic_id: comic.id, read_at: "not a datetime")
+        end
+
+        it "redirects to the issue page" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not mark that issue as read."
+        end
+      end
+
+      context "when read_at is valid" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post read_comic_issue_path(@issue, comic_id: comic.id, read_at: "2023-07-07 18:47:56")
+        end
+
+        it "redirects to the issue page" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully marked this issue as read."
+        end
+
+        it "creates a read issue" do
+          read_issue = user.read_issues.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq user
+          expect(read_issue.read_at).to eq DateTime.new(2023, 7, 7, 18, 47, 56)
+        end
+      end
+
+      context "when read_at is not specified" do
+        before do
+          freeze_time
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post read_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "redirects to the issue page" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully marked this issue as read."
+        end
+
+        it "creates a read issue with read_at the current time" do
+          read_issue = user.read_issues.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq user
+          expect(read_issue.read_at).to eq Time.current
         end
       end
     end

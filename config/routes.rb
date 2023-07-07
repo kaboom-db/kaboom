@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   get "dashboard" => "pages#dashboard"
 
   resources :comics, only: [:index, :show] do
-    resources :issues, only: [:index, :show]
+    resources :issues, only: [:index, :show] do
+      post :read, on: :member
+    end
 
     post :import, on: :collection
   end
