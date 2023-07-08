@@ -4,8 +4,10 @@
       <%= render partial: "comics/sidebar", locals: {comic: @comic} %>
     </div>
     <div class="col-span-1 sm:col-span-2">
-      <a href="<%= comic_path(@comic) %>"><i class="fa-solid fa-backward p-2"></i>Back to <%= @comic.name %></a>
-      <div class="flex flex-col gap-4 items-center mb-6">
+      <a href="<%= comic_path(@comic) %>">
+        <i class="fa-solid fa-backward p-2"></i>Back to <%= @comic.name %>
+      </a>
+      <div class="flex flex-col gap-4 items-center mb-6 mt-4">
         <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary w-[150px]">
           <img src="<%= @issue.image %>" alt="" class="rounded-lg max-w-[195px] w-full height-auto" />
         </div>
