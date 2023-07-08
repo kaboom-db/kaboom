@@ -55,10 +55,16 @@ RSpec.describe "/issues", type: :request do
   end
 
   describe "POST /read" do
-    let(:comic) { FactoryBot.create(:comic) }
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
     let(:user) { FactoryBot.create(:user, :confirmed) }
 
+    before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
     context "when the user is not logged in" do
+      let(:xhr) { false }
+
       it "redirects to the sign in page" do
         post read_comic_issue_path("1", comic_id: comic.id)
         expect(response).to redirect_to new_user_session_path
@@ -66,6 +72,8 @@ RSpec.describe "/issues", type: :request do
     end
 
     context "when user is logged in" do
+      let(:xhr) { false }
+
       before do
         sign_in user
       end
@@ -134,6 +142,84 @@ RSpec.describe "/issues", type: :request do
 
         it "sets a flash message" do
           expect(flash[:notice]).to eq "Successfully marked this issue as read."
+        end
+
+        it "creates a read issue with read_at the current time" do
+          read_issue = user.read_issues.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq user
+          expect(read_issue.read_at).to eq Time.current
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "when issue does not exist" do
+        before do
+          post read_comic_issue_path("1", comic_id: comic.id)
+        end
+
+        it "it returns json with a message and success status" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq false
+          expect(body["issue"]).to be_nil
+          expect(body["message"]).to eq "Could not find that issue."
+        end
+      end
+
+      context "when read_at is invalid" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          post read_comic_issue_path(@issue, comic_id: comic.id, read_at: "not a datetime")
+        end
+
+        it "returns json wuth a message and success status" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq false
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "Could not mark Test Comic - Issue 1 as read."
+        end
+      end
+
+      context "when read_at is valid" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          post read_comic_issue_path(@issue, comic_id: comic.id, read_at: "2023-07-07 18:47:56")
+        end
+
+        it "returns json wuth a message and success status" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You read Test Comic - Issue 1."
+        end
+
+        it "creates a read issue" do
+          read_issue = user.read_issues.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq user
+          expect(read_issue.read_at).to eq DateTime.new(2023, 7, 7, 18, 47, 56)
+        end
+      end
+
+      context "when read_at is not specified" do
+        before do
+          freeze_time
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          post read_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "returns json wuth a message and success status" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You read Test Comic - Issue 1."
         end
 
         it "creates a read issue with read_at the current time" do

@@ -18,7 +18,7 @@ class IssuesController < ApplicationController
     unless @issue.present?
       @success = false
       @message = "Could not find that issue."
-      return render template: "read", formats: :json if request.xhr?
+      return render template: "issues/read", formats: :json if request.xhr?
 
       return redirect_to comic_path(@comic), alert: "Could not find that issue."
     end
@@ -28,13 +28,13 @@ class IssuesController < ApplicationController
     if read_issue.save
       @success = true
       @message = "You read #{@comic.name} - #{@issue.name}."
-      return render template: "read", formats: :json if request.xhr?
+      return render template: "issues/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully marked this issue as read."
     else
       @success = false
       @message = "Could not mark #{@comic.name} - #{@issue.name} as read."
-      return render template: "read", formats: :json if request.xhr?
+      return render template: "issues/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not mark that issue as read."
     end
