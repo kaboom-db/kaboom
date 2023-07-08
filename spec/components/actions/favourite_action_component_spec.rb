@@ -3,13 +3,18 @@
 require "rails_helper"
 
 RSpec.describe Actions::FavouriteActionComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:user) { FactoryBot.create(:user) }
+  let(:resource) { FactoryBot.create(:issue) }
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  before do
+    render_inline(described_class.new(resource:, user:))
+  end
+
+  it "renders the button" do
+    expect(page).to have_css "button.group"
+  end
+
+  it "renders the icon" do
+    expect(page).to have_css "i.fa-heart"
+  end
 end

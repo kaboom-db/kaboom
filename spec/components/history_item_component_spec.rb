@@ -3,13 +3,27 @@
 require "rails_helper"
 
 RSpec.describe HistoryItemComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  include Rails.application.routes.url_helpers
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  let(:user) { FactoryBot.create(:user) }
+  let(:issue) { FactoryBot.create(:issue, image: "google.com") }
+
+  before do
+    render_inline(described_class.new(issue:, user:))
+  end
+
+  it "renders the actions" do
+    expect(page).to have_css "i.fa-check"
+    expect(page).to have_css "i.fa-star"
+    expect(page).to have_css "i.fa-book-open"
+    expect(page).to have_css "i.fa-heart"
+  end
+
+  it "renders a link to the issue" do
+    expect(page).to have_css "a[href='#{comic_issue_path(issue, comic_id: issue.comic.id)}']"
+  end
+
+  it "renders the issue image" do
+    expect(page).to have_css "img[src='google.com']"
+  end
 end
