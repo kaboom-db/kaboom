@@ -1,0 +1,31 @@
+<div>
+  <%= link_to comic_issue_path(@issue, comic_id: @comic.id), data: {"turbo-frame": "_top"} do %>
+    <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary">
+      <div class="relative w-[100%] pb-[100%] h-[0] overflow-hidden rounded-lg">
+        <img src="<%= @issue.image %>" alt="" class="w-full" />
+        <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block bottom-2 right-2">#<%= @issue.formatted_issue_number %></div>
+      </div>
+    </div>
+  <% end %>
+  <div class="grid grid-cols-4 gap-1 mt-1">
+    <% if @is_read %>
+      <button class="inline-block py-1.5 px-[5%] rounded-md border-2 border-[#ff6961] bg-[#ff6961] cursor-pointer transition duration-300 ease-in-out">
+        <i class="fa-solid fa-check text-auto text-white transition duration-300 ease-in-out"></i>
+      </button>
+    <% else %>
+      <button class="group inline-block py-1.5 px-[5%] rounded-md border-2 border-[#ff6961] hover:bg-[#ff6961] cursor-pointer transition duration-300 ease-in-out">
+        <i class="fa-solid fa-check text-auto text-[#ff6961] group-hover:text-white transition duration-300 ease-in-out"></i>
+      </button>
+    <% end %>
+
+    <button class="group inline-block py-1.5 px-[5%] rounded-md border-2 border-[#fdbd7d] hover:bg-[#fdbd7d] cursor-pointer transition duration-300 ease-in-out">
+      <i class="fa-solid fa-star text-auto text-[#fdbd7d] group-hover:text-white transition duration-300 ease-in-out"></i>
+    </button>
+    <button class="group inline-block py-1.5 px-[5%] rounded-md border-2 border-[#47bcea] hover:bg-[#47bcea] cursor-pointer transition duration-300 ease-in-out">
+      <i class="fa-solid fa-book-open text-auto text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out"></i>
+    </button>
+    <button class="group inline-block py-1.5 px-[5%] rounded-md border-2 border-[#ff85a2] hover:bg-[#ff85a2] cursor-pointer transition duration-300 ease-in-out">
+      <i class="fa-solid fa-heart text-auto text-[#ff85a2] group-hover:text-white transition duration-300 ease-in-out"></i>
+    </button>
+  </div>
+</div>
