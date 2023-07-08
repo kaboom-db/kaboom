@@ -11,6 +11,11 @@
         </div>
         <h1 class="text-2xl font-bold"><%= @issue.name %></h1>
       </div>
+
+      <div class="my-6">
+        <%= render Actions::ActionsComponent.new(resource: @issue, user: current_user) %>
+      </div>
+
       <%= render ChipHeaderComponent.new(text: "#{@comic.name} - #{@issue.name}") %>
       <div class="flex flex-col gap-4 mb-4">
         <%= render GradientBorderComponent.new do %>

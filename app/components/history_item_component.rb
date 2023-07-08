@@ -5,7 +5,5 @@ class HistoryItemComponent < ViewComponent::Base
     @issue = issue
     @comic = issue.comic
     @user = user
-
-    @is_read = user.issues_read.include?(issue)
   end
 end
