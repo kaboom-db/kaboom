@@ -169,6 +169,7 @@ RSpec.describe "/issues", type: :request do
           body = JSON.parse(response.body)
           expect(body["success"]).to eq false
           expect(body["has_read"]).to eq false
+          expect(body["read_count"]).to eq 0
           expect(body["issue"]).to be_nil
           expect(body["message"]).to eq "Could not find that issue."
         end
@@ -188,6 +189,7 @@ RSpec.describe "/issues", type: :request do
             body = JSON.parse(response.body)
             expect(body["success"]).to eq false
             expect(body["has_read"]).to eq true
+            expect(body["read_count"]).to eq 1
             expect(body["issue"]).to eq @issue.id
             expect(body["message"]).to eq "Could not mark Test Comic - Issue 1 as read."
           end
@@ -200,6 +202,7 @@ RSpec.describe "/issues", type: :request do
             body = JSON.parse(response.body)
             expect(body["success"]).to eq false
             expect(body["has_read"]).to eq false
+            expect(body["read_count"]).to eq 0
             expect(body["issue"]).to eq @issue.id
             expect(body["message"]).to eq "Could not mark Test Comic - Issue 1 as read."
           end
@@ -216,6 +219,7 @@ RSpec.describe "/issues", type: :request do
           body = JSON.parse(response.body)
           expect(body["success"]).to eq true
           expect(body["has_read"]).to eq true
+          expect(body["read_count"]).to eq 1
           expect(body["issue"]).to eq @issue.id
           expect(body["message"]).to eq "You read Test Comic - Issue 1."
         end
@@ -239,6 +243,7 @@ RSpec.describe "/issues", type: :request do
           body = JSON.parse(response.body)
           expect(body["success"]).to eq true
           expect(body["has_read"]).to eq true
+          expect(body["read_count"]).to eq 1
           expect(body["issue"]).to eq @issue.id
           expect(body["message"]).to eq "You read Test Comic - Issue 1."
         end

@@ -19,6 +19,7 @@ class IssuesController < ApplicationController
       @success = false
       @message = "Could not find that issue."
       @has_read = false
+      @read_count = 0
       return render template: "issues/read", formats: :json if request.xhr?
 
       return redirect_to comic_path(@comic), alert: "Could not find that issue."
@@ -30,6 +31,7 @@ class IssuesController < ApplicationController
       @success = true
       @message = "You read #{@comic.name} - #{@issue.name}."
       @has_read = true
+      @read_count = current_user.read_issues.where(issue: @issue).count
       return render template: "issues/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully marked this issue as read."
@@ -37,6 +39,7 @@ class IssuesController < ApplicationController
       @success = false
       @message = "Could not mark #{@comic.name} - #{@issue.name} as read."
       @has_read = current_user.issues_read.include?(@issue)
+      @read_count = current_user.read_issues.where(issue: @issue).count
       return render template: "issues/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not mark that issue as read."
