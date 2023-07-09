@@ -168,6 +168,7 @@ RSpec.describe "/issues", type: :request do
         it "it returns json with a message and success status" do
           body = JSON.parse(response.body)
           expect(body["success"]).to eq false
+          expect(body["has_read"]).to eq false
           expect(body["issue"]).to be_nil
           expect(body["message"]).to eq "Could not find that issue."
         end
@@ -176,14 +177,32 @@ RSpec.describe "/issues", type: :request do
       context "when read_at is invalid" do
         before do
           @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          FactoryBot.create(:read_issue, issue: @issue, user:) if prev_read
           post read_comic_issue_path(@issue, comic_id: comic.id, read_at: "not a datetime")
         end
 
-        it "returns json wuth a message and success status" do
-          body = JSON.parse(response.body)
-          expect(body["success"]).to eq false
-          expect(body["issue"]).to eq @issue.id
-          expect(body["message"]).to eq "Could not mark Test Comic - Issue 1 as read."
+        context "when user has previously read the issue" do
+          let(:prev_read) { true }
+
+          it "sets has_read to true" do
+            body = JSON.parse(response.body)
+            expect(body["success"]).to eq false
+            expect(body["has_read"]).to eq true
+            expect(body["issue"]).to eq @issue.id
+            expect(body["message"]).to eq "Could not mark Test Comic - Issue 1 as read."
+          end
+        end
+
+        context "when user has not previously read the issue" do
+          let(:prev_read) { false }
+
+          it "sets has_read to false" do
+            body = JSON.parse(response.body)
+            expect(body["success"]).to eq false
+            expect(body["has_read"]).to eq false
+            expect(body["issue"]).to eq @issue.id
+            expect(body["message"]).to eq "Could not mark Test Comic - Issue 1 as read."
+          end
         end
       end
 
@@ -196,6 +215,7 @@ RSpec.describe "/issues", type: :request do
         it "returns json wuth a message and success status" do
           body = JSON.parse(response.body)
           expect(body["success"]).to eq true
+          expect(body["has_read"]).to eq true
           expect(body["issue"]).to eq @issue.id
           expect(body["message"]).to eq "You read Test Comic - Issue 1."
         end
@@ -218,6 +238,7 @@ RSpec.describe "/issues", type: :request do
         it "returns json wuth a message and success status" do
           body = JSON.parse(response.body)
           expect(body["success"]).to eq true
+          expect(body["has_read"]).to eq true
           expect(body["issue"]).to eq @issue.id
           expect(body["message"]).to eq "You read Test Comic - Issue 1."
         end

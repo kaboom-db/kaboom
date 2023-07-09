@@ -4,8 +4,10 @@
 
 import { application } from './application'
 
-import ImportDialogController from './import_dialog_controller'
+import DialogController from './dialog_controller'
+import ReadController from './read_controller'
 import SwiperController from './swiper_controller'
 
-application.register('import-dialog', ImportDialogController)
+application.register('dialog', DialogController)
+application.register('read', ReadController)
 application.register('swiper', SwiperController)

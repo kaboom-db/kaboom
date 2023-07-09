@@ -4,7 +4,8 @@ module.exports = {
     './app/views/**/*.html.erb',
     './app/helpers/**/*.rb',
     './app/assets/stylesheets/**/*.css',
-    './app/javascript/**/*.js'
+    './app/javascript/**/*.js',
+    './app/javascript/**/*.ts'
   ],
   theme: {
     extend: {
@@ -13,10 +14,10 @@ module.exports = {
         'primary-light': 'rgb(252, 153, 162)',
         secondary: 'rgb(255, 195, 113)',
         'secondary-light': 'rgb(249, 213, 162)'
-      },
+      }
     },
     fontFamily: {
-      sans: ['"Montserrat"', 'sans-serif'],
-    },
+      sans: ['"Montserrat"', 'sans-serif']
+    }
   }
 }
