@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {registrations: "users/registrations"}
 
   root "pages#index"
-  get "dashboard" => "pages#dashboard"
 
   resources :comics, only: [:index, :show] do
     resources :issues, only: [:index, :show] do
@@ -11,4 +10,6 @@ Rails.application.routes.draw do
 
     post :import, on: :collection
   end
+
+  resources :dashboard, only: [:index]
 end
