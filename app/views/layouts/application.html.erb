@@ -21,7 +21,7 @@
 
   <body>
     <%= render "layouts/navbar" %>
-    <main class="pt-16 min-h-screen">
+    <main data-controller="local-time" class="pt-16 min-h-screen">
       <% if @header %>
         <div class="p-12 bg-gradient-to-r from-primary to-secondary">
           <h1 class="font-bold text-4xl text-center"><%= @header %></h1>
@@ -52,14 +52,5 @@
         <button onclick="importComic.showModal();" class="text-hint underline">Import</button>
       </div>
     </footer>
-    <script>
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-      const times = document.querySelectorAll('div[data-time]')
-      times.forEach(element => {
-        const { time } = element.dataset
-        const local = new Date(Date.parse(time))
-        element.innerText = `${local.getDate()} ${months[local.getMonth()]} ${local.getFullYear()} ${local.toLocaleTimeString().slice(0, -3)}`
-      });
-    </script>
   </body>
 </html>
