@@ -42,8 +42,7 @@ export default class extends Controller {
   async markAsRead (): Promise<void> {
     try {
       const readAt = convertToUtc(this.readAtInputTarget.value)
-      const response = await sendRequest(`${this.baseurlValue}/read`, { read_at: readAt })
-      console.log(await response.json())
+      await sendRequest(`${this.baseurlValue}/read`, { read_at: readAt })
       this.setStatus(true)
       this.closeDialog()
     } catch (error) {
