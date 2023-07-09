@@ -21,7 +21,7 @@
           <button data-read-target="readAtSubmit" data-action="click->read#markAsRead" class="inline-block py-1.5 px-3 bg-primary rounded-md text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out">
             Submit
           </button>
-          <a href="#" class="text-hint underline">View history</a>
+          <a href="<%= dashboard_history_path(issue: @resource.id) %>" class="text-hint underline">View history</a>
         </div>
       </div>
     <% end %>

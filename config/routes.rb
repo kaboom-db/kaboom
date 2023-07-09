@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     post :import, on: :collection
   end
 
-  resources :dashboard, only: [:index]
+  get "dashboard" => "dashboard#index"
+  get "dashboard/history" => "dashboard#history"
 end
