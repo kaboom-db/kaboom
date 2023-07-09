@@ -52,5 +52,14 @@
         <button onclick="importComic.showModal();" class="text-hint underline">Import</button>
       </div>
     </footer>
+    <script>
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+      const times = document.querySelectorAll('div[data-time]')
+      times.forEach(element => {
+        const { time } = element.dataset
+        const local = new Date(Date.parse(time))
+        element.innerText = `${local.getDate()} ${months[local.getMonth()]} ${local.getFullYear()} ${local.toLocaleTimeString().slice(0, -3)}`
+      });
+    </script>
   </body>
 </html>

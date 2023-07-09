@@ -4,7 +4,7 @@
       <div class="relative w-[100%] pb-[100%] h-[0] overflow-hidden rounded-lg">
         <img src="<%= @issue.image %>" alt="" class="w-full" />
         <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block bottom-2 right-2">#<%= @issue.formatted_issue_number %></div>
-        <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block top-2 right-2"><%= @read_at.strftime('%e %b %H:%M') %></div>
+        <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block top-2 right-2" data-time="<%= @read_at %>"><%= @read_at.strftime('%e %b %H:%M') %></div>
       </div>
     </div>
   <% end %>
