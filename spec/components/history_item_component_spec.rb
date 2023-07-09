@@ -6,10 +6,10 @@ RSpec.describe HistoryItemComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:user) { FactoryBot.create(:user) }
-  let(:issue) { FactoryBot.create(:issue, image: "google.com") }
+  let(:issue) { FactoryBot.create(:issue, issue_number: 1, image: "google.com") }
 
   before do
-    render_inline(described_class.new(issue:, user:))
+    render_inline(described_class.new(issue:, user:, read_at: DateTime.new(2023, 7, 7, 10, 0)))
   end
 
   it "renders the actions" do
@@ -25,5 +25,10 @@ RSpec.describe HistoryItemComponent, type: :component do
 
   it "renders the issue image" do
     expect(page).to have_css "img[src='google.com']"
+  end
+
+  it "renders the issue number and time read" do
+    expect(page).to have_content "#1"
+    expect(page).to have_content "7 Jul 10:00"
   end
 end
