@@ -23,10 +23,6 @@ export default class extends Controller {
   UNREAD_ICON_CLASSES = ['text-[#ff6961', 'group-hover:text-white']
 
   connect (): void {
-    const date = new Date()
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-    this.readAtInputTarget.value = date.toISOString().slice(0, -8)
-
     this.updateClasses()
   }
 
@@ -36,6 +32,10 @@ export default class extends Controller {
   }
 
   trigger (): void {
+    const date = new Date()
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+    this.readAtInputTarget.value = date.toISOString().slice(0, -8)
+
     this.dialogTarget.showModal()
   }
 
