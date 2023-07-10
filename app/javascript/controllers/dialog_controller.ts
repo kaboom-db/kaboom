@@ -7,7 +7,7 @@ export default class extends Controller {
 
   declare readonly dialogTarget: HTMLDialogElement
 
-  disconnect(): void {
+  disconnect (): void {
     this.dialogTarget.close()
   }
 
