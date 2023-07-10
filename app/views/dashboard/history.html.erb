@@ -1,7 +1,18 @@
 <div class="my-6">
-  <div class="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <% @issue_history.each do |issue_history| %>
-      <%= render HistoryItemComponent.new(issue: issue_history.issue, user: current_user, read_at: issue_history.read_at) %>
+      <%= render GradientBorderComponent.new do %>
+        <div class="flex gap-4">
+          <div class="h-16 w-16 min-w-[4rem] bg-blue-300 overflow-hidden rounded-md">
+            <img src="<%= issue_history.issue.image %>" class="w-full">
+          </div>
+          <div>
+            <small><%= issue_history.comic.name %></small>
+            <p class="font-bold"><%= issue_history.issue.name %></p>
+            <small data-controller="local-time" data-local-time-utc-value="<%= issue_history.read_at %>"><%= issue_history.read_at.strftime('%e %b %H:%M') %></small>
+          </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>
