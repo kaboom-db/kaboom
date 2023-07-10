@@ -14,5 +14,6 @@ class DashboardController < ApplicationController
     if params[:issue]
       @issue_history = @issue_history.where(issue: params[:issue])
     end
+    @issue_history = @issue_history.group_by { |h| h.read_at.strftime("%e %b %Y") }
   end
 end

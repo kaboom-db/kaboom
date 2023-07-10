@@ -1,22 +1,25 @@
-<div class="my-6">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <% @issue_history.each do |issue_history| %>
-      <%= render GradientBorderComponent.new do %>
-        <div class="flex gap-4">
-          <div class="h-16 w-16 min-w-[4rem] bg-blue-300 overflow-hidden rounded-md">
-            <img src="<%= issue_history.issue.image %>" class="w-full">
+<% @issue_history.each_pair do |day, history| %>
+  <div class="my-6">
+    <p class="my-4 text-2xl font-bold"><%= day %></p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <% history.each do |issue_history| %>
+        <%= render GradientBorderComponent.new do %>
+          <div class="flex gap-4">
+            <div class="h-16 w-16 min-w-[4rem] bg-blue-300 overflow-hidden rounded-md">
+              <img src="<%= issue_history.issue.image %>" class="w-full">
+            </div>
+            <div class="w-full">
+              <small><%= issue_history.comic.name %></small>
+              <p class="font-bold"><%= issue_history.issue.name %></p>
+              <small>
+                Read at:
+                <span class="font-bold" data-controller="local-time" data-local-time-utc-value="<%= issue_history.read_at %>"><%= issue_history.read_at.strftime('%e %b %H:%M') %></span>
+              </small>
+            </div>
+            <i class="fa-solid fa-square-xmark text-primary text-xl"></i>
           </div>
-          <div class="w-full">
-            <small><%= issue_history.comic.name %></small>
-            <p class="font-bold"><%= issue_history.issue.name %></p>
-            <small>
-              Read at:
-              <span class="font-bold" data-controller="local-time" data-local-time-utc-value="<%= issue_history.read_at %>"><%= issue_history.read_at.strftime('%e %b %H:%M') %></span>
-            </small>
-          </div>
-          <i class="fa-solid fa-square-xmark text-primary text-xl"></i>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
