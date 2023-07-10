@@ -4,7 +4,7 @@ import { convertToUtc } from '../common/dates'
 
 // Connects to data-controller="read"
 export default class extends Controller {
-  static targets = ['button', 'icon', 'dialog', 'readAtSubmit', 'readAtInput']
+  static targets = ['button', 'icon', 'dialog', 'readAtSubmit', 'readAtInput', 'error']
   static values = { status: Boolean, baseurl: String }
 
   declare readonly buttonTarget: HTMLButtonElement
@@ -12,6 +12,7 @@ export default class extends Controller {
   declare readonly dialogTarget: HTMLDialogElement
   declare readonly readAtSubmitTarget: HTMLButtonElement
   declare readonly readAtInputTarget: HTMLInputElement
+  declare readonly errorTarget: HTMLElement
 
   declare statusValue: boolean
   declare baseurlValue: string
@@ -40,11 +41,21 @@ export default class extends Controller {
   }
 
   async markAsRead (): Promise<void> {
+    this.errorTarget.classList.add('hidden')
     try {
       const readAt = convertToUtc(this.readAtInputTarget.value)
-      await sendRequest(`${this.baseurlValue}/read`, { read_at: readAt })
-      this.setStatus(true)
-      this.closeDialog()
+      const response = await sendRequest(`${this.baseurlValue}/read`, { read_at: readAt })
+      if (response.status === 200 || response.status === 204) {
+        const json = await response.json()
+        this.setStatus(json.read_count > 0)
+        if (json.success) {
+          this.closeDialog()
+        } else {
+          this.errorTarget.classList.remove('hidden')
+        }
+      } else {
+        this.errorTarget.classList.remove('hidden')
+      }
     } catch (error) {
       console.log(error)
     }
