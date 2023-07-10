@@ -54,6 +54,126 @@ RSpec.describe "/issues", type: :request do
     end
   end
 
+  describe "POST /unread" do
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
+    context "when the user is not logged in" do
+      let(:xhr) { false }
+
+      it "redirects to the sign in page" do
+        post unread_comic_issue_path("1", comic_id: comic.id)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:xhr) { false }
+
+      before do
+        sign_in user
+      end
+
+      context "when issue does not exist" do
+        before do
+          post unread_comic_issue_path("1", comic_id: comic.id), params: {read_id: 123}
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not find that issue."
+        end
+      end
+
+      context "when the ReadIssue could not be found" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: 123}
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "You have not read this issue."
+        end
+      end
+
+      context "when user is not authorised to unread this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user: FactoryBot.create(:user, username: "test", email: "123@test.com"))
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "You are not authorised to do that."
+        end
+      end
+
+      context "when user is authorised to unread this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user:)
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully unmarked this issue."
+        end
+
+        it "destroys the read issue" do
+          expect(user.read_issues.count).to eq 0
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "when user is authorised to unread this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user:)
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
+        end
+
+        it "responds with json" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["has_read"]).to eq false
+          expect(body["read_count"]).to eq 0
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You unread Test Comic - Issue 1."
+        end
+
+        it "destroys the read issue" do
+          expect(user.read_issues.count).to eq 0
+        end
+      end
+    end
+  end
+
   describe "POST /read" do
     let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
     let(:user) { FactoryBot.create(:user, :confirmed) }
@@ -158,21 +278,6 @@ RSpec.describe "/issues", type: :request do
 
       before do
         sign_in user
-      end
-
-      context "when issue does not exist" do
-        before do
-          post read_comic_issue_path("1", comic_id: comic.id)
-        end
-
-        it "it returns json with a message and success status" do
-          body = JSON.parse(response.body)
-          expect(body["success"]).to eq false
-          expect(body["has_read"]).to eq false
-          expect(body["read_count"]).to eq 0
-          expect(body["issue"]).to be_nil
-          expect(body["message"]).to eq "Could not find that issue."
-        end
       end
 
       context "when read_at is invalid" do

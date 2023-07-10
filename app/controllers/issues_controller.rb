@@ -2,8 +2,8 @@ class IssuesController < ApplicationController
   include VisitConcerns
 
   before_action :set_comic
-  before_action :set_issue, only: %i[show read]
-  before_action :user_required, only: %i[read]
+  before_action :set_issue, only: %i[show read unread]
+  before_action :user_required, only: %i[read unread]
 
   def index
   end
@@ -15,38 +15,69 @@ class IssuesController < ApplicationController
   end
 
   def read
-    unless @issue.present?
-      @success = false
-      @message = "Could not find that issue."
-      @has_read = false
-      @read_count = 0
-      return render template: "issues/read", formats: :json if request.xhr?
-
-      return redirect_to comic_path(@comic), alert: "Could not find that issue."
-    end
+    return redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
 
     read_issue = ReadIssue.new(read_at: params[:read_at] || Time.current, user: current_user, issue: @issue)
 
     if read_issue.save
-      @success = true
-      @message = "You read #{@comic.name} - #{@issue.name}."
-      @has_read = true
-      @read_count = current_user.read_issues.where(issue: @issue).count
+      set_json_values(
+        success: true,
+        message: "You read #{@comic.name} - #{@issue.name}.",
+        has_read: true,
+        read_count:
+      )
       return render template: "issues/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully marked this issue as read."
     else
-      @success = false
-      @message = "Could not mark #{@comic.name} - #{@issue.name} as read."
-      @has_read = current_user.issues_read.include?(@issue)
-      @read_count = current_user.read_issues.where(issue: @issue).count
+      set_json_values(
+        success: false,
+        message: "Could not mark #{@comic.name} - #{@issue.name} as read.",
+        has_read:,
+        read_count:
+      )
       return render template: "issues/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not mark that issue as read."
     end
   end
 
+  def unread
+    return redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
+
+    read_issue = ReadIssue.find_by(id: params[:read_id], issue: @issue)
+    return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You have not read this issue." unless read_issue.present?
+    return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You are not authorised to do that." unless read_issue.user == current_user
+
+    read_issue.destroy
+
+    set_json_values(
+      success: true,
+      message: "You unread #{@comic.name} - #{@issue.name}.",
+      has_read:,
+      read_count:
+    )
+    return render template: "issues/read", formats: :json if request.xhr?
+
+    redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unmarked this issue."
+  end
+
   private
+
+  def has_read
+    current_user.issues_read.include?(@issue)
+  end
+
+  def read_count
+    current_user.read_issues.where(issue: @issue).count
+  end
+
+  def set_json_values(success:, message:, has_read:, read_count:)
+    @success = success
+    @message = message
+    @has_read = has_read
+    @read_count = read_count
+  end
 
   def set_comic
     @comic = Comic.find(params[:comic_id])

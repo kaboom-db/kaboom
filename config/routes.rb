@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :comics, only: [:index, :show] do
     resources :issues, only: [:index, :show] do
       post :read, on: :member
+      post :unread, on: :member
     end
 
     post :import, on: :collection
