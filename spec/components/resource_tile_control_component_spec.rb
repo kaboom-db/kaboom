@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe HistoryItemComponent, type: :component do
+RSpec.describe ResourceTileControlComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:user) { FactoryBot.create(:user) }
