@@ -32,9 +32,9 @@
         <% end %>
       </div>
       <%= render ChipHeaderComponent.new(text: "Issues") %>
-      <div class="flex flex-wrap gap-2">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         <% @comic.ordered_issues.each do |issue| %>
-          <%= render ResourcePosterComponent.new(resource: issue, resource_path: comic_issue_path(issue, comic_id: @comic.id)) %>
+          <%= render ResourceTileControlComponent.new(issue:, user: current_user, read_at: nil) %>
         <% end %>
       </div>
     </div>
