@@ -24,14 +24,14 @@
       <%= render GradientBorderComponent.new do %>
         <h5 class="text-xl font-bold">Are you sure you want to remove this?</h1>
         <div class="my-4 flex flex-col gap-4">
-          <small>This action will not remove all reads of this issue, only this specific one.</small>
+          <p>This action will <b>not</b> remove all history for this issue, only this specific one.</p>
           <small data-history-item-target="error" class="font-bold text-red-500 hidden">Could not remove this read record.</small>
         </div>
         <div class="my-4 flex gap-4">
           <button data-action="click->history-item#markAsUnread" class="inline-block w-full py-1.5 px-3 bg-primary rounded-md text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out">
             Yes
           </button>
-          <button data-action="click->history-item#closeDialog" class="inline-block w-full py-1.5 px-3 bg-primary rounded-md text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out">
+          <button data-action="click->history-item#closeDialog" class="inline-block w-full py-1.5 px-3 bg-primary rounded-md text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out" autofocus="autofocus">
             No
           </button>
         </div>
