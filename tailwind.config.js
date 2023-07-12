@@ -14,6 +14,15 @@ module.exports = {
         'primary-light': 'rgb(252, 153, 162)',
         secondary: 'rgb(255, 195, 113)',
         'secondary-light': 'rgb(249, 213, 162)'
+      },
+      animation: {
+        fade: 'fade 0.5s ease-in-out'
+      },
+      keyframes: {
+        fade: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' }
+        }
       }
     },
     fontFamily: {

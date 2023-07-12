@@ -5,11 +5,13 @@
 import { application } from './application'
 
 import DialogController from './dialog_controller'
+import HistoryItemController from './history_item_controller'
 import LocalTimeController from './local_time_controller'
 import ReadController from './read_controller'
 import SwiperController from './swiper_controller'
 
 application.register('dialog', DialogController)
+application.register('history-item', HistoryItemController)
 application.register('local-time', LocalTimeController)
 application.register('read', ReadController)
 application.register('swiper', SwiperController)
