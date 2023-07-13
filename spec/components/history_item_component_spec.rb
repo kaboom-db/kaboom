@@ -3,13 +3,27 @@
 require "rails_helper"
 
 RSpec.describe HistoryItemComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @time = Time.current
+    comic = FactoryBot.create(:comic, name: "Venom")
+    issue = FactoryBot.create(:issue, comic:, name: "Issue 1", image: "/path/to/image.jpg")
+    read_issue = FactoryBot.create(:read_issue, issue:, user: FactoryBot.create(:user), read_at: @time)
+    render_inline(described_class.new(read_issue:))
+  end
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "renders the issue poster" do
+    expect(page).to have_css "img[src='/path/to/image.jpg']"
+  end
+
+  it "renders the comic name" do
+    expect(page).to have_css "small", text: "Venom"
+  end
+
+  it "renders the issue name" do
+    expect(page).to have_css "p.font-bold", text: "Issue 1"
+  end
+
+  it "renders the read at time" do
+    expect(page).to have_css "span.font-bold", text: @time.strftime('%e %b %H:%M')
+  end
 end
