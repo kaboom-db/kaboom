@@ -5,6 +5,7 @@
   <a href="<%= comic_path(comic) %>">
     <h1 class="text-2xl font-bold"><%= comic.name %></h1>
   </a>
+  <%= render Actions::ActionsComponent.new(resource: comic, user: current_user) %>
   <% if comic.aliases.present? %>
     <div class="flex flex-col">
       <p>AKA:</p>

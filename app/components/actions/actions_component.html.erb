@@ -1,4 +1,4 @@
-<div class="grid grid-cols-4 gap-1 mt-1">
+<div class="grid grid-cols-4 gap-1 mt-1 w-full">
   <%= render Actions::ReadActionComponent.new(resource: @resource, user: @user) if @type == Issue %>
   <%= render Actions::CollectActionComponent.new(resource: @resource, user: @user) if @type == Issue %>
   <%= render Actions::WishlistActionComponent.new(resource: @resource, user: @user) %>

@@ -44,6 +44,10 @@ ReadIssue.create!(
   user:,
   issue: comic_0.issues.last
 )
+WishlistItem.create!(
+  user:,
+  wishlistable: comic_0
+)
 
 comic_1 = Comic.create!({"aliases" => nil, "api_detail_url" => "https://comicvine.gamespot.com/api/volume/4050-109217/", "count_of_issues" => 20, "date_last_updated" => "2018-10-09 03:33:50 UTC", "deck" => "Digital Exclusive.", "description" => "<figure data-align=\"right\" data-size=\"small\" data-img-src=\"https://static.comicvine.com/uploads/original/6/67663/6640375-3356177093-11470.jpg\" data-ref-id=\"1300-6640375\" data-ratio=\"1\" data-width=\"600\" data-embed-type=\"image\" style=\"width: 600px\"><a class=\"fluid-height\" style=\"padding-bottom:100.0%\" href=\"https://static.comicvine.com/uploads/original/6/67663/6640375-3356177093-11470.jpg\" data-ref-id=\"1300-6640375\"><img alt=\"No Caption Provided\" src=\"https://comicvine.gamespot.com/a/uploads/original/6/67663/6640375-3356177093-11470.jpg\" srcset=\"https://comicvine.gamespot.com/a/uploads/original/6/67663/6640375-3356177093-11470.jpg 600w\" sizes=\"(max-width: 640px) 100vw, 640px\" data-width=\"640\"></a></figure><p>English translation of the Japanese manga <a href=\"/f/4050-101659/\" data-ref-id=\"4050-101659\">F</a>.</p>", "cv_id" => 109217, "image" => "https://comicvine.gamespot.com/a/uploads/scale_medium/6/67663/6327139-01.jpg", "name" => "F", "publisher" => "MediBang!", "site_detail_url" => "https://comicvine.gamespot.com/f/4050-109217/", "start_year" => 2018})
 comic_1.issues.create!({"aliases" => nil, "api_detail_url" => "https://comicvine.gamespot.com/api/issue/4000-662683/", "cover_date" => "2018-03-31", "date_last_updated" => "2018-03-13 13:34:34 UTC", "deck" => nil, "description" => "<p><em>Hiziri makes his debut in the All-Japan F3 League with Tamotsu at his side. A sullen Gunma watches the final championship race in envy as he ponders Kuroi’s offer... But wait — what’s Gunma up to?!</em></p>", "cv_id" => 662683, "image" => "https://comicvine.gamespot.com/a/uploads/scale_medium/6/67663/6327146-06.jpg", "issue_number" => 6.0, "name" => "First Hand", "site_detail_url" => "https://comicvine.gamespot.com/f-6-first-hand/4000-662683/", "store_date" => "2018-03-13"})
@@ -111,6 +115,10 @@ comic_3.issues.reverse_order.each_with_index do |issue, index|
     read_at: index.days.ago,
     user: user2,
     issue:
+  )
+  WishlistItem.create!(
+    user:,
+    wishlistable: issue
   )
 end
 

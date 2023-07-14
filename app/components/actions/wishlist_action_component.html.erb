@@ -1,3 +1,11 @@
-<button class="group inline-block py-1.5 px-[5%] rounded-md border-2 border-[#fdbd7d] hover:bg-[#fdbd7d] cursor-pointer transition duration-300 ease-in-out">
-  <i class="fa-solid fa-star text-auto text-[#fdbd7d] group-hover:text-white transition duration-300 ease-in-out"></i>
-</button>
+<div data-controller="wishlist"
+     data-wishlist-status-value="<%= @is_wishlisted %>"
+     data-wishlist-baseurl-value="<%= @resource_path %>">
+
+  <button data-wishlist-target="button"
+          data-action="click->wishlist#trigger"
+          class="group inline-block w-full py-1.5 px-[5%] rounded-md border-2 border-[#fdbd7d] hover:bg-[#fdbd7d] cursor-pointer transition duration-300 ease-in-out">
+    <i data-wishlist-target="icon" class="fa-solid fa-star text-auto text-[#fdbd7d] group-hover:text-white transition duration-300 ease-in-out"></i>
+  </button>
+
+</div>
