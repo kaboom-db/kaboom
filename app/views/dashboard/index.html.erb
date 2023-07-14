@@ -1,19 +1,26 @@
 <div class="my-6">
-  <%= render GradientBorderComponent.new do %>
-    <div class="flex flex-col items-center gap-4">
-      <img src="<%= current_user.avatar %>" class="h-20 w-20 rounded-full border-[5px] border-black" />
-      <h1 class="text-2xl font-bold"><%= current_user.username %></h1>
-    </div>
-  <% end %>
-</div>
-
-<div class="my-6">
-  <%= render ChipHeaderComponent.new(text: "Up next") %>
-  <%= render GradientBorderComponent.new do %>
-    <div class="flex flex-col items-center gap-4">
-      Up next coming soon
-    </div>
-  <% end %>
+  <div class="grid grid-cols-2 gap-4">
+    <%= link_to dashboard_history_path do %>
+      <div class="group p-1.5 rounded-lg h-full bg-[#ff6961]">
+        <div class="bg-white rounded-lg p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
+          <div class="h-32 flex flex-col justify-center items-center">
+            <p class="text-4xl font-bold text-[#ff6961] group-hover:text-white transition duration-300 ease-in-out"><%= @issues_read %></p>
+          </div>
+          <p class="text-xl font-bold text-[#ff6961] group-hover:text-white transition duration-300 ease-in-out">Issues read</p>
+        </div>
+      </div>
+    <% end %>
+    <%= link_to "#" do %>
+      <div class="group p-1.5 rounded-lg h-full bg-[#47bcea]">
+        <div class="bg-white rounded-lg p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
+          <div class="h-32 flex flex-col justify-center items-center">
+            <p class="text-4xl font-bold text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out">0</p>
+          </div>
+          <p class="text-xl font-bold text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out">Collected</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <div class="my-6">
@@ -23,7 +30,7 @@
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
     </a>
   </div>
-  <div class="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
     <% @issue_history.each do |issue_history| %>
       <%= render ResourceTileControlComponent.new(issue: issue_history.issue, user: current_user, read_at: issue_history.read_at) %>
     <% end %>

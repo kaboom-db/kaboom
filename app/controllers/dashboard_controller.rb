@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
     @header = "Dashboard"
 
     @issue_history = current_user.read_issues.order(read_at: :desc).limit(6)
+    @issues_read = current_user.read_issues.count
   end
 
   def history

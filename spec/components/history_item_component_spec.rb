@@ -24,6 +24,6 @@ RSpec.describe HistoryItemComponent, type: :component do
   end
 
   it "renders the read at time" do
-    expect(page).to have_css "span.font-bold", text: @time.strftime('%e %b %H:%M')
+    expect(page).to have_css "span.font-bold", text: @time.strftime("%e %b %H:%M")
   end
 end
