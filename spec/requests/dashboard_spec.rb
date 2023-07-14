@@ -10,13 +10,28 @@ RSpec.describe "Dashboards", type: :request do
     end
 
     context "when user is logged in" do
+      let(:user) { FactoryBot.create(:user, :confirmed) }
+
       before do
-        sign_in FactoryBot.create(:user, :confirmed)
+        sign_in user
       end
 
       it "renders a successfull response" do
         get dashboard_path
         expect(response).to be_successful
+      end
+
+      it "renders the amount of issues read" do
+        FactoryBot.create(:read_issue, user:)
+        FactoryBot.create(:read_issue, user:)
+        get dashboard_path
+        assert_select "p.text-4xl", text: "2"
+      end
+
+      it "renders a chart for the last 30 days" do
+        get dashboard_path
+        assert_select "div[data-controller='history-chart']"
+        assert_select "canvas[data-history-chart-target='canvas']"
       end
     end
   end

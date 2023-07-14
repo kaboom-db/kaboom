@@ -30,9 +30,13 @@
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
     </a>
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
     <% @issue_history.each do |issue_history| %>
       <%= render ResourceTileControlComponent.new(issue: issue_history.issue, user: current_user, read_at: issue_history.read_at) %>
     <% end %>
+  </div>
+  <%= render ChipHeaderComponent.new(text: "Last 15 days") %>
+  <div data-controller="history-chart" data-history-chart-data-value="<%= @chart_data.to_json %>" data-history-chart-type-value="bar">
+    <canvas data-history-chart-target="canvas" class="w-full h-64"></canvas>
   </div>
 </div>
