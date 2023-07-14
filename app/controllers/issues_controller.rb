@@ -2,8 +2,8 @@ class IssuesController < ApplicationController
   include VisitConcerns
 
   before_action :set_comic
-  before_action :set_issue, only: %i[show read unread]
-  before_action :user_required, only: %i[read unread]
+  before_action :set_issue, only: %i[show read unread wishlist]
+  before_action :user_required, only: %i[read unread wishlist]
 
   def index
   end
@@ -60,6 +60,26 @@ class IssuesController < ApplicationController
     return render template: "issues/read", formats: :json if request.xhr?
 
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unmarked this issue."
+  end
+
+  def wishlist
+    return redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
+
+    wishlisted = WishlistItem.new(wishlistable: @issue, user: current_user)
+
+    if wishlisted.save
+      @success = true
+      @message = "You wishlisted #{@comic.name} - #{@issue.name}."
+      return render template: "issues/read", formats: :json if request.xhr?
+
+      redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully wishlisted this issue."
+    else
+      @success = false
+      @message = "Could not wishlist #{@comic.name} - #{@issue.name}."
+      return render template: "issues/read", formats: :json if request.xhr?
+
+      redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not wishlist this issue."
+    end
   end
 
   private

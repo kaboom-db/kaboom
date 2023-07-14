@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :issues, only: [:index, :show] do
       post :read, on: :member
       post :unread, on: :member
+      post :wishlist, on: :member
     end
 
     post :import, on: :collection
