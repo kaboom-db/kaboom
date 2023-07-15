@@ -3,16 +3,11 @@ import { sendRequest } from '../common/request'
 
 // Connects to data-controller="wishlist"
 export default class extends Controller {
-  // static targets = ['button', 'icon', 'dialog', 'readAtSubmit', 'readAtInput', 'error']
   static targets = ['button', 'icon']
   static values = { status: Boolean, baseurl: String }
 
   declare readonly buttonTarget: HTMLButtonElement
   declare readonly iconTarget: HTMLElement
-  // declare readonly dialogTarget: HTMLDialogElement
-  // declare readonly readAtSubmitTarget: HTMLButtonElement
-  // declare readonly readAtInputTarget: HTMLInputElement
-  // declare readonly errorTarget: HTMLElement
 
   declare statusValue: boolean
   declare baseurlValue: string
