@@ -1,6 +1,6 @@
 <div class="grid grid-cols-4 gap-1 mt-1 w-full">
-  <%= render Actions::ReadActionComponent.new(resource: @resource, user: @user) if @type == Issue %>
-  <%= render Actions::CollectActionComponent.new(resource: @resource, user: @user) if @type == Issue %>
+  <%= render Actions::ReadActionComponent.new(resource: @resource, user: @user) %>
+  <%= render Actions::CollectActionComponent.new(resource: @resource, user: @user) %>
   <%= render Actions::WishlistActionComponent.new(resource: @resource, user: @user) %>
   <%= render Actions::FavouriteActionComponent.new(resource: @resource, user: @user) %>
 </div>

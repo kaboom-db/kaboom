@@ -8,6 +8,9 @@ RSpec.describe User, type: :model do
     it { should have_many(:wishlist_items).dependent(:delete_all) }
     it { should have_many(:wishlisted_comics).through(:wishlist_items).class_name("Comic") }
     it { should have_many(:wishlisted_issues).through(:wishlist_items).class_name("Issue") }
+    it { should have_many(:favourite_items).dependent(:delete_all) }
+    it { should have_many(:favourited_comics).through(:favourite_items).class_name("Comic") }
+    it { should have_many(:favourited_issues).through(:favourite_items).class_name("Issue") }
   end
 
   describe "validations" do

@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :wishlist_items, dependent: :delete_all
   has_many :wishlisted_comics, through: :wishlist_items, source: :wishlistable, source_type: "Comic"
   has_many :wishlisted_issues, through: :wishlist_items, source: :wishlistable, source_type: "Issue"
+  has_many :favourite_items, dependent: :delete_all
+  has_many :favourited_comics, through: :favourite_items, source: :favouritable, source_type: "Comic"
+  has_many :favourited_issues, through: :favourite_items, source: :favouritable, source_type: "Issue"
   has_many :visits, dependent: :delete_all
 
   # Validations
