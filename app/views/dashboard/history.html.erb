@@ -1,10 +1,14 @@
-<% @issue_history.each_pair do |day, history| %>
-  <div class="my-6">
-    <p class="my-4 text-2xl font-bold"><%= day %></p>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <% history.each do |issue_history| %>
-        <%= render HistoryItemComponent.new(read_issue: issue_history) %>
-      <% end %>
+<div class="my-6">
+  <%= paginate @issue_history %>
+  <% @issue_history_grouped.each_pair do |day, history| %>
+    <div class="my-6">
+      <p class="my-4 text-2xl font-bold"><%= day %></p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% history.each do |issue_history| %>
+          <%= render HistoryItemComponent.new(read_issue: issue_history) %>
+        <% end %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+  <%= paginate @issue_history %>
+</div>

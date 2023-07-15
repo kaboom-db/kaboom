@@ -16,7 +16,10 @@ class DashboardController < ApplicationController
     @issue_history = current_user.read_issues
       .order(read_at: :desc)
       .where(build_filters)
-      .group_by { |h| h.read_at.strftime("%e %b %Y") }
+      .page(params[:page])
+      .per(30)
+
+    @issue_history_grouped = @issue_history.group_by { |h| h.read_at.strftime("%e %b %Y") }
   end
 
   private
