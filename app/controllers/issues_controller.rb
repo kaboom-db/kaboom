@@ -2,21 +2,18 @@ class IssuesController < ApplicationController
   include VisitConcerns
 
   before_action :set_comic
-  before_action :set_issue, only: %i[show read unread wishlist]
-  before_action :user_required, only: %i[read unread wishlist]
+  before_action :set_issue, only: %i[show read unread wishlist unwishlist]
+  before_action :user_required, only: %i[read unread wishlist unwishlist]
+  before_action :issue_required, only: %i[show read unread wishlist unwishlist]
 
   def index
   end
 
   def show
-    return redirect_to comic_path(@comic), notice: "Could not find that issue." unless @issue.present?
-
     add_visit(user: current_user, visited: @issue)
   end
 
   def read
-    return redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
-
     read_issue = ReadIssue.new(read_at: params[:read_at] || Time.current, user: current_user, issue: @issue)
 
     if read_issue.save
@@ -43,11 +40,8 @@ class IssuesController < ApplicationController
   end
 
   def unread
-    return redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
-
-    read_issue = ReadIssue.find_by(id: params[:read_id], issue: @issue)
+    read_issue = current_user.read_issues.find_by(id: params[:read_id], issue: @issue)
     return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You have not read this issue." unless read_issue.present?
-    return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You are not authorised to do that." unless read_issue.user == current_user
 
     read_issue.destroy
 
@@ -63,14 +57,12 @@ class IssuesController < ApplicationController
   end
 
   def wishlist
-    return redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
-
     wishlisted = WishlistItem.new(wishlistable: @issue, user: current_user)
 
     if wishlisted.save
       @success = true
       @message = "You wishlisted #{@comic.name} - #{@issue.name}."
-      @wishlisted = current_user.wishlisted_issues.include?(@issue)
+      @wishlisted = true
       return render template: "issues/wishlist", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully wishlisted this issue."
@@ -84,6 +76,20 @@ class IssuesController < ApplicationController
     end
   end
 
+  def unwishlist
+    wishlisted = current_user.wishlist_items.find_by(wishlistable: @issue)
+    return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You have not wishlisted this issue." unless wishlisted.present?
+
+    wishlisted.destroy
+
+    @success = true
+    @message = "You unwishlisted #{@comic.name} - #{@issue.name}."
+    @wishlisted = false
+    return render template: "issues/wishlist", formats: :json if request.xhr?
+
+    redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unwishlisted this issue."
+  end
+
   private
 
   def has_read
@@ -92,6 +98,10 @@ class IssuesController < ApplicationController
 
   def read_count
     current_user.read_issues.where(issue: @issue).count
+  end
+
+  def issue_required
+    redirect_to comic_path(@comic), alert: "Could not find that issue." unless @issue.present?
   end
 
   def set_json_values(success:, message:, has_read:, read_count:)
