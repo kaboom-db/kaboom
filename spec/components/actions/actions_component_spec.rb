@@ -20,7 +20,7 @@ RSpec.describe Actions::ActionsComponent, type: :component do
 
     it "renders the actions" do
       expect(page).to have_css "i.fa-check"
-      expect(page).to have_css "i.fa-star"
+      expect(page).to have_css "i.fa-cake-candles"
       expect(page).to have_css "i.fa-book-open"
       expect(page).to have_css "i.fa-heart"
     end

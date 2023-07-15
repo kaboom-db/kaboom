@@ -15,6 +15,6 @@ RSpec.describe Actions::WishlistActionComponent, type: :component do
   end
 
   it "renders the icon" do
-    expect(page).to have_css "i.fa-star"
+    expect(page).to have_css "i.fa-cake-candles"
   end
 end

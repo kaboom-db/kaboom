@@ -5,6 +5,7 @@
 import { application } from './application'
 
 import DialogController from './dialog_controller'
+import FavouriteController from './favourite_controller'
 import HistoryChartController from './history_chart_controller'
 import HistoryItemController from './history_item_controller'
 import LocalTimeController from './local_time_controller'
@@ -13,6 +14,7 @@ import SwiperController from './swiper_controller'
 import WishlistController from './wishlist_controller'
 
 application.register('dialog', DialogController)
+application.register('favourite', FavouriteController)
 application.register('history-chart', HistoryChartController)
 application.register('history-item', HistoryItemController)
 application.register('local-time', LocalTimeController)
