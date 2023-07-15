@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post :unread, on: :member
       post :wishlist, on: :member
       post :unwishlist, on: :member
+      post :favourite, on: :member
     end
 
     post :import, on: :collection
