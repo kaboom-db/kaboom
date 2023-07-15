@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_14_191958) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_15_145031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_191958) do
     t.integer "start_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "favourite_items", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "favouritable_type"
+    t.bigint "favouritable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_favourite_items_on_user_id"
   end
 
   create_table "issues", force: :cascade do |t|
@@ -102,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_191958) do
     t.index ["user_id"], name: "index_wishlist_items_on_user_id"
   end
 
+  add_foreign_key "favourite_items", "users"
   add_foreign_key "issues", "comics"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
