@@ -70,13 +70,15 @@ class IssuesController < ApplicationController
     if wishlisted.save
       @success = true
       @message = "You wishlisted #{@comic.name} - #{@issue.name}."
-      return render template: "issues/read", formats: :json if request.xhr?
+      @wishlisted = current_user.wishlisted_issues.include?(@issue)
+      return render template: "issues/wishlist", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully wishlisted this issue."
     else
       @success = false
       @message = "Could not wishlist #{@comic.name} - #{@issue.name}."
-      return render template: "issues/read", formats: :json if request.xhr?
+      @wishlisted = current_user.wishlisted_issues.include?(@issue)
+      return render template: "issues/wishlist", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not wishlist this issue."
     end

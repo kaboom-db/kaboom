@@ -33,12 +33,14 @@ export default class extends Controller {
   }
 
   async trigger (): Promise<void> {
+    const url = this.statusValue ? `${this.baseurlValue}/unwishlist` : `${this.baseurlValue}/wishlist`
+
     try {
-      const response = await sendRequest(`${this.baseurlValue}/wishlist`)
+      const response = await sendRequest(url)
       if (response.status === 200 || response.status === 204) {
         const json = await response.json()
         if (json.success) {
-          this.setStatus(true)
+          this.setStatus(json.wishlisted)
         }
       }
     } catch (error) {
