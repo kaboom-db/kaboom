@@ -2,9 +2,9 @@ class IssuesController < ApplicationController
   include VisitConcerns
 
   before_action :set_comic
-  before_action :set_issue, only: %i[show read unread wishlist unwishlist favourite]
-  before_action :user_required, only: %i[read unread wishlist unwishlist favourite]
-  before_action :issue_required, only: %i[show read unread wishlist unwishlist favourite]
+  before_action :set_issue, only: %i[show read unread wishlist unwishlist favourite unfavourite]
+  before_action :user_required, only: %i[read unread wishlist unwishlist favourite unfavourite]
+  before_action :issue_required, only: %i[show read unread wishlist unwishlist favourite unfavourite]
 
   def index
   end
@@ -108,6 +108,20 @@ class IssuesController < ApplicationController
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not favourite this issue."
     end
+  end
+
+  def unfavourite
+    favourited = current_user.favourite_items.find_by(favouritable: @issue)
+    return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You have not favourited this issue." unless favourited.present?
+
+    favourited.destroy
+
+    @success = true
+    @message = "You unfavourited #{@comic.name} - #{@issue.name}."
+    @favourited = false
+    return render template: "issues/favourite", formats: :json if request.xhr?
+
+    redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unfavourited this issue."
   end
 
   private
