@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { sendRequest } from '../common/request'
 import { convertToUtc } from '../common/dates'
+import { sendMessage } from '../common/sendMessage'
 
 // Connects to data-controller="read"
 export default class extends Controller {
@@ -49,8 +50,10 @@ export default class extends Controller {
         const json = await response.json()
         this.setStatus(json.read_count > 0)
         if (json.success) {
+          sendMessage(json.message, '#ff6961', 'fa-check')
           this.closeDialog()
         } else {
+          sendMessage(json.message, 'red', 'fa-check')
           this.errorTarget.classList.remove('hidden')
         }
       } else {

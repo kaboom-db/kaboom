@@ -16,12 +16,17 @@ module.exports = {
         'secondary-light': 'rgb(249, 213, 162)'
       },
       animation: {
-        fade: 'fade 0.5s ease-in-out'
+        fadeOut: 'fadeOut 0.5s ease-in-out',
+        fadeIn: 'fadeIn 0.5s ease-in-out'
       },
       keyframes: {
-        fade: {
+        fadeOut: {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' }
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
         }
       }
     },

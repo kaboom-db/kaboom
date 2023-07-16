@@ -25,7 +25,7 @@ export default class extends Controller {
 
   destroy (): void {
     this.canShowDialog = false
-    this.element.classList.add('animate-fade')
+    this.element.classList.add('animate-fadeOut')
     setTimeout(() => this.element.remove(), 500)
   }
 

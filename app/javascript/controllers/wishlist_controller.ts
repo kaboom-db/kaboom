@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { sendRequest } from '../common/request'
+import { sendMessage } from '../common/sendMessage'
 
 // Connects to data-controller="wishlist"
 export default class extends Controller {
@@ -36,10 +37,16 @@ export default class extends Controller {
         const json = await response.json()
         if (json.success) {
           this.setStatus(json.wishlisted)
+          sendMessage(json.message, '#fdbd7d', 'fa-cake-candles')
+        } else {
+          sendMessage(json.message, 'red', 'fa-cake-candles')
         }
+      } else {
+        throw Error('Unsuccessful response')
       }
     } catch (error) {
       console.log(error)
+      sendMessage(`Could not ${this.statusValue ? 'unwishlist' : 'wishlist'} this.`, 'red', 'fa-cake-candles')
     }
   }
 

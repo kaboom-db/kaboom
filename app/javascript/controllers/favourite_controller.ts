@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { sendRequest } from '../common/request'
+import { sendMessage } from '../common/sendMessage'
 
 // Connects to data-controller="favourite"
 export default class extends Controller {
@@ -36,10 +37,16 @@ export default class extends Controller {
         const json = await response.json()
         if (json.success) {
           this.setStatus(json.favourited)
+          sendMessage(json.message, '#ff85a2', 'fa-heart')
+        } else {
+          sendMessage(json.message, 'red', 'fa-heart')
         }
+      } else {
+        throw Error('Unsuccessful response')
       }
     } catch (error) {
       console.log(error)
+      sendMessage(`Could not ${this.statusValue ? 'unfavourite' : 'favourite'} this.`, 'red', 'fa-heart')
     }
   }
 
