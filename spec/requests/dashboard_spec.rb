@@ -28,6 +28,14 @@ RSpec.describe "Dashboards", type: :request do
         assert_select "p.text-4xl", text: "2"
       end
 
+      it "renders the amount of issues collected" do
+        FactoryBot.create(:collected_issue, user:)
+        FactoryBot.create(:collected_issue, user:)
+        FactoryBot.create(:collected_issue, user:)
+        get dashboard_path
+        assert_select "p.text-4xl", text: "3"
+      end
+
       it "renders a chart for the last 30 days" do
         get dashboard_path
         assert_select "div[data-controller='history-chart']"

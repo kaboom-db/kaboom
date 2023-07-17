@@ -53,7 +53,6 @@ export default class extends Controller {
           sendMessage(json.message, '#ff6961', 'fa-check')
           this.closeDialog()
         } else {
-          sendMessage(json.message, 'red', 'fa-check')
           this.errorTarget.classList.remove('hidden')
         }
       } else {

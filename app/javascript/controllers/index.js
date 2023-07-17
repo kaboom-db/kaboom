@@ -4,6 +4,7 @@
 
 import { application } from './application'
 
+import CollectController from './collect_controller'
 import DialogController from './dialog_controller'
 import FavouriteController from './favourite_controller'
 import HistoryChartController from './history_chart_controller'
@@ -13,6 +14,7 @@ import ReadController from './read_controller'
 import SwiperController from './swiper_controller'
 import WishlistController from './wishlist_controller'
 
+application.register('collect', CollectController)
 application.register('dialog', DialogController)
 application.register('favourite', FavouriteController)
 application.register('history-chart', HistoryChartController)
