@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_15_145031) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_17_162135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "collected_issues", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "issue_id", null: false
+    t.date "collected_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id"], name: "index_collected_issues_on_issue_id"
+    t.index ["user_id", "issue_id"], name: "index_collected_issues_on_user_id_and_issue_id", unique: true
+    t.index ["user_id"], name: "index_collected_issues_on_user_id"
+  end
 
   create_table "comics", force: :cascade do |t|
     t.text "aliases"
@@ -111,6 +122,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_145031) do
     t.index ["user_id"], name: "index_wishlist_items_on_user_id"
   end
 
+  add_foreign_key "collected_issues", "issues"
+  add_foreign_key "collected_issues", "users"
   add_foreign_key "favourite_items", "users"
   add_foreign_key "issues", "comics"
   add_foreign_key "read_issues", "issues"
