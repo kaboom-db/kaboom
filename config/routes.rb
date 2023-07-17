@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       post :unwishlist, on: :member
       post :favourite, on: :member
       post :unfavourite, on: :member
+      post :collect, on: :member
+      post :uncollect, on: :member
     end
 
     post :import, on: :collection

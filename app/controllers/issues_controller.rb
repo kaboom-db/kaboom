@@ -2,9 +2,9 @@ class IssuesController < ApplicationController
   include VisitConcerns
 
   before_action :set_comic
-  before_action :set_issue, only: %i[show read unread wishlist unwishlist favourite unfavourite]
-  before_action :user_required, only: %i[read unread wishlist unwishlist favourite unfavourite]
-  before_action :issue_required, only: %i[show read unread wishlist unwishlist favourite unfavourite]
+  before_action :set_issue, except: %i[index]
+  before_action :user_required, except: %i[index show]
+  before_action :issue_required, except: %i[index]
 
   def index
   end
@@ -54,6 +54,40 @@ class IssuesController < ApplicationController
     return render template: "issues/read", formats: :json if request.xhr?
 
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unmarked this issue."
+  end
+
+  def collect
+    collected_issue = CollectedIssue.new(collected_on: params[:collected_on] || Date.today, user: current_user, issue: @issue)
+
+    if collected_issue.save
+      @success = true
+      @message = "You collected #{@comic.name} - #{@issue.name}."
+      @has_collected = true
+      return render template: "issues/collected", formats: :json if request.xhr?
+
+      redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully collected this issue."
+    else
+      @success = false
+      @message = "Could not collect #{@comic.name} - #{@issue.name}."
+      @has_collected = current_user.collection.include?(@issue)
+      return render template: "issues/collected", formats: :json if request.xhr?
+
+      redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not collect this issue."
+    end
+  end
+
+  def uncollect
+    collected = current_user.collected_issues.find_by(issue: @issue)
+    return redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "You have not collected this issue." unless collected.present?
+
+    collected.destroy
+
+    @success = true
+    @message = "You uncollected #{@comic.name} - #{@issue.name}."
+    @has_collected = false
+    return render template: "issues/collected", formats: :json if request.xhr?
+
+    redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully uncollected this issue."
   end
 
   def wishlist

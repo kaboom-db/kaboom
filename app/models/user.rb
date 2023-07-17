@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :favourite_items, dependent: :delete_all
   has_many :favourited_comics, through: :favourite_items, source: :favouritable, source_type: "Comic"
   has_many :favourited_issues, through: :favourite_items, source: :favouritable, source_type: "Issue"
+  has_many :collected_issues, dependent: :delete_all
+  has_many :collection, through: :collected_issues, source: :issue
   has_many :visits, dependent: :delete_all
 
   # Validations

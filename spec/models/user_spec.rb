@@ -11,6 +11,8 @@ RSpec.describe User, type: :model do
     it { should have_many(:favourite_items).dependent(:delete_all) }
     it { should have_many(:favourited_comics).through(:favourite_items).class_name("Comic") }
     it { should have_many(:favourited_issues).through(:favourite_items).class_name("Issue") }
+    it { should have_many(:collected_issues).dependent(:delete_all) }
+    it { should have_many(:collection).through(:collected_issues).source(:issue) }
   end
 
   describe "validations" do

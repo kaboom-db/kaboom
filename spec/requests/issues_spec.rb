@@ -54,110 +54,6 @@ RSpec.describe "/issues", type: :request do
     end
   end
 
-  describe "POST /unread" do
-    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
-    let(:user) { FactoryBot.create(:user, :confirmed) }
-
-    before do
-      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
-    end
-
-    context "when the user is not logged in" do
-      let(:xhr) { false }
-
-      it "redirects to the sign in page" do
-        post unread_comic_issue_path("1", comic_id: comic.id)
-        expect(response).to redirect_to new_user_session_path
-      end
-    end
-
-    context "when user is logged in" do
-      let(:xhr) { false }
-
-      before do
-        sign_in user
-      end
-
-      context "when issue does not exist" do
-        before do
-          post unread_comic_issue_path("1", comic_id: comic.id), params: {read_id: 123}
-        end
-
-        it "redirects to the comic path" do
-          expect(response).to redirect_to comic_path(comic)
-        end
-
-        it "sets a flash message" do
-          expect(flash[:alert]).to eq "Could not find that issue."
-        end
-      end
-
-      context "when the ReadIssue could not be found" do
-        before do
-          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
-          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: 123}
-        end
-
-        it "redirects to the issue path" do
-          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
-        end
-
-        it "sets a flash message" do
-          expect(flash[:alert]).to eq "You have not read this issue."
-        end
-      end
-
-      context "when user is authorised to unread this issue" do
-        before do
-          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
-          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user:)
-          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
-        end
-
-        it "redirects to the issue path" do
-          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
-        end
-
-        it "sets a flash message" do
-          expect(flash[:notice]).to eq "Successfully unmarked this issue."
-        end
-
-        it "destroys the read issue" do
-          expect(user.read_issues.count).to eq 0
-        end
-      end
-    end
-
-    context "when request is an Ajax request" do
-      let(:xhr) { true }
-
-      before do
-        sign_in user
-      end
-
-      context "when user is authorised to unread this issue" do
-        before do
-          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
-          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user:)
-          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
-        end
-
-        it "responds with json" do
-          body = JSON.parse(response.body)
-          expect(body["success"]).to eq true
-          expect(body["has_read"]).to eq false
-          expect(body["read_count"]).to eq 0
-          expect(body["issue"]).to eq @issue.id
-          expect(body["message"]).to eq "You unread Test Comic - Issue 1."
-        end
-
-        it "destroys the read issue" do
-          expect(user.read_issues.count).to eq 0
-        end
-      end
-    end
-  end
-
   describe "POST /read" do
     let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
     let(:user) { FactoryBot.create(:user, :confirmed) }
@@ -342,6 +238,384 @@ RSpec.describe "/issues", type: :request do
           expect(read_issue.issue).to eq @issue
           expect(read_issue.user).to eq user
           expect(read_issue.read_at).to eq Time.current
+        end
+      end
+    end
+  end
+
+  describe "POST /unread" do
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
+    context "when the user is not logged in" do
+      let(:xhr) { false }
+
+      it "redirects to the sign in page" do
+        post unread_comic_issue_path("1", comic_id: comic.id)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:xhr) { false }
+
+      before do
+        sign_in user
+      end
+
+      context "when issue does not exist" do
+        before do
+          post unread_comic_issue_path("1", comic_id: comic.id), params: {read_id: 123}
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not find that issue."
+        end
+      end
+
+      context "when the ReadIssue could not be found" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: 123}
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "You have not read this issue."
+        end
+      end
+
+      context "when user is authorised to unread this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user:)
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully unmarked this issue."
+        end
+
+        it "destroys the read issue" do
+          expect(user.read_issues.count).to eq 0
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "when user is authorised to unread this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          @read_issue = FactoryBot.create(:read_issue, issue: @issue, user:)
+          post unread_comic_issue_path(@issue, comic_id: comic.id), params: {read_id: @read_issue.id}
+        end
+
+        it "responds with json" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["has_read"]).to eq false
+          expect(body["read_count"]).to eq 0
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You unread Test Comic - Issue 1."
+        end
+
+        it "destroys the read issue" do
+          expect(user.read_issues.count).to eq 0
+        end
+      end
+    end
+  end
+
+  describe "POST /collect" do
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
+    context "when the user is not logged in" do
+      let(:xhr) { false }
+
+      it "redirects to the sign in page" do
+        post collect_comic_issue_path("1", comic_id: comic.id)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:xhr) { false }
+
+      before do
+        sign_in user
+      end
+
+      context "when issue does not exist" do
+        before do
+          post collect_comic_issue_path("1", comic_id: comic.id)
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not find that issue."
+        end
+      end
+
+      context "when user previously collected" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          FactoryBot.create(:collected_issue, issue: @issue, user:)
+          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "not a datetime")
+        end
+
+        it "redirects to the issue page" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not collect this issue."
+        end
+      end
+
+      context "when collected_on is valid" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "2023-07-07 18:47:56")
+        end
+
+        it "redirects to the issue page" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully collected this issue."
+        end
+
+        it "creates a collect issue" do
+          collected_issue = user.collected_issues.last
+          expect(collected_issue.issue).to eq @issue
+          expect(collected_issue.user).to eq user
+          expect(collected_issue.collected_on).to eq Date.new(2023, 7, 7)
+        end
+      end
+
+      context "when collected_on is not specified" do
+        before do
+          freeze_time
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post collect_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "redirects to the issue page" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully collected this issue."
+        end
+
+        it "creates a collect issue with collected_on the current time" do
+          collected_issue = user.collected_issues.last
+          expect(collected_issue.issue).to eq @issue
+          expect(collected_issue.user).to eq user
+          expect(collected_issue.collected_on).to eq Date.today
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "user previously collected" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          FactoryBot.create(:collected_issue, issue: @issue, user:)
+          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "not a datetime")
+        end
+
+        it "returns valid json" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq false
+          expect(body["has_collected"]).to eq true
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "Could not collect Test Comic - Issue 1."
+        end
+      end
+
+      context "when collected_on is valid" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "2023-07-07")
+        end
+
+        it "returns json wuth a message and success status" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["has_collected"]).to eq true
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You collected Test Comic - Issue 1."
+        end
+
+        it "creates a collect issue" do
+          collected_issue = user.collected_issues.last
+          expect(collected_issue.issue).to eq @issue
+          expect(collected_issue.user).to eq user
+          expect(collected_issue.collected_on).to eq Date.new(2023, 7, 7)
+        end
+      end
+
+      context "when collected_on is not specified" do
+        before do
+          freeze_time
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          post collect_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "returns json wuth a message and success status" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["has_collected"]).to eq true
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You collected Test Comic - Issue 1."
+        end
+
+        it "creates a collect issue with collected_on the current time" do
+          collected_issue = user.collected_issues.last
+          expect(collected_issue.issue).to eq @issue
+          expect(collected_issue.user).to eq user
+          expect(collected_issue.collected_on).to eq Date.today
+        end
+      end
+    end
+  end
+
+
+  describe "POST /uncollect" do
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
+    context "when the user is not logged in" do
+      let(:xhr) { false }
+
+      it "redirects to the sign in page" do
+        post uncollect_comic_issue_path("1", comic_id: comic.id)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:xhr) { false }
+
+      before do
+        sign_in user
+      end
+
+      context "when issue does not exist" do
+        before do
+          post uncollect_comic_issue_path("1", comic_id: comic.id)
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "Could not find that issue."
+        end
+      end
+
+      context "when the issue is not collected" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          post uncollect_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "You have not collected this issue."
+        end
+      end
+
+      context "when user is authorised to uncollect this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+          @collected = FactoryBot.create(:collected_issue, issue: @issue, user:)
+          post uncollect_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "redirects to the issue path" do
+          expect(response).to redirect_to comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully uncollected this issue."
+        end
+
+        it "destroys the collected item" do
+          expect(user.collected_issues.count).to eq 0
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "when user is authorised to uncollect this issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+          @collected = FactoryBot.create(:collected_issue, issue: @issue, user:)
+          post uncollect_comic_issue_path(@issue, comic_id: comic.id)
+        end
+
+        it "responds with json" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["has_collected"]).to eq false
+          expect(body["issue"]).to eq @issue.id
+          expect(body["message"]).to eq "You uncollected Test Comic - Issue 1."
+        end
+
+        it "destroys the collected item" do
+          expect(user.collected_issues.count).to eq 0
         end
       end
     end
