@@ -21,7 +21,7 @@ export default class extends Controller {
   UNCOLLECT_BUTTON_CLASSES = ['group', 'hover:bg-[#47bcea]']
 
   COLLECT_ICON_CLASSES = ['text-white']
-  UNCOLLECT_ICON_CLASSES = ['text-[#47bcea', 'group-hover:text-white']
+  UNCOLLECT_ICON_CLASSES = ['text-[#47bcea]', 'group-hover:text-white']
 
   connect (): void {
     this.updateClasses()
