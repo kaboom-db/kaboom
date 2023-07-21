@@ -20,7 +20,7 @@ export default class extends BaseActionController {
 
   trigger (): void {
     const url = this.statusValue ? `${this.baseurlValue}/unfavourite` : `${this.baseurlValue}/favourite`
-    this.sendRequestV2(url, {}, this.handleData.bind(this), this.handleError.bind(this))
+    this.sendRequest(url, {}, this.handleData.bind(this), this.handleError.bind(this))
   }
 
   handleError (error: Error): void {

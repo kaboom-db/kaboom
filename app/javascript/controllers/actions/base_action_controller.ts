@@ -27,7 +27,7 @@ export default class extends Controller {
     this.updateClasses()
   }
 
-  sendRequestV2 (url: string, data: object = {}, handleData: (data: ResponseData) => void, handleError: (error: Error) => void): void {
+  sendRequest (url: string, data: object = {}, handleData: (data: ResponseData) => void, handleError: (error: Error) => void): void {
     const token = getToken()
     const options = {
       method: 'POST',

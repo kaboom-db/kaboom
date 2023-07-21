@@ -30,7 +30,7 @@ export default class extends BaseActionController {
     this.collectedOnInputTarget.value = date.toISOString().substring(0, 10)
 
     if (this.statusValue) {
-      this.sendRequestV2(`${this.baseurlValue}/uncollect`, {}, this.handleData.bind(this), this.handleError.bind(this))
+      this.sendRequest(`${this.baseurlValue}/uncollect`, {}, this.handleData.bind(this), this.handleError.bind(this))
     } else {
       this.dialogTarget.showModal()
     }
@@ -64,7 +64,7 @@ export default class extends BaseActionController {
 
   async markAsCollected (): Promise<void> {
     this.errorTarget.classList.add('hidden')
-    this.sendRequestV2(`${this.baseurlValue}/collect`, { collected_on: this.collectedOnInputTarget.value }, this.handleData.bind(this), this.handleError.bind(this))
+    this.sendRequest(`${this.baseurlValue}/collect`, { collected_on: this.collectedOnInputTarget.value }, this.handleData.bind(this), this.handleError.bind(this))
   }
 
   closeDialog (): void {

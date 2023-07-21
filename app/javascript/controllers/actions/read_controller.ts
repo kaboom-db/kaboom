@@ -38,7 +38,7 @@ export default class extends BaseActionController {
     this.errorTarget.classList.add('hidden')
     const readAt = convertToUtc(this.readAtInputTarget.value)
     const url = `${this.baseurlValue}/read`
-    this.sendRequestV2(url, { read_at: readAt }, this.handleData.bind(this), this.handleError.bind(this))
+    this.sendRequest(url, { read_at: readAt }, this.handleData.bind(this), this.handleError.bind(this))
   }
 
   handleError (error: Error): void {
