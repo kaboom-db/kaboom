@@ -1,68 +1,41 @@
-import { Controller } from '@hotwired/stimulus'
-import { sendRequest } from '../../common/request'
+import BaseActionController from './base_action_controller'
 import { sendMessage } from '../../common/sendMessage'
+import { ResponseData } from '../../types/response_data'
+
+interface WishlistData extends ResponseData {
+  wishlisted: boolean
+}
 
 // Connects to data-controller="wishlist"
-export default class extends Controller {
-  static targets = ['button', 'icon']
-  static values = { status: Boolean, baseurl: String }
-
-  declare readonly buttonTarget: HTMLButtonElement
-  declare readonly iconTarget: HTMLElement
-
-  declare statusValue: boolean
-  declare baseurlValue: string
-
-  WISHLIST_BUTTON_CLASSES = ['bg-[#fdbd7d]']
-  UNWISHLIST_BUTTON_CLASSES = ['group', 'hover:bg-[#fdbd7d]']
-
-  WISHLIST_ICON_CLASSES = ['text-white']
-  UNWISHLIST_ICON_CLASSES = ['text-[#fdbd7d', 'group-hover:text-white']
-
+export default class extends BaseActionController {
   connect (): void {
-    this.updateClasses()
+    this.ON_BUTTON_CLASSES = ['bg-[#fdbd7d]']
+    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#fdbd7d]']
+
+    this.ON_ICON_CLASSES = ['text-white']
+    this.OFF_ICON_CLASSES = ['text-[#fdbd7d]', 'group-hover:text-white']
+
+    super.connect()
   }
 
-  setStatus (newStatus: boolean): void {
-    this.statusValue = newStatus
-    this.updateClasses()
-  }
-
-  async trigger (): Promise<void> {
+  trigger (): void {
     const url = this.statusValue ? `${this.baseurlValue}/unwishlist` : `${this.baseurlValue}/wishlist`
-
-    try {
-      const response = await sendRequest(url)
-      if (response.status === 200 || response.status === 204) {
-        const json = await response.json()
-        if (json.success) {
-          this.setStatus(json.wishlisted)
-          sendMessage(json.message, '#fdbd7d', 'fa-cake-candles')
-        } else {
-          sendMessage(json.message, 'red', 'fa-cake-candles')
-        }
-      } else {
-        throw Error('Unsuccessful response')
-      }
-    } catch (error) {
-      console.log(error)
-      sendMessage(`Could not ${this.statusValue ? 'unwishlist' : 'wishlist'} this.`, 'red', 'fa-cake-candles')
-    }
+    this.sendRequestV2(url, {}, this.handleData.bind(this), this.handleError.bind(this))
   }
 
-  updateClasses (): void {
-    if (this.statusValue) {
-      this.buttonTarget.classList.remove(...this.UNWISHLIST_BUTTON_CLASSES)
-      this.buttonTarget.classList.add(...this.WISHLIST_BUTTON_CLASSES)
+  handleError (error: Error): void {
+    console.log(error)
+    sendMessage(`Could not ${this.statusValue ? 'unwishlist' : 'wishlist'} this.`, 'red', 'fa-cake-candles')
+  }
 
-      this.iconTarget.classList.remove(...this.UNWISHLIST_ICON_CLASSES)
-      this.iconTarget.classList.add(...this.WISHLIST_ICON_CLASSES)
+  handleData (data: ResponseData): void {
+    const response = data as WishlistData
+
+    if (response.success) {
+      this.setStatus(response.wishlisted)
+      sendMessage(response.message, '#fdbd7d', 'fa-cake-candles')
     } else {
-      this.buttonTarget.classList.add(...this.UNWISHLIST_BUTTON_CLASSES)
-      this.buttonTarget.classList.remove(...this.WISHLIST_BUTTON_CLASSES)
-
-      this.iconTarget.classList.add(...this.UNWISHLIST_ICON_CLASSES)
-      this.iconTarget.classList.remove(...this.WISHLIST_ICON_CLASSES)
+      sendMessage(response.message, 'red', 'fa-cake-candles')
     }
   }
 }
