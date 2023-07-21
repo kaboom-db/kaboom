@@ -1,36 +1,29 @@
-import { Controller } from '@hotwired/stimulus'
-import { sendRequest } from '../../common/request'
+import BaseActionController from './base_action_controller'
 import { convertToUtc } from '../../common/dates'
 import { sendMessage } from '../../common/sendMessage'
+import { ResponseData } from '../../types/response_data'
+
+interface ReadData extends ResponseData {
+  read_count: number
+}
 
 // Connects to data-controller="read"
-export default class extends Controller {
-  static targets = ['button', 'icon', 'dialog', 'readAtSubmit', 'readAtInput', 'error']
-  static values = { status: Boolean, baseurl: String }
+export default class extends BaseActionController {
+  static targets = ['dialog', 'readAtSubmit', 'readAtInput', 'error']
 
-  declare readonly buttonTarget: HTMLButtonElement
-  declare readonly iconTarget: HTMLElement
   declare readonly dialogTarget: HTMLDialogElement
   declare readonly readAtSubmitTarget: HTMLButtonElement
   declare readonly readAtInputTarget: HTMLInputElement
   declare readonly errorTarget: HTMLElement
 
-  declare statusValue: boolean
-  declare baseurlValue: string
-
-  READ_BUTTON_CLASSES = ['bg-[#ff6961]']
-  UNREAD_BUTTON_CLASSES = ['group', 'hover:bg-[#ff6961]']
-
-  READ_ICON_CLASSES = ['text-white']
-  UNREAD_ICON_CLASSES = ['text-[#ff6961', 'group-hover:text-white']
-
   connect (): void {
-    this.updateClasses()
-  }
+    this.ON_BUTTON_CLASSES = ['bg-[#ff6961]']
+    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#ff6961]']
 
-  setStatus (newStatus: boolean): void {
-    this.statusValue = newStatus
-    this.updateClasses()
+    this.ON_ICON_CLASSES = ['text-white']
+    this.OFF_ICON_CLASSES = ['text-[#ff6961]', 'group-hover:text-white']
+
+    super.connect()
   }
 
   trigger (): void {
@@ -41,45 +34,31 @@ export default class extends Controller {
     this.dialogTarget.showModal()
   }
 
-  async markAsRead (): Promise<void> {
+  markAsRead (): void {
     this.errorTarget.classList.add('hidden')
-    try {
-      const readAt = convertToUtc(this.readAtInputTarget.value)
-      const response = await sendRequest(`${this.baseurlValue}/read`, { read_at: readAt })
-      if (response.status === 200 || response.status === 204) {
-        const json = await response.json()
-        this.setStatus(json.read_count > 0)
-        if (json.success) {
-          sendMessage(json.message, '#ff6961', 'fa-check')
-          this.closeDialog()
-        } else {
-          this.errorTarget.classList.remove('hidden')
-        }
-      } else {
-        this.errorTarget.classList.remove('hidden')
-      }
-    } catch (error) {
-      console.log(error)
+    const readAt = convertToUtc(this.readAtInputTarget.value)
+    const url = `${this.baseurlValue}/read`
+    this.sendRequestV2(url, { read_at: readAt }, this.handleData.bind(this), this.handleError.bind(this))
+  }
+
+  handleError (error: Error): void {
+    console.log(error)
+    this.errorTarget.classList.remove('hidden')
+  }
+
+  handleData (data: ResponseData): void {
+    const response = data as ReadData
+
+    this.setStatus(response.read_count > 0)
+    if (response.success) {
+      sendMessage(response.message, '#ff6961', 'fa-check')
+      this.closeDialog()
+    } else {
+      this.errorTarget.classList.remove('hidden')
     }
   }
 
   closeDialog (): void {
     this.dialogTarget.close()
-  }
-
-  updateClasses (): void {
-    if (this.statusValue) {
-      this.buttonTarget.classList.remove(...this.UNREAD_BUTTON_CLASSES)
-      this.buttonTarget.classList.add(...this.READ_BUTTON_CLASSES)
-
-      this.iconTarget.classList.remove(...this.UNREAD_ICON_CLASSES)
-      this.iconTarget.classList.add(...this.READ_ICON_CLASSES)
-    } else {
-      this.buttonTarget.classList.add(...this.UNREAD_BUTTON_CLASSES)
-      this.buttonTarget.classList.remove(...this.READ_BUTTON_CLASSES)
-
-      this.iconTarget.classList.add(...this.UNREAD_ICON_CLASSES)
-      this.iconTarget.classList.remove(...this.READ_ICON_CLASSES)
-    }
   }
 }
