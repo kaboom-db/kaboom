@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
-import { ResponseData } from '../types/response_data'
-import { getToken } from '../common/token'
+import { ResponseData } from '../../types/response_data'
+import { getToken } from '../../common/token'
 
 export default class extends Controller {
   static targets = ['button', 'icon']

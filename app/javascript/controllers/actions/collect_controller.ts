@@ -1,6 +1,6 @@
 import BaseActionController from './base_action_controller'
-import { sendMessage } from '../common/sendMessage'
-import { ResponseData } from '../types/response_data'
+import { sendMessage } from '../../common/sendMessage'
+import { ResponseData } from '../../types/response_data'
 
 interface CollectData extends ResponseData {
   has_collected: boolean

@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
-import { sendRequest } from '../common/request'
-import { sendMessage } from '../common/sendMessage'
+import { sendRequest } from '../../common/request'
+import { sendMessage } from '../../common/sendMessage'
 
 // Connects to data-controller="favourite"
 export default class extends Controller {

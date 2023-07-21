@@ -4,15 +4,15 @@
 
 import { application } from './application'
 
-import CollectController from './collect_controller'
+import CollectController from './actions/collect_controller'
 import DialogController from './dialog_controller'
-import FavouriteController from './favourite_controller'
+import FavouriteController from './actions/favourite_controller'
 import HistoryChartController from './history_chart_controller'
 import HistoryItemController from './history_item_controller'
 import LocalTimeController from './local_time_controller'
-import ReadController from './read_controller'
+import ReadController from './actions/read_controller'
 import SwiperController from './swiper_controller'
-import WishlistController from './wishlist_controller'
+import WishlistController from './actions/wishlist_controller'
 
 application.register('collect', CollectController)
 application.register('dialog', DialogController)

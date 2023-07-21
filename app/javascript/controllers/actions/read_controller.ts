@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
-import { sendRequest } from '../common/request'
-import { convertToUtc } from '../common/dates'
-import { sendMessage } from '../common/sendMessage'
+import { sendRequest } from '../../common/request'
+import { convertToUtc } from '../../common/dates'
+import { sendMessage } from '../../common/sendMessage'
 
 // Connects to data-controller="read"
 export default class extends Controller {
