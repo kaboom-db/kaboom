@@ -517,7 +517,6 @@ RSpec.describe "/issues", type: :request do
     end
   end
 
-
   describe "POST /uncollect" do
     let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
     let(:user) { FactoryBot.create(:user, :confirmed) }

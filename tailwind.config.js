@@ -16,8 +16,8 @@ module.exports = {
         'secondary-light': 'rgb(249, 213, 162)'
       },
       animation: {
-        fadeOut: 'fadeOut 0.5s ease-in-out',
-        fadeIn: 'fadeIn 0.5s ease-in-out'
+        fadeOut: 'fadeOut 0.5s ease-in-out forwards',
+        fadeIn: 'fadeIn 0.5s ease-in-out forwards'
       },
       keyframes: {
         fadeOut: {
