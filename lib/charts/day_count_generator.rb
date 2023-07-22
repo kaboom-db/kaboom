@@ -11,7 +11,8 @@ module Charts
       {
         labels:,
         datasets: [
-          issue_count
+          issue_count,
+          collection_count
         ]
       }
     end
@@ -24,6 +25,14 @@ module Charts
       end
 
       dataset(data, "255, 95, 109", "Read issues")
+    end
+
+    def collection_count
+      data = counts do |day|
+        CollectedIssue.where(collected_on: day, user:).count
+      end
+
+      dataset(data, "71, 188, 234", "Collected issues")
     end
 
     def counts
