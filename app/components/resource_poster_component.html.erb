@@ -1,7 +1,7 @@
 <%= link_to @resource_path, data: {"turbo-frame": "_top"} do %>
   <div class="w-[149px]">
-    <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary mb-2">
-      <div class="relative overflow-hidden h-[185px] rounded-lg">
+    <div class="p-1.5 rounded-sm bg-primary mb-2">
+      <div class="relative overflow-hidden h-[185px] rounded-sm">
         <img src="<%= @resource.image %>" alt="" />
         <% if @resource.respond_to?(:start_year) %>
           <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block bottom-2 right-2"><%= @resource.start_year %></div>

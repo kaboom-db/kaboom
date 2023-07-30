@@ -1,7 +1,7 @@
 <div data-controller="history-item"
      data-history-item-read-id-value="<%= @read_issue.id %>"
      data-history-item-baseurl-value="<%= comic_issue_path(@issue, comic_id: @comic.id) %>">
-  <%= render GradientBorderComponent.new do %>
+  <%= render BorderComponent.new do %>
     <div class="flex gap-4">
       <div class="h-16 w-16 min-w-[4rem] overflow-hidden rounded-md">
         <img src="<%= @issue.image %>" class="w-full">
@@ -21,7 +21,7 @@
       </div>
     </div>
     <dialog data-history-item-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm" >
-      <%= render GradientBorderComponent.new do %>
+      <%= render BorderComponent.new do %>
         <h5 class="text-xl font-bold">Are you sure you want to remove this?</h1>
         <div class="my-4 flex flex-col gap-4">
           <p>This action will <b>not</b> remove all history for this issue, only this specific one.</p>

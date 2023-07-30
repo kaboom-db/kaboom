@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: 'class',
   content: [
     './app/components/**/*.erb',
     './app/views/**/*.html.erb',
@@ -10,10 +11,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(255, 95, 109)',
-        'primary-light': 'rgb(252, 153, 162)',
-        secondary: 'rgb(255, 195, 113)',
-        'secondary-light': 'rgb(249, 213, 162)'
+        primary: '#ef6461',
+        'primary-light': '#e58b89',
+        secondary: '#e4b363'
       },
       animation: {
         fadeOut: 'fadeOut 0.5s ease-in-out forwards',
@@ -28,6 +28,9 @@ module.exports = {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' }
         }
+      },
+      transitionProperty: {
+        width: 'width'
       }
     },
     fontFamily: {

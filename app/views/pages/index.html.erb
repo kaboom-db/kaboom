@@ -1,4 +1,9 @@
-<div class="my-6 flex flex-col gap-4">
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "Kaboom") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+<div class="flex flex-col gap-4">
   <h3 class="text-2xl">The ultimate comics tracker.</h3>
   <p>Kaboom is a database of comics. It contains information about comic series and individual issues. You can also create an account and track the issues that you have read.</p>
   <%= render LinkComponent.new(text: "Create your account!", href: new_registration_path(User)) %>
@@ -25,7 +30,9 @@
     </div>
   </div>
 </div>
-<div class="my-6">
+<% end %>
+
+<%= render SectionComponent.new do %>
   <h3 class="text-2xl">Apps & Integrations</h3>
   <div class="h-56 flex items-center justify-center">Coming soon</div>
-</div>
+<% end %>

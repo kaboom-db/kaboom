@@ -7,6 +7,6 @@ RSpec.describe "issues/index", type: :view do
 
   it "renders a list of issues" do
     render
-    assert_select "div.bg-gradient-to-r", text: "Issues:"
+    assert_select "h1.text-4xl", text: "Issues"
   end
 end

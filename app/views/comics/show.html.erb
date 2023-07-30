@@ -1,42 +1,31 @@
-<div class="my-6">
-  <div class="grid grid-cols-1 sm:grid-cols-3">
-    <div class="col-span-1">
-      <%= render partial: "sidebar", locals: {comic: @comic} %>
-    </div>
-    <div class="col-span-1 sm:col-span-2">
-      <%= render ChipHeaderComponent.new(text: "#{@comic.name}") %>
-      <div class="flex flex-col gap-4 mb-4">
-        <%= render GradientBorderComponent.new do %>
-          <div class="flex flex-wrap justify-around">
-            <div class="p-4 flex flex-col text-center w-auto">
-              <p class="font-bold">Start Year:</p>
-              <p><%= @comic.start_year %></p>
-            </div>
-            <div class="p-4 flex flex-col text-center w-auto">
-              <p class="font-bold">Publisher:</p>
-              <p><%= @comic.publisher %></p>
-            </div>
-            <div class="p-4 flex flex-col text-center w-auto">
-              <p class="font-bold">Issues:</p>
-              <p><%= @comic.count_of_issues %></p>
-            </div>
-          </div>
-        <% end %>
-        <%= render GradientBorderComponent.new do %>
-          <% if @comic.deck.present? %>
-            <p class="font-bold text-xl mb-4"><%= @comic.deck %></p>
-          <% end %>
-          <div class="flex flex-col gap-2 resource-description">
-            <%= safe_description(description: @comic.description) %>
-          </div>
-        <% end %>
-      </div>
-      <%= render ChipHeaderComponent.new(text: "Issues") %>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <% @comic.ordered_issues.each do |issue| %>
-          <%= render ResourceTileControlComponent.new(issue:, user: current_user, read_at: nil) %>
-        <% end %>
-      </div>
+<%= render SectionComponent.new do %>
+  <div class="rounded-sm bg-cover bg-no-repeat" style="background-image: url('<%= @comic.image %>');">
+    <div class="flex flex-col gap-4 p-[3rem] bg-black/60 backdrop-blur-md">
+      <%= render PageTitleComponent.new(text: @comic.name) %>
+      <p class="text-lg text-white"><b class="text-white">Start year:</b> <%= @comic.start_year %></p>
+      <p class="text-lg text-white"><b class="text-white">Publisher:</b> <%= @comic.publisher %></p>
+      <p class="text-lg text-white"><b class="text-white">Issue count:</b> <%= @comic.count_of_issues %></p>
     </div>
   </div>
-</div>
+  <%= render Actions::ActionsComponent.new(resource: @comic, user: current_user) %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render BorderComponent.new do %>
+    <% if @comic.deck.present? %>
+      <p class="font-bold text-xl mb-4"><%= @comic.deck %></p>
+    <% end %>
+    <div class="flex flex-col gap-2 resource-description">
+      <%= safe_description(description: @comic.description) %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Issues") %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+    <% @comic.ordered_issues.each do |issue| %>
+      <%= render ResourceTileControlComponent.new(issue:, user: current_user, read_at: nil) %>
+    <% end %>
+  </div>
+<% end %>

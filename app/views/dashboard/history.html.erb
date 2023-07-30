@@ -1,4 +1,8 @@
-<div class="my-6">
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "History") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
   <%= paginate @issue_history %>
   <% @issue_history_grouped.each_pair do |day, history| %>
     <div class="my-6">
@@ -11,4 +15,4 @@
     </div>
   <% end %>
   <%= paginate @issue_history %>
-</div>
+<% end %>

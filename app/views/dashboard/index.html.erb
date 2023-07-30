@@ -1,29 +1,33 @@
-<div class="my-6">
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "Dashboard") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
   <div class="grid grid-cols-2 gap-4">
     <%= link_to dashboard_history_path do %>
-      <div class="group p-1.5 rounded-lg h-full bg-[#ff6961]">
-        <div class="bg-white rounded-lg p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
+      <div class="group p-1.5 h-full bg-[#ff6961]">
+        <div class="bg-[#ff8f89] p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
           <div class="h-32 flex flex-col justify-center items-center">
-            <p class="text-4xl font-bold text-[#ff6961] group-hover:text-white transition duration-300 ease-in-out"><%= @issues_read %></p>
+            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= @issues_read %></p>
           </div>
-          <p class="text-xl font-bold text-[#ff6961] group-hover:text-white transition duration-300 ease-in-out">Issues read</p>
+          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Issues read</p>
         </div>
       </div>
     <% end %>
     <%= link_to "#" do %>
-      <div class="group p-1.5 rounded-lg h-full bg-[#47bcea]">
-        <div class="bg-white rounded-lg p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
+      <div class="group p-1.5 h-full bg-[#47bcea]">
+        <div class="bg-[#7bc3e0] p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
           <div class="h-32 flex flex-col justify-center items-center">
-            <p class="text-4xl font-bold text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out"><%= @issues_collected %></p>
+            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= @issues_collected %></p>
           </div>
-          <p class="text-xl font-bold text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out">Collected</p>
+          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Collected</p>
         </div>
       </div>
     <% end %>
   </div>
-</div>
+<% end %>
 
-<div class="my-6">
+<%= render SectionComponent.new do %>
   <div class="flex justify-between items-center">
     <%= render ChipHeaderComponent.new(text: "Your history") %>
     <a href="<%= dashboard_history_path %>" class="underline">
@@ -35,8 +39,11 @@
       <%= render ResourceTileControlComponent.new(issue: issue_history.issue, user: current_user, read_at: issue_history.read_at) %>
     <% end %>
   </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
   <%= render ChipHeaderComponent.new(text: "Last 15 days") %>
   <div class="mt-4" data-controller="history-chart" data-history-chart-data-value="<%= @chart_data.to_json %>" data-history-chart-type-value="bar">
     <canvas data-history-chart-target="canvas" class="w-full h-64"></canvas>
   </div>
-</div>
+<% end %>

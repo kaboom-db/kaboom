@@ -1,62 +1,52 @@
-<nav class="bg-gradient-to-r from-primary to-secondary fixed top-0 w-full z-10">
-  <div class="mx-auto px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button-->
-        <button id="mobileButtonCollapse" type="button" class="inline-flex items-center justify-center rounded p-2 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black" aria-controls="mobile-menu" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex flex-shrink-0 items-center">
-          <%= image_tag "logo-black.svg", class: "block h-8 w-auto lg:hidden", alt: "Kaboom" %>
-          <%= image_tag "logo-black.svg", class: "hidden h-8 w-auto lg:block", alt: "Kaboom" %>
-        </div>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="<%= root_path %>" class="text-gray-800 hover:text-black hover:text-black px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
-            <a href="<%= comics_path %>" class="text-gray-800 hover:text-black hover:text-black px-3 py-2 rounded-md text-sm font-medium">Comics</a>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 hidden sm:block sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <% if user_signed_in? %>
-          <%= button_to "<i class='fa-solid fa-right-from-bracket'></i>".html_safe, destroy_user_session_path, method: :delete, class: "text-gray-800 hover:text-black hover:text-black px-3 py-2 rounded-md text-sm font-medium" %>
-        <% else %>
-          <a href="<%= new_user_session_path %>" class="text-gray-800 hover:text-black hover:text-black px-3 py-2 rounded-md text-sm font-medium">Log in</a>
-          <a href="<%= new_registration_path(User) %>" class="text-gray-800 hover:text-black hover:text-black px-3 py-2 rounded-md text-sm font-medium">Sign up</a>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-  <div class="hidden" id="mobile-menu">
-    <div class="space-y-1 px-2 pb-3 pt-2">
-      <a href="<%= root_path %>" class="px-3 py-2 rounded-md text-sm font-medium block text-base">Home</a>
-      <a href="<%= comics_path %>" class="px-3 py-2 rounded-md text-sm font-medium block text-base">Comics</a>
+<aside class="z-10 hidden sm:flex overflow-hidden bg-primary w-16 hover:w-[200px] drop-shadow-none hover:drop-shadow-2xl fixed left-0 top-0 h-screen py-[50px] transition-width duration-300 ease-in-out">
+  <div class="h-full w-full flex flex-col justify-between">
+    <div class="flex flex-col">
+      <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard") %>
+      <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues") %>
       <% if user_signed_in? %>
-        <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "px-3 py-2 rounded-md text-sm font-medium block text-base" %>
+        <%= render NavButtonComponent.new(href: "#", icon: "user", text: "Profile") %>
       <% else %>
-        <a href="<%= new_user_session_path %>" class="px-3 py-2 rounded-md text-sm font-medium block text-base">Log in</a>
-        <a href="<%= new_registration_path(User) %>" class="px-3 py-2 rounded-md text-sm font-medium block text-base">Sign up</a>
+        <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join") %>
       <% end %>
     </div>
+    <div class="flex flex-col">
+      <% if user_signed_in? %>
+        <%= button_to destroy_user_session_path, method: :delete, class: "w-full flex items-center hover:bg-secondary transition duration-300 ease-in-out" do %>
+          <div class="min-w-[4rem] h-16 w-16 flex justify-center items-center">
+            <i class="text-xl fa-solid fa-right-from-bracket"></i>
+          </div>
+          <div class="whitespace-nowrap font-bold">Log out</div>
+        <% end %>
+      <% end %>
+      <%= render NavButtonComponent.new(href: "#", icon: "gear", text: "Settings") %>
+    </div>
   </div>
-</nav>
-
-<script>
-  var hidden = true;
-  document.getElementById("mobileButtonCollapse").addEventListener("click", () => {
-    var menu = document.getElementById("mobile-menu");
-    if (hidden === true) {
-      menu.classList.remove("hidden");
-    } else {
-      menu.classList.add("hidden");
-    }
-    hidden = !hidden
-  });
-</script>
+</aside>
+<!-- Mobile navbar -->
+<div class="h-16 sm:hidden px-[50px] bg-primary">
+  <div class="w-full w-full flex justify-between">
+    <div class="flex">
+      <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
+      <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues", mobile: true) %>
+      <a href="<%= user_signed_in? ? "#" : new_user_session_path %>" class="flex items-center hover:bg-secondary transition duration-300 ease-in-out">
+        <div class="min-w-[4rem] h-16 w-16 flex justify-center items-center">
+          <i class="text-xl fa-solid fa-user"></i>
+        </div>
+      </a>
+    </div>
+    <div class="flex">
+      <% if user_signed_in? %>
+        <%= button_to destroy_user_session_path, method: :delete, class: "w-full flex items-center hover:bg-secondary transition duration-300 ease-in-out" do %>
+          <div class="min-w-[4rem] h-16 w-16 flex justify-center items-center">
+            <i class="text-xl fa-solid fa-right-from-bracket"></i>
+          </div>
+        <% end %>
+      <% end %>
+      <a href="#" class="flex items-center hover:bg-secondary transition duration-300 ease-in-out">
+        <div class="min-w-[4rem] h-16 w-16 flex justify-center items-center">
+          <i class="text-xl fa-solid fa-gear"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

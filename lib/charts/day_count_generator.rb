@@ -56,7 +56,7 @@ module Charts
         borderColor: [
           "rgba(#{rgb}, 1)"
         ],
-        borderRadius: 8,
+        borderRadius: 2,
         data:
       }
     end

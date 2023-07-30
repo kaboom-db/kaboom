@@ -1,14 +1,14 @@
-<div>
-  <%= link_to comic_issue_path(@issue, comic_id: @comic.id), data: {"turbo-frame": "_top"} do %>
-    <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary">
-      <div class="relative w-[100%] pb-[100%] h-[0] overflow-hidden rounded-lg">
+<div class="hover:-translate-y-2 transition duration-300 ease-in-out">
+  <div class="p-1.5 rounded-sm bg-gray-200 hover:bg-gray-300 drop-shadow-lg transition duration-300 ease-in-out">
+    <%= link_to comic_issue_path(@issue, comic_id: @comic.id), data: {"turbo-frame": "_top"} do %>
+      <div class="relative w-[100%] pb-[100%] h-[0] overflow-hidden rounded-sm">
         <img src="<%= @issue.image %>" alt="" class="w-full" />
         <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block bottom-2 right-2">#<%= @issue.formatted_issue_number %></div>
         <% if @read_at.present? %>
           <div class="bg-primary px-2 py-1 text-xs font-bold absolute rounded inline-block top-2 right-2" data-controller="local-time" data-local-time-utc-value="<%= @read_at %>"><%= @read_at.strftime('%e %b %H:%M') %></div>
         <% end %>
       </div>
-    </div>
-  <% end %>
-  <%= render Actions::ActionsComponent.new(resource: @issue, user: @user) %>
+    <% end %>
+    <%= render Actions::ActionsComponent.new(resource: @issue, user: @user) %>
+  </div>
 </div>

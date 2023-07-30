@@ -1,4 +1,8 @@
-<div class="my-6">
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "Discover") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
   <div class="mb-4">
     <form action="<%= comics_path %>" method="get" data-turbo-frame="search">
       <%= render TextInputComponent.new(name: "search") %>
@@ -18,10 +22,12 @@
       </div>
     <% end %>
   <% end %>
+<% end %>
 
+<%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
-    <%= render GradientBorderComponent.new do %>
+    <%= render BorderComponent.new do %>
       <div class="swiper" data-controller="swiper" data-swiper-target="container">
         <div class="swiper-wrapper">
           <% @trending.each_with_index do |comic, index| %>
@@ -48,7 +54,9 @@
       </div>
     <% end %>
   </div>
+<% end %>
 
+<%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
@@ -57,10 +65,12 @@
       <% end %>
     </div>
   </div>
+<% end %>
 
+<%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Trending Issues") %>
-    <%= render GradientBorderComponent.new do %>
+    <%= render BorderComponent.new do %>
       <div class="swiper" data-controller="swiper" data-swiper-target="container">
         <div class="swiper-wrapper">
           <% @trending_issues.each do |issue| %>
@@ -87,7 +97,9 @@
       </div>
     <% end %>
   </div>
+<% end %>
 
+<%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Issues") %>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
@@ -96,4 +108,4 @@
       <% end %>
     </div>
   </div>
-</div>
+<% end %>

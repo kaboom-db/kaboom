@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head class="dark">
     <title>Kaboom</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -14,44 +14,56 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-    <script src="https://kit.fontawesome.com/f1da3ec963.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/eb574cc0ee.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+    <script>
+      // TODO: Remove this debug feature
+      let dark = false
+
+      document.onkeydown = function(e){
+        e = e || window.event;
+        var key = e.which || e.keyCode;
+        if(key===84){
+          if (dark) {
+            document.childNodes[1].classList.remove("dark")
+          } else {
+            document.childNodes[1].classList.add("dark")
+          }
+          dark = !dark
+        }
+      }
+    </script>
   </head>
 
-  <body>
-    <%= render "layouts/navbar" %>
-    <main class="pt-16 min-h-screen">
-      <% if @header %>
-        <div class="p-12 bg-gradient-to-r from-primary to-secondary">
-          <h1 class="font-bold text-4xl text-center"><%= @header %></h1>
-        </div>
-      <% end %>
-      <%= yield :custom_header %>
-      <div class="mx-auto max-w-7xl px-4">
+  <body class="bg-white dark:bg-black transition duration-300 ease-in-out">
+    <main class="min-h-screen">
+      <%= render "layouts/navbar" %>
+      <div class="ml-[3rem] sm:ml-[7rem] mt-[3rem] mr-[3rem]">
         <%= render "layouts/flash" %>
         <%= yield %>
         <dialog data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="importComic" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
-          <%= render GradientBorderComponent.new do %>
+          <%= render BorderComponent.new do %>
             <h5 class="text-xl font-bold">Import a comic</h1>
             <%= form_tag(import_comics_path, method: "post", class: "my-4 flex flex-col gap-4") do |form| %>
               <%= render TextInputComponent.new(name: "comicvine_id", placeholder: "ComicVine ID") %>
               <small class="max-w-[400px] break-words">You can find the ComicVine ID at the end of the URL, e.g. <code class="p-1 bg-gray-200 rounded">http://comicvine.gamespot.com/&lt;name&gt;/4050-&lt;id&gt;/</code></small>
 
-              <%= submit_tag "Import", class: "inline-block py-1.5 px-3 bg-primary rounded-md text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out" %>
+              <%= submit_tag "Import", class: "inline-block py-1.5 px-3 bg-primary rounded-sm text-white border-2 border-primary hover:bg-secondary hover:text-primary cursor-pointer transition duration-300 ease-in-out" %>
             <% end %>
             <button onclick="importComic.close();" class="text-hint underline py-4">Cancel</button>
           <% end %>
         </dialog>
-      </div>
-      <div class="relative pointer-events-none">
-        <div class="fixed right-5 bottom-5">
-          <div class="flex flex-col gap-4 items-end" id="notifContainer"></div>
+        <div class="relative pointer-events-none">
+          <div class="fixed right-5 bottom-5">
+            <div class="flex flex-col gap-4 items-end" id="notifContainer"></div>
+          </div>
         </div>
       </div>
     </main>
-    <footer class="bg-gradient-to-r from-primary to-secondary text-white text-sm mt-6">
-      <div class=" mx-auto max-w-7xl p-4">
+    <footer class="bg-secondary pl-[7rem] text-sm mt-6 py-6">
+      <div class="mx-auto">
         <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
         developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a> ·
         <button onclick="importComic.showModal();" class="text-hint underline">Import</button>

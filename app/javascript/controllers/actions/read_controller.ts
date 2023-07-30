@@ -18,7 +18,7 @@ export default class extends BaseActionController {
 
   connect (): void {
     this.ON_BUTTON_CLASSES = ['bg-[#ff6961]']
-    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#ff6961]']
+    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#ff6961]', 'bg-white']
 
     this.ON_ICON_CLASSES = ['text-white']
     this.OFF_ICON_CLASSES = ['text-[#ff6961]', 'group-hover:text-white']

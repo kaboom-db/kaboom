@@ -1,61 +1,35 @@
-<div class="my-6">
-  <div class="grid grid-cols-1 sm:grid-cols-3">
-    <div class="col-span-1">
-      <%= render partial: "comics/sidebar", locals: {comic: @comic} %>
-    </div>
-    <div class="col-span-1 sm:col-span-2">
-      <a href="<%= comic_path(@comic) %>">
-        <i class="fa-solid fa-backward p-2"></i>Back to <%= @comic.name %>
-      </a>
-      <div class="flex flex-col gap-4 items-center mb-6 mt-4">
-        <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary w-[150px]">
-          <img src="<%= @issue.image %>" alt="" class="rounded-lg max-w-[195px] w-full height-auto" />
-        </div>
-        <h1 class="text-2xl font-bold"><%= @issue.name %></h1>
-      </div>
-
-      <div class="my-6">
-        <%= render Actions::ActionsComponent.new(resource: @issue, user: current_user) %>
-      </div>
-
-      <%= render ChipHeaderComponent.new(text: "#{@comic.name} - #{@issue.name}") %>
-      <div class="flex flex-col gap-4 mb-4">
-        <%= render GradientBorderComponent.new do %>
-          <div class="flex flex-wrap justify-around">
-            <div class="p-4 flex flex-col text-center w-auto">
-              <p class="font-bold">Issue:</p>
-              <p>#<%= @issue.formatted_issue_number %></p>
-            </div>
-            <div class="p-4 flex flex-col text-center w-auto">
-              <p class="font-bold">Cover Date:</p>
-              <p><%= @issue.cover_date %></p>
-            </div>
-            <div class="p-4 flex flex-col text-center w-auto">
-              <p class="font-bold">Store Date:</p>
-              <p><%= @issue.store_date %></p>
-            </div>
-          </div>
-        <% end %>
-        <%= render GradientBorderComponent.new do %>
-          <% if @issue.deck.present? %>
-            <p class="font-bold text-xl mb-4"><%= @issue.deck %></p>
-          <% end %>
-          <div class="flex flex-col gap-2 resource-description">
-            <%= safe_description(description: @issue.description) %>
-          </div>
-        <% end %>
-        <div>
-          <p class="font-bold">Other issues:</p>
-          <div class="flex gap-4 max-w-full overflow-auto my-4 pb-2">
-            <% @comic.ordered_issues.each do |issue| %>
-              <% classes = @issue == issue ? "font-bold" : "font-light" %>
-              <a href="<%= comic_issue_path(issue, comic_id: @comic.id) %>" class="<%= classes %>">
-                #<%= issue.formatted_issue_number %>
-              </a>
-            <% end %>
-          </div>
-        </div>
-      </div>
+<%= render SectionComponent.new do %>
+  <div class="rounded-sm bg-cover bg-no-repeat" style="background-image: url('<%= @issue.image %>');">
+    <div class="flex flex-col gap-4 p-[3rem] bg-black/60 backdrop-blur-md">
+      <a href="<%= comic_path(@comic) %>" class="text-sm underline text-primary"><%= @comic.name %></a>
+      <%= render PageTitleComponent.new(text: @issue.name) %>
+      <p class="text-lg text-white"><b class="text-white">Issue:</b> #<%= @issue.formatted_issue_number %></p>
+      <p class="text-lg text-white"><b class="text-white">Cover date:</b> <%= @issue.cover_date %></p>
+      <p class="text-lg text-white"><b class="text-white">Store date:</b> <%= @issue.store_date %></p>
     </div>
   </div>
-</div>
+  <%= render Actions::ActionsComponent.new(resource: @issue, user: current_user) %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render BorderComponent.new do %>
+    <% if @issue.deck.present? %>
+      <p class="font-bold text-xl mb-4"><%= @issue.deck %></p>
+    <% end %>
+    <div class="flex flex-col gap-2 resource-description">
+      <%= safe_description(description: @issue.description) %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <p class="font-bold">Other issues:</p>
+  <div class="flex gap-4 max-w-full overflow-auto my-4 pb-2">
+    <% @comic.ordered_issues.each do |issue| %>
+      <% classes = @issue == issue ? "font-bold" : "font-light" %>
+      <a href="<%= comic_issue_path(issue, comic_id: @comic.id) %>" class="<%= classes %>">
+        #<%= issue.formatted_issue_number %>
+      </a>
+    <% end %>
+  </div>
+<% end %>

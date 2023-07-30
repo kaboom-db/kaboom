@@ -1,6 +1,6 @@
 <%= link_to @resource_path, data: {"turbo-frame": "_top"} do %>
-  <div class="p-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary">
-    <div class="w-[100%] pb-[100%] h-[0] overflow-hidden rounded-lg">
+  <div class="p-1.5 rounded-sm bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out">
+    <div class="w-[100%] pb-[100%] h-[0] overflow-hidden rounded-sm">
       <img src="<%= @resource.image %>" alt="" class="w-full" />
     </div>
   </div>
