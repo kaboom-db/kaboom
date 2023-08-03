@@ -44,7 +44,7 @@ module Charts
     end
 
     def labels
-      num_of_days.times.map { _1.days.ago.strftime("%b %e") }.reverse
+      num_of_days.times.map { _1.days.ago.strftime("%b %-d") }.reverse
     end
 
     def dataset(data, rgb, label)

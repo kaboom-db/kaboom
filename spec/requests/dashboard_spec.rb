@@ -77,8 +77,8 @@ RSpec.describe "Dashboards", type: :request do
 
         it "shows the day sections" do
           get dashboard_history_path
-          assert_select "p.text-2xl", text: @day_1.strftime("%e %b %Y")
-          assert_select "p.text-2xl", text: @day_2.strftime("%e %b %Y")
+          assert_select "p.text-2xl", text: @day_1.strftime("%-d %b %Y")
+          assert_select "p.text-2xl", text: @day_2.strftime("%-d %b %Y")
         end
 
         it "renders all the issues" do
@@ -101,8 +101,8 @@ RSpec.describe "Dashboards", type: :request do
 
         it "only shows days when that issue was read" do
           get dashboard_history_path(issue: issue_1.id)
-          assert_select "p.text-2xl", text: @day_1.strftime("%e %b %Y")
-          assert_select "p.text-2xl", text: @day_2.strftime("%e %b %Y"), count: 0
+          assert_select "p.text-2xl", text: @day_1.strftime("%-d %b %Y")
+          assert_select "p.text-2xl", text: @day_2.strftime("%-d %b %Y"), count: 0
         end
 
         it "renders only the history for that issues" do

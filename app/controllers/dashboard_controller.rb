@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
       .page(params[:page])
       .per(30)
 
-    @issue_history_grouped = @issue_history.group_by { |h| h.read_at.strftime("%e %b %Y") }
+    @issue_history_grouped = @issue_history.group_by { |h| h.read_at.strftime("%-d %b %Y") }
   end
 
   private
