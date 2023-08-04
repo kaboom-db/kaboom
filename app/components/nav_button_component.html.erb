@@ -1,7 +1,9 @@
 <% classes = @active ? "bg-secondary" : "hover:bg-secondary transition duration-300 ease-in-out" %>
+<% button_size = @mobile ? "min-w-[3rem] h-12 w-12" : "min-w-[4rem] h-16 w-16" %>
+<% text_size = @mobile ? "text-sm" : "text-xl" %>
 <a href="<%= @href %>" class="flex items-center <%= classes %>">
-  <div class="min-w-[4rem] h-16 w-16 flex justify-center items-center">
-    <i class="text-xl fa-solid fa-<%= @icon %>"></i>
+  <div class="<%= button_size %> flex justify-center items-center">
+    <i class="<%= text_size %> fa-solid fa-<%= @icon %>"></i>
   </div>
   <% unless @mobile %>
     <div class="whitespace-nowrap font-bold"><%= @text %></div>

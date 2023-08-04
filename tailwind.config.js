@@ -13,7 +13,8 @@ module.exports = {
       colors: {
         primary: '#ef6461',
         'primary-light': '#e58b89',
-        secondary: '#e4b363'
+        secondary: '#e4b363',
+        'secondary-light': '#e8c388'
       },
       animation: {
         fadeOut: 'fadeOut 0.5s ease-in-out forwards',
