@@ -6,6 +6,9 @@
       <p class="text-lg text-white"><b class="text-white">Issue:</b> #<%= @issue.formatted_issue_number %></p>
       <p class="text-lg text-white"><b class="text-white">Cover date:</b> <%= @issue.cover_date %></p>
       <p class="text-lg text-white"><b class="text-white">Store date:</b> <%= @issue.store_date %></p>
+      <a href="<%= @issue.site_detail_url %>" class="flex font-bold w-max rounded-md text-xs bg-[#231f20] py-2 px-3">
+        <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
+      </a>
     </div>
   </div>
   <%= render Actions::ActionsComponent.new(resource: @issue, user: current_user) %>
