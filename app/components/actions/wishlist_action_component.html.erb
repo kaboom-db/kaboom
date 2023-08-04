@@ -1,10 +1,12 @@
+<% classes = @resource.is_a?(Issue) ? "border-x-none" : "border-l-2 border-r-none" %>
+
 <div data-controller="wishlist"
      data-wishlist-status-value="<%= @is_wishlisted %>"
      data-wishlist-baseurl-value="<%= @resource_path %>">
 
   <button data-wishlist-target="button"
           data-action="click->wishlist#trigger"
-          class="group bg-white inline-block w-full py-1.5 px-[5%] border-x-none border-y-2 border-[#fdbd7d] hover:bg-[#fdbd7d] cursor-pointer transition duration-300 ease-in-out">
+          class="group bg-white inline-block w-full py-1.5 px-[5%] <%= classes %> border-y-2 border-[#fdbd7d] hover:bg-[#fdbd7d] cursor-pointer transition duration-300 ease-in-out">
     <i data-wishlist-target="icon" class="fa-solid fa-cake-candles text-auto text-[#fdbd7d] group-hover:text-white transition duration-300 ease-in-out"></i>
   </button>
 
