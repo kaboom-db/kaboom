@@ -1,6 +1,9 @@
-<div class="grid grid-cols-4 w-full">
-  <%= render Actions::ReadActionComponent.new(resource: @resource, user: @user) %>
-  <%= render Actions::CollectActionComponent.new(resource: @resource, user: @user) %>
+<% is_issue = @resource.is_a?(Issue) %>
+<div class="grid <%= is_issue ? "grid-cols-4" : "grid-cols-2" %> w-full">
+  <% if is_issue %>
+    <%= render Actions::ReadActionComponent.new(resource: @resource, user: @user) %>
+    <%= render Actions::CollectActionComponent.new(resource: @resource, user: @user) %>
+  <% end %>
   <%= render Actions::WishlistActionComponent.new(resource: @resource, user: @user) %>
   <%= render Actions::FavouriteActionComponent.new(resource: @resource, user: @user) %>
 </div>

@@ -24,5 +24,16 @@ RSpec.describe Actions::ActionsComponent, type: :component do
       expect(page).to have_css "i.fa-book-open"
       expect(page).to have_css "i.fa-heart"
     end
+
+    context "when resource is not an Issue" do
+      let(:resource) { FactoryBot.create(:comic) }
+
+      it "only renders the wishlist and favourite actions" do
+        expect(page).not_to have_css "i.fa-check"
+        expect(page).to have_css "i.fa-cake-candles"
+        expect(page).not_to have_css "i.fa-book-open"
+        expect(page).to have_css "i.fa-heart"
+      end
+    end
   end
 end
