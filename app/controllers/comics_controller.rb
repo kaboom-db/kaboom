@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show]
-  before_action :user_required, only: %i[import]
+  before_action :set_comic, only: %i[show wishlist]
+  before_action :user_required, only: %i[import wishlist]
 
   def index
     @header = "📚 Comics"
@@ -29,6 +29,26 @@ class ComicsController < ApplicationController
     @comic.import_issues
 
     redirect_to comic_path(@comic), notice: "#{@comic.name} was successfully imported."
+  end
+
+  def wishlist
+    wishlisted = WishlistItem.new(wishlistable: @comic, user: current_user)
+
+    if wishlisted.save
+      @success = true
+      @message = "You wishlisted #{@comic.name}."
+      @wishlisted = true
+      return render template: "shared/wishlist", formats: :json if request.xhr?
+
+      redirect_to comic_path(@comic), notice: "Successfully wishlisted this comic."
+    else
+      @success = false
+      @message = "Could not wishlist #{@comic.name}."
+      @wishlisted = current_user.wishlisted_comics.include?(@comic)
+      return render template: "shared/wishlist", formats: :json if request.xhr?
+
+      redirect_to comic_path(@comic), alert: "Could not wishlist this comic."
+    end
   end
 
   private

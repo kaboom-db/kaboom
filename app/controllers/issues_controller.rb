@@ -23,7 +23,7 @@ class IssuesController < ApplicationController
         has_read: true,
         read_count:
       )
-      return render template: "issues/read", formats: :json if request.xhr?
+      return render template: "shared/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully marked this issue as read."
     else
@@ -33,7 +33,7 @@ class IssuesController < ApplicationController
         has_read:,
         read_count:
       )
-      return render template: "issues/read", formats: :json if request.xhr?
+      return render template: "shared/read", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not mark that issue as read."
     end
@@ -51,7 +51,7 @@ class IssuesController < ApplicationController
       has_read:,
       read_count:
     )
-    return render template: "issues/read", formats: :json if request.xhr?
+    return render template: "shared/read", formats: :json if request.xhr?
 
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unmarked this issue."
   end
@@ -63,14 +63,14 @@ class IssuesController < ApplicationController
       @success = true
       @message = "You collected #{@comic.name} - #{@issue.name}."
       @has_collected = true
-      return render template: "issues/collected", formats: :json if request.xhr?
+      return render template: "shared/collected", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully collected this issue."
     else
       @success = false
       @message = "Could not collect #{@comic.name} - #{@issue.name}."
       @has_collected = current_user.collection.include?(@issue)
-      return render template: "issues/collected", formats: :json if request.xhr?
+      return render template: "shared/collected", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not collect this issue."
     end
@@ -85,7 +85,7 @@ class IssuesController < ApplicationController
     @success = true
     @message = "You uncollected #{@comic.name} - #{@issue.name}."
     @has_collected = false
-    return render template: "issues/collected", formats: :json if request.xhr?
+    return render template: "shared/collected", formats: :json if request.xhr?
 
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully uncollected this issue."
   end
@@ -97,14 +97,14 @@ class IssuesController < ApplicationController
       @success = true
       @message = "You wishlisted #{@comic.name} - #{@issue.name}."
       @wishlisted = true
-      return render template: "issues/wishlist", formats: :json if request.xhr?
+      return render template: "shared/wishlist", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully wishlisted this issue."
     else
       @success = false
       @message = "Could not wishlist #{@comic.name} - #{@issue.name}."
       @wishlisted = current_user.wishlisted_issues.include?(@issue)
-      return render template: "issues/wishlist", formats: :json if request.xhr?
+      return render template: "shared/wishlist", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not wishlist this issue."
     end
@@ -119,7 +119,7 @@ class IssuesController < ApplicationController
     @success = true
     @message = "You unwishlisted #{@comic.name} - #{@issue.name}."
     @wishlisted = false
-    return render template: "issues/wishlist", formats: :json if request.xhr?
+    return render template: "shared/wishlist", formats: :json if request.xhr?
 
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unwishlisted this issue."
   end
@@ -131,14 +131,14 @@ class IssuesController < ApplicationController
       @success = true
       @message = "You favourited #{@comic.name} - #{@issue.name}."
       @favourited = true
-      return render template: "issues/favourite", formats: :json if request.xhr?
+      return render template: "shared/favourite", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully favourited this issue."
     else
       @success = false
       @message = "Could not favourite #{@comic.name} - #{@issue.name}."
       @favourited = current_user.favourited_issues.include?(@issue)
-      return render template: "issues/favourite", formats: :json if request.xhr?
+      return render template: "shared/favourite", formats: :json if request.xhr?
 
       redirect_to comic_issue_path(@issue, comic_id: @comic.id), alert: "Could not favourite this issue."
     end
@@ -153,7 +153,7 @@ class IssuesController < ApplicationController
     @success = true
     @message = "You unfavourited #{@comic.name} - #{@issue.name}."
     @favourited = false
-    return render template: "issues/favourite", formats: :json if request.xhr?
+    return render template: "shared/favourite", formats: :json if request.xhr?
 
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unfavourited this issue."
   end

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     end
 
     post :import, on: :collection
+
+    post :wishlist, on: :member
   end
 
   get "dashboard" => "dashboard#index"
