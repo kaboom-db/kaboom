@@ -6,7 +6,7 @@
     "@hotwired/turbo-rails": "^7.3.0",
     "autoprefixer": "^10.4.14",
     "chart.js": "^4.3.3",
-    "esbuild": "^0.18.17",
+    "esbuild": "^0.19.2",
     "postcss": "^8.4.27",
     "stimulus-chartjs": "^5.0.0",
     "swiper": "^10.2.0",
