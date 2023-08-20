@@ -325,4 +325,90 @@ RSpec.describe "/comics", type: :request do
       end
     end
   end
+
+  describe "POST /unwishlist" do
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    before do
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
+    context "when the user is not logged in" do
+      let(:xhr) { false }
+
+      it "redirects to the sign in page" do
+        post unwishlist_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:xhr) { false }
+
+      before do
+        sign_in user
+      end
+
+      context "when the comic is not wishlisted" do
+        before do
+          post unwishlist_comic_path(comic)
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "You have not wishlisted this comic."
+        end
+      end
+
+      context "when user is authorised to unwishlist this comic" do
+        before do
+          @wishlisted = FactoryBot.create(:wishlist_item, wishlistable: comic, user:)
+          post unwishlist_comic_path(comic)
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully unwishlisted this comic."
+        end
+
+        it "destroys the wishlisted item" do
+          expect(user.wishlist_items.count).to eq 0
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "when user is authorised to unwishlist this comic" do
+        before do
+          @wishlisted = FactoryBot.create(:wishlist_item, wishlistable: comic, user:)
+          post unwishlist_comic_path(comic)
+        end
+
+        it "responds with json" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["wishlisted"]).to eq false
+          expect(body["issue"]).to eq nil
+          expect(body["message"]).to eq "You unwishlisted Test Comic."
+        end
+
+        it "destroys the wishlisted item" do
+          expect(user.wishlist_items.count).to eq 0
+        end
+      end
+    end
+  end
 end

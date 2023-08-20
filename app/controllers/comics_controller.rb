@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show wishlist]
-  before_action :user_required, only: %i[import wishlist]
+  before_action :set_comic, only: %i[show wishlist unwishlist]
+  before_action :user_required, only: %i[import wishlist unwishlist]
 
   def index
     @header = "📚 Comics"
@@ -49,6 +49,20 @@ class ComicsController < ApplicationController
 
       redirect_to comic_path(@comic), alert: "Could not wishlist this comic."
     end
+  end
+
+  def unwishlist
+    wishlisted = current_user.wishlist_items.find_by(wishlistable: @comic)
+    return redirect_to comic_path(@comic), alert: "You have not wishlisted this comic." unless wishlisted.present?
+
+    wishlisted.destroy
+
+    @success = true
+    @message = "You unwishlisted #{@comic.name}."
+    @wishlisted = false
+    return render template: "shared/wishlist", formats: :json if request.xhr?
+
+    redirect_to comic_path(@comic), notice: "Successfully unwishlisted this comic."
   end
 
   private
