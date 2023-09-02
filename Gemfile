@@ -102,5 +102,5 @@ end
 
 group :test do
   # Stub API requests in specs
-  gem "webmock", "~> 3.18"
+  gem "webmock", "~> 3.19"
 end
