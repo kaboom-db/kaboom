@@ -58,7 +58,7 @@ gem "devise"
 gem "view_component"
 
 # Run background jobs with Sidekiq
-gem "sidekiq", "~> 7.1"
+gem "sidekiq", "~> 7.2"
 
 # Schedule sidekiq background jobs
 gem "whenever", "~> 1.0"
