@@ -1,0 +1,21 @@
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "Collection") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= paginate @collection %>
+  <% @collection_grouped.each_pair do |day, items| %>
+    <div class="my-6">
+      <p class="my-4 text-2xl font-bold"><%= day %></p>
+      <!--
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% items.each do |item| %>
+          <%= item %>
+        <% end %>
+      </div>
+      -->
+      This page is currently under construction. Check back soon.
+    </div>
+  <% end %>
+  <%= paginate @collection %>
+<% end %>

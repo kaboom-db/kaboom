@@ -23,4 +23,5 @@ Rails.application.routes.draw do
 
   get "dashboard" => "dashboard#index"
   get "dashboard/history" => "dashboard#history"
+  get "dashboard/collection" => "dashboard#collection"
 end

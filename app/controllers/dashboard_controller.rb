@@ -12,15 +12,22 @@ class DashboardController < ApplicationController
   end
 
   def history
-    @header = "Your history"
-
     @issue_history = current_user.read_issues
       .order(read_at: :desc)
       .where(build_filters)
       .page(params[:page])
       .per(30)
 
-    @issue_history_grouped = @issue_history.group_by { |h| h.read_at.strftime("%-d %b %Y") }
+    @issue_history_grouped = @issue_history.group_by { _1.read_at.strftime("%-d %b %Y") }
+  end
+
+  def collection
+    @collection = current_user.collected_issues
+      .order(collected_on: :desc)
+      .page(params[:page])
+      .per(30)
+
+    @collection_grouped = @collection.group_by { _1.collected_on.strftime("%-d %b %Y") }
   end
 
   private

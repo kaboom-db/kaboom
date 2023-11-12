@@ -7,6 +7,7 @@ class IssuesController < ApplicationController
   before_action :issue_required, except: %i[index]
 
   def index
+    redirect_to comic_path(@comic)
   end
 
   def show

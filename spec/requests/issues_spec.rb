@@ -4,10 +4,10 @@ RSpec.describe "/issues", type: :request do
   include ActiveSupport::Testing::TimeHelpers
 
   describe "GET /index" do
-    it "renders a successful response" do
+    it "redirects to the comic path" do
       comic = FactoryBot.create(:comic)
       get comic_issues_path(comic)
-      expect(response).to be_successful
+      expect(response).to redirect_to comic_path(comic)
     end
   end
 
