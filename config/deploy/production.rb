@@ -26,7 +26,7 @@ server ip, user: kaboom_user, roles: %w[web app db]
 
 role :app, ["#{kaboom_user}@#{ip}"]
 role :web, ["#{kaboom_user}@#{ip}"]
-role :db,  ["#{kaboom_user}@#{ip}"]
+role :db, ["#{kaboom_user}@#{ip}"]
 
 # Configuration
 # =============
@@ -35,8 +35,6 @@ role :db,  ["#{kaboom_user}@#{ip}"]
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
-
 
 # Custom SSH Options
 # ==================
