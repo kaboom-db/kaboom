@@ -4,7 +4,7 @@ lock "~> 3.18.0"
 app = "kaboom"
 kaboom_user = ENV["KABOOM_USER"]
 set :application, app
-set :repo_url, "git@github.com:kaboom_db/kaboom.git"
+set :repo_url, "git@github.com:kaboom-db/kaboom.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
