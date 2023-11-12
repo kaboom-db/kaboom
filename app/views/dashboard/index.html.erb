@@ -36,7 +36,12 @@
   </div>
   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
     <% @issue_history.each do |issue_history| %>
-      <%= render ResourceTileControlComponent.new(issue: issue_history.issue, user: current_user, read_at: issue_history.read_at) %>
+      <%= render ResourceTileComponent.new(
+        resource: issue_history.issue,
+        resource_path: comic_issue_path(issue_history.issue, comic_id: issue_history.comic),
+        read: true,
+        collected: current_user.collection.include?(issue_history.issue)
+      ) %>
     <% end %>
   </div>
 <% end %>
