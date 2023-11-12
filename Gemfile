@@ -13,7 +13,7 @@ gem "sprockets-rails"
 gem "pg", "~> 1.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 6.4"
+gem "puma", "~> 5.6"
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
@@ -61,7 +61,7 @@ gem "view_component"
 gem "sidekiq", "~> 7.2"
 
 # Schedule sidekiq background jobs
-gem "whenever", "~> 1.0"
+gem "whenever", "~> 1.0", :require => false
 
 # Paginate ActiveRecord relations
 gem "kaminari", "~> 1.2"
@@ -98,6 +98,12 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # Used for deploying
+  gem "capistrano", "~> 3.10", require: false
+  gem "capistrano-rails", "~> 1.6", require: false
+  gem "capistrano-rvm", git: "https://github.com/capistrano/rvm.git"
+  gem "capistrano3-puma", "~> 5.2"
 end
 
 group :test do
