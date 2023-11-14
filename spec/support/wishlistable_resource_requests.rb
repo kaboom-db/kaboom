@@ -172,4 +172,153 @@ RSpec.shared_examples "a wishlistable resource" do |resource_type|
       end
     end
   end
+
+  describe "POST /unwishlist" do
+    let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+
+    before do
+      @resource_path = (resource_type == :comic) ? method(:comic_path) : method(:comic_issue_path)
+      @unwishlist_resource_path = (resource_type == :comic) ? method(:unwishlist_comic_path) : method(:unwishlist_comic_issue_path)
+      allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
+    end
+
+    context "when the user is not logged in" do
+      let(:xhr) { false }
+
+      before do
+        @resource_id = (resource_type == :comic) ? comic : "1"
+        @extra_args = (resource_type == :comic) ? {} : {comic_id: comic.id}
+      end
+
+      it "redirects to the sign in page" do
+        post @unwishlist_resource_path.call(@resource_id, **@extra_args)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:xhr) { false }
+
+      before do
+        sign_in user
+      end
+
+      context "when the comic is not wishlisted" do
+        before do
+          if resource_type == :comic
+            @resource_id = comic
+            @extra_args = {}
+          else
+            @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+
+            @resource_id = @issue
+            @extra_args = {comic_id: comic.id}
+          end
+
+          post @unwishlist_resource_path.call(@resource_id, **@extra_args)
+        end
+
+        it "redirects to the #{resource_type} path" do
+          expect(response).to redirect_to @resource_path.call(@resource_id, **@extra_args)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to eq "You have not wishlisted this #{resource_type}."
+        end
+      end
+
+      context "when user is authorised to unwishlist this #{resource_type}" do
+        before do
+          if resource_type == :comic
+            @wishlisted = FactoryBot.create(:wishlist_item, wishlistable: comic, user:)
+
+            @resource_id = comic
+            @extra_args = {}
+          else
+            @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
+            @wishlisted = FactoryBot.create(:wishlist_item, wishlistable: @issue, user:)
+
+            @resource_id = @issue
+            @extra_args = {comic_id: comic.id}
+          end
+
+          post @unwishlist_resource_path.call(@resource_id, **@extra_args)
+        end
+
+        it "redirects to the comic path" do
+          expect(response).to redirect_to @resource_path.call(@resource_id, **@extra_args)
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully unwishlisted this #{resource_type}."
+        end
+
+        it "destroys the wishlisted item" do
+          expect(user.wishlist_items.count).to eq 0
+        end
+      end
+
+      # TODO: Add context block for when the user is not authorised.
+
+      if resource_type == :issue
+        context "when issue does not exist" do
+          before do
+            post unwishlist_comic_issue_path("1", comic_id: comic.id)
+          end
+
+          it "redirects to the comic path" do
+            expect(response).to redirect_to comic_path(comic)
+          end
+
+          it "sets a flash message" do
+            expect(flash[:alert]).to eq "Could not find that issue."
+          end
+        end
+      end
+    end
+
+    context "when request is an Ajax request" do
+      let(:xhr) { true }
+
+      before do
+        sign_in user
+      end
+
+      context "when user is authorised to unwishlist this #{resource_type}" do
+        before do
+          if resource_type == :comic
+            @wishlisted = FactoryBot.create(:wishlist_item, wishlistable: comic, user:)
+
+            @resource_id = comic
+            @extra_args = {}
+          else
+            @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
+            @wishlisted = FactoryBot.create(:wishlist_item, wishlistable: @issue, user:)
+
+            @resource_id = @issue
+            @extra_args = {comic_id: comic.id}
+          end
+
+          post @unwishlist_resource_path.call(@resource_id, **@extra_args)
+        end
+
+        it "responds with json" do
+          body = JSON.parse(response.body)
+          expect(body["success"]).to eq true
+          expect(body["wishlisted"]).to eq false
+          issue_id = (resource_type == :comic) ? nil : @issue.id
+          expect(body["issue"]).to eq issue_id
+          name = (resource_type == :comic) ? comic.name : "#{comic.name} - #{@issue.name}"
+          expect(body["message"]).to eq "You unwishlisted #{name}."
+        end
+
+        it "destroys the wishlisted item" do
+          expect(user.wishlist_items.count).to eq 0
+        end
+      end
+
+      # TODO: Add spec for when user is not authorised
+    end
+  end
 end
