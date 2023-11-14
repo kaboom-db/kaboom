@@ -4,8 +4,8 @@ RSpec.shared_examples "a wishlistable resource" do |resource_type|
     let(:user) { FactoryBot.create(:user, :confirmed) }
 
     before do
-      @resource_path = resource_type == :comic ? method(:comic_path) : method(:comic_issue_path)
-      @wishlist_resource_path = resource_type == :comic ? method(:wishlist_comic_path) : method(:wishlist_comic_issue_path)
+      @resource_path = (resource_type == :comic) ? method(:comic_path) : method(:comic_issue_path)
+      @wishlist_resource_path = (resource_type == :comic) ? method(:wishlist_comic_path) : method(:wishlist_comic_issue_path)
       allow_any_instance_of(ActionDispatch::Request).to receive(:xhr?).and_return(xhr)
     end
 
@@ -13,8 +13,8 @@ RSpec.shared_examples "a wishlistable resource" do |resource_type|
       let(:xhr) { false }
 
       before do
-        @resource_id = resource_type == :comic ? comic : "1"
-        @extra_args = resource_type == :comic ? {} : {comic_id: comic.id}
+        @resource_id = (resource_type == :comic) ? comic : "1"
+        @extra_args = (resource_type == :comic) ? {} : {comic_id: comic.id}
       end
 
       it "redirects to the sign in page" do
@@ -132,9 +132,9 @@ RSpec.shared_examples "a wishlistable resource" do |resource_type|
           body = JSON.parse(response.body)
           expect(body["success"]).to eq false
           expect(body["wishlisted"]).to eq true
-          issue_id = resource_type == :comic ? nil : @issue.id
+          issue_id = (resource_type == :comic) ? nil : @issue.id
           expect(body["issue"]).to eq issue_id
-          name = resource_type == :comic ? comic.name : "#{comic.name} - #{@issue.name}"
+          name = (resource_type == :comic) ? comic.name : "#{comic.name} - #{@issue.name}"
           expect(body["message"]).to eq "Could not wishlist #{name}."
         end
       end
@@ -158,9 +158,9 @@ RSpec.shared_examples "a wishlistable resource" do |resource_type|
           body = JSON.parse(response.body)
           expect(body["success"]).to eq true
           expect(body["wishlisted"]).to eq true
-          issue_id = resource_type == :comic ? nil : @issue.id
+          issue_id = (resource_type == :comic) ? nil : @issue.id
           expect(body["issue"]).to eq issue_id
-          name = resource_type == :comic ? comic.name : "#{comic.name} - #{@issue.name}"
+          name = (resource_type == :comic) ? comic.name : "#{comic.name} - #{@issue.name}"
           expect(body["message"]).to eq "You wishlisted #{name}."
         end
 
