@@ -4,7 +4,7 @@
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard") %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues") %>
       <% if user_signed_in? %>
-        <%= render NavButtonComponent.new(href: "#", icon: "user", text: "Profile") %>
+        <%= render NavButtonComponent.new(href: user_path(current_user), icon: "user", text: "Profile", active: controller_name == "users") %>
       <% else %>
         <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join") %>
       <% end %>
@@ -28,7 +28,7 @@
     <div class="flex">
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues", mobile: true) %>
-      <%= render NavButtonComponent.new(href: user_signed_in? ? "#" : new_user_session_path, icon: "user", text: "Profile", mobile: true) %>
+      <%= render NavButtonComponent.new(href: user_signed_in? ? user_path(current_user) : new_user_session_path, icon: "user", text: "Profile", active: controller_name == "users", mobile: true) %>
     </div>
     <div class="flex">
       <% if user_signed_in? %>

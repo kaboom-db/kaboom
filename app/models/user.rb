@@ -24,4 +24,8 @@ class User < ApplicationRecord
   def avatar
     Gravatar::Image.new(email:).get
   end
+
+  def to_param
+    username
+  end
 end

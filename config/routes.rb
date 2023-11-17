@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     post :unfavourite, on: :member
   end
 
+  resources :users, only: [:show]
+
   get "dashboard" => "dashboard#index"
   get "dashboard/history" => "dashboard#history"
   get "dashboard/collection" => "dashboard#collection"

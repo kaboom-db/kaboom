@@ -1,0 +1,9 @@
+<%= render SectionComponent.new do %>
+  <div class="relative rounded-sm border-4 border-primary">
+    <div class="absolute top-0 bottom-0 w-full h-full z-[-10] bg-stripes"></div>
+    <div class="flex flex-wrap gap-[3rem] items-center p-[3rem]">
+      <img src="<%= @user.avatar %>" alt="Profile Image" class="rounded-full border-4 border-secondary">
+      <%= render PageTitleComponent.new(text: @user.username) %>
+    </div>
+  </div>
+<% end %>
