@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show wishlist unwishlist]
-  before_action :user_required, only: %i[import wishlist unwishlist]
+  before_action :set_comic, only: %i[show wishlist unwishlist favourite unfavourite]
+  before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite]
 
   def index
     @header = "📚 Comics"
@@ -63,6 +63,40 @@ class ComicsController < ApplicationController
     return render template: "shared/wishlist", formats: :json if request.xhr?
 
     redirect_to comic_path(@comic), notice: "Successfully unwishlisted this comic."
+  end
+
+  def favourite
+    favourited = FavouriteItem.new(favouritable: @comic, user: current_user)
+
+    if favourited.save
+      @success = true
+      @message = "You favourited #{@comic.name}."
+      @favourited = true
+      return render template: "shared/favourite", formats: :json if request.xhr?
+
+      redirect_to comic_path(@comic), notice: "Successfully favourited this comic."
+    else
+      @success = false
+      @message = "Could not favourite #{@comic.name}."
+      @favourited = current_user.favourited_comics.include?(@comic)
+      return render template: "shared/favourite", formats: :json if request.xhr?
+
+      redirect_to comic_path(@comic), alert: "Could not favourite this comic."
+    end
+  end
+
+  def unfavourite
+    favourited = current_user.favourite_items.find_by(favouritable: @comic)
+    return redirect_to comic_path(@comic), alert: "You have not favourited this comic." unless favourited.present?
+
+    favourited.destroy
+
+    @success = true
+    @message = "You unfavourited #{@comic.name}."
+    @favourited = false
+    return render template: "shared/favourite", formats: :json if request.xhr?
+
+    redirect_to comic_path(@comic), notice: "Successfully unfavourited this comic."
   end
 
   private

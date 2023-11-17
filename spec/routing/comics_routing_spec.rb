@@ -21,5 +21,13 @@ RSpec.describe ComicsController, type: :routing do
     it "routes to #unwishlist" do
       expect(post: "/comics/1/unwishlist").to route_to("comics#unwishlist", id: "1")
     end
+
+    it "routes to #favourite" do
+      expect(post: "/comics/1/favourite").to route_to("comics#favourite", id: "1")
+    end
+
+    it "routes to #unfavourite" do
+      expect(post: "/comics/1/unfavourite").to route_to("comics#unfavourite", id: "1")
+    end
   end
 end

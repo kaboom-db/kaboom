@@ -225,4 +225,8 @@ RSpec.describe "/comics", type: :request do
   describe "wishlisting" do
     it_behaves_like "a wishlistable resource", :comic
   end
+
+  describe "favouriting" do
+    it_behaves_like "a favouritable resource", :comic
+  end
 end
