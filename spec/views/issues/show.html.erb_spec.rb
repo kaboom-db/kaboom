@@ -9,6 +9,6 @@ RSpec.describe "issues/show", type: :view do
 
   it "renders attributes" do
     render
-    assert_select "h1.text-4xl", text: "Test Issue"
+    assert_select "h1.text-2xl", text: "Test Issue"
   end
 end
