@@ -18,6 +18,10 @@ class ComicsController < ApplicationController
 
   def show
     add_visit(user: current_user, visited: @comic)
+
+    @ordered_issues = @comic.ordered_issues
+      .page(params[:page])
+      .per(30)
   end
 
   def import

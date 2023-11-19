@@ -27,8 +27,9 @@
 <%= render SectionComponent.new do %>
   <%= render ChipHeaderComponent.new(text: "Issues") %>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @comic.ordered_issues.each do |issue| %>
+    <% @ordered_issues.each do |issue| %>
       <%= render ResourceTileControlComponent.new(issue:, user: current_user, read_at: nil) %>
     <% end %>
   </div>
+  <%= paginate @ordered_issues %>
 <% end %>
