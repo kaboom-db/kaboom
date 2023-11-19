@@ -34,7 +34,7 @@ module.exports = {
         width: 'width'
       },
       backgroundImage: {
-        stripes: 'repeating-linear-gradient(45deg, #e6e6e6ff, #e6e6e6ff 20px, #ffffff 20px, #ffffff 40px)'
+        stripes: 'repeating-linear-gradient(45deg, #f2f2f2, #f2f2f2 20px, #ffffff 20px, #ffffff 40px)'
       }
     },
     fontFamily: {
