@@ -1,3 +1,5 @@
+require "net/http"
+
 module ComicVine
   class Request
     CREDENTIALS = Rails.application.credentials.dig(:comic_vine)
