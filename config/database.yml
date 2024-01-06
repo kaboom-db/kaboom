@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: kaboom_production
-  username: kaboom
-  password: <%= ENV["KABOOM_DATABASE_PASSWORD"] %>
+  database: manganotifier_production
+  username: <%= ENV["KABOOM_DB_USER"] %>
+  password: <%= ENV["KABOOM_DB_PASS"] %>
