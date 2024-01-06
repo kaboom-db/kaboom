@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV["KABOOM_DB"] %>
+  database: kaboom_production
   username: <%= ENV["KABOOM_DB_USER"] %>
   password: <%= ENV["KABOOM_DB_PASS"] %>
