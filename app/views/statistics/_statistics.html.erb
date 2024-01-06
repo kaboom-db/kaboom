@@ -1,0 +1,35 @@
+<%= render SectionComponent.new do %>
+  <div class="relative rounded-sm border-4 border-primary">
+    <div class="absolute top-0 bottom-0 w-full h-full z-[-10] bg-stripes"></div>
+    <div class="flex flex-wrap gap-[3rem] items-center p-[3rem]">
+      <%= render PageTitleComponent.new(text: "#{year.humanize} Statistics") %>
+    </div>
+  </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <%= link_to dashboard_history_path do %>
+      <div class="group p-1.5 h-full bg-[#ff6961]">
+        <div class="bg-[#ff8f89] p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
+          <div class="h-32 flex flex-col justify-center items-center">
+            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= read_count %></p>
+          </div>
+          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Issues read</p>
+        </div>
+      </div>
+    <% end %>
+    <%= link_to dashboard_collection_path do %>
+      <div class="group p-1.5 h-full bg-[#47bcea]">
+        <div class="bg-[#7bc3e0] p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
+          <div class="h-32 flex flex-col justify-center items-center">
+            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= collected_count %></p>
+          </div>
+          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Collected</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<p><b>This page is under construction. Check back soon.</b></p>

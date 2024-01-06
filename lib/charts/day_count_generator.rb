@@ -36,11 +36,10 @@ module Charts
     end
 
     def counts
-      counts = num_of_days.times.map do |i|
+      num_of_days.times.map do |i|
         day = i.days.ago
         yield day
-      end
-      counts.reverse
+      end.reverse
     end
 
     def labels
