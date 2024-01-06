@@ -66,6 +66,11 @@ gem "whenever", "~> 1.0", require: false
 # Paginate ActiveRecord relations
 gem "kaminari", "~> 1.2"
 
+# For OpenSSL 3.0 in new Ubuntu versions
+gem "net-ssh", "7.2.0"
+gem "ed25519"
+gem "bcrypt_pbkdf"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
