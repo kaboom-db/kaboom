@@ -8,7 +8,7 @@ FactoryBot.define do
     description { "MyText" }
     cv_id { 1 }
     image { "MyString" }
-    issue_number { 1.5 }
+    sequence(:issue_number) { _1 }
     name { "MyString" }
     site_detail_url { "MyString" }
     store_date { "2023-06-25" }

@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   # Associations
   has_many :read_issues, dependent: :delete_all
+  has_many :comics, -> { distinct }, through: :read_issues
   has_many :issues_read, through: :read_issues, source: :issue
   has_many :wishlist_items, dependent: :delete_all
   has_many :wishlisted_comics, through: :wishlist_items, source: :wishlistable, source_type: "Comic"
@@ -27,5 +28,20 @@ class User < ApplicationRecord
 
   def to_param
     username
+  end
+
+  # TODO: Possibly make this more efficient with indexes?
+  def completed_comics
+    comics
+      .joins(:issues)
+      .group('comics.id')
+      .having('COUNT(DISTINCT issues.id) = comics.count_of_issues')
+  end
+
+  def incompleted_comics
+    comics
+      .joins(:issues)
+      .group('comics.id')
+      .having('COUNT(DISTINCT issues.id) < comics.count_of_issues')
   end
 end
