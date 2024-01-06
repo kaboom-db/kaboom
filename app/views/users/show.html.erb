@@ -7,3 +7,21 @@
     </div>
   </div>
 <% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Deck") %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+    <% @user.incompleted_comics.each do |comic| %>
+      <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Completed Comics") %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+    <% @user.completed_comics.each do |comic| %>
+      <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), read: true) %>
+    <% end %>
+  </div>
+<% end %>
