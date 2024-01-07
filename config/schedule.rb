@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :day, at: "12:00pm" do
+every :day, at: "18:33pm" do
   runner "SyncWorker.perform_async"
 end
