@@ -229,4 +229,133 @@ RSpec.describe "/comics", type: :request do
   describe "favouriting" do
     it_behaves_like "a favouritable resource", :comic
   end
+
+  describe "POST /read_range" do
+    context "when user is not logged in" do
+      it "redirects to the login page" do
+        comic = FactoryBot.create(:comic)
+        post read_range_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      let(:user) { FactoryBot.create(:user, :confirmed) }
+      let(:xhr) { false }
+      let(:max) { 10 }
+
+      before do
+        sign_in user
+
+        @comic = FactoryBot.create(:comic, count_of_issues: max)
+        @issue1 = FactoryBot.create(:issue, comic: @comic)
+        @issue2 = FactoryBot.create(:issue, comic: @comic)
+        @issue3 = FactoryBot.create(:issue, comic: @comic)
+        @issue4 = FactoryBot.create(:issue, comic: @comic)
+        @issue5 = FactoryBot.create(:issue, comic: @comic)
+        @issue6 = FactoryBot.create(:issue, comic: @comic)
+        @issue7 = FactoryBot.create(:issue, comic: @comic)
+        @issue8 = FactoryBot.create(:issue, comic: @comic)
+        @issue9 = FactoryBot.create(:issue, comic: @comic)
+        @issue10 = FactoryBot.create(:issue, comic: @comic)
+        post read_range_comic_path(@comic), params: {start: start_issue, end: end_issue}, xhr:
+      end
+
+      context "when `start` is less than 0" do
+        let(:start_issue) { -1 }
+        let(:end_issue) { 5 }
+
+        it "marks all the issues up to `end` as read" do
+          expect(user.read_issues.count).to eq 5
+          read_issues = user.read_issues
+          expect(read_issues[0].issue).to eq @issue1
+          expect(read_issues[1].issue).to eq @issue2
+          expect(read_issues[2].issue).to eq @issue3
+          expect(read_issues[3].issue).to eq @issue4
+          expect(read_issues[4].issue).to eq @issue5
+        end
+      end
+
+      context "when `start` is greater than `end`" do
+        let(:start_issue) { 10 }
+        let(:end_issue) { 5 }
+
+        it "marks all the issues up to `end` as read" do
+          expect(user.read_issues.count).to eq 5
+          read_issues = user.read_issues
+          expect(read_issues[0].issue).to eq @issue1
+          expect(read_issues[1].issue).to eq @issue2
+          expect(read_issues[2].issue).to eq @issue3
+          expect(read_issues[3].issue).to eq @issue4
+          expect(read_issues[4].issue).to eq @issue5
+        end
+      end
+
+      context "when `end` is greater than the count of issues" do
+        let(:start_issue) { 5 }
+        let(:end_issue) { 11 }
+
+        it "marks all the issues from `start` as read" do
+          expect(user.read_issues.count).to eq 6
+          read_issues = user.read_issues
+          expect(read_issues[0].issue).to eq @issue5
+          expect(read_issues[1].issue).to eq @issue6
+          expect(read_issues[2].issue).to eq @issue7
+          expect(read_issues[3].issue).to eq @issue8
+          expect(read_issues[4].issue).to eq @issue9
+          expect(read_issues[5].issue).to eq @issue10
+        end
+      end
+
+      context "when request is xhr" do
+        let(:start_issue) { 5 }
+        let(:end_issue) { 10 }
+        let(:xhr) { true }
+
+        it "marks the range as read" do
+          expect(user.read_issues.count).to eq 6
+          read_issues = user.read_issues
+          expect(read_issues[0].issue).to eq @issue5
+          expect(read_issues[1].issue).to eq @issue6
+          expect(read_issues[2].issue).to eq @issue7
+          expect(read_issues[3].issue).to eq @issue8
+          expect(read_issues[4].issue).to eq @issue9
+          expect(read_issues[5].issue).to eq @issue10
+        end
+
+        it "renders valid json" do
+          json = JSON.parse(response.body)
+          expect(json["message"]).to eq "Successfully marked issues 5-10 as read"
+        end
+      end
+
+      context "when request is not xhr" do
+        let(:start_issue) { 1 }
+        let(:end_issue) { 10 }
+
+        it "marks the range as read" do
+          expect(user.read_issues.count).to eq 10
+          read_issues = user.read_issues
+          expect(read_issues[0].issue).to eq @issue1
+          expect(read_issues[1].issue).to eq @issue2
+          expect(read_issues[2].issue).to eq @issue3
+          expect(read_issues[3].issue).to eq @issue4
+          expect(read_issues[4].issue).to eq @issue5
+          expect(read_issues[5].issue).to eq @issue6
+          expect(read_issues[6].issue).to eq @issue7
+          expect(read_issues[7].issue).to eq @issue8
+          expect(read_issues[8].issue).to eq @issue9
+          expect(read_issues[9].issue).to eq @issue10
+        end
+
+        it "sets a flash message" do
+          expect(flash[:notice]).to eq "Successfully marked issues 1-10 as read"
+        end
+
+        it "redirects to the comic page" do
+          expect(response).to redirect_to comic_path(@comic)
+        end
+      end
+    end
+  end
 end

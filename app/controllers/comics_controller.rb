@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show wishlist unwishlist favourite unfavourite]
-  before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite]
+  before_action :set_comic, only: %i[show wishlist unwishlist favourite unfavourite read_range]
+  before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite read_range]
 
   def index
     @header = "📚 Comics"
@@ -101,6 +101,27 @@ class ComicsController < ApplicationController
     return render template: "shared/favourite", formats: :json if request.xhr?
 
     redirect_to comic_path(@comic), notice: "Successfully unfavourited this comic."
+  end
+
+  def read_range
+    read_at = Time.current
+    # These are actually indexes of the comic.issues array
+    first_issue = params[:start].to_i - 1
+    last_issue = params[:end].to_i - 1
+
+    # Set first_issue to 0 here - I don't expect people will try to abuse it with random numbers
+    # but just being safe :)
+    first_issue = 0 if first_issue < 0 || first_issue > last_issue
+    last_issue = @comic.count_of_issues if last_issue > @comic.count_of_issues
+
+    issues = @comic.ordered_issues[first_issue..last_issue]
+    issues.each do |issue|
+      ReadIssue.create(read_at:, user: current_user, issue:)
+    end
+    @message = "Successfully marked issues #{first_issue + 1}-#{last_issue + 1} as read"
+    return render template: "shared/read_range", formats: :json if request.xhr?
+
+    redirect_to comic_path(@comic), notice: @message
   end
 
   private

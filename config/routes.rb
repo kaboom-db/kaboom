@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     post :unwishlist, on: :member
     post :favourite, on: :member
     post :unfavourite, on: :member
+    post :read_range, on: :member
   end
 
   resources :users, only: [:show] do

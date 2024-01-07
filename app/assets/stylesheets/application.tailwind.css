@@ -57,4 +57,36 @@
   :root {
     --swiper-theme-color: rgba(255, 195, 113, 1);
   }
+
+  #slider-round {
+    height: 10px;
+  }
+
+  #slider-round .noUi-connect {
+      background: rgba(255, 195, 113, 1);
+  }
+
+  #slider-round .noUi-handle {
+      height: 18px;
+      width: 18px;
+      top: -5px;
+      right: -9px; /* half the width */
+      border-radius: 9px;
+  }
+
+  #slider-round .noUi-handle-lower {
+    right: 0;
+  }
+
+  #slider-round .noUi-handle-upper {
+      right: -18px;
+  }
+
+  #slider-round > div > div:nth-child(2) > div > div.noUi-tooltip {
+    left: 200% !important;
+  }
+
+  #slider-round > div > div:nth-child(3) > div > div.noUi-tooltip {
+    left: -150% !important;
+  }
 }

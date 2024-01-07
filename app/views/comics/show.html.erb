@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
+
 <%= render SectionComponent.new do %>
   <div class="rounded-sm bg-cover bg-no-repeat" style="background-image: url('<%= @comic.image %>');">
     <div class="flex flex-col gap-4 p-[3rem] bg-black/60 backdrop-blur-md">
@@ -21,6 +23,26 @@
     <div class="flex flex-col gap-2 resource-description">
       <%= safe_description(description: @comic.description) %>
     </div>
+  <% end %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render BorderComponent.new do %>
+    <details>
+      <summary class="font-bold text-xl cursor-pointer">Batch read issues</summary>
+      <div class="mt-4">
+        <p>If you've read a lot of issues for this comic, you can mark a range of them as read. Choose the issues you want to mark with the slider and click submit!</p>
+        <p>Note: This sets all the read dates for issues to the time of submission.</p>
+        <div data-controller="read-range"
+            data-read-range-chapter-count-value="<%= @comic.count_of_issues %>"
+            data-read-range-url-value="<%= read_range_comic_path(@comic) %>">
+          <div data-read-range-target="slider" class="mb-8 mt-16 mx-6" id="slider-round"></div>
+          <button data-read-range-target="submit" data-action="click->read-range#submit" class="inline-block py-1.5 px-3 bg-primary rounded-sm text-white border-2 border-primary cursor-pointer">
+            Submit
+          </button>
+        </div>
+      </div>
+    </details>
   <% end %>
 <% end %>
 

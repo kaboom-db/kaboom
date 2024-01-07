@@ -7,13 +7,15 @@
     "autoprefixer": "^10.4.16",
     "chart.js": "^4.4.0",
     "esbuild": "^0.19.8",
+    "esbuild-sass-plugin": "^2.16.1",
+    "nouislider": "^15.7.1",
     "postcss": "^8.4.31",
     "stimulus-chartjs": "^5.0.1",
     "swiper": "^11.0.5",
     "tailwindcss": "^3.4.0"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build": "node esbuild.config.js",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "lint:js": "yarn run eslint app/javascript",
     "dev": "tsc-watch --noClear -p tsconfig.json --onSuccess \"yarn build --watch\" --onFailure \"yarn failure:js\"",
