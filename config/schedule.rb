@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every :day, at: "12:00pm" do
-  runner "SyncJob.perform_async"
+  runner "SyncWorker.perform_async"
 end

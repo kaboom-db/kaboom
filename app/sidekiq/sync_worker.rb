@@ -1,5 +1,5 @@
-class SyncJob
-  include Sidekiq::Job
+class SyncWorker
+  include Sidekiq::Worker
 
   def perform
     trending_comics = Comic.trending.limit(20)

@@ -1,5 +1,5 @@
-class ImportJob
-  include Sidekiq::Job
+class ImportWorker
+  include Sidekiq::Worker
 
   def perform(klass:, comic_vine_id:)
     return "[IMPORT] Invalid resource type." unless klass.respond_to?(:import)
