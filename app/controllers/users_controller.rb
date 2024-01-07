@@ -6,6 +6,7 @@ class UsersController < ApplicationController
     @deck = @user.incompleted_comics.take(6)
     @favourite_comics = @user.favourited_comics.limit(6)
     @completed_comics = @user.completed_comics.take(12)
+    @collection = @user.collected_issues.order(collected_on: :desc).limit(12)
     @wishlisted = @user.wishlisted_comics.limit(12)
   end
 

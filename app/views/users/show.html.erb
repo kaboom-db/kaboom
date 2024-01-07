@@ -8,47 +8,68 @@
   </div>
 <% end %>
 
-<%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "History") %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @history.each do |history| %>
-      <%= render ResourceTileComponent.new(resource: history.issue, resource_path: comic_issue_path(history.issue, comic_id: history.comic), read: true) %>
-    <% end %>
-  </div>
+<% if @history.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "History") %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @history.each do |history| %>
+        <%= render ResourceTileComponent.new(resource: history.issue, resource_path: comic_issue_path(history.issue, comic_id: history.comic), read: true) %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 
-<%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Deck") %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @deck.each do |comic| %>
-      <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
-    <% end %>
-  </div>
+<% if @deck.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "Deck") %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @deck.each do |comic| %>
+        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 
-<%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Favourite Comics") %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @favourite_comics.each do |comic| %>
-      <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
-    <% end %>
-  </div>
+<% if @favourite_comics.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "Favourite Comics") %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @favourite_comics.each do |comic| %>
+        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 
-<%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Completed Comics") %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @completed_comics.each do |comic| %>
-      <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), read: true) %>
-    <% end %>
-  </div>
+<% if @completed_comics.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "Completed Comics") %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @completed_comics.each do |comic| %>
+        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), read: true) %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 
-<%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Wishlist") %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @wishlisted.each do |comic| %>
-      <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), wishlisted: true) %>
-    <% end %>
-  </div>
+<% if @collection.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "Collection") %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @collection.each do |collected| %>
+        <%= render ResourceTileComponent.new(resource: collected.issue, resource_path: comic_issue_path(collected.issue), collected: true) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @wishlisted.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "Wishlist") %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @wishlisted.each do |comic| %>
+        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), wishlisted: true) %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
