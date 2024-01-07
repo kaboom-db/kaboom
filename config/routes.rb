@@ -26,6 +26,13 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     resources :statistics, only: [:index, :show]
+
+    get :history, on: :member
+    get :deck, on: :member
+    get :favourites, on: :member
+    get :completed, on: :member
+    get :collection, on: :member
+    get :wishlist, on: :member
   end
 
   get "dashboard" => "dashboard#index"

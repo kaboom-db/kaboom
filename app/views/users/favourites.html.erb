@@ -1,0 +1,22 @@
+<%= render SectionComponent.new do %>
+  <div class="relative rounded-sm border-4 border-primary">
+    <div class="absolute top-0 bottom-0 w-full h-full z-[-10] bg-stripes"></div>
+    <div class="flex flex-wrap gap-[3rem] items-center p-[3rem]">
+      <img src="<%= @user.avatar %>" alt="Profile Image" class="rounded-full border-4 border-secondary">
+      <%= render PageTitleComponent.new(text: "#{@user.username}'s Favourites") %>
+    </div>
+  </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
+    <div class="my-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+        <% @favourites.each do |favourite| %>
+          <% resource = favourite.favouritable%>
+          <% resource_path = resource.is_a?(Comic) ? comic_path(resource) : comic_issue_path(resource, comic_id: resource.comic) %>
+          <%= render ResourceTileComponent.new(resource:, resource_path:) %>
+        <% end %>
+      </div>
+    </div>
+  <%= paginate @favourites %>
+<% end %>
