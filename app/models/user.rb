@@ -34,14 +34,18 @@ class User < ApplicationRecord
   def completed_comics
     comics
       .joins(:issues)
+      .select("comics.*, MAX(read_issues.read_at) AS last_read_at")
       .group("comics.id")
       .having("COUNT(DISTINCT issues.id) = comics.count_of_issues")
+      .order("last_read_at DESC")
   end
 
   def incompleted_comics
     comics
       .joins(:issues)
+      .select("comics.*, MAX(read_issues.read_at) AS last_read_at")
       .group("comics.id")
       .having("COUNT(DISTINCT issues.id) < comics.count_of_issues")
+      .order("last_read_at DESC")
   end
 end

@@ -51,15 +51,22 @@ RSpec.describe User, type: :model do
       issue3 = FactoryBot.create(:issue, comic: @comic2)
       issue4 = FactoryBot.create(:issue, comic: @comic2)
 
+      @comic3 = FactoryBot.create(:comic, count_of_issues: 2)
+      issue5 = FactoryBot.create(:issue, comic: @comic3)
+      issue6 = FactoryBot.create(:issue, comic: @comic3)
+
       FactoryBot.create(:read_issue, user:, issue: issue1)
       FactoryBot.create(:read_issue, user:, issue: issue1) # Does not count this towards the progress of the comic
 
-      FactoryBot.create(:read_issue, user:, issue: issue3)
-      FactoryBot.create(:read_issue, user:, issue: issue4)
+      FactoryBot.create(:read_issue, user:, issue: issue3, read_at: Time.current - 5.hours)
+      FactoryBot.create(:read_issue, user:, issue: issue4, read_at: Time.current - 4.hours)
+
+      FactoryBot.create(:read_issue, user:, issue: issue5, read_at: Time.current)
+      FactoryBot.create(:read_issue, user:, issue: issue6, read_at: Time.current)
     end
 
-    it "returns the users completed comics" do
-      expect(user.completed_comics.to_a).to eq [@comic2]
+    it "returns the users completed comics ordered by read at" do
+      expect(user.completed_comics.to_a).to eq [@comic3, @comic2]
     end
   end
 
@@ -75,15 +82,21 @@ RSpec.describe User, type: :model do
       issue3 = FactoryBot.create(:issue, comic: @comic2)
       issue4 = FactoryBot.create(:issue, comic: @comic2)
 
-      FactoryBot.create(:read_issue, user:, issue: issue1)
-      FactoryBot.create(:read_issue, user:, issue: issue1) # Does not count this towards the progress of the comic
+      @comic3 = FactoryBot.create(:comic, count_of_issues: 2)
+      issue5 = FactoryBot.create(:issue, comic: @comic3)
+      FactoryBot.create(:issue, comic: @comic3)
+
+      FactoryBot.create(:read_issue, user:, issue: issue1, read_at: Time.current - 5.hours)
+      FactoryBot.create(:read_issue, user:, issue: issue1, read_at: Time.current - 4.hours) # Does not count this towards the progress of the comic
 
       FactoryBot.create(:read_issue, user:, issue: issue3)
       FactoryBot.create(:read_issue, user:, issue: issue4)
+
+      FactoryBot.create(:read_issue, user:, issue: issue5, read_at: Time.current)
     end
 
     it "returns the users completed comics" do
-      expect(user.incompleted_comics.to_a).to eq [@comic1]
+      expect(user.incompleted_comics.to_a).to eq [@comic3, @comic1]
     end
   end
 end
