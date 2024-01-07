@@ -45,7 +45,7 @@ RSpec.describe User, type: :model do
     before do
       @comic1 = FactoryBot.create(:comic, count_of_issues: 2)
       issue1 = FactoryBot.create(:issue, comic: @comic1)
-      issue2 = FactoryBot.create(:issue, comic: @comic1)
+      FactoryBot.create(:issue, comic: @comic1)
 
       @comic2 = FactoryBot.create(:comic, count_of_issues: 2)
       issue3 = FactoryBot.create(:issue, comic: @comic2)
@@ -69,7 +69,7 @@ RSpec.describe User, type: :model do
     before do
       @comic1 = FactoryBot.create(:comic, count_of_issues: 2)
       issue1 = FactoryBot.create(:issue, comic: @comic1)
-      issue2 = FactoryBot.create(:issue, comic: @comic1)
+      FactoryBot.create(:issue, comic: @comic1)
 
       @comic2 = FactoryBot.create(:comic, count_of_issues: 2)
       issue3 = FactoryBot.create(:issue, comic: @comic2)

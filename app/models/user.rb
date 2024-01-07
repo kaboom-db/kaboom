@@ -34,14 +34,14 @@ class User < ApplicationRecord
   def completed_comics
     comics
       .joins(:issues)
-      .group('comics.id')
-      .having('COUNT(DISTINCT issues.id) = comics.count_of_issues')
+      .group("comics.id")
+      .having("COUNT(DISTINCT issues.id) = comics.count_of_issues")
   end
 
   def incompleted_comics
     comics
       .joins(:issues)
-      .group('comics.id')
-      .having('COUNT(DISTINCT issues.id) < comics.count_of_issues')
+      .group("comics.id")
+      .having("COUNT(DISTINCT issues.id) < comics.count_of_issues")
   end
 end
