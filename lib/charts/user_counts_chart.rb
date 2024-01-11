@@ -3,8 +3,8 @@ module Charts
     attr_accessor :user, :num_of_days, :type
 
     CHART_TYPES = [
-      LINE = 'line',
-      BAR = 'bar'
+      LINE = "line",
+      BAR = "bar"
     ]
 
     def initialize(user:, num_of_days:, type:)

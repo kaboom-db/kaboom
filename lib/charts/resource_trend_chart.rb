@@ -3,8 +3,8 @@ module Charts
     attr_accessor :resource, :num_of_days, :type
 
     CHART_TYPES = [
-      LINE = 'line',
-      BAR = 'bar'
+      LINE = "line",
+      BAR = "bar"
     ]
 
     def initialize(resource:, num_of_days:, type:)
@@ -17,7 +17,7 @@ module Charts
       {
         labels:,
         datasets: [
-          visit_count,
+          visit_count
         ]
       }
     end
