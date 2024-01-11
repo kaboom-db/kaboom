@@ -41,12 +41,12 @@ RSpec.describe "comics/index", type: :view do
   end
 
   it "renders the trending comics" do
-    assert_select "p.text-4xl", text: "Demon Slayer"
-    assert_select "p.text-4xl", text: "Spy x Family"
+    assert_select "a.text-2xl", text: "Demon Slayer"
+    assert_select "a.text-2xl", text: "Spy x Family"
   end
 
   it "renders the trending issues" do
-    assert_select "p.text-4xl", text: "Issue #3"
-    assert_select "p.text-4xl", text: "Issue #4"
+    assert_select "a.text-2xl", text: "Issue #3"
+    assert_select "a.text-2xl", text: "Issue #4"
   end
 end
