@@ -10,7 +10,7 @@
 
 <%= render SectionComponent.new do %>
     <div class="my-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <% @favourites.each do |favourite| %>
           <% resource = favourite.favouritable%>
           <% resource_path = resource.is_a?(Comic) ? comic_path(resource) : comic_issue_path(resource, comic_id: resource.comic) %>
