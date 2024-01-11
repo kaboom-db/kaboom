@@ -3,7 +3,7 @@
 require "rails_helper"
 
 module Charts
-  RSpec.describe DayCountGenerator do
+  RSpec.describe ResourceTrendChart do
     # TODO: Specs
     pending "add some examples"
   end

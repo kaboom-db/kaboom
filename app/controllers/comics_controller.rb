@@ -22,6 +22,8 @@ class ComicsController < ApplicationController
     @ordered_issues = @comic.ordered_issues
       .page(params[:page])
       .per(30)
+
+    @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_days: 14, type: Charts::UserCountsChart::LINE).generate
   end
 
   def import

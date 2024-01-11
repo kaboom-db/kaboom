@@ -1,14 +1,14 @@
 module Charts
-  class DayCountGenerator
-    attr_accessor :user, :num_of_days, :type
+  class ResourceTrendChart
+    attr_accessor :resource, :num_of_days, :type
 
     CHART_TYPES = [
       LINE = 'line',
       BAR = 'bar'
     ]
 
-    def initialize(user:, num_of_days:, type:)
-      @user = user
+    def initialize(resource:, num_of_days:, type:)
+      @resource = resource
       @num_of_days = num_of_days
       @type = type
     end
@@ -17,28 +17,19 @@ module Charts
       {
         labels:,
         datasets: [
-          issue_count,
-          collection_count
+          visit_count,
         ]
       }
     end
 
     private
 
-    def issue_count
+    def visit_count
       data = counts do |day|
-        ReadIssue.where(read_at: day.beginning_of_day..day.end_of_day, user:).count
+        Visit.where(created_at: day.beginning_of_day..day.end_of_day, visited: resource).count
       end
 
       dataset(data, "255, 95, 109", "Read issues")
-    end
-
-    def collection_count
-      data = counts do |day|
-        CollectedIssue.where(collected_on: day, user:).count
-      end
-
-      dataset(data, "71, 188, 234", "Collected issues")
     end
 
     def counts

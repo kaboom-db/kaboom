@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
 
     @deck = current_user.incompleted_comics.take(6)
 
-    @chart_data = Charts::DayCountGenerator.new(user: current_user, num_of_days: 30, type: Charts::DayCountGenerator::LINE).generate
+    @chart_data = Charts::UserCountsChart.new(user: current_user, num_of_days: 30, type: Charts::UserCountsChart::LINE).generate
   end
 
   def history
