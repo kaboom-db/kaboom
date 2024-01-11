@@ -29,7 +29,7 @@ module Charts
         Visit.where(created_at: day.beginning_of_day..day.end_of_day, visited: resource).count
       end
 
-      dataset(data, "255, 95, 109", "Read issues")
+      dataset(data, "0, 64, 128", "User visits")
     end
 
     def counts
