@@ -7,5 +7,5 @@
     remote:        data-remote
 -%>
 <span class="<%= 'p-4 text-gray-400' if current_page.first? %>">
-  <%= link_to_unless current_page.first?, t('views.pagination.first').html_safe, url, remote: remote, class: "p-4" %>
+  <%= link_to_unless current_page.first?, "<i class='fa-solid fa-left-long'></i>".html_safe, url, remote: remote, class: "p-4" %>
 </span>
