@@ -29,6 +29,23 @@
 
 <%= render SectionComponent.new do %>
   <div class="flex justify-between items-center">
+    <%= render ChipHeaderComponent.new(text: "Your deck") %>
+    <a href="<%= deck_user_path(current_user) %>" class="underline">
+      View all<i class="p-2 fa-solid fa-chevron-right"></i>
+    </a>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+    <% @deck.each do |comic| %>
+      <%= render ResourceTileComponent.new(
+        resource: comic,
+        resource_path: comic_path(comic)
+      ) %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <div class="flex justify-between items-center">
     <%= render ChipHeaderComponent.new(text: "Your history") %>
     <a href="<%= dashboard_history_path %>" class="underline">
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
@@ -47,7 +64,7 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Last 15 days") %>
+  <%= render ChipHeaderComponent.new(text: "Last 30 days") %>
   <div class="mt-4" data-controller="history-chart" data-history-chart-data-value="<%= @chart_data.to_json %>" data-history-chart-type-value="bar">
     <canvas data-history-chart-target="canvas" class="w-full h-64"></canvas>
   </div>

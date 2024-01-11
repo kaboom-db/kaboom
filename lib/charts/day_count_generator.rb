@@ -1,10 +1,16 @@
 module Charts
   class DayCountGenerator
-    attr_accessor :user, :num_of_days
+    attr_accessor :user, :num_of_days, :type
 
-    def initialize(user:, num_of_days:)
+    CHART_TYPES = [
+      LINE = 'line',
+      BAR = 'bar'
+    ]
+
+    def initialize(user:, num_of_days:, type:)
       @user = user
       @num_of_days = num_of_days
+      @type = type
     end
 
     def generate
@@ -48,6 +54,7 @@ module Charts
 
     def dataset(data, rgb, label)
       {
+        type:,
         label:,
         backgroundColor: [
           "rgba(#{rgb}, 0.75)"
