@@ -75,6 +75,8 @@ class Comic < ApplicationRecord
     )
   end
 
+  def to_s = name
+
   def self.import(comic_vine_id:)
     comic = Comic.find_or_initialize_by(cv_id: comic_vine_id)
     comic.sync
