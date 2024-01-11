@@ -3,7 +3,6 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <%= paginate @issue_history %>
   <% @issue_history_grouped.each_pair do |day, history| %>
     <div class="my-6">
       <p class="my-4 text-2xl font-bold"><%= day %></p>
