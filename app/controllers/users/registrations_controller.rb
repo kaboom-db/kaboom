@@ -11,7 +11,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super
+    if params[:bot_protection].to_s.downcase == "moobak"
+      super
+    else
+      redirect_back fallback_location: new_registration_path(User), alert: "Bot protection failed."
+    end
   end
 
   # GET /resource/edit
