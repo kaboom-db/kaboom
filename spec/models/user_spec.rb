@@ -39,6 +39,14 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#to_s" do
+    let(:user) { FactoryBot.build(:user, username: "ObiWan") }
+
+    it "returns the username" do
+      expect(user.to_s).to eq "ObiWan"
+    end
+  end
+
   describe "#completed_comics" do
     let(:user) { FactoryBot.create(:user) }
 

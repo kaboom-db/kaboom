@@ -30,6 +30,10 @@ class User < ApplicationRecord
     username
   end
 
+  def to_s
+    username
+  end
+
   # TODO: Possibly make this more efficient with indexes?
   def completed_comics
     comics

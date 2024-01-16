@@ -22,7 +22,7 @@ RSpec.describe "Users", type: :request do
 
       it "displays the username" do
         get user_path(user)
-        assert_select "h1", text: "Obi1"
+        assert_select "a", text: "Obi1"
       end
 
       it "renders links for each section" do
