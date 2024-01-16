@@ -1,0 +1,15 @@
+<section class="bg-gray-100 dark:bg-gray-900 py-20 border-4 border-primary">
+  <div class="container mx-auto flex flex-col items-center gap-4">
+    <span class="relative flex shrink-0 overflow-hidden h-32 w-32">
+      <span class="flex h-full w-full items-center justify-center bg-muted">
+        <img src="<%= @user.avatar %>" alt="Profile Image" class="rounded-full border-4 border-secondary">
+      </span>
+    </span>
+    <div class="decoration-dotted underline text-4xl font-bold text-center text-gray-800 dark:text-gray-200">
+      <%= link_to @user %>
+    </div>
+    <% if @user.bio.present? %>
+      <div class="text-xl text-center text-gray-600 dark:text-gray-400"><%= @user.bio %></div>
+    <% end %>
+  </div>
+</section>
