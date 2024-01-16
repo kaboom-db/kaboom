@@ -62,4 +62,33 @@ RSpec.describe "Users", type: :request do
       end
     end
   end
+
+  describe "GET /history" do
+    let(:user) { FactoryBot.create(:user, username: "Obi2", email: "obi2@obi.com", confirmed_at: Time.current) }
+
+    context "when user is viewing their own history" do
+      before do
+        read_at = Time.new(2024, 1, 1, 0, 0, 0, "+00:00")
+        FactoryBot.create(:read_issue, read_at:, user:)
+        sign_in user
+      end
+
+      it "renders the history component" do
+        get history_user_path(user)
+        assert_select "div[data-controller='history-item']"
+      end
+    end
+
+    context "when user is viewing someone else's history" do
+      before do
+        FactoryBot.create(:read_issue, user:)
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      it "renders the resource component" do
+        get history_user_path(user)
+        assert_select "div[data-controller='read']"
+      end
+    end
+  end
 end
