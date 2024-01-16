@@ -8,7 +8,7 @@ RSpec.describe "comics/show", type: :view do
 
   it "renders attributes in <p>" do
     render
-    assert_select "h1.text-2xl", text: "Demon Slayer"
+    assert_select "h1.text-4xl", text: "Demon Slayer"
   end
 
   context "when user is signed in" do
