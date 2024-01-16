@@ -23,7 +23,7 @@
   </div>
 </aside>
 <!-- Mobile navbar -->
-<div class="h-12 sm:hidden px-[50px] bg-primary">
+<div class="h-12 sm:hidden px-[1rem] bg-primary">
   <div class="w-full w-full flex justify-between">
     <div class="flex">
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
