@@ -18,7 +18,7 @@
           <div class="whitespace-nowrap font-bold">Log out</div>
         <% end %>
       <% end %>
-      <%= render NavButtonComponent.new(href: "#", icon: "gear", text: "Settings") %>
+      <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics") %>
     </div>
   </div>
 </aside>

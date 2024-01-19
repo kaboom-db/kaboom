@@ -2,6 +2,15 @@ module Charts
   class ChartCountGenerator
     attr_accessor :resource, :num_of_elms, :type, :range_type
 
+    CHART_COLOURS = [
+      READ = "255, 95, 109",
+      VISIT = "0, 64, 128",
+      COLLECTION = "71, 188, 234",
+      USER = "255, 195, 113",
+      COMIC = "99, 136, 137",
+      ISSUE = "157, 188, 152"
+    ]
+
     CHART_TYPES = [
       LINE = "line",
       BAR = "bar"
@@ -27,7 +36,7 @@ module Charts
 
     RANGE_FORMATS = {
       DAY => "%b %-d",
-      MONTH => "%b",
+      MONTH => "%b %Y",
       YEAR => "%Y"
     }
 
@@ -77,7 +86,8 @@ module Charts
         borderColor: [
           "rgba(#{rgb}, 1)"
         ],
-        borderRadius: 2,
+        borderWidth: 2,
+        borderRadius: 5,
         fill: true,
         tension: 0.3,
         data:

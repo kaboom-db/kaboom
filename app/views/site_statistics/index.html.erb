@@ -1,0 +1,25 @@
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "Site Statistics") %>
+<% end %>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+  <%= render BorderComponent.new do %>
+    <p class="text-sm text-muted-foreground">Comics:</p>
+    <h3 class="text-2xl font-semibold my-4"><%= Comic.count %></h3>
+  <% end %>
+  <%= render BorderComponent.new do %>
+    <p class="text-sm text-muted-foreground">Users:</p>
+    <h3 class="text-2xl font-semibold my-4"><%= User.count %></h3>
+  <% end %>
+</div>
+
+<% @charts.each do |chart_data| %>
+  <div class="mb-4">
+    <%= render BorderComponent.new do %>
+      <h3 class="text-2xl font-semibold mb-4"><%= chart_data[:title] %></h3>
+      <div class="mt-4" data-controller="history-chart" data-history-chart-data-value="<%= chart_data[:stats].to_json %>" data-history-chart-type-value="bar">
+        <canvas data-history-chart-target="canvas" class="w-full h-64"></canvas>
+      </div>
+    <% end %>
+  </div>
+<% end %>

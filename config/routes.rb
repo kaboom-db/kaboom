@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     get :wishlist, on: :member
   end
 
+  resources :site_statistics, only: [:index]
+
   get "dashboard" => "dashboard#index"
   get "dashboard/history" => "dashboard#history"
   get "dashboard/collection" => "dashboard#collection"
