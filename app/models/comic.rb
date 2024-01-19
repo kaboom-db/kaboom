@@ -2,6 +2,7 @@ class Comic < ApplicationRecord
   # associations
   has_many :issues
   has_many :ordered_issues, -> { order(issue_number: :asc) }, class_name: "Issue"
+  has_many :read_issues, through: :issues
   has_many :visits, as: :visited, dependent: :delete_all
 
   # validations

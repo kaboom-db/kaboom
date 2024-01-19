@@ -57,12 +57,14 @@ module Charts
         type:,
         label:,
         backgroundColor: [
-          "rgba(#{rgb}, 0.75)"
+          "rgba(#{rgb}, 0.10)"
         ],
         borderColor: [
           "rgba(#{rgb}, 1)"
         ],
         borderRadius: 2,
+        fill: true,
+        tension: 0.3,
         data:
       }
     end

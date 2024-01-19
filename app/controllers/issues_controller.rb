@@ -12,6 +12,8 @@ class IssuesController < ApplicationController
 
   def show
     add_visit(user: current_user, visited: @issue)
+
+    @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_days: 14, type: Charts::UserCountsChart::LINE).generate
   end
 
   def read

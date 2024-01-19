@@ -17,7 +17,8 @@ module Charts
       {
         labels:,
         datasets: [
-          visit_count
+          visit_count,
+          read_count
         ]
       }
     end
@@ -26,10 +27,18 @@ module Charts
 
     def visit_count
       data = counts do |day|
-        Visit.where(created_at: day.beginning_of_day..day.end_of_day, visited: resource).count
+        resource.visits.where(created_at: day.beginning_of_day..day.end_of_day).count
       end
 
       dataset(data, "0, 64, 128", "User visits")
+    end
+
+    def read_count
+      data = counts do |day|
+        resource.read_issues.where(read_at: day.beginning_of_day..day.end_of_day).count
+      end
+
+      dataset(data, "255, 95, 109", "Read issues")
     end
 
     def counts
@@ -48,12 +57,14 @@ module Charts
         type:,
         label:,
         backgroundColor: [
-          "rgba(#{rgb}, 0.75)"
+          "rgba(#{rgb}, 0.10)"
         ],
         borderColor: [
           "rgba(#{rgb}, 1)"
         ],
         borderRadius: 2,
+        fill: true,
+        tension: 0.3,
         data:
       }
     end
