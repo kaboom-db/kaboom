@@ -23,7 +23,7 @@ class ComicsController < ApplicationController
       .page(params[:page])
       .per(30)
 
-    @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_days: 14, type: Charts::UserCountsChart::LINE).generate
+    @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_elms: 14, type: Charts::ChartCountGenerator::LINE, range_type: Charts::ChartCountGenerator::DAY).generate
   end
 
   def import
