@@ -17,6 +17,8 @@ class Issue < ApplicationRecord
       .order("visit_count DESC")
   }
 
+  def year = store_date&.year
+
   def formatted_issue_number
     issue_number.to_s.gsub(/\.0\b/, "")
   end

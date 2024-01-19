@@ -20,6 +20,22 @@ RSpec.describe Issue, type: :model do
     end
   end
 
+  describe "#year" do
+    context "when there is a store date" do
+      it "returns the year of the store date" do
+        issue = FactoryBot.build(:issue, store_date: Date.new(2024, 1, 1))
+        expect(issue.year).to eq 2024
+      end
+    end
+
+    context "when there is no store date" do
+      it "returns nil" do
+        issue = FactoryBot.build(:issue, store_date: nil)
+        expect(issue.year).to eq nil
+      end
+    end
+  end
+
   describe "#formatted_issue_number" do
     let(:issue) { FactoryBot.create(:issue, issue_number:) }
 

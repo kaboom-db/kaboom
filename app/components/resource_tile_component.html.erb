@@ -26,5 +26,7 @@
       <img src="<%= @resource.image %>" alt="" class="w-full" />
     </div>
   </div>
-  <small class="font-bold"><%= @resource.name %></small>
+  <small class="font-bold">
+    <%= @resource.name %><% if @resource.year.present? %> (<%= @resource.year %>)<% end %>
+  </small>
 <% end %>

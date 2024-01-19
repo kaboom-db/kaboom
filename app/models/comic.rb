@@ -76,6 +76,8 @@ class Comic < ApplicationRecord
     )
   end
 
+  def year = start_year
+
   def to_s = name
 
   def self.import(comic_vine_id:)

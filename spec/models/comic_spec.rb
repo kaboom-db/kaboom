@@ -384,5 +384,12 @@ RSpec.describe Comic, type: :model do
         end
       end
     end
+
+    describe "#year" do
+      it "returns the start year of the comic" do
+        comic = FactoryBot.build(:comic, start_year: 2013)
+        expect(comic.year).to eq 2013
+      end
+    end
   end
 end

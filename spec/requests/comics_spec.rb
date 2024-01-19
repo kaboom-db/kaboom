@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe "/comics", type: :request do
   describe "GET /index" do
     before do
-      FactoryBot.create(:comic, name: "Test Comic")
-      FactoryBot.create(:comic, aliases: "Comic\nTesting", name: "Cool Comic")
-      FactoryBot.create(:comic, aliases: "Comic", name: "No Name")
+      FactoryBot.create(:comic, name: "Test Comic", start_year: nil)
+      FactoryBot.create(:comic, aliases: "Comic\nTesting", name: "Cool Comic", start_year: nil)
+      FactoryBot.create(:comic, aliases: "Comic", name: "No Name", start_year: nil)
     end
 
     it "renders a successful response" do
