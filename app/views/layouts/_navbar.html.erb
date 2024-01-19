@@ -38,7 +38,7 @@
           </div>
         <% end %>
       <% end %>
-      <%= render NavButtonComponent.new(href: "#", icon: "gear", text: "Settings", mobile: true) %>
+      <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics", mobile: true) %>
     </div>
   </div>
 </div>
