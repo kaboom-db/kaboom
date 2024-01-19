@@ -5,8 +5,8 @@
         <img src="<%= @user.avatar %>" alt="Profile Image" class="rounded-full border-4 border-secondary">
       </span>
     </span>
-    <div class="decoration-dotted underline text-4xl font-bold text-center text-gray-800 dark:text-gray-200">
-      <%= link_to @user %>
+    <div class="text-4xl font-bold text-center text-gray-800 dark:text-gray-200">
+      <%= link_to @user, {}, {class: "decoration-dotted underline"} %><% if @possessive.present? %>'s <%= @possessive %><% end %>
     </div>
     <% if @user.bio.present? %>
       <div class="text-xl text-center text-gray-600 dark:text-gray-400"><%= @user.bio %></div>

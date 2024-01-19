@@ -14,4 +14,12 @@ RSpec.describe UserHeroComponent, type: :component do
     render_inline(described_class.new(user:))
     expect(page).to have_content "This is my bio!"
   end
+
+  context "when a possessive is specified" do
+    it "adds the possessive to the title" do
+      user = FactoryBot.create(:user, username: "HelloThereKenobi")
+      render_inline(described_class.new(user:, possessive: "History"))
+      expect(page).to have_content "HelloThereKenobi's History"
+    end
+  end
 end
