@@ -1,15 +1,24 @@
-<section class="bg-gray-100 dark:bg-gray-900 py-20 border-4 border-primary">
+<section class="bg-gray-100 dark:bg-gray-900 py-20 border-4 border-primary px-4">
   <div class="container mx-auto flex flex-col items-center gap-4">
     <span class="relative flex shrink-0 overflow-hidden h-32 w-32">
       <span class="flex h-full w-full items-center justify-center bg-muted">
         <img src="<%= @user.avatar %>" alt="Profile Image" class="rounded-full border-4 border-secondary">
       </span>
     </span>
-    <div class="text-4xl font-bold text-center text-gray-800 dark:text-gray-200">
+    <div class="text-2xl sm:text-4xl font-bold text-center text-gray-800 dark:text-gray-200">
       <%= link_to @user, {}, {class: "decoration-dotted underline"} %><% if @possessive.present? %>'s <%= @possessive %><% end %>
     </div>
     <% if @user.bio.present? %>
       <div class="text-xl text-center text-gray-600 dark:text-gray-400"><%= @user.bio %></div>
     <% end %>
+    <% if @last_read_issue.present? %>
+      <div class="text-md text-center text-gray-600 dark:text-gray-400">
+        <%= @user.username %> last read <b><%= @last_read_issue.issue.name %></b> of <b><%= @last_read_issue.comic %></b> at <b data-controller="local-time" data-local-time-utc-value="<%= @last_read_issue.read_at %>"><%= @last_read_issue.read_at.strftime('%-d %b %H:%M') %></b>
+      </div>
+    <% end %>
+    <div class="flex gap-4">
+      <%= render LinkComponent.new(text: "#{Time.current.year} Stats", href: user_statistic_path(Time.current.year, user_id: @user)) %>
+      <%= render LinkComponent.new(text: "Alltime Stats", href: user_statistics_path(@user)) %>
+    </div>
   </div>
 </section>

@@ -47,6 +47,95 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#last_read_issue" do
+    let(:user) { FactoryBot.create(:user, username: "ObiWan") }
+
+    context "when there is no last read issue" do
+      it "returns nil" do
+        expect(user.last_read_issue).to be_nil
+      end
+    end
+
+    context "when there are read issues" do
+      it "returns the last read issue" do
+        FactoryBot.create(:read_issue, user:, read_at: Time.current - 2.seconds)
+        issue = FactoryBot.create(:read_issue, user:, read_at: Time.current - 1.second)
+        FactoryBot.create(:read_issue, user:, read_at: Time.current - 3.seconds)
+        expect(user.last_read_issue).to eq issue
+      end
+    end
+  end
+
+  describe "#first_read_issue" do
+    let(:user) { FactoryBot.create(:user, username: "ObiWan") }
+
+    context "when year is invalid" do
+      it "returns nil" do
+        expect(user.first_read_issue(year: "gobble-di-guck")).to be_nil
+      end
+    end
+
+    context "when year is all time" do
+      it "returns the first read issue" do
+        issue = FactoryBot.create(:read_issue, user:, read_at: Time.current - 2.years)
+        FactoryBot.create(:read_issue, user:, read_at: Time.current - 1.years)
+        expect(user.first_read_issue(year: "alltime")).to eq issue
+      end
+    end
+
+    context "when year is a valid year" do
+      it "returns the first read issue for that year" do
+        year = Time.new(2024, 1, 1, 14, 0)
+        FactoryBot.create(:read_issue, user:, read_at: (year - 1.years) + 5.days)
+        issue = FactoryBot.create(:read_issue, user:, read_at: year - 1.years)
+        FactoryBot.create(:read_issue, user:, read_at: year)
+        FactoryBot.create(:read_issue, user:, read_at: year - 3.years)
+        expect(user.first_read_issue(year: "2023")).to eq issue
+      end
+
+      context "when there are no read issues" do
+        it "returns nil" do
+          expect(user.first_read_issue(year: "2024")).to be_nil
+        end
+      end
+    end
+  end
+
+  describe "#first_collected_issue" do
+    let(:user) { FactoryBot.create(:user, username: "ObiWan") }
+
+    context "when year is invalid" do
+      it "returns nil" do
+        expect(user.first_collected_issue(year: "gobble-di-guck")).to be_nil
+      end
+    end
+
+    context "when year is all time" do
+      it "returns the first collected issue" do
+        issue = FactoryBot.create(:collected_issue, user:, collected_on: Time.current - 2.years)
+        FactoryBot.create(:collected_issue, user:, collected_on: Time.current - 1.years)
+        expect(user.first_collected_issue(year: "alltime")).to eq issue
+      end
+    end
+
+    context "when year is a valid year" do
+      it "returns the first collected issue for that year" do
+        year = Time.new(2024, 1, 1, 14, 0)
+        FactoryBot.create(:collected_issue, user:, collected_on: (year - 1.years) + 5.days)
+        issue = FactoryBot.create(:collected_issue, user:, collected_on: year - 1.years)
+        FactoryBot.create(:collected_issue, user:, collected_on: year)
+        FactoryBot.create(:collected_issue, user:, collected_on: year - 3.years)
+        expect(user.first_collected_issue(year: "2023")).to eq issue
+      end
+
+      context "when there are no collected issues" do
+        it "returns nil" do
+          expect(user.first_collected_issue(year: "2024")).to be_nil
+        end
+      end
+    end
+  end
+
   describe "#completed_comics" do
     let(:user) { FactoryBot.create(:user) }
 

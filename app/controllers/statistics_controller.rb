@@ -13,7 +13,17 @@ class StatisticsController < ApplicationController
   private
 
   def set_counts(year: nil)
-    @read_counts, @collected_counts = Statistics::BaseCount.all_counts_for(year: year || @year, user: @user)
+    y = year || @year
+    @read_counts, @collected_counts = Statistics::BaseCount.all_counts_for(year: y, user: @user)
+
+    start_time = (y == Statistics::BaseCount::ALLTIME) ? Time.current : Time.new(y).end_of_year
+    @read_collect_chart_data = Charts::UserCountsChart.new(
+      resource: @user,
+      num_of_elms: 12,
+      type: Charts::ChartCountGenerator::BAR,
+      range_type: Charts::ChartCountGenerator::MONTH,
+      start_time:
+    ).generate
   end
 
   def set_user

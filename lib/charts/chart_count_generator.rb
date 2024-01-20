@@ -1,6 +1,6 @@
 module Charts
   class ChartCountGenerator
-    attr_accessor :resource, :num_of_elms, :type, :range_type
+    attr_accessor :resource, :num_of_elms, :type, :range_type, :start_time
 
     CHART_COLOURS = [
       READ = "255, 95, 109",
@@ -40,11 +40,12 @@ module Charts
       YEAR => "%Y"
     }
 
-    def initialize(resource:, num_of_elms:, type:, range_type:)
+    def initialize(resource:, num_of_elms:, type:, range_type:, start_time: Time.current)
       @resource = resource
       @num_of_elms = num_of_elms
       @type = type
       @range_type = range_type
+      @start_time = start_time
 
       raise "Invalid range type" unless RANGE_TYPES.include?(range_type)
     end
@@ -62,7 +63,8 @@ module Charts
 
     def generate_count(rgb, label)
       data = num_of_elms.times.map do |i|
-        day = i.send(range_type).ago
+        days = i.send(range_type)
+        day = start_time - days
         beginning_of_range = day.send(range_start)
         end_of_range = day.send(range_end)
         range = (beginning_of_range..end_of_range)
@@ -73,7 +75,10 @@ module Charts
     end
 
     def labels
-      num_of_elms.times.map { _1.send(range_type).ago.strftime(RANGE_FORMATS[range_type]) }.reverse
+      num_of_elms.times.map do |elm|
+        days = elm.send(range_type)
+        (start_time - days).strftime(RANGE_FORMATS[range_type])
+      end.reverse
     end
 
     def dataset(data, rgb, label)

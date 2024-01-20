@@ -1,1 +1,10 @@
 <%= render "statistics", year: @year, read_count: @read_counts.count, collected_count: @collected_counts.count %>
+
+<% if @year != Statistics::BaseCount::ALLTIME %>
+  <%= render SectionComponent.new do %>
+    <div class="flex justify-between">
+      <%= render LinkComponent.new(text: "< #{@year.to_i - 1}", href: user_statistic_path(@year.to_i - 1, user_id: @user)) %>
+      <%= render LinkComponent.new(text: "#{@year.to_i + 1} >", href: user_statistic_path(@year.to_i + 1, user_id: @user)) %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,15 +1,10 @@
 <%= render SectionComponent.new do %>
-  <div class="relative rounded-sm border-4 border-primary">
-    <div class="absolute top-0 bottom-0 w-full h-full z-[-10] bg-stripes"></div>
-    <div class="flex flex-wrap gap-[3rem] items-center p-[3rem]">
-      <%= render PageTitleComponent.new(text: "#{year.humanize} Statistics") %>
-    </div>
-  </div>
+  <%= render UserHeroComponent.new(user: @user, possessive: "#{year.humanize} Statistics") %>
 <% end %>
 
 <%= render SectionComponent.new do %>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <%= link_to dashboard_history_path do %>
+    <%= link_to history_user_path(@user) do %>
       <div class="group p-1.5 h-full bg-[#ff6961]">
         <div class="bg-[#ff8f89] p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
           <div class="h-32 flex flex-col justify-center items-center">
@@ -19,7 +14,7 @@
         </div>
       </div>
     <% end %>
-    <%= link_to dashboard_collection_path do %>
+    <%= link_to collection_user_path(@user) do %>
       <div class="group p-1.5 h-full bg-[#47bcea]">
         <div class="bg-[#7bc3e0] p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
           <div class="h-32 flex flex-col justify-center items-center">
@@ -29,7 +24,42 @@
         </div>
       </div>
     <% end %>
+    <% first_read_issue = @user.first_read_issue(year:) %>
+    <%= render BorderComponent.new do %>
+      <div class="p-6 flex flex-col items-center">
+        <% if first_read_issue.present? %>
+          <h2 class="text-2xl font-bold mb-4">First read</h2>
+          <img src="<%= first_read_issue.issue.image %>" alt="Comic Cover" width="150" height="200" class="aspect-[3/4] overflow-hidden rounded-lg object-cover">
+          <h2 class="text-2xl font-bold mt-4"><%= first_read_issue.issue.name %></h2>
+          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Read at: <%= first_read_issue.read_at.strftime('%-d %b %H:%M') %></span></div>
+        <% else %>
+          <h2 class="text-2xl font-bold mb-4">No issues read</h2>
+        <% end %>
+      </div>
+    <% end %>
+
+
+    <% first_collected_issue = @user.first_collected_issue(year:) %>
+    <%= render BorderComponent.new do %>
+      <div class="p-6 flex flex-col items-center">
+        <% if first_collected_issue.present? %>
+          <h2 class="text-2xl font-bold mb-4">First collected</h2>
+          <img src="<%= first_collected_issue.issue.image %>" alt="Comic Cover" width="150" height="200" class="aspect-[3/4] overflow-hidden rounded-lg object-cover">
+          <h2 class="text-2xl font-bold mt-4"><%= first_collected_issue.issue.name %></h2>
+          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Collected on: <%= first_collected_issue.collected_on.strftime('%-d %b') %></span></div>
+        <% else %>
+          <h2 class="text-2xl font-bold mb-4">No issues collected</h2>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="col-span-full">
+      <%= render BorderComponent.new do %>
+        <h2 class="text-2xl font-bold mb-4">Issues read and collected</h2>
+        <div class="mt-4" data-controller="history-chart" data-history-chart-data-value="<%= @read_collect_chart_data.to_json %>" data-history-chart-type-value="bar">
+          <canvas data-history-chart-target="canvas" class="w-full h-96"></canvas>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>
-
-<p><b>This page is under construction. Check back soon.</b></p>

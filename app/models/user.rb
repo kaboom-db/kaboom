@@ -34,6 +34,30 @@ class User < ApplicationRecord
     username
   end
 
+  def last_read_issue = read_issues.order(read_at: :desc).first
+
+  def first_read_issue(year:)
+    return unless year == Statistics::BaseCount::ALLTIME || Date.new(year.to_i).gregorian?
+
+    if year == Statistics::BaseCount::ALLTIME
+      read_issues.order(read_at: :asc).first
+    else
+      date = Time.new(year.to_i)
+      read_issues.where(read_at: date.beginning_of_year..date.end_of_year).order(read_at: :asc).first
+    end
+  end
+
+  def first_collected_issue(year:)
+    return unless year == Statistics::BaseCount::ALLTIME || Date.new(year.to_i).gregorian?
+
+    if year == Statistics::BaseCount::ALLTIME
+      collected_issues.order(collected_on: :asc).first
+    else
+      date = Time.new(year.to_i)
+      collected_issues.where(collected_on: date.beginning_of_year..date.end_of_year).order(collected_on: :asc).first
+    end
+  end
+
   # TODO: Possibly make this more efficient with indexes?
   def completed_comics
     comics

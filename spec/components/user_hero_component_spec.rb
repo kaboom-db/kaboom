@@ -22,4 +22,15 @@ RSpec.describe UserHeroComponent, type: :component do
       expect(page).to have_content "HelloThereKenobi's History"
     end
   end
+
+  context "when there is a last read issue" do
+    it "renders the name of the issue and comic with the read at" do
+      user = FactoryBot.create(:user, username: "HelloThereKenobi")
+      comic = FactoryBot.create(:comic, name: "Test Comic")
+      issue = FactoryBot.create(:issue, name: "Test Issue", comic:)
+      FactoryBot.create(:read_issue, issue:, user:, read_at: Time.new(2024, 1, 1, 10, 0, 0, "+00:00"))
+      render_inline(described_class.new(user:))
+      expect(page).to have_content "HelloThereKenobi last read Test Issue of Test Comic at 1 Jan 10:00"
+    end
+  end
 end
