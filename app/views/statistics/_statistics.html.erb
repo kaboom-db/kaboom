@@ -31,7 +31,7 @@
           <h2 class="text-2xl font-bold mb-4">First read</h2>
           <img src="<%= first_read_issue.issue.image %>" alt="Comic Cover" width="150" height="200" class="aspect-[3/4] overflow-hidden rounded-lg object-cover">
           <h2 class="text-2xl font-bold mt-4"><%= first_read_issue.issue.name %></h2>
-          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Read at: <%= first_read_issue.read_at.strftime('%-d %b %H:%M') %></span></div>
+          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Read at: <b data-controller="local-time" data-local-time-utc-value="<%= first_read_issue.read_at %>"><%= first_read_issue.read_at.strftime('%-d %b %H:%M') %></b></span></div>
         <% else %>
           <h2 class="text-2xl font-bold mb-4">No issues read</h2>
         <% end %>
@@ -46,7 +46,7 @@
           <h2 class="text-2xl font-bold mb-4">First collected</h2>
           <img src="<%= first_collected_issue.issue.image %>" alt="Comic Cover" width="150" height="200" class="aspect-[3/4] overflow-hidden rounded-lg object-cover">
           <h2 class="text-2xl font-bold mt-4"><%= first_collected_issue.issue.name %></h2>
-          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Collected on: <%= first_collected_issue.collected_on.strftime('%-d %b') %></span></div>
+          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Collected on: <b><%= first_collected_issue.collected_on.strftime('%-d %b') %></b></span></div>
         <% else %>
           <h2 class="text-2xl font-bold mb-4">No issues collected</h2>
         <% end %>
