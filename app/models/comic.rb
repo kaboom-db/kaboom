@@ -87,6 +87,9 @@ class Comic < ApplicationRecord
   end
 
   def self.search(query:)
-    where("lower(name) LIKE ?", "%#{query.downcase}%").or(where("lower(aliases) LIKE ?", "%#{query.downcase}%"))
+    words = query.split(" ")
+    results = Comic
+    words.each { |word| results = results.where(["lower(name) LIKE ? OR lower(aliases) LIKE ?", "%#{word}%", "%#{word}%"]) }
+    results
   end
 end

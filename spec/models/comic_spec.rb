@@ -51,7 +51,7 @@ RSpec.describe Comic, type: :model do
     end
   end
 
-  describe "#search" do
+  describe ".search" do
     it "searches by name and alias" do
       comic_1 = FactoryBot.create(:comic, name: "Test Comic")
       comic_2 = FactoryBot.create(:comic, aliases: "Comic\nTesting", name: "Cool Comic")
