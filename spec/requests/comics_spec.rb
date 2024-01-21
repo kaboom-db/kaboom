@@ -46,6 +46,12 @@ RSpec.describe "/comics", type: :request do
       expect(response).to be_successful
     end
 
+    it "sets the page title" do
+      comic = FactoryBot.create(:comic, name: "Test", description: "Cool description", image: "image.png")
+      get comic_path(comic)
+      assert_select "title", text: "Test - Kaboom"
+    end
+
     context "when request is made a bot" do
       it "does not add a visit to the comic" do
         comic = FactoryBot.create(:comic)

@@ -1,5 +1,7 @@
 class SiteStatisticsController < ApplicationController
   def index
+    set_metadata(title: "Site Statistics", description: "Kaboom as a platform is growing every day with new features, comics and users. Check out how the site is performing!")
+
     site_visits = build_stats_hash(
       title: "Site visits",
       resource: Visit,

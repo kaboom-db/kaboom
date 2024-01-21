@@ -3,10 +3,14 @@ class StatisticsController < ApplicationController
   before_action :set_year, only: [:show]
 
   def index
+    set_metadata(title: "#{@user}'s Statistics", description: "Check out #{@user}'s statistics for comics and issues on Kaboom!")
+
     set_counts(year: Statistics::BaseCount::ALLTIME)
   end
 
   def show
+    set_metadata(title: "#{@user}'s #{@year} Statistics", description: "Check out #{@user}'s #{@year} statistics for comics and issues on Kaboom!")
+
     set_counts
   end
 

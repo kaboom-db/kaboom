@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head class="dark">
-    <title>Kaboom</title>
+    <title><%= (@metadata && @metadata.title.present?) ? "#{@metadata.title} - Kaboom" : "Kaboom" %></title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <meta name="description" content="<%= @metadata&.description %>">
+    <link rel="canonical" href="<%= request.original_url %>">
+
+    <meta property="og:site_name" content="Trakt">
+    <meta property="og:title" content="<%= @metadata&.title %>">
+    <meta property="og:description" content="<%= @metadata&.description %>">
+    <meta property="og:image" content="<%= @metadata&.image %>">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= @metadata&.title %>">
+    <meta name="twitter:description" content="<%= @metadata&.description %>">
+    <meta name="twitter:image" content="<%= @metadata&.image %>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,26 +32,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <script src="https://kit.fontawesome.com/eb574cc0ee.js" crossorigin="anonymous"></script>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-
-    <script>
-      // TODO: Remove this debug feature
-      // let dark = false
-
-      // document.onkeydown = function(e){
-      //   e = e || window.event;
-      //   var key = e.which || e.keyCode;
-      //   if(key===84){
-      //     if (dark) {
-      //       document.childNodes[1].classList.remove("dark")
-      //     } else {
-      //       document.childNodes[1].classList.add("dark")
-      //     }
-      //     dark = !dark
-      //   }
-      // }
-    </script>
   </head>
 
   <body class="bg-white dark:bg-black transition duration-300 ease-in-out">

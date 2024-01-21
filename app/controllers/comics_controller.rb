@@ -5,6 +5,8 @@ class ComicsController < ApplicationController
   before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite read_range]
 
   def index
+    set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
+
     @header = "📚 Comics"
     if params[:search]
       @search = params[:search]
@@ -17,6 +19,7 @@ class ComicsController < ApplicationController
   end
 
   def show
+    set_resource_metadata(resource: @comic)
     add_visit(user: current_user, visited: @comic)
 
     @ordered_issues = @comic.ordered_issues
