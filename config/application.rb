@@ -35,5 +35,8 @@ module Kaboom
     config.generators.system_tests = nil
 
     config.eager_load_paths += Dir["#{config.root}/lib"]
+
+    # Adds is_crawler? and other helpers to the request
+    config.middleware.use Rack::CrawlerDetect
   end
 end

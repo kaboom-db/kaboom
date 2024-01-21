@@ -46,6 +46,14 @@ RSpec.describe "/comics", type: :request do
       expect(response).to be_successful
     end
 
+    context "when request is made a bot" do
+      it "does not add a visit to the comic" do
+        comic = FactoryBot.create(:comic)
+        get comic_path(comic), headers: {"User-Agent" => "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"}
+        expect(Visit.count).to eq 0
+      end
+    end
+
     context "when user is not logged in" do
       it "adds a visit to the comic" do
         comic = FactoryBot.create(:comic)
