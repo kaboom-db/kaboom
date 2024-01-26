@@ -1,0 +1,18 @@
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "Update your account") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= form_for(@user, url: user_path(@user)) do |f| %>
+    <div class="flex flex-col gap-4 my-4">
+      <%= render Forms::TextFieldComponent.new(form: f, field: :bio, type: "text_area", autofocus: true, required: true) %>
+
+      <div>
+        <%= f.check_box :private %>
+        <%= f.label :private, "Make my account private" %>
+      </div>
+    </div>
+
+    <%= render Forms::SubmitComponent.new(form: f, text: "Save") %>
+  <% end %>
+<% end %>

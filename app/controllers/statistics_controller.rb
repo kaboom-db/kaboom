@@ -1,6 +1,7 @@
 class StatisticsController < ApplicationController
   before_action :set_user
   before_action :set_year, only: [:show]
+  before_action :check_private
 
   def index
     set_metadata(title: "#{@user}'s Statistics", description: "Check out #{@user}'s statistics for comics and issues on Kaboom!")
@@ -37,5 +38,9 @@ class StatisticsController < ApplicationController
   def set_year
     @year = params[:id]
     head :not_found unless @year == Statistics::BaseCount::ALLTIME || Date.new(@year.to_i).gregorian?
+  end
+
+  def check_private
+    render "users/private_user" if @user != current_user && @user.private?
   end
 end

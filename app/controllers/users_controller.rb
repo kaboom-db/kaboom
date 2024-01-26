@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show history deck favourites completed collection wishlist]
+  before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist]
+  before_action :authorise_user, only: %i[edit update]
+  before_action :check_private, except: %i[edit update]
 
   def show
     set_metadata(title: "#{@user}'s Profile", description: "#{@user} is tracking their favourite comics on Kaboom. Check out their profile!")
@@ -10,6 +12,17 @@ class UsersController < ApplicationController
     @completed_comics = @user.completed_comics.take(12)
     @collection = @user.collected_issues.order(collected_on: :desc).limit(12)
     @wishlisted = @user.wishlisted_comics.limit(12)
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to edit_user_path(@user), notice: "Your profile has been successfully updated."
+    else
+      redirect_to edit_user_path(@user), alert: "We encountered an error whilst updating your account. Please try again later."
+    end
   end
 
   # TODO: Extract to own class
@@ -71,6 +84,10 @@ class UsersController < ApplicationController
 
   private
 
+  def user_params
+    params.require(:user).permit(:bio, :private)
+  end
+
   def build_filters
     filters = {}
     filters[:issue] = params[:issue] if params[:issue].present?
@@ -79,5 +96,13 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.where.not(confirmed_at: nil).find_by!(username: params[:id])
+  end
+
+  def authorise_user
+    redirect_back fallback_location: root_path, alert: "You are not authorised to access this page." unless @user == current_user
+  end
+
+  def check_private
+    render "private_user" if @user != current_user && @user.private?
   end
 end

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     post :read_range, on: :member
   end
 
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :edit, :update] do
     resources :statistics, only: [:index, :show]
 
     get :history, on: :member

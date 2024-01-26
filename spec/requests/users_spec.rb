@@ -1,14 +1,40 @@
 require "rails_helper"
 
 RSpec.describe "Users", type: :request do
+  shared_examples_for "a private user" do
+    context "when user is private" do
+      let(:private) { true }
+
+      context "when user is current user" do
+        before do
+          sign_in user
+        end
+
+        it "does not display a private account" do
+          get path
+          assert_select "p", text: "This user is private.", count: 0
+        end
+      end
+
+      context "when user is not current user" do
+        it "displays a private account page" do
+          get path
+          assert_select "p", text: "This user is private."
+        end
+      end
+    end
+  end
+
   describe "GET /show" do
-    let(:user) { FactoryBot.create(:user, username: "Obi1", confirmed_at:) }
+    let(:user) { FactoryBot.create(:user, username: "Obi1", confirmed_at:, private:) }
+    let(:private) { false }
+    let(:path) { user_path(user) }
 
     context "when user is not confirmed" do
       let(:confirmed_at) { nil }
 
       it "renders 404" do
-        expect { get user_path(user) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { get path }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -16,12 +42,12 @@ RSpec.describe "Users", type: :request do
       let(:confirmed_at) { Time.current }
 
       it "renders a successful response" do
-        get user_path(user)
+        get path
         expect(response).to be_successful
       end
 
       it "displays the username" do
-        get user_path(user)
+        get path
         assert_select "a", text: "Obi1"
       end
 
@@ -51,7 +77,7 @@ RSpec.describe "Users", type: :request do
         w_comic = FactoryBot.create(:comic, name: "Wishlist Comic")
         FactoryBot.create(:wishlist_item, wishlistable: w_comic, user:)
 
-        get user_path(user)
+        get path
 
         assert_select "a", href: comic_issue_path(h_issue, comic_id: h_comic)
         assert_select "a", href: comic_path(d_comic)
@@ -60,11 +86,69 @@ RSpec.describe "Users", type: :request do
         assert_select "a", href: comic_issue_path(coll_issue, comic_id: coll_issue.comic)
         assert_select "a", href: comic_path(w_comic)
       end
+
+      it_behaves_like "a private user"
+    end
+  end
+
+  describe "GET /edit" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com") }
+
+    context "when user is current user" do
+      before do
+        sign_in user
+      end
+
+      it "renders a successful response" do
+        get edit_user_path(user)
+        expect(response).to be_successful
+      end
+
+      it "renders an edit form" do
+        get edit_user_path(user)
+        assert_select "textarea[name='user[bio]']"
+        assert_select "input[name='user[private]']"
+      end
+    end
+
+    context "when user is not the current user" do
+      it "redirects and sets a flash alert" do
+        get edit_user_path(user)
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to eq "You are not authorised to access this page."
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com") }
+
+    context "when user is current user" do
+      before do
+        sign_in user
+      end
+
+      it "updates the user" do
+        patch user_path(user), params: {user: {bio: "My cool new bio", private: true}}
+        user.reload
+        expect(user.bio).to eq "My cool new bio"
+        expect(user.private?).to eq true
+      end
+    end
+
+    context "when user is not the current user" do
+      it "redirects and sets a flash alert" do
+        patch user_path(user)
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to eq "You are not authorised to access this page."
+      end
     end
   end
 
   describe "GET /history" do
-    let(:user) { FactoryBot.create(:user, username: "Obi2", email: "obi2@obi.com", confirmed_at: Time.current) }
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", private:) }
+    let(:private) { false }
+    let(:path) { history_user_path(user) }
 
     context "when user is viewing their own history" do
       before do
@@ -74,7 +158,7 @@ RSpec.describe "Users", type: :request do
       end
 
       it "renders the history component" do
-        get history_user_path(user)
+        get path
         assert_select "div[data-controller='history-item']"
       end
     end
@@ -86,9 +170,11 @@ RSpec.describe "Users", type: :request do
       end
 
       it "renders the resource component" do
-        get history_user_path(user)
+        get path
         assert_select "div[data-controller='read']"
       end
     end
+
+    it_behaves_like "a private user"
   end
 end

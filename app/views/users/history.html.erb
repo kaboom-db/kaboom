@@ -1,5 +1,5 @@
 <%= render SectionComponent.new do %>
-  <%= render UserHeroComponent.new(user: @user, possessive: "History") %>
+  <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "History") %>
 <% end %>
 
 <%= render SectionComponent.new do %>

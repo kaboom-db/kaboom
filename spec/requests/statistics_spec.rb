@@ -1,12 +1,35 @@
 require "rails_helper"
 
 RSpec.describe "Statistics", type: :request do
-  let(:user) { FactoryBot.create(:user, :confirmed, username: "TestUser") }
+  let(:user) { FactoryBot.create(:user, :confirmed, username: "TestUser", private:) }
+  let(:private) { false }
 
   shared_examples_for "a statistics page" do
     it "renders the read and collected counts" do
       get path
       assert_select "h2.text-2xl", text: "Issues read and collected"
+    end
+
+    context "when user has a private account" do
+      let(:private) { true }
+
+      context "when user is viewing their own stats" do
+        before do
+          sign_in user
+        end
+
+        it "does not render a private user page" do
+          get path
+          assert_select "b", text: "This user is private.", count: 0
+        end
+      end
+
+      context "when user is viewing a private users stats" do
+        it "displays a private user page" do
+          get path
+          assert_select "b", text: "This user is private."
+        end
+      end
     end
 
     context "when there are no read or collected issues" do

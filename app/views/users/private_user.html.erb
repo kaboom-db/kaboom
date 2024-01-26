@@ -1,0 +1,7 @@
+<%= render SectionComponent.new do %>
+  <%= render UserHeroComponent.new(user: @user, current_user:) %>
+<% end %>
+
+<div class="text-center">
+  <p><b>This user is private.</b></p>
+</div>
