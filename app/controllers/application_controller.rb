@@ -1,5 +1,15 @@
 class ApplicationController < ActionController::Base
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from ActiveRecord::RecordNotFound, with: :not_found
+    rescue_from ActionController::RoutingError, with: :not_found
+    rescue_from AbstractController::ActionNotFound, with: :not_found
+  end
+
   private
+
+  def not_found
+    render "application/not_found", formats: [:html], status: 404
+  end
 
   def user_required
     return if user_signed_in?
