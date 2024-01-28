@@ -372,4 +372,27 @@ RSpec.describe "/comics", type: :request do
       end
     end
   end
+
+  describe "POST /refresh" do
+    context "when user is not logged in" do
+      it "redirects to the login page" do
+        comic = FactoryBot.create(:comic)
+        post refresh_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+        @comic = FactoryBot.create(:comic)
+      end
+
+      it "starts a background refresh of the comic" do
+        expect(ImportWorker).to receive(:perform_async).with("Comic", @comic.cv_id)
+        post refresh_comic_path(@comic)
+        expect(response).to redirect_to comic_path(@comic)
+      end
+    end
+  end
 end

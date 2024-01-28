@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show wishlist unwishlist favourite unfavourite read_range]
-  before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite read_range]
+  before_action :set_comic, only: %i[show wishlist unwishlist favourite unfavourite read_range refresh]
+  before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite read_range refresh]
 
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
@@ -127,6 +127,11 @@ class ComicsController < ApplicationController
     return render template: "shared/read_range", formats: :json if request.xhr?
 
     redirect_to comic_path(@comic), notice: @message
+  end
+
+  def refresh
+    ImportWorker.perform_async("Comic", @comic.cv_id)
+    redirect_to comic_path(@comic), notice: "This comic will be refreshed soon."
   end
 
   private
