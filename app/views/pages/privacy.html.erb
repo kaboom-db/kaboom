@@ -1,0 +1,86 @@
+<% date_updated = Date.new(2024, 1, 30) %>
+<% days_ago = (Date.current - date_updated).to_i %>
+
+<%= render SectionComponent.new do %>
+  <%= render PageTitleComponent.new(text: "The Kaboom Privacy Policy") %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <p>Last updated: <b><%= date_updated.strftime("%-d %b %Y") %> (<%= "#{days_ago} #{"day".pluralize(days_ago)}" %> ago)</b></p>
+  <p>Welcome to Kaboom! This Privacy Policy is intended to inform you about how Kaboom ("we," "us," or "our") collects, uses, and protects your personal information when you use our website and services.</p>
+  <p class="mt-2 font-bold">By using Kaboom, you consent to the terms outlined in this Privacy Policy.</p>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Information we collect</h2>
+  <p><b>User account information</b></p>
+  <ul class="list-disc list-inside [&_ul]:list-[revert]">
+    <li>When you sign up for a Kaboom account, we collect the following information:</li>
+    <ul class="ml-6 list-disc list-inside">
+      <li>Username</li>
+      <li>Password (encrypted. We never store unencrypted passwords.)</li>
+      <li>Email Address</li>
+      <li>Biography (an optional user supplied short description)</li>
+    </ul>
+  </ul>
+  <p><b>Visit tracking</b></p>
+  <ul class="list-disc list-inside [&_ul]:list-[revert]">
+    <li>When you visit a comic/issue page on Kaboom, we collect the following information:</li>
+    <ul class="ml-6 list-disc list-inside">
+      <li>Your user ID (if you're logged in)</li>
+      <li>Date and time of the visit</li>
+      <li>Comic or issue visited</li>
+    </ul>
+  </ul>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">How we use your information</h2>
+  <p><b>User account information</b></p>
+  <ul class="list-disc list-inside [&_ul]:list-[revert]">
+    <li>We use your account information to provide personalized features, such as tracking when you read or collect an issue, managing wishlists, and keeping track of your favorite comics.</li>
+  </ul>
+  <p><b>Visit tracking</b></p>
+  <ul class="list-disc list-inside [&_ul]:list-[revert]">
+    <li>The information collected during your visits is used to generate trending/popular comics/issues and basic statistics, such as daily visit counts for each comic/issue. This helps us enhance the user experience on Kaboom.</li>
+  </ul>
+  <p><b>Email address</b></p>
+  <ul class="list-disc list-inside [&_ul]:list-[revert]">
+    <li>Your email address is only used for necessary communications, including but not limited to confirmation emails related to your Kaboom account.</li>
+  </ul>
+  <p><b>Cookies</b></p>
+  <ul class="list-disc list-inside [&_ul]:list-[revert]">
+    <li>Kaboom uses cookies to allow users to remain logged in on future visits. This improves the user experience by eliminating the need to log in repeatedly.</li>
+  </ul>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Data security</h2>
+  <p>We take the security of your data seriously and implement reasonable measures to protect it from unauthorized access, disclosure, alteration, and destruction.</p>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Data sharing</h2>
+  <p>We do not sell, trade, or otherwise transfer your personally identifiable information to third parties.</p>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Your choices</h2>
+  <p>You have the option to provide or withhold certain information when using Kaboom. However, some features may require specific information to function correctly.</p>
+  <p>You can manage your cookie preferences through your browser settings.</p>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Children's privacy</h2>
+  <p>Kaboom is not directed at children under the age of 13, and we do not knowingly collect personal information from individuals under 13 years of age.</p>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Changes to the privacy policy</h2>
+  <p>We may update this Privacy Policy from time to time. The date of the latest revision will be indicated at the top of the policy. Previous versions of this Privacy Policy can be viewed on Kaboom's GitHub page.</p>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <h2 class="text-primary text-2xl font-bold mb-4">Contact us</h2>
+  <p>If you have any questions, concerns, or feedback regarding this Privacy Policy, please contact us at <a class="underline" href="mailto:hello@kaboom.rocks">hello@kaboom.rocks</a>.</p>
+<% end %>

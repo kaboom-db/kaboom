@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root "pages#index"
 
+  get "privacy_policy" => "pages#privacy"
+
   resources :comics, only: [:index, :show] do
     resources :issues, only: [:index, :show] do
       post :read, on: :member

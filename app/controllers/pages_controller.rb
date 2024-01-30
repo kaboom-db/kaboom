@@ -11,4 +11,8 @@ class PagesController < ApplicationController
     @comic_count = Comic.count
     @user_count = User.count
   end
+
+  def privacy
+    set_metadata(title: "", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
+  end
 end
