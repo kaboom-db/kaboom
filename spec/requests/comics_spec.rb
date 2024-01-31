@@ -29,7 +29,7 @@ RSpec.describe "/comics", type: :request do
     context "when there is a search query" do
       it "shows the search results" do
         get comics_path(search: "test")
-        assert_select "p.text-sm.font-bold", text: "Results for test:"
+        assert_select "h2.text-sm.font-bold", text: "Results for test:"
         assert_select "#search" do
           assert_select "small", text: "Test Comic"
           assert_select "small", text: "Cool Comic"
