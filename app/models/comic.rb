@@ -1,4 +1,15 @@
 class Comic < ApplicationRecord
+  TYPES = [
+    TRADE_PAPERBACK = "Trade Paperback",
+    GRAPHIC_NOVEL = "Graphic Novel",
+    MANGA = "Manga",
+    ONGOING_SERIES = "Ongoing Series",
+    ONESHOT = "Oneshot",
+    HARDCOVER = "Hardcover",
+    ANNUAL_SERIES = "Annual Series",
+    SPECIAL = "Special Series"
+  ]
+
   # associations
   has_many :issues
   has_many :ordered_issues, -> { order(issue_number: :asc) }, class_name: "Issue"
@@ -8,6 +19,7 @@ class Comic < ApplicationRecord
   # validations
   validates :cv_id, :name, presence: true
   validates :cv_id, uniqueness: true
+  validates_inclusion_of :type, in: TYPES, allow_nil: true, allow_blank: true
 
   # scopes
   scope :trending, -> {

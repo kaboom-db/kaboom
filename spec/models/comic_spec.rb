@@ -13,6 +13,7 @@ RSpec.describe Comic, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:cv_id) }
     it { should validate_uniqueness_of(:cv_id) }
+    it { should validate_inclusion_of(:type).in_array(Comic::TYPES).allow_blank.allow_nil }
   end
 
   describe "scopes" do
