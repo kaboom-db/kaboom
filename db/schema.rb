@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_02_160542) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_02_172528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,11 +42,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_160542) do
     t.datetime "updated_at", null: false
     t.boolean "nsfw", default: false
     t.string "comic_type"
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_comics_on_country_id"
   end
 
   create_table "comics_genres", id: false, force: :cascade do |t|
     t.bigint "comic_id", null: false
     t.bigint "genre_id", null: false
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "language_code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "favourite_items", force: :cascade do |t|
@@ -138,6 +147,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_160542) do
 
   add_foreign_key "collected_issues", "issues"
   add_foreign_key "collected_issues", "users"
+  add_foreign_key "comics", "countries"
   add_foreign_key "favourite_items", "users"
   add_foreign_key "issues", "comics"
   add_foreign_key "read_issues", "issues"

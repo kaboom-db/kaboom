@@ -152,6 +152,6 @@ class ComicsController < ApplicationController
   end
 
   def comic_params
-    params.require(:comic).permit(:nsfw, :comic_type, genre_ids: [])
+    params.require(:comic).permit(:nsfw, :comic_type, :country_id, genre_ids: [])
   end
 end

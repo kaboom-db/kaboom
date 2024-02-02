@@ -25,6 +25,8 @@
 
       <%= render Forms::CollectionSelectComponent.new(form:, field: :genre_ids, options: Genre.all, identifier: :id, multiple: true) %>
 
+      <%= render Forms::CollectionSelectComponent.new(form:, field: :country_id, options: Country.all, identifier: :id, include_blank: true) %>
+
       <div>
         <%= form.check_box :nsfw %>
         <%= form.label :nsfw, "Adult content" %>

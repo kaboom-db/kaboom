@@ -107,6 +107,7 @@ RSpec.describe "/comics", type: :request do
         assert_select "select[name='comic[comic_type]']"
         assert_select "select[name='comic[genre_ids][]']"
         assert_select "input[name='comic[nsfw]']"
+        assert_select "select[name='comic[country_id]']"
       end
     end
 
@@ -122,14 +123,16 @@ RSpec.describe "/comics", type: :request do
   describe "PATCH /update" do
     context "when user is signed in" do
       let(:genre) { FactoryBot.create(:genre) }
+      let(:country) { FactoryBot.create(:country) }
       let(:valid_params) {
         {
           nsfw: true,
           comic_type: Comic::ANNUAL_SERIES,
-          genre_ids: [genre.id]
+          genre_ids: [genre.id],
+          country_id: country.id
         }
       }
-      let(:invalid_params) { {comic_type: "bogus dawg"} }
+      let(:invalid_params) { {comic_type: "bogus dawg", country_id: "bogus maloney"} }
       let(:comic) { FactoryBot.create(:comic, name: "test comic") }
 
       before do
@@ -150,6 +153,7 @@ RSpec.describe "/comics", type: :request do
           expect(comic.reload.nsfw).to eq true
           expect(comic.comic_type).to eq Comic::ANNUAL_SERIES
           expect(comic.genres).to contain_exactly(genre)
+          expect(comic.country).to eq country
         end
       end
 
@@ -162,6 +166,7 @@ RSpec.describe "/comics", type: :request do
           assert_select "select[name='comic[comic_type]']"
           assert_select "select[name='comic[genre_ids][]']"
           assert_select "input[name='comic[nsfw]']"
+          assert_select "select[name='comic[country_id]']"
         end
       end
     end
