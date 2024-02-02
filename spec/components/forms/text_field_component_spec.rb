@@ -35,6 +35,22 @@ RSpec.describe Forms::TextFieldComponent, type: :component do
     expect(page).to have_css "input[type='number'][placeholder='Password']"
   end
 
+  it "renders a custom placeholder" do
+    user = User.new
+    view = ActionView::Base.empty
+    form = ActionView::Helpers::FormBuilder.new(:user, user, view, {})
+    render_inline(described_class.new(form:, field: :password, type: "number_field", placeholder: "Custom"))
+    expect(page).to have_css "input[type='number'][placeholder='Custom']"
+  end
+
+  it "renders extra arguments" do
+    user = User.new
+    view = ActionView::Base.empty
+    form = ActionView::Helpers::FormBuilder.new(:user, user, view, {})
+    render_inline(described_class.new(form:, field: :password, type: "number_field", extras: {step: ".01"}))
+    expect(page).to have_css "input[type='number'][step='.01']"
+  end
+
   it "can be required" do
     user = User.new
     view = ActionView::Base.empty

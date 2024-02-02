@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_02_175052) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_02_180556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_175052) do
     t.string "symbol", null: false
     t.string "symbol_native", null: false
     t.string "name", null: false
+    t.string "code", null: false
     t.integer "decimal_digits"
     t.integer "rounding"
     t.string "name_plural"
@@ -100,7 +101,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_175052) do
     t.bigint "comic_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "rating"
+    t.decimal "cover_price"
+    t.bigint "currency_id"
+    t.integer "page_count"
+    t.string "isbn"
+    t.string "upc"
     t.index ["comic_id"], name: "index_issues_on_comic_id"
+    t.index ["currency_id"], name: "index_issues_on_currency_id"
     t.index ["issue_number", "comic_id"], name: "index_issues_on_issue_number_and_comic_id", unique: true
   end
 
@@ -161,6 +169,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_175052) do
   add_foreign_key "comics", "countries"
   add_foreign_key "favourite_items", "users"
   add_foreign_key "issues", "comics"
+  add_foreign_key "issues", "currencies"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
   add_foreign_key "visits", "users"
