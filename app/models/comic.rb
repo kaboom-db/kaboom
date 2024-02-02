@@ -36,9 +36,7 @@ class Comic < ApplicationRecord
         deck: r[:deck],
         description: r[:description],
         image: r[:image][:medium_url],
-        # TODO: Remove this hotfix, possibly move to another class
-        # TODO: Add spec
-        issue_number: r[:issue_number].gsub(" + ", ".").gsub("a", ".1"),
+        issue_number: ComicVine::IssueNumberFormatter.format(r[:issue_number]),
         name: r[:name] || "Issue ##{r[:issue_number]}",
         site_detail_url: r[:site_detail_url],
         store_date: r[:store_date]
