@@ -15,11 +15,12 @@ class Comic < ApplicationRecord
   has_many :ordered_issues, -> { order(issue_number: :asc) }, class_name: "Issue"
   has_many :read_issues, through: :issues
   has_many :visits, as: :visited, dependent: :delete_all
+  has_and_belongs_to_many :genres
 
   # validations
   validates :cv_id, :name, presence: true
   validates :cv_id, uniqueness: true
-  validates_inclusion_of :type, in: TYPES, allow_nil: true, allow_blank: true
+  validates_inclusion_of :comic_type, in: TYPES, allow_nil: true, allow_blank: true
 
   # scopes
   scope :trending, -> {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_02_145456) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_02_160542) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,7 +41,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_145456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "nsfw", default: false
-    t.string "type"
+    t.string "comic_type"
+  end
+
+  create_table "comics_genres", id: false, force: :cascade do |t|
+    t.bigint "comic_id", null: false
+    t.bigint "genre_id", null: false
   end
 
   create_table "favourite_items", force: :cascade do |t|
@@ -51,6 +56,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_145456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_favourite_items_on_user_id"
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "issues", force: :cascade do |t|

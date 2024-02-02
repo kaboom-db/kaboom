@@ -13,6 +13,18 @@
     -webkit-box-orient: vertical;
   }
 
+  select[multiple="multiple"] > option {
+    padding: 10px;
+  }
+
+  select[multiple] > option:checked {
+    background-color: rgb(255, 95, 109);
+  }
+
+  select[multiple] > option:focus {
+    background-color: rgb(255, 95, 109);
+  }
+
   /* width */
   ::-webkit-scrollbar {
     width: 7px;

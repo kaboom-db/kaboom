@@ -16,13 +16,17 @@
                       <p class="text-gray-500 dark:text-gray-400">Started in <%= @comic.start_year %></p>
                       <p class="text-gray-500 dark:text-gray-400">Published by <%= @comic.publisher %></p>
                       <p class="text-gray-500 dark:text-gray-400"><%= @comic.count_of_issues %> issues</p>
+                      <% if @comic.comic_type.present? %>
+                        <p class="text-gray-500 dark:text-gray-400"><%= @comic.comic_type %></p>
+                      <% end %>
                   </div>
               </div>
               <div class="flex gap-4">
-                <a href="<%= @comic.site_detail_url %>" class="flex font-bold w-max rounded-md text-xs bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
+                <a href="<%= @comic.site_detail_url %>" class="flex font-bold w-max rounded-md text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
                   <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
                 </a>
-                <%= button_to "Refresh", refresh_comic_path(@comic), method: :post, class: "flex font-bold w-max rounded-md text-xs bg-primary text-white py-2 px-3" %>
+                <%= button_to "Refresh", refresh_comic_path(@comic), method: :post, class: "flex font-bold w-max rounded-md text-sm bg-primary py-2 px-3" %>
+                <%= link_to "Edit", edit_comic_path(@comic), class: "flex font-bold w-max rounded-md text-sm bg-secondary py-2 px-3" %>
               </div>
           </article>
       </div>
