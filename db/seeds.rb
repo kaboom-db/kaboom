@@ -6,8 +6,16 @@ Visit.delete_all
 Issue.delete_all
 Comic.delete_all
 User.delete_all
+Genre.delete_all
 Country.delete_all
 Currency.delete_all
+
+def create_genres
+  genres = ["Adult", "Crime", "Espionage", "Fantasy", "Historical", "Horror", "Comedy", "Romance", "Science Fiction", "Sport"]
+  genres.each do |genre|
+    FactoryBot.create(:genre, name: genre)
+  end
+end
 
 def create_currencies
   [
@@ -44,6 +52,7 @@ def create_countries
   FactoryBot.create(:country, name: "South Korea", language_code: "ko")
 end
 
+create_genres
 create_currencies
 create_countries
 

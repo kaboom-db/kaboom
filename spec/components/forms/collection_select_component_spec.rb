@@ -21,7 +21,7 @@ RSpec.describe Forms::CollectionSelectComponent, type: :component do
       form = ActionView::Helpers::FormBuilder.new(:comic, comic, view, {})
       render_inline(described_class.new(form:, field: :comic_type, options: Comic::TYPES, multiple: true))
       expect(page).to have_css "select[multiple]"
-      expect(page).to have_content "Click to select an option, Control + Click to deselect one"
+      expect(page).to have_content "Control + Click to select/deselect an option"
     end
   end
 end
