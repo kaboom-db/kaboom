@@ -62,6 +62,102 @@ RSpec.describe "/issues", type: :request do
     end
   end
 
+  describe "GET /edit" do
+    context "when the user is signed in" do
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      it "renders a form to edit the comic" do
+        comic = FactoryBot.create(:comic)
+        issue = FactoryBot.create(:issue, comic:)
+        get edit_comic_issue_path(issue, comic_id: comic)
+        assert_select "input[name='issue[rating]']"
+        assert_select "input[name='issue[cover_price]']"
+        assert_select "select[name='issue[currency_id]']"
+        assert_select "input[name='issue[page_count]']"
+        assert_select "input[name='issue[isbn]']"
+        assert_select "input[name='issue[upc]']"
+      end
+    end
+
+    context "when the user is not signed in" do
+      it "redirects to the sign in page" do
+        comic = FactoryBot.create(:comic)
+        issue = FactoryBot.create(:issue, comic:)
+        get edit_comic_issue_path(issue, comic_id: comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    context "when user is signed in" do
+      let(:currency) { FactoryBot.create(:currency) }
+      let(:valid_params) {
+        {
+          rating: "Teens",
+          cover_price: 3.99,
+          currency_id: currency.id,
+          page_count: 127,
+          isbn: "978-1-56619-909-4",
+          upc: "0987654321"
+        }
+      }
+      let(:invalid_params) { {isbn: "I'm not an isbn"} }
+      let(:comic) { FactoryBot.create(:comic, name: "test comic") }
+      let(:issue) { FactoryBot.create(:issue, comic:, name: "test issue") }
+
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      context "with valid params" do
+        before do
+          patch comic_issue_path(issue, comic_id: comic, params: {issue: valid_params})
+        end
+
+        it "sets a flash message and redirects to the issue" do
+          expect(flash[:notice]).to eq "test issue was successfully updated."
+          expect(response).to redirect_to comic_issue_path(issue, comic_id: comic)
+        end
+
+        it "updates the comic" do
+          expect(issue.reload.rating).to eq "Teens"
+          expect(issue.cover_price).to eq 3.99
+          expect(issue.currency).to eq currency
+          expect(issue.page_count).to eq 127
+          expect(issue.isbn).to eq "978-1-56619-909-4"
+          expect(issue.upc).to eq "0987654321"
+        end
+      end
+
+      context "with invalid params" do
+        before do
+          patch comic_issue_path(issue, comic_id: comic, params: {issue: invalid_params})
+        end
+
+        it "renders the edit form" do
+          assert_select "input[name='issue[rating]']"
+          assert_select "input[name='issue[cover_price]']"
+          assert_select "select[name='issue[currency_id]']"
+          assert_select "input[name='issue[page_count]']"
+          assert_select "input[name='issue[isbn]']"
+          assert_select "input[name='issue[upc]']"
+        end
+      end
+    end
+
+    context "when the user is not signed in" do
+      it "redirects to the sign in page" do
+        comic = FactoryBot.create(:comic)
+        issue = FactoryBot.create(:issue, comic:)
+        patch comic_issue_path(issue, comic_id: comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
   describe "POST /read" do
     let(:comic) { FactoryBot.create(:comic, name: "Test Comic") }
     let(:user) { FactoryBot.create(:user, :confirmed) }

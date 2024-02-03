@@ -1,12 +1,14 @@
 class Issue < ApplicationRecord
   # associations
   belongs_to :comic
+  belongs_to :currency, optional: true
   has_many :visits, as: :visited, dependent: :delete_all
   has_many :read_issues, dependent: :delete_all
 
   # validations
   validates :name, :issue_number, presence: true
   validates :issue_number, uniqueness: {scope: :comic_id}
+  validates :isbn, isbn_format: true, allow_nil: true, allow_blank: true
 
   # scopes
   scope :trending, -> {

@@ -17,6 +17,17 @@ class IssuesController < ApplicationController
     @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_elms: 14, type: Charts::ChartCountGenerator::LINE, range_type: Charts::ChartCountGenerator::DAY).generate
   end
 
+  def edit
+  end
+
+  def update
+    if @issue.update(issue_params)
+      redirect_to comic_issue_path(@issue, comic_id: @comic), notice: "#{@issue.name} was successfully updated."
+    else
+      render :edit
+    end
+  end
+
   def read
     read_issue = ReadIssue.new(read_at: params[:read_at] || Time.current, user: current_user, issue: @issue)
 
@@ -163,6 +174,10 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def issue_params
+    params.require(:issue).permit(:rating, :cover_price, :currency_id, :page_count, :isbn, :upc)
+  end
 
   def has_read
     current_user.issues_read.include?(@issue)

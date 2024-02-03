@@ -1,2 +1,4 @@
-<%= @form.label @field, class: "hidden" %>
-<%= @form.send(@type, @field, placeholder: @placeholder, autofocus: @autofocus, class: "w-full form-control p-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary", required: @required) %>
+<div>
+  <%= @form.label @field, @placeholder, class: "font-bold text-lg after:content-[':']" %>
+  <%= @form.send(@type, @field, placeholder: @placeholder, autofocus: @autofocus, class: "w-full form-control p-2 mt-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary", required: @required, **@extras) %>
+</div>

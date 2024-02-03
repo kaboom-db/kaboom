@@ -95,6 +95,91 @@ RSpec.describe "/comics", type: :request do
     end
   end
 
+  describe "GET /edit" do
+    context "when the user is signed in" do
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      it "renders a form to edit the comic" do
+        comic = FactoryBot.create(:comic)
+        get edit_comic_path(comic)
+        assert_select "select[name='comic[comic_type]']"
+        assert_select "select[name='comic[genre_ids][]']"
+        assert_select "input[name='comic[nsfw]']"
+        assert_select "select[name='comic[country_id]']"
+      end
+    end
+
+    context "when the user is not signed in" do
+      it "redirects to the sign in page" do
+        comic = FactoryBot.create(:comic)
+        get edit_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    context "when user is signed in" do
+      let(:genre) { FactoryBot.create(:genre) }
+      let(:country) { FactoryBot.create(:country) }
+      let(:valid_params) {
+        {
+          nsfw: true,
+          comic_type: Comic::ANNUAL_SERIES,
+          genre_ids: [genre.id],
+          country_id: country.id
+        }
+      }
+      let(:invalid_params) { {comic_type: "bogus dawg", country_id: "bogus maloney"} }
+      let(:comic) { FactoryBot.create(:comic, name: "test comic") }
+
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      context "with valid params" do
+        before do
+          patch comic_path(comic, params: {comic: valid_params})
+        end
+
+        it "sets a flash message and redirects to the comic" do
+          expect(flash[:notice]).to eq "test comic was successfully updated."
+          expect(response).to redirect_to comic_path(comic)
+        end
+
+        it "updates the comic" do
+          expect(comic.reload.nsfw).to eq true
+          expect(comic.comic_type).to eq Comic::ANNUAL_SERIES
+          expect(comic.genres).to contain_exactly(genre)
+          expect(comic.country).to eq country
+        end
+      end
+
+      context "with invalid params" do
+        before do
+          patch comic_path(comic, params: {comic: invalid_params})
+        end
+
+        it "renders the edit form" do
+          assert_select "select[name='comic[comic_type]']"
+          assert_select "select[name='comic[genre_ids][]']"
+          assert_select "input[name='comic[nsfw]']"
+          assert_select "select[name='comic[country_id]']"
+        end
+      end
+    end
+
+    context "when the user is not signed in" do
+      it "redirects to the sign in page" do
+        comic = FactoryBot.create(:comic)
+        patch comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
   describe "POST /import" do
     context "when user is not logged in" do
       it "redirects to the log in page" do

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Forms::TextFieldComponent < ViewComponent::Base
-  def initialize(form:, field:, type: "text_field", autofocus: false, required: false)
+  def initialize(form:, field:, type: "text_field", autofocus: false, required: false, placeholder: nil, extras: {})
     @field = field
     @form = form
-    @placeholder = field.to_s.humanize
+    @placeholder = placeholder || field.to_s.humanize
     @type = type
     @autofocus = autofocus
     @required = required
+    @extras = extras
   end
 end

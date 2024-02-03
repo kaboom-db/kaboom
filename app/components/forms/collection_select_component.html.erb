@@ -1,0 +1,9 @@
+<div>
+  <%= @form.label @field, class: "font-bold text-lg after:content-[':']" %>
+  <% if @multiple %>
+    <%= @form.collection_select @field, @options, @identifier, :to_s, {}, { multiple: true, class: "w-full form-control p-2 mt-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" } %>
+    <p class="text-sm">Control + Click to select/deselect an option</p>
+  <% else %>
+    <%= @form.collection_select @field, @options, @identifier, :to_s, { include_blank: @include_blank }, class: "w-full form-control p-2 mt-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" %>
+  <% end %>
+</div>

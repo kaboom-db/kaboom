@@ -165,6 +165,8 @@ GEM
     irb (1.11.0)
       rdoc
       reline (>= 0.3.8)
+    isbn_validation (1.2.2)
+      activerecord (>= 3)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -419,6 +421,7 @@ DEPENDENCIES
   factory_bot_rails
   guard-rspec
   image_processing (~> 1.2)
+  isbn_validation
   jbuilder
   jsbundling-rails
   kaminari (~> 1.2)

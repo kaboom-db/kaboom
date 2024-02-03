@@ -5,10 +5,35 @@
       <%= render PageTitleComponent.new(text: @issue.name) %>
       <p class="text-lg text-white"><b class="text-white">Issue:</b> #<%= @issue.formatted_issue_number %></p>
       <p class="text-lg text-white"><b class="text-white">Cover date:</b> <%= @issue.cover_date %></p>
-      <p class="text-lg text-white"><b class="text-white">Store date:</b> <%= @issue.store_date %></p>
-      <a href="<%= @issue.site_detail_url %>" class="flex font-bold w-max rounded-md text-xs bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
-        <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
-      </a>
+      <% if @issue.store_date.present? %>
+        <p class="text-lg text-white"><b class="text-white">Store date:</b> <%= @issue.store_date %></p>
+      <% end %>
+
+      <% if @issue.rating.present? %>
+        <p class="text-lg text-white"><b class="text-white">Rating:</b> <%= @issue.rating %></p>
+      <% end %>
+
+      <% if @issue.cover_price.present? %>
+        <p class="text-lg text-white"><b class="text-white">Cover Price:</b> <%= format_price(issue: @issue) %></p>
+      <% end %>
+
+      <% if @issue.page_count.present? %>
+        <p class="text-lg text-white"><b class="text-white">Page Count:</b> <%= @issue.page_count %></p>
+      <% end %>
+
+      <% if @issue.isbn.present? %>
+        <p class="text-lg text-white"><b class="text-white">ISBN:</b> <%= @issue.isbn %></p>
+      <% end %>
+
+      <% if @issue.upc.present? %>
+        <p class="text-lg text-white"><b class="text-white">UPC:</b> <%= @issue.upc %></p>
+      <% end %>
+      <div class="flex gap-4">
+        <a href="<%= @issue.site_detail_url %>" class="flex font-bold w-max rounded-md text-xs bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
+          <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
+        </a>
+        <%= link_to "Edit", edit_comic_issue_path(@issue, comic_id: @comic), class: "flex font-bold w-max rounded-md text-sm bg-secondary py-2 px-3" %>
+      </div>
     </div>
   </div>
   <%= render Actions::ActionsComponent.new(resource: @issue, user: current_user) %>

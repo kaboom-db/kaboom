@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show wishlist unwishlist favourite unfavourite read_range refresh]
-  before_action :user_required, only: %i[import wishlist unwishlist favourite unfavourite read_range refresh]
+  before_action :set_comic, only: %i[show edit update wishlist unwishlist favourite unfavourite read_range refresh]
+  before_action :user_required, only: %i[edit update import wishlist unwishlist favourite unfavourite read_range refresh]
 
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
@@ -27,6 +27,17 @@ class ComicsController < ApplicationController
       .per(30)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_elms: 14, type: Charts::ChartCountGenerator::LINE, range_type: Charts::ChartCountGenerator::DAY).generate
+  end
+
+  def edit
+  end
+
+  def update
+    if @comic.update(comic_params)
+      redirect_to comic_path(@comic), notice: "#{@comic.name} was successfully updated."
+    else
+      render :edit
+    end
   end
 
   def import
@@ -138,5 +149,9 @@ class ComicsController < ApplicationController
 
   def set_comic
     @comic = Comic.find(params[:id])
+  end
+
+  def comic_params
+    params.require(:comic).permit(:nsfw, :comic_type, :country_id, genre_ids: [])
   end
 end

@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   get "privacy_policy" => "pages#privacy"
 
-  resources :comics, only: [:index, :show] do
-    resources :issues, only: [:index, :show] do
+  resources :comics, only: [:index, :show, :edit, :update] do
+    resources :issues, only: [:index, :show, :edit, :update] do
       post :read, on: :member
       post :unread, on: :member
       post :wishlist, on: :member

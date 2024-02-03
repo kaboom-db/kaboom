@@ -6,6 +6,8 @@ RSpec.describe Comic, type: :model do
     it { should have_many(:ordered_issues).class_name("Issue") }
     it { should have_many(:read_issues).through(:issues) }
     it { should have_many(:visits).dependent(:delete_all) }
+    it { should belong_to(:country).optional }
+    it { should have_and_belong_to_many(:genres) }
   end
 
   describe "validations" do
@@ -13,6 +15,7 @@ RSpec.describe Comic, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:cv_id) }
     it { should validate_uniqueness_of(:cv_id) }
+    it { should validate_inclusion_of(:comic_type).in_array(Comic::TYPES).allow_blank.allow_nil }
   end
 
   describe "scopes" do
