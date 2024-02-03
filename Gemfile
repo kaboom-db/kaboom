@@ -74,7 +74,7 @@ gem "bcrypt_pbkdf"
 # Detect crawlers and bots
 gem "crawler_detect"
 
-# Validate ISBNs and UPCs
+# Validate ISBNs
 gem "isbn_validation"
 
 group :development, :test do

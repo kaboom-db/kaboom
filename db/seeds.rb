@@ -12,25 +12,25 @@ Currency.delete_all
 def create_currencies
   [
     {
-      symbol:"$",
-      name:"US Dollar",
-      symbol_native:"$",
-      code:"USD",
-      name_plural:"US dollars"
+      symbol: "$",
+      name: "US Dollar",
+      symbol_native: "$",
+      code: "USD",
+      name_plural: "US dollars"
     },
     {
-      symbol:"¥",
-      name:"Japanese Yen",
-      symbol_native:"￥",
-      code:"JPY",
-      name_plural:"Japanese yen"
+      symbol: "¥",
+      name: "Japanese Yen",
+      symbol_native: "￥",
+      code: "JPY",
+      name_plural: "Japanese yen"
     },
     {
-      symbol:"£",
-      name:"British Pound Sterling",
-      symbol_native:"£",
-      code:"GBP",
-      name_plural:"British pounds sterling"
+      symbol: "£",
+      name: "British Pound Sterling",
+      symbol_native: "£",
+      code: "GBP",
+      name_plural: "British pounds sterling"
     }
   ].each do |currency|
     FactoryBot.create(:currency, **currency)

@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_02_180556) do
     t.integer "decimal_digits"
     t.integer "rounding"
     t.string "name_plural"
+    t.string "placement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

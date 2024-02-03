@@ -14,6 +14,13 @@ RSpec.describe Currency, type: :model do
     it { should validate_uniqueness_of :code }
   end
 
+  describe "callbacks" do
+    it "sets the placement default" do
+      currency = Currency.new
+      expect(currency.placement).to eq Currency::VALUE_START
+    end
+  end
+
   describe "#to_s" do
     it "returns the name" do
       expect(Currency.new(name: "Test").to_s).to eq "Test"

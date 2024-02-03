@@ -8,6 +8,7 @@ class CreateCurrencies < ActiveRecord::Migration[7.0]
       t.integer :decimal_digits
       t.integer :rounding
       t.string :name_plural
+      t.string :placement
 
       t.timestamps
     end
