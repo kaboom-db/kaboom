@@ -8,6 +8,7 @@ class Issue < ApplicationRecord
   # validations
   validates :name, :issue_number, presence: true
   validates :issue_number, uniqueness: {scope: :comic_id}
+  validates :isbn, isbn_format: true, allow_nil: true, allow_blank: true
 
   # scopes
   scope :trending, -> {

@@ -13,6 +13,27 @@ RSpec.describe Issue, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:issue_number) }
     it { should validate_uniqueness_of(:issue_number).scoped_to(:comic_id) }
+
+    context "when isbn is valid isbn13" do
+      it "is valid" do
+        issue = FactoryBot.build(:issue, isbn: "978-1-56619-909-4")
+        expect(issue.valid?).to eq true
+      end
+    end
+
+    context "when isbn is valid isbn10" do
+      it "is valid" do
+        issue = FactoryBot.build(:issue, isbn: "1-56619-909-3")
+        expect(issue.valid?).to eq true
+      end
+    end
+
+    context "when isbn is invalid" do
+      it "is not valid" do
+        issue = FactoryBot.build(:issue, isbn: "bogus isbn")
+        expect(issue.valid?).to eq false
+      end
+    end
   end
 
   describe "scopes" do
