@@ -4,6 +4,7 @@ class Currency < ApplicationRecord
 
   # Validations
   validates :symbol, :symbol_native, :name, :code, presence: true
+  validates :code, uniqueness: true
 
   def to_s = name
 end

@@ -6,10 +6,12 @@ RSpec.describe Currency, type: :model do
   end
 
   describe "validations" do
+    subject { FactoryBot.build(:currency) }
     it { should validate_presence_of :symbol }
     it { should validate_presence_of :symbol_native }
     it { should validate_presence_of :name }
     it { should validate_presence_of :code }
+    it { should validate_uniqueness_of :code }
   end
 
   describe "#to_s" do
