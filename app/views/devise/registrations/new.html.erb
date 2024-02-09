@@ -15,7 +15,10 @@
 
       <%= render Forms::TextFieldComponent.new(form: f, field: :password_confirmation, type: "password_field", required: true) %>
 
-      <%= render TextInputComponent.new(name: "bot_protection", placeholder: "Type 'Kaboom' backwards") %>
+      <div>
+        <label class="font-bold text-lg after:content-[':']" for="bot_protection">Bot protection</label>
+        <%= render TextInputComponent.new(name: "bot_protection", placeholder: "Type 'Kaboom' backwards") %>
+      </div>
     </div>
 
     <div class="flex gap-4">
