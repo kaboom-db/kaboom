@@ -1,0 +1,2 @@
+<%= render "shared/mailers/text", paragraphs: ["#{@comic.name} is missing some issues. ComicVine has #{@comic.count_of_issues} issues but only #{@comic.issues.count} were imported. Missing issue numbers are: #{@failed.join(", ")}."] %>
+<%= render "shared/mailers/button", href: comic_url(@comic), text: "Go to comic" %>

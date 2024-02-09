@@ -40,9 +40,10 @@ class Comic < ApplicationRecord
 
   def import_issues
     results = ComicVine::VolumeIssues.new(volume_id: cv_id, count_of_issues:).retrieve
+    failed = []
     results.each do |r|
       issue = issues.find_or_initialize_by(cv_id: r[:id])
-      issue.update(
+      success = issue.update(
         aliases: r[:aliases],
         api_detail_url: r[:api_detail_url],
         cover_date: r[:cover_date],
@@ -55,7 +56,9 @@ class Comic < ApplicationRecord
         site_detail_url: r[:site_detail_url],
         store_date: r[:store_date]
       )
+      failed << r[:issue_number] unless success
     end
+    AdminMailer.notify_missing_issues(comic: self, failed:).deliver_later if failed.any?
   end
 
   def sync

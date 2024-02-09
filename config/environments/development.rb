@@ -45,6 +45,9 @@ Rails.application.configure do
   routes.default_url_options = default_url_options
   config.action_mailer.default_url_options = default_url_options
 
+  config.action_mailer.default_options = {from: "hello@kaboom.rocks"}
+
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

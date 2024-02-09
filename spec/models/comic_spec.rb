@@ -208,13 +208,14 @@ RSpec.describe Comic, type: :model do
             image: {
               medium_url: "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786545-one%20piece%202.jpg"
             },
-            issue_number: "2 + 1",
+            issue_number:,
             name: "Versus!! Buggy Kaizoku-Dan",
             site_detail_url: "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/",
             store_date: "1998-04-03"
           }
         ]
       }
+      let(:issue_number) { "2 + 1" }
 
       include_context "stub ComicVine API request" do
         let(:options) {
@@ -296,6 +297,18 @@ RSpec.describe Comic, type: :model do
           expect(new_issue2.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/"
           expect(new_issue2.store_date).to eq Date.parse("1998-04-03")
           expect(Issue.count).to eq 2
+        end
+      end
+
+      context "when an issue import fails" do
+        let(:issue_number) { "1" }
+
+        it "notifies the admin" do
+          message_delivery = instance_double(ActionMailer::MessageDelivery)
+          expect(AdminMailer).to receive(:notify_missing_issues).with(comic: comic, failed: ["1"])
+            .and_return(message_delivery)
+          expect(message_delivery).to receive(:deliver_later)
+          comic.import_issues
         end
       end
     end
