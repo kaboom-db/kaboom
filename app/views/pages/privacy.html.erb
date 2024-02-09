@@ -1,12 +1,11 @@
-<% date_updated = Date.new(2024, 1, 30) %>
-<% days_ago = (Date.current - date_updated).to_i %>
+<% days_ago = (Date.current - PagesController::PRIVACY_POLICY_UPDATE).to_i %>
 
 <%= render SectionComponent.new do %>
   <%= render PageTitleComponent.new(text: "The Kaboom Privacy Policy") %>
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <p>Last updated: <b><%= date_updated.strftime("%-d %b %Y") %> (<%= "#{days_ago} #{"day".pluralize(days_ago)}" %> ago)</b></p>
+  <p>Last updated: <b><%= PagesController::PRIVACY_POLICY_UPDATE.strftime("%-d %b %Y") %> (<%= "#{days_ago} #{"day".pluralize(days_ago)}" %> ago)</b></p>
   <p>Welcome to Kaboom! This Privacy Policy is intended to inform you about how Kaboom ("we," "us," or "our") collects, uses, and protects your personal information when you use our website and services.</p>
   <p class="mt-2 font-bold">By using Kaboom, you consent to the terms outlined in this Privacy Policy.</p>
 <% end %>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <url>
+    <loc>https://kaboom.rocks</loc>
+    <lastmod><%= Time.current.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc><%= privacy_policy_url %></loc>
+    <lastmod><%= PagesController::PRIVACY_POLICY_UPDATE.strftime("%Y-%m-%d") %></lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <% @comics.each do |comic| %>
+    <url>
+      <loc><%= comic_url(comic) %></loc>
+      <lastmod><%= comic.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <% comic.issues.each do |issue| %>
+      <url>
+        <loc><%= comic_issue_url(issue, comic_id: comic) %></loc>
+        <lastmod><%= issue.updated_at.strftime("%Y-%m-%d") %></lastmod>
+        <changefreq>monthly</changefreq>
+      </url>
+    <% end %>
+  <% end %>
+  <% @users.each do |user| %>
+    <url>
+      <loc><%= user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc><%= history_user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc><%= deck_user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc><%= favourites_user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc><%= completed_user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc><%= collection_user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc><%= wishlist_user_url(user) %></loc>
+      <lastmod><%= user.updated_at.strftime("%Y-%m-%d") %></lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+  <% end %>
+</urlset>
