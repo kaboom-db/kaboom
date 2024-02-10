@@ -1,7 +1,7 @@
 module Charts
   class CreatedAtCountChart < ChartCountGenerator
-    def initialize(resource:, num_of_elms:, type:, range_type:, rgb:, label:)
-      super(resource:, num_of_elms:, type:, range_type:)
+    def initialize(resource:, num_of_elms:, type:, range_type:, rgb:, label:, start_time: Time.current)
+      super(resource:, num_of_elms:, type:, range_type:, start_time:)
       @rgb = rgb
       @label = label
     end

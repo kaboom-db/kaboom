@@ -3,7 +3,7 @@
 require "rails_helper"
 
 module Charts
-  RSpec.describe UserCountsChart do
+  RSpec.describe CreatedAtCountChart do
     describe "#generate" do
       let(:common_attributes) {
         {
@@ -14,16 +14,19 @@ module Charts
           tension: 0.3
         }
       }
-      let(:generator) { UserCountsChart.new(resource:, num_of_elms:, type:, range_type:, start_time:) }
-      let(:resource) { FactoryBot.create(:user) }
+      let(:generator) { CreatedAtCountChart.new(resource:, num_of_elms:, type:, range_type:, start_time:, rgb:, label:) }
+      let(:resource) { Comic }
       let(:num_of_elms) { 7 }
       let(:type) { ChartCountGenerator::LINE }
       let(:range_type) { ChartCountGenerator::DAY }
       let(:start_time) { Date.new(2024, 1, 1) }
 
+      let(:rgb) { ChartCountGenerator::COMIC }
+      let(:label) { "Comics imported" }
+
       subject { generator.generate }
 
-      def expect_dataset(dataset, label, rgb, data)
+      def expect_dataset(dataset, data)
         expect(dataset).to eq(
           {
             label:,
@@ -49,13 +52,11 @@ module Charts
             start_time - 3.days,
             (start_time - 6.days) - 1.second
           ].each do |timestamp|
-            FactoryBot.create(:read_issue, user: resource, read_at: timestamp)
-            FactoryBot.create(:collected_issue, user: resource, collected_on: timestamp.to_date)
+            FactoryBot.create(:comic, created_at: timestamp)
           end
           data = subject
           datasets = data[:datasets]
-          expect_dataset(datasets.first, "Read issues", "255, 95, 109", [1, 0, 0, 1, 0, 0, 3])
-          expect_dataset(datasets.second, "Collected issues", "71, 188, 234", [1, 0, 0, 1, 0, 0, 3])
+          expect_dataset(datasets.first, [1, 0, 0, 1, 0, 0, 3])
         end
       end
 
@@ -72,13 +73,11 @@ module Charts
             start_time - 3.months,
             (start_time - 6.months) - 1.second
           ].each do |timestamp|
-            FactoryBot.create(:read_issue, user: resource, read_at: timestamp)
-            FactoryBot.create(:collected_issue, user: resource, collected_on: timestamp.to_date)
+            FactoryBot.create(:comic, created_at: timestamp)
           end
           data = subject
           datasets = data[:datasets]
-          expect_dataset(datasets.first, "Read issues", "255, 95, 109", [1, 0, 0, 1, 0, 0, 3])
-          expect_dataset(datasets.second, "Collected issues", "71, 188, 234", [1, 0, 0, 1, 0, 0, 3])
+          expect_dataset(datasets.first, [1, 0, 0, 1, 0, 0, 3])
         end
       end
 
@@ -95,13 +94,11 @@ module Charts
             start_time - 3.years,
             (start_time - 6.years) - 1.second
           ].each do |timestamp|
-            FactoryBot.create(:read_issue, user: resource, read_at: timestamp)
-            FactoryBot.create(:collected_issue, user: resource, collected_on: timestamp.to_date)
+            FactoryBot.create(:comic, created_at: timestamp)
           end
           data = subject
           datasets = data[:datasets]
-          expect_dataset(datasets.first, "Read issues", "255, 95, 109", [1, 0, 0, 1, 0, 0, 3])
-          expect_dataset(datasets.second, "Collected issues", "71, 188, 234", [1, 0, 0, 1, 0, 0, 3])
+          expect_dataset(datasets.first, [1, 0, 0, 1, 0, 0, 3])
         end
       end
     end

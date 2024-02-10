@@ -65,8 +65,8 @@ module Charts
       data = num_of_elms.times.map do |i|
         days = i.send(range_type)
         day = start_time - days
-        beginning_of_range = day.send(range_start)
-        end_of_range = day.send(range_end)
+        beginning_of_range = day.send(range_start).beginning_of_day
+        end_of_range = day.send(range_end).end_of_day
         range = (beginning_of_range..end_of_range)
         yield range
       end.reverse
