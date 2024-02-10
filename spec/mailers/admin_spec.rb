@@ -16,6 +16,7 @@ RSpec.describe AdminMailer, type: :mailer do
       assert_equal ["hello@kaboom.rocks"], email.to
       assert_equal "Test Comic has an incorrect amount of issues.", email.subject
       expect(email.body).to include(comic_url(comic))
+      expect(email.body).to include(asset_url("header.png"))
       expect(email.body).to include("Test Comic is missing some issues. ComicVine has 100 issues but only 0 were imported. Missing issue numbers are: 1, 2.")
       expect(email.body).to include("There are some missing issues")
     end
