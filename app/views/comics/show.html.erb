@@ -49,7 +49,7 @@
   <%= render BorderComponent.new do %>
     <h3 class="font-bold text-xl cursor-pointer">Trend</h3>
     <div class="mt-4">
-      <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>" data-chart-type-value="bar">
+      <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
       </div>
     </div>
