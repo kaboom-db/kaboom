@@ -1,6 +1,6 @@
 import Chart from 'stimulus-chartjs'
 
-// Connects to data-controller="history-chart"
+// Connects to data-controller="chart"
 export default class extends Chart {
   static values = { displayLegend: { type: Boolean, default: true } }
 

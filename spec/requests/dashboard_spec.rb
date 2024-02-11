@@ -39,7 +39,7 @@ RSpec.describe "Dashboards", type: :request do
       it "renders a chart for the last 30 days" do
         get dashboard_path
         assert_select "div[data-controller='history-chart']"
-        assert_select "canvas[data-history-chart-target='canvas']"
+        assert_select "canvas[data-chart-target='canvas']"
       end
     end
   end

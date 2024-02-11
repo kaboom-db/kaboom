@@ -7,7 +7,7 @@ import { application } from './application'
 import CollectController from './actions/collect_controller'
 import DialogController from './dialog_controller'
 import FavouriteController from './actions/favourite_controller'
-import HistoryChartController from './history_chart_controller'
+import ChartController from './chart_controller'
 import HistoryItemController from './history_item_controller'
 import LocalTimeController from './local_time_controller'
 import ReadController from './actions/read_controller'
@@ -18,7 +18,7 @@ import ReadRangeController from './read_range_controller'
 application.register('collect', CollectController)
 application.register('dialog', DialogController)
 application.register('favourite', FavouriteController)
-application.register('history-chart', HistoryChartController)
+application.register('chart', ChartController)
 application.register('history-item', HistoryItemController)
 application.register('local-time', LocalTimeController)
 application.register('read', ReadController)
