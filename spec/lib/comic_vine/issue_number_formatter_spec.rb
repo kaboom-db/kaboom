@@ -13,6 +13,22 @@ module ComicVine
         it "formats the issue number" do
           expect(subject).to eq 18.1
         end
+
+        context "when issue number has no spaces" do
+          let(:issue_number) { "18+1" }
+
+          it "formats the issue number" do
+            expect(subject).to eq 18.1
+          end
+        end
+
+        context "when issue number has multiple spaces" do
+          let(:issue_number) { "18  +  1" }
+
+          it "formats the issue number" do
+            expect(subject).to eq 18.1
+          end
+        end
       end
 
       context "when issue number follows the 'alphabetised' format" do
