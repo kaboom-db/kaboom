@@ -92,6 +92,7 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
   config.action_mailer.default_options = {from: "hello@kaboom.rocks"}
+  config.action_mailer.asset_host = "https://kaboom.rocks"
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"

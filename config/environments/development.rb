@@ -46,6 +46,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = default_url_options
 
   config.action_mailer.default_options = {from: "hello@kaboom.rocks"}
+  config.action_mailer.asset_host = "http://localhost:3000"
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
