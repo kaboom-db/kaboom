@@ -244,10 +244,11 @@ RSpec.describe Comic, type: :model do
           expect(@issue.deck).to eq nil
           expect(@issue.description).to eq "A really long description"
           expect(@issue.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786544-one%20piece%201.jpg"
-          expect(@issue.issue_number).to eq 1
+          expect(@issue.issue_number).to eq "1"
           expect(@issue.name).to eq "Romance Dawn: Bōken no Yoake"
           expect(@issue.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-1-romance-dawn-boken-no-yoake/4000-129176/"
           expect(@issue.store_date).to eq Date.parse("1997-12-24")
+          expect(@issue.absolute_number).to eq 1
         end
 
         it "creates new issues" do
@@ -260,10 +261,11 @@ RSpec.describe Comic, type: :model do
           expect(new_issue.deck).to eq nil
           expect(new_issue.description).to eq "AN EVEN LONGER DESCRIPTION"
           expect(new_issue.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786545-one%20piece%202.jpg"
-          expect(new_issue.issue_number).to eq 2.1
+          expect(new_issue.issue_number).to eq "2 + 1"
           expect(new_issue.name).to eq "Versus!! Buggy Kaizoku-Dan"
           expect(new_issue.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/"
           expect(new_issue.store_date).to eq Date.parse("1998-04-03")
+          expect(new_issue.absolute_number).to eq 2
           expect(Issue.count).to eq 2
         end
       end
@@ -279,10 +281,11 @@ RSpec.describe Comic, type: :model do
           expect(new_issue1.deck).to eq nil
           expect(new_issue1.description).to eq "A really long description"
           expect(new_issue1.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786544-one%20piece%201.jpg"
-          expect(new_issue1.issue_number).to eq 1
+          expect(new_issue1.issue_number).to eq "1"
           expect(new_issue1.name).to eq "Romance Dawn: Bōken no Yoake"
           expect(new_issue1.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-1-romance-dawn-boken-no-yoake/4000-129176/"
           expect(new_issue1.store_date).to eq Date.parse("1997-12-24")
+          expect(new_issue1.absolute_number).to eq 1
 
           new_issue2 = Issue.last
           expect(new_issue2.aliases).to eq nil
@@ -292,20 +295,21 @@ RSpec.describe Comic, type: :model do
           expect(new_issue2.deck).to eq nil
           expect(new_issue2.description).to eq "AN EVEN LONGER DESCRIPTION"
           expect(new_issue2.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786545-one%20piece%202.jpg"
-          expect(new_issue2.issue_number).to eq 2.1
+          expect(new_issue2.issue_number).to eq "2 + 1"
           expect(new_issue2.name).to eq "Versus!! Buggy Kaizoku-Dan"
           expect(new_issue2.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-2-versus-buggy-kaizoku-dan/4000-129185/"
           expect(new_issue2.store_date).to eq Date.parse("1998-04-03")
+          expect(new_issue2.absolute_number).to eq 2
           expect(Issue.count).to eq 2
         end
       end
 
       context "when an issue import fails" do
-        let(:issue_number) { "1" }
+        let(:issue_number) { nil }
 
         it "notifies the admin" do
           message_delivery = instance_double(ActionMailer::MessageDelivery)
-          expect(AdminMailer).to receive(:notify_missing_issues).with(comic: comic, failed: ["1"])
+          expect(AdminMailer).to receive(:notify_missing_issues).with(comic: comic, failed: [nil])
             .and_return(message_delivery)
           expect(message_delivery).to receive(:deliver_later)
           comic.import_issues

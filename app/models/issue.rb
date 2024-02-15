@@ -6,8 +6,8 @@ class Issue < ApplicationRecord
   has_many :read_issues, dependent: :delete_all
 
   # validations
-  validates :name, :issue_number, presence: true
-  validates :issue_number, uniqueness: {scope: :comic_id}
+  validates :name, :issue_number, :absolute_number, presence: true
+  validates :absolute_number, uniqueness: {scope: :comic_id}
   validates :isbn, isbn_format: true, allow_nil: true, allow_blank: true
 
   # scopes
@@ -25,5 +25,5 @@ class Issue < ApplicationRecord
     issue_number.to_s.gsub(/\.0\b/, "")
   end
 
-  def to_param = formatted_issue_number.tr(".", "_")
+  def to_param = absolute_number
 end

@@ -9,6 +9,7 @@ FactoryBot.define do
     cv_id { 1 }
     image { "MyString" }
     sequence(:issue_number) { _1 }
+    sequence(:absolute_number) { _1 }
     name { "MyString" }
     site_detail_url { "MyString" }
     store_date { "2023-06-25" }

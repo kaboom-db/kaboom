@@ -203,6 +203,6 @@ class IssuesController < ApplicationController
   end
 
   def set_issue
-    @issue = @comic.issues.find_by(issue_number: params[:id].tr("_", ".").to_f)
+    @issue = @comic.issues.find_by(absolute_number: params[:id])
   end
 end

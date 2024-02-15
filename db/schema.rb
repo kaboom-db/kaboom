@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_11_122044) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_11_122732) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_122044) do
     t.text "description"
     t.integer "cv_id", null: false
     t.string "image"
-    t.float "issue_number"
+    t.string "issue_number"
     t.string "name"
     t.string "site_detail_url"
     t.date "store_date"
@@ -109,9 +109,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_122044) do
     t.string "isbn"
     t.string "upc"
     t.integer "absolute_number"
+    t.index ["absolute_number", "comic_id"], name: "index_issues_on_absolute_number_and_comic_id", unique: true
     t.index ["comic_id"], name: "index_issues_on_comic_id"
     t.index ["currency_id"], name: "index_issues_on_currency_id"
-    t.index ["issue_number", "comic_id"], name: "index_issues_on_issue_number_and_comic_id", unique: true
   end
 
   create_table "read_issues", force: :cascade do |t|

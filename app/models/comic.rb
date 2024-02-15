@@ -12,7 +12,7 @@ class Comic < ApplicationRecord
 
   # associations
   has_many :issues
-  has_many :ordered_issues, -> { order(issue_number: :asc) }, class_name: "Issue"
+  has_many :ordered_issues, -> { order(absolute_number: :asc) }, class_name: "Issue"
   has_many :read_issues, through: :issues
   has_many :visits, as: :visited, dependent: :delete_all
   belongs_to :country, optional: true
@@ -41,7 +41,7 @@ class Comic < ApplicationRecord
   def import_issues
     results = ComicVine::VolumeIssues.new(volume_id: cv_id, count_of_issues:).retrieve
     failed = []
-    results.each do |r|
+    results.each.with_index(1) do |r, index|
       issue = issues.find_or_initialize_by(cv_id: r[:id])
       success = issue.update(
         aliases: r[:aliases],
@@ -51,14 +51,15 @@ class Comic < ApplicationRecord
         deck: r[:deck],
         description: r[:description],
         image: r[:image][:medium_url],
-        issue_number: ComicVine::IssueNumberFormatter.format(r[:issue_number]),
+        issue_number: r[:issue_number],
         name: r[:name] || "Issue ##{r[:issue_number]}",
         site_detail_url: r[:site_detail_url],
-        store_date: r[:store_date]
+        store_date: r[:store_date],
+        absolute_number: index
       )
       failed << r[:issue_number] unless success
     end
-    AdminMailer.notify_missing_issues(comic: self, failed:).deliver_later if failed.any?
+    AdminMailer.notify_missing_issues(comic: self, failed:).deliver_later if failed
   end
 
   def sync

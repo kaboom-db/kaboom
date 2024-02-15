@@ -18,7 +18,11 @@ module ComicVine
 
         results << result[:results]
       end
-      results.flatten
+      results.flatten.sort_by do |el|
+        Date.parse(el[:cover_date].to_s)
+      rescue
+        Date.new(0, 1, 1)
+      end
     end
 
     private
