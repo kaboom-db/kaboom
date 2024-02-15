@@ -268,6 +268,11 @@ RSpec.describe Comic, type: :model do
           expect(new_issue.absolute_number).to eq 2
           expect(Issue.count).to eq 2
         end
+
+        it "does not send a missing issue email" do
+          expect(AdminMailer).not_to receive(:notify_missing_issues)
+          comic.import_issues
+        end
       end
 
       context "when issues do not exist" do
@@ -301,6 +306,11 @@ RSpec.describe Comic, type: :model do
           expect(new_issue2.store_date).to eq Date.parse("1998-04-03")
           expect(new_issue2.absolute_number).to eq 2
           expect(Issue.count).to eq 2
+        end
+
+        it "does not send a missing issue email" do
+          expect(AdminMailer).not_to receive(:notify_missing_issues)
+          comic.import_issues
         end
       end
 

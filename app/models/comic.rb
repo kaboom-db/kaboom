@@ -59,7 +59,7 @@ class Comic < ApplicationRecord
       )
       failed << r[:issue_number] unless success
     end
-    AdminMailer.notify_missing_issues(comic: self, failed:).deliver_later if failed
+    AdminMailer.notify_missing_issues(comic: self, failed:).deliver_later unless failed.empty?
   end
 
   def sync
