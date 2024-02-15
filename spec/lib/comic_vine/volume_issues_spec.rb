@@ -22,40 +22,40 @@ module ComicVine
 
       context "when the count of issues is less than 100" do
         before do
-          stub_cv(results: [{cover_date: "1990-09-01"}, {cover_date: "1990-08-01"}, {cover_date: nil}], volume_id: 123, offset: 0, status: 200)
+          stub_cv(results: [{issue_number: "2"}, {issue_number: "1"}, {issue_number: "½"}], volume_id: 123, offset: 0, status: 200)
         end
 
-        it "returns an array of results ordered by cover_date" do
-          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 99).retrieve).to eq([{cover_date: nil}, {cover_date: "1990-08-01"}, {cover_date: "1990-09-01"}])
+        it "returns an array of results ordered by issue_number" do
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 99).retrieve).to eq([{issue_number: "½"}, {issue_number: "1"}, {issue_number: "2"}])
         end
       end
 
       context "when all API requests succeed" do
         before do
-          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 200)
-          stub_cv(results: ["general", "kenobi!"], volume_id: 123, offset: 100, status: 200)
+          stub_cv(results: [{issue_number: "2"}, {issue_number: "1"}], volume_id: 123, offset: 0, status: 200)
+          stub_cv(results: [{issue_number: "½"}], volume_id: 123, offset: 100, status: 200)
         end
 
         it "returns an array of results" do
-          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 106).retrieve).to eq(["hello", "there", "general", "kenobi!"])
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 106).retrieve).to eq([{issue_number: "½"}, {issue_number: "1"}, {issue_number: "2"}])
         end
       end
 
       context "when an API request fails" do
         before do
-          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 400)
-          stub_cv(results: ["general", "kenobi!"], volume_id: 123, offset: 100, status: 200)
+          stub_cv(results: [{issue_number: "½"}], volume_id: 123, offset: 0, status: 400)
+          stub_cv(results: [{issue_number: "2"}, {issue_number: "1"}], volume_id: 123, offset: 100, status: 200)
         end
 
         it "skips the failed response" do
-          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 199).retrieve).to eq ["general", "kenobi!"]
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 199).retrieve).to eq [{issue_number: "1"}, {issue_number: "2"}]
         end
       end
 
       context "when all API requests fail" do
         before do
-          stub_cv(results: ["hello", "there"], volume_id: 123, offset: 0, status: 400)
-          stub_cv(results: ["general", "kenobi!"], volume_id: 123, offset: 100, status: 400)
+          stub_cv(results: [{issue_number: "½"}], volume_id: 123, offset: 0, status: 400)
+          stub_cv(results: [{issue_number: "2"}, {issue_number: "1"}], volume_id: 123, offset: 100, status: 400)
         end
 
         it "returns an empty array" do

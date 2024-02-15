@@ -19,9 +19,12 @@ module ComicVine
         results << result[:results]
       end
       results.flatten.sort_by do |el|
-        Date.parse(el[:cover_date].to_s)
-      rescue
-        Date.new(0, 1, 1)
+        regex = /\d+/
+        if (match = regex.match(el[:issue_number]))
+          match[0].to_f
+        else
+          el[:issue_number].to_f
+        end
       end
     end
 
