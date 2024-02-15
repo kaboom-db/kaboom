@@ -9,11 +9,11 @@ RSpec.describe Issue, type: :model do
   end
 
   describe "validations" do
-    subject { FactoryBot.create(:issue) }
+    subject { FactoryBot.create(:issue, issue_number: "616a") }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:issue_number) }
     it { should validate_presence_of(:absolute_number) }
-    it { should validate_uniqueness_of(:absolute_number).scoped_to(:comic_id) }
+    it { should validate_uniqueness_of(:issue_number).scoped_to(:comic_id) }
 
     context "when isbn is valid isbn13" do
       it "is valid" do
