@@ -1,5 +1,5 @@
 import Chart from 'stimulus-chartjs'
-import {Chart as ChartJS} from 'chart.js'
+import { Chart as ChartJS } from 'chart.js'
 
 // Connects to data-controller="chart"
 export default class extends Chart {
@@ -12,28 +12,28 @@ export default class extends Chart {
 
     ChartJS.register({
       id: 'noData',
-      afterDraw: function(chart: { data: { datasets: string | any[]; }; ctx: any; width: any; height: any; clear: () => void; }) {
+      afterDraw: function (chart) {
         if (chart.data.datasets.length === 0) {
           // No data is present
-          var ctx = chart.ctx;
-          var width = chart.width;
-          var height = chart.height;
-          chart.clear();
+          const ctx = chart.ctx
+          const width = chart.width
+          const height = chart.height
+          chart.clear()
 
-          ctx.save();
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.font = "50px normal 'Montserrat'";
-          ctx.fillStyle = "gray";
+          ctx.save()
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.font = "50px normal 'Montserrat'"
+          ctx.fillStyle = 'gray'
           ctx.fillText(
-            "No data",
+            'No data',
             width / 2,
             height / 2
-          );
-          ctx.restore();
+          )
+          ctx.restore()
         }
       }
-    });
+    })
   }
 
   connect () {
