@@ -44,7 +44,7 @@ module Charts
     end
 
     def labels
-      resource.comics.pluck(:publisher).uniq
+      resource.read_issues.includes(issue: [:comic]).where(read_at: range).map(&:comic).pluck(:publisher).uniq
     end
   end
 end

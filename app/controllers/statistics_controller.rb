@@ -30,10 +30,11 @@ class StatisticsController < ApplicationController
       start_time:
     ).generate
 
+    range = (y == Statistics::BaseCount::ALLTIME) ? (..Time.current) : (Time.new(y).beginning_of_year..Time.new(y).end_of_year.end_of_day)
     @distinct_publisher_chart_data = Charts::DistinctPublishersCountChart.new(
       resource: @user,
       type: Charts::ChartCountGenerator::DOUGHNUT,
-      range: (start_time.beginning_of_year..start_time.end_of_day)
+      range:
     ).generate
   end
 
