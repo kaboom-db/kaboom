@@ -47,7 +47,7 @@ module Charts
         borderWidth: 2,
         borderRadius: 5,
         fill: true,
-        tension: 0.5,
+        tension: 0.3,
         data:
       }
     end

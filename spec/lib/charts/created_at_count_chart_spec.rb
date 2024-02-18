@@ -11,7 +11,7 @@ module Charts
           borderWidth: 2,
           borderRadius: 5,
           fill: true,
-          tension: 0.5
+          tension: 0.3
         }
       }
       let(:generator) { CreatedAtCountChart.new(resource:, num_of_elms:, type:, range_type:, start_time:, rgb:, label:) }
