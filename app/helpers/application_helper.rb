@@ -8,7 +8,7 @@ module ApplicationHelper
   def safe_description(description:)
     return "" unless description.present?
 
-    description.gsub(/<\/?(a|script|figure|img|style)[^>]*>/, "").html_safe
+    description.gsub(/<\/?(a|script|figure|img|style|iframe)[^>]*>/, "").html_safe
   end
 
   def format_price(issue:)

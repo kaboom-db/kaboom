@@ -32,9 +32,9 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
 
-    context "when the is a description" do
+    context "when there is a description" do
       let(:description) {
-        "<style>h1 { color: red; }</style><script src='malicious.js'></script><a href='some/link/'><em>Comic</em></a> <figure><img src='hello.png'  /><img src='hello.png'></img></figure><p>Hello</p>"
+        "<style>h1 { color: red; }</style><script src='malicious.js'></script><a href='some/link/'><em>Comic</em></a> <figure><img src='hello.png'  /><img src='hello.png'></img></figure><p>Hello</p><iframe></iframe>"
       }
 
       it "strips the unsafe html tags" do
