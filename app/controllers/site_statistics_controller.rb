@@ -7,7 +7,7 @@ class SiteStatisticsController < ApplicationController
       resource: Visit,
       num_of_elms: 30,
       type: Charts::ChartCountGenerator::LINE,
-      range_type: Charts::ChartCountGenerator::DAY,
+      range_type: Charts::FrequencyChartGenerator::DAY,
       rgb: Charts::ChartCountGenerator::VISIT
     )
 
@@ -16,7 +16,7 @@ class SiteStatisticsController < ApplicationController
       resource: User,
       num_of_elms: 7,
       type: Charts::ChartCountGenerator::LINE,
-      range_type: Charts::ChartCountGenerator::DAY,
+      range_type: Charts::FrequencyChartGenerator::DAY,
       rgb: Charts::ChartCountGenerator::USER
     )
 
@@ -25,7 +25,7 @@ class SiteStatisticsController < ApplicationController
       resource: Comic,
       num_of_elms: 12,
       type: Charts::ChartCountGenerator::BAR,
-      range_type: Charts::ChartCountGenerator::MONTH,
+      range_type: Charts::FrequencyChartGenerator::MONTH,
       rgb: Charts::ChartCountGenerator::COMIC
     )
 
@@ -34,7 +34,7 @@ class SiteStatisticsController < ApplicationController
       resource: Issue,
       num_of_elms: 12,
       type: Charts::ChartCountGenerator::BAR,
-      range_type: Charts::ChartCountGenerator::MONTH,
+      range_type: Charts::FrequencyChartGenerator::MONTH,
       rgb: Charts::ChartCountGenerator::ISSUE
     )
 

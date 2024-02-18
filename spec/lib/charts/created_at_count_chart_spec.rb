@@ -11,14 +11,14 @@ module Charts
           borderWidth: 2,
           borderRadius: 5,
           fill: true,
-          tension: 0.3
+          tension: 0.5
         }
       }
       let(:generator) { CreatedAtCountChart.new(resource:, num_of_elms:, type:, range_type:, start_time:, rgb:, label:) }
       let(:resource) { Comic }
       let(:num_of_elms) { 7 }
       let(:type) { ChartCountGenerator::LINE }
-      let(:range_type) { ChartCountGenerator::DAY }
+      let(:range_type) { FrequencyChartGenerator::DAY }
       let(:start_time) { Date.new(2024, 1, 1) }
 
       let(:rgb) { ChartCountGenerator::COMIC }
@@ -31,7 +31,7 @@ module Charts
           {
             label:,
             backgroundColor: [
-              "rgba(#{rgb}, 0.10)"
+              "rgba(#{rgb}, 0.5)"
             ],
             borderColor: [
               "rgba(#{rgb}, 1)"
@@ -61,7 +61,7 @@ module Charts
       end
 
       context "when range type is month" do
-        let(:range_type) { ChartCountGenerator::MONTH }
+        let(:range_type) { FrequencyChartGenerator::MONTH }
 
         it "returns the monthly counts for the past num of elms" do
           [
@@ -82,7 +82,7 @@ module Charts
       end
 
       context "when range type is year" do
-        let(:range_type) { ChartCountGenerator::YEAR }
+        let(:range_type) { FrequencyChartGenerator::YEAR }
 
         it "returns the yearly counts for the past num of elms" do
           [

@@ -4,6 +4,15 @@
 
 <%= render SectionComponent.new do %>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="col-span-full">
+      <%= render BorderComponent.new do %>
+        <h2 class="text-2xl font-bold mb-4">Issues read by publisher</h2>
+        <div class="mt-4" data-controller="chart" data-chart-display-legend-value="false" data-chart-data-value="<%= @distinct_publisher_chart_data.to_json %>">
+          <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
+        </div>
+      <% end %>
+    </div>
+
     <%= link_to history_user_path(@user) do %>
       <div class="group p-1.5 h-full bg-[#ff6961]">
         <div class="bg-[#ff8f89] p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
@@ -24,6 +33,7 @@
         </div>
       </div>
     <% end %>
+
     <% first_read_issue = @user.first_read_issue(year:) %>
     <%= render BorderComponent.new do %>
       <div class="p-6 flex flex-col items-center">

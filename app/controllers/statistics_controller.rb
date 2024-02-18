@@ -26,8 +26,14 @@ class StatisticsController < ApplicationController
       resource: @user,
       num_of_elms: 12,
       type: Charts::ChartCountGenerator::BAR,
-      range_type: Charts::ChartCountGenerator::MONTH,
+      range_type: Charts::FrequencyChartGenerator::MONTH,
       start_time:
+    ).generate
+
+    @distinct_publisher_chart_data = Charts::DistinctPublishersCountChart.new(
+      resource: @user,
+      type: Charts::ChartCountGenerator::DOUGHNUT,
+      range: (start_time.beginning_of_year..start_time.end_of_day)
     ).generate
   end
 

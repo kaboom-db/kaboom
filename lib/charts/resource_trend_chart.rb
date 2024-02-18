@@ -1,5 +1,5 @@
 module Charts
-  class ResourceTrendChart < ChartCountGenerator
+  class ResourceTrendChart < FrequencyChartGenerator
     private
 
     def datasets

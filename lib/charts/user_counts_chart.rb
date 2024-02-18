@@ -1,5 +1,5 @@
 module Charts
-  class UserCountsChart < ChartCountGenerator
+  class UserCountsChart < FrequencyChartGenerator
     private
 
     def datasets

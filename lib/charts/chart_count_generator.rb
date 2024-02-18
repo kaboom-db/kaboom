@@ -1,10 +1,10 @@
 module Charts
   class ChartCountGenerator
-    attr_accessor :resource, :num_of_elms, :type, :range_type, :start_time
+    attr_accessor :resource, :type
 
     CHART_COLOURS = [
       READ = "255, 95, 109",
-      VISIT = "0, 64, 128",
+      VISIT = "255, 161, 95",
       COLLECTION = "71, 188, 234",
       USER = "255, 195, 113",
       COMIC = "99, 136, 137",
@@ -13,41 +13,13 @@ module Charts
 
     CHART_TYPES = [
       LINE = "line",
-      BAR = "bar"
+      BAR = "bar",
+      DOUGHNUT = "doughnut"
     ]
 
-    RANGE_TYPES = [
-      DAY = :days,
-      MONTH = :months,
-      YEAR = :years
-    ]
-
-    START_RANGES = {
-      DAY => :beginning_of_day,
-      MONTH => :beginning_of_month,
-      YEAR => :beginning_of_year
-    }
-
-    END_RANGES = {
-      DAY => :end_of_day,
-      MONTH => :end_of_month,
-      YEAR => :end_of_year
-    }
-
-    RANGE_FORMATS = {
-      DAY => "%b %-d",
-      MONTH => "%b %Y",
-      YEAR => "%Y"
-    }
-
-    def initialize(resource:, num_of_elms:, type:, range_type:, start_time: Time.current)
+    def initialize(resource:, type:)
       @resource = resource
-      @num_of_elms = num_of_elms
       @type = type
-      @range_type = range_type
-      @start_time = start_time
-
-      raise "Invalid range type" unless RANGE_TYPES.include?(range_type)
     end
 
     def generate
@@ -61,50 +33,23 @@ module Charts
 
     def datasets = []
 
-    def generate_count(rgb, label)
-      data = num_of_elms.times.map do |i|
-        days = i.send(range_type)
-        day = start_time - days
-        beginning_of_range = day.send(range_start).beginning_of_day
-        end_of_range = day.send(range_end).end_of_day
-        range = (beginning_of_range..end_of_range)
-        yield range
-      end.reverse
+    def labels = []
 
-      dataset(data, rgb, label)
-    end
-
-    def labels
-      num_of_elms.times.map do |elm|
-        days = elm.send(range_type)
-        (start_time - days).strftime(RANGE_FORMATS[range_type])
-      end.reverse
-    end
-
-    def dataset(data, rgb, label)
+    def dataset(data, colours, label)
+      background_colour, border_colour = colours.map do |colour|
+        ["rgba(#{colour}, 0.5)", "rgba(#{colour}, 1)"]
+      end.transpose
       {
         type:,
         label:,
-        backgroundColor: [
-          "rgba(#{rgb}, 0.10)"
-        ],
-        borderColor: [
-          "rgba(#{rgb}, 1)"
-        ],
+        backgroundColor: background_colour,
+        borderColor: border_colour,
         borderWidth: 2,
         borderRadius: 5,
         fill: true,
-        tension: 0.3,
+        tension: 0.5,
         data:
       }
-    end
-
-    def range_start
-      START_RANGES[range_type]
-    end
-
-    def range_end
-      END_RANGES[range_type]
     end
   end
 end

@@ -11,14 +11,14 @@ module Charts
           borderWidth: 2,
           borderRadius: 5,
           fill: true,
-          tension: 0.3
+          tension: 0.5
         }
       }
       let(:generator) { ResourceTrendChart.new(resource:, num_of_elms:, type:, range_type:, start_time:) }
       let(:resource) { FactoryBot.create(:issue) }
       let(:num_of_elms) { 7 }
       let(:type) { ChartCountGenerator::LINE }
-      let(:range_type) { ChartCountGenerator::DAY }
+      let(:range_type) { FrequencyChartGenerator::DAY }
       let(:start_time) { Date.new(2024, 1, 1) }
 
       subject { generator.generate }
@@ -28,7 +28,7 @@ module Charts
           {
             label:,
             backgroundColor: [
-              "rgba(#{rgb}, 0.10)"
+              "rgba(#{rgb}, 0.5)"
             ],
             borderColor: [
               "rgba(#{rgb}, 1)"
@@ -54,13 +54,13 @@ module Charts
           end
           data = subject
           datasets = data[:datasets]
-          expect_dataset(datasets.first, "User visits", "0, 64, 128", [1, 0, 0, 1, 0, 0, 3])
+          expect_dataset(datasets.first, "User visits", "255, 161, 95", [1, 0, 0, 1, 0, 0, 3])
           expect_dataset(datasets.second, "Read issues", "255, 95, 109", [1, 0, 0, 1, 0, 0, 3])
         end
       end
 
       context "when range type is month" do
-        let(:range_type) { ChartCountGenerator::MONTH }
+        let(:range_type) { FrequencyChartGenerator::MONTH }
 
         it "returns the monthly counts for the past num of elms" do
           [
@@ -77,13 +77,13 @@ module Charts
           end
           data = subject
           datasets = data[:datasets]
-          expect_dataset(datasets.first, "User visits", "0, 64, 128", [1, 0, 0, 1, 0, 0, 3])
+          expect_dataset(datasets.first, "User visits", "255, 161, 95", [1, 0, 0, 1, 0, 0, 3])
           expect_dataset(datasets.second, "Read issues", "255, 95, 109", [1, 0, 0, 1, 0, 0, 3])
         end
       end
 
       context "when range type is year" do
-        let(:range_type) { ChartCountGenerator::YEAR }
+        let(:range_type) { FrequencyChartGenerator::YEAR }
 
         it "returns the yearly counts for the past num of elms" do
           [
@@ -100,7 +100,7 @@ module Charts
           end
           data = subject
           datasets = data[:datasets]
-          expect_dataset(datasets.first, "User visits", "0, 64, 128", [1, 0, 0, 1, 0, 0, 3])
+          expect_dataset(datasets.first, "User visits", "255, 161, 95", [1, 0, 0, 1, 0, 0, 3])
           expect_dataset(datasets.second, "Read issues", "255, 95, 109", [1, 0, 0, 1, 0, 0, 3])
         end
       end

@@ -1,5 +1,5 @@
 module Charts
-  class CreatedAtCountChart < ChartCountGenerator
+  class CreatedAtCountChart < FrequencyChartGenerator
     def initialize(resource:, num_of_elms:, type:, range_type:, rgb:, label:, start_time: Time.current)
       super(resource:, num_of_elms:, type:, range_type:, start_time:)
       @rgb = rgb
