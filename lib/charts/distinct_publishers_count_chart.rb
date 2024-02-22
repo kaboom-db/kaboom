@@ -34,9 +34,7 @@ module Charts
     end
 
     def datasets
-      data = labels.map do |publisher|
-        resource.read_issues.includes(issue: [:comic]).where(read_at: range, comic: {publisher:}).count
-      end
+      data = grouped_issues.map { _1.read_issue_count }
       dataset = (data.any? { _1 >= 1 }) ? dataset(data, colours, "Read Issues") : nil
       [
         dataset
@@ -44,7 +42,9 @@ module Charts
     end
 
     def labels
-      resource.read_issues.includes(issue: [:comic]).where(read_at: range).map(&:comic).pluck(:publisher).uniq
+      grouped_issues.map { _1.publisher }
     end
+
+    def grouped_issues = @grouped_issues ||= resource.read_issues.joins(issue: :comic).select("comics.publisher, COUNT(*) as read_issue_count").where(read_at: range).group("comics.publisher")
   end
 end
