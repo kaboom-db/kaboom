@@ -1,0 +1,7 @@
+<%# sticky top-0 max-h-screen h-fit overflow-scroll %>
+<div class="col-span-3 border-l-2 border-black w-full hidden sm:flex flex-col gap-4 p-4">
+  <%= render ProfileChipComponent.new(user: current_user) %>
+  <% current_user.incompleted_comics.each do |comic| %>
+    <%= render ComicProgressComponent.new(comic:, current_user:) %>
+  <% end %>
+</div>

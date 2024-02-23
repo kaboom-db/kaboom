@@ -1,6 +1,4 @@
-<%= render SectionComponent.new do %>
-  <%= render PageTitleComponent.new(text: "History") %>
-<% end %>
+<%= render PageTitleComponent.new(text: "History") %>
 
 <%= render SectionComponent.new do %>
   <% @issue_history_grouped.each_pair do |day, history| %>

@@ -16,8 +16,8 @@ export default class extends BaseActionController {
   declare readonly errorTarget: HTMLElement
 
   connect (): void {
-    this.ON_BUTTON_CLASSES = ['bg-[#47bcea]']
-    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#47bcea]', 'bg-white']
+    this.ON_BUTTON_CLASSES = ['!bg-[#47bcea]']
+    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#47bcea]', 'bg-gray-100']
 
     this.ON_ICON_CLASSES = ['text-white']
     this.OFF_ICON_CLASSES = ['text-[#47bcea]', 'group-hover:text-white']

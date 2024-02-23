@@ -1,22 +1,24 @@
-<%= render SectionComponent.new do %>
-  <%= render PageTitleComponent.new(text: "Site Statistics") %>
-<% end %>
+<%= render PageTitleComponent.new(text: "Site Statistics") %>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-  <%= render BorderComponent.new do %>
-    <p class="text-sm text-muted-foreground">Comics:</p>
-    <h3 class="text-2xl font-semibold my-4"><%= Comic.count %></h3>
-  <% end %>
-  <%= render BorderComponent.new do %>
-    <p class="text-sm text-muted-foreground">Users:</p>
-    <h3 class="text-2xl font-semibold my-4"><%= User.count %></h3>
-  <% end %>
+  <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
+      <div class="h-32 flex flex-col justify-center items-center">
+        <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= Comic.count %></p>
+      </div>
+      <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Issues read</p>
+  </div>
+  <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
+      <div class="h-32 flex flex-col justify-center items-center">
+        <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= User.count %></p>
+      </div>
+      <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Collected</p>
+  </div>
 </div>
 
 <% @charts.each do |chart_data| %>
-  <div class="mb-4">
+  <div class="mb-4 mt-6">
+    <%= render ChipHeaderComponent.new(text: chart_data[:title]) %>
     <%= render BorderComponent.new do %>
-      <h3 class="text-2xl font-semibold mb-4"><%= chart_data[:title] %></h3>
       <div class="mt-4" data-controller="chart" data-chart-display-legend-value="false" data-chart-data-value="<%= chart_data[:stats].to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
       </div>

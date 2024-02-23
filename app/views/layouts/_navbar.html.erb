@@ -1,22 +1,18 @@
-<aside class="z-10 hidden sm:flex overflow-hidden bg-primary w-16 hover:w-[200px] drop-shadow-none hover:drop-shadow-2xl fixed left-0 top-0 h-screen py-[50px] transition-width duration-300 ease-in-out">
+<aside class="hidden sm:flex border-r-2 border-black bg-primary w-full sticky left-0 top-0 h-screen py-[50px]">
   <div class="h-full w-full flex flex-col justify-between">
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-4">
+      <%= image_tag "logo-nav.svg", class: "px-4" %>
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard") %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues") %>
       <% if user_signed_in? %>
-        <%= render NavButtonComponent.new(href: user_path(current_user), icon: "user", text: "Profile", active: (controller_name == "users" && action_name != "edit") || controller_name == "statistics") %>
+        <%= render NavButtonComponent.new(href: user_path(current_user), icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics") %>
       <% else %>
-        <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join") %>
+        <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join", active: devise_controller? || controller_name == "users" || controller_name == "statistics" ) %>
       <% end %>
     </div>
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-4">
       <% if user_signed_in? %>
-        <%= button_to destroy_user_session_path, method: :delete, class: "w-full flex items-center hover:bg-secondary transition duration-300 ease-in-out" do %>
-          <div class="min-w-[4rem] h-16 w-16 flex justify-center items-center">
-            <i class="text-xl fa-solid fa-right-from-bracket"></i>
-          </div>
-          <div class="whitespace-nowrap font-bold">Log out</div>
-        <% end %>
+        <%= render NavButtonComponent.new(href: destroy_user_session_path, icon: "right-from-bracket", text: "Log out", method: :delete) %>
       <% end %>
       <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics") %>
       <% if user_signed_in? %>
@@ -26,25 +22,19 @@
   </div>
 </aside>
 <!-- Mobile navbar -->
-<div class="h-12 sm:hidden px-[1rem] bg-primary">
-  <div class="w-full w-full flex justify-between">
+<div class="h-14 sm:hidden px-[1rem] bg-primary w-full w-full flex items-center justify-between">
     <div class="flex">
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues", mobile: true) %>
-      <%= render NavButtonComponent.new(href: user_signed_in? ? user_path(current_user) : new_user_session_path, icon: "user", text: "Profile", active: (controller_name == "users" && action_name != "edit") || controller_name == "statistics", mobile: true) %>
+      <%= render NavButtonComponent.new(href: user_signed_in? ? user_path(current_user) : new_user_session_path, icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics", mobile: true) %>
     </div>
     <div class="flex">
       <% if user_signed_in? %>
-        <%= button_to destroy_user_session_path, method: :delete, class: "w-full flex items-center hover:bg-secondary transition duration-300 ease-in-out" do %>
-          <div class="min-w-[3rem] h-12 w-12 flex justify-center items-center">
-            <i class="text-sm fa-solid fa-right-from-bracket"></i>
-          </div>
-        <% end %>
+        <%= render NavButtonComponent.new(href: destroy_user_session_path, icon: "right-from-bracket", text: "Log out", method: :delete, mobile: true) %>
       <% end %>
       <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics", mobile: true) %>
       <% if user_signed_in? %>
         <%= render NavButtonComponent.new(href: edit_user_path(current_user), icon: "gear", text: "Settings", active: controller_name == "users" && action_name == "edit", mobile: true) %>
       <% end %>
     </div>
-  </div>
 </div>

@@ -1,0 +1,24 @@
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <% grid = local_assigns.fetch(:sidebar, false) ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2" %>
+  <div class="grid <%= grid %> gap-4 my-4">
+    <%= render Forms::TextFieldComponent.new(form: f, field: :email, type: "email_field", autofocus: true, required: true) %>
+
+    <%= render Forms::TextFieldComponent.new(form: f, field: :username, type: "text_field", required: true) %>
+
+    <%= render Forms::TextFieldComponent.new(form: f, field: :password, type: "password_field", required: true) %>
+
+    <%= render Forms::TextFieldComponent.new(form: f, field: :password_confirmation, type: "password_field", required: true) %>
+
+    <div class="col-span-full">
+      <label class="font-bold text-lg after:content-[':']" for="bot_protection">Bot protection</label>
+      <%= render TextInputComponent.new(name: "bot_protection", placeholder: "Type 'Kaboom' backwards") %>
+    </div>
+  </div>
+
+  <div class="flex gap-4">
+    <%= render Forms::SubmitComponent.new(form: f, text: "Sign up") %>
+    <%= render LinkComponent.new(text: "Log in instead", href: new_session_path(resource_name)) %>
+  </div>
+<% end %>

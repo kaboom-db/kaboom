@@ -19,9 +19,9 @@ RSpec.describe "/comics", type: :request do
         get comics_path(search: "")
         assert_select "p.text-sm.font-bold", text: "Results for :", count: 0
         assert_select "#search" do
-          assert_select "small", text: "Test Comic", count: 0
-          assert_select "small", text: "Cool Comic", count: 0
-          assert_select "small", text: "No Name", count: 0
+          assert_select "b", text: "Test Comic", visible: :hidden, count: 0
+          assert_select "b", text: "Cool Comic", visible: :hidden, count: 0
+          assert_select "b", text: "No Name", visible: :hidden, count: 0
         end
       end
     end
@@ -29,11 +29,11 @@ RSpec.describe "/comics", type: :request do
     context "when there is a search query" do
       it "shows the search results" do
         get comics_path(search: "test")
-        assert_select "h2.text-sm.font-bold", text: "Results for test:"
+        assert_select "h2.text-2xl", text: "Results for test:"
         assert_select "#search" do
-          assert_select "small", text: "Test Comic"
-          assert_select "small", text: "Cool Comic"
-          assert_select "small", text: "No Name", count: 0
+          assert_select "b", text: "Test Comic", visible: :hidden
+          assert_select "b", text: "Cool Comic", visible: :hidden
+          assert_select "b", text: "No Name", visible: :hidden, count: 0
         end
       end
     end

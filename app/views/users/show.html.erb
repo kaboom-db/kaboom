@@ -10,7 +10,7 @@
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @history.each do |history| %>
         <%= render ResourceTileComponent.new(resource: history.issue, resource_path: comic_issue_path(history.issue, comic_id: history.comic), read: true) %>
       <% end %>
@@ -26,7 +26,7 @@
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @deck.each do |comic| %>
         <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
       <% end %>
@@ -42,7 +42,7 @@
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @favourite_comics.each do |comic| %>
         <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
       <% end %>
@@ -58,7 +58,7 @@
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @completed_comics.each do |comic| %>
         <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), read: true) %>
       <% end %>
@@ -74,7 +74,7 @@
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @collection.each do |collected| %>
         <%= render ResourceTileComponent.new(resource: collected.issue, resource_path: comic_issue_path(collected.issue, comic_id: collected.comic), collected: true) %>
       <% end %>
@@ -90,7 +90,7 @@
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @wishlisted.each do |comic| %>
         <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), wishlisted: true) %>
       <% end %>

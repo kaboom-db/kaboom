@@ -31,13 +31,13 @@ RSpec.describe "comics/index", type: :view do
   end
 
   it "renders recently updated comics" do
-    assert_select "small", text: "Berserk"
-    assert_select "small", text: "Spider-Man"
+    assert_select "b", text: "Berserk", visible: :hidden
+    assert_select "b", text: "Spider-Man", visible: :hidden
   end
 
   it "renders recently updated comics" do
-    assert_select "small", text: "Issue #1"
-    assert_select "small", text: "Issue #2"
+    assert_select "b", text: "Issue #1", visible: :hidden
+    assert_select "b", text: "Issue #2", visible: :hidden
   end
 
   it "renders the trending comics" do

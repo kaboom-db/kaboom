@@ -5,8 +5,8 @@
 <%= render SectionComponent.new do %>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div class="col-span-full">
+      <%= render ChipHeaderComponent.new(text: "Issues read by publisher") %>
       <%= render BorderComponent.new do %>
-        <h2 class="text-2xl font-bold mb-4">Issues read by publisher</h2>
         <div class="mt-4" data-controller="chart" data-chart-display-legend-value="false" data-chart-data-value="<%= @distinct_publisher_chart_data.to_json %>">
           <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
         </div>
@@ -14,23 +14,19 @@
     </div>
 
     <%= link_to history_user_path(@user) do %>
-      <div class="group p-1.5 h-full bg-[#ff6961]">
-        <div class="bg-[#ff8f89] p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
+      <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
           <div class="h-32 flex flex-col justify-center items-center">
-            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= read_count %></p>
+            <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= read_count %></p>
           </div>
-          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Issues read</p>
-        </div>
+          <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Issues read</p>
       </div>
     <% end %>
     <%= link_to collection_user_path(@user) do %>
-      <div class="group p-1.5 h-full bg-[#47bcea]">
-        <div class="bg-[#7bc3e0] p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
+      <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
           <div class="h-32 flex flex-col justify-center items-center">
-            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= collected_count %></p>
+            <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= collected_count %></p>
           </div>
-          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Collected</p>
-        </div>
+          <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Collected</p>
       </div>
     <% end %>
 
@@ -63,9 +59,9 @@
       </div>
     <% end %>
 
-    <div class="col-span-full">
+    <div class="col-span-full mt-6">
+      <%= render ChipHeaderComponent.new(text: "Issues read and collected") %>
       <%= render BorderComponent.new do %>
-        <h2 class="text-2xl font-bold mb-4">Issues read and collected</h2>
         <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @read_collect_chart_data.to_json %>">
           <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
         </div>

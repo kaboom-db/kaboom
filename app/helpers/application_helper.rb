@@ -21,4 +21,12 @@ module ApplicationHelper
       "#{currency.symbol_native}#{issue.cover_price}"
     end
   end
+
+  def should_show_sidebar?
+    supported_controllers = [
+      "dashboard",
+      "comics"
+    ]
+    supported_controllers.include?(controller_name) && action_name == "index"
+  end
 end

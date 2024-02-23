@@ -1,19 +1,18 @@
-<%= render SectionComponent.new do %>
-  <%= render PageTitleComponent.new(text: "Discover") %>
-<% end %>
+<%= render PageTitleComponent.new(text: "Discover") %>
 
-<%= render SectionComponent.new do %>
-  <div class="mb-4">
-    <form action="<%= comics_path %>" method="get" data-turbo-frame="search">
-      <%= render TextInputComponent.new(name: "search") %>
-    </form>
+<form action="<%= comics_path %>" method="get" data-turbo-frame="search">
+  <div class="component-border bg-gray-100 w-full flex rounded-full border-2 border-black">
+    <input placeholder="Search" class="rounded-full w-full bg-transparent p-4 focus:outline-none" required="required" type="input" name="search" id="searchField">
+    <button type="submit" class="p-4"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
+</form>
 
+<%= render SectionComponent.new do %>
   <%= turbo_frame_tag "search" do %>
     <% if @search.present? %>
       <div class="mb-8 search">
         <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
-        <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           <% @search_results.each do |comic| %>
             <%= render ResourceTileComponent.new(
               resource: comic,
@@ -36,20 +35,16 @@
       <div class="swiper" data-controller="swiper" data-swiper-target="container">
         <div class="swiper-wrapper">
           <% @trending.each_with_index do |comic, index| %>
-            <div data-swiper-target="slides" class="swiper-slide sm:p-16 !w-full !h-full">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="col-span-1 flex justify-center">
-                  <div class="min-h-[200px] md:min-h-[500px] w-[150px] md:w-[300px] max-w-full rounded-lg bg-center bg-no-repeat bg-cover" style="background-image: url(<%= comic.image %>);"></div>
+            <div data-swiper-target="slides" class="relative swiper-slide sm:p-16 !w-full !h-auto border-2 border-black rounded-2xl bg-no-repeat bg-cover overflow-hidden" style="background-image: url(<%= comic.image %>);">
+              <div class="flex flex-col gap-4 md:col-span-2 p-4">
+                <p class="text-xl text-white sm:text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= index + 1 %></p>
+                <a href="<%= comic_path(comic) %>" class="text-2xl sm:text-4xl text-white font-bold"><%= comic.name %></a>
+                <div class="max-h-[190px] overflow-hidden">
+                  <p class="text-white"><%= strip_description(description: comic.description) %></p>
                 </div>
-                <div class="col-span-1 flex flex-col gap-4 md:col-span-2">
-                  <p class="text-xl sm:text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= index + 1 %></p>
-                  <a href="<%= comic_path(comic) %>" class="text-2xl sm:text-4xl font-bold"><%= comic.name %></a>
-                  <div class="max-h-[190px] overflow-hidden">
-                    <p><%= strip_description(description: comic.description) %></p>
-                  </div>
-                  <%= render LinkComponent.new(text: "View", href: comic_path(comic)) %>
-                </div>
+                <%= render LinkComponent.new(text: "View", href: comic_path(comic)) %>
               </div>
+              <div class="z-[-1] absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-md"></div>
             </div>
           <% end %>
         </div>
@@ -64,7 +59,7 @@
 <%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
       <% @recently_updated.each do |comic| %>
         <%= render ResourceTileComponent.new(
           resource: comic,
@@ -84,21 +79,16 @@
       <div class="swiper" data-controller="swiper" data-swiper-target="container">
         <div class="swiper-wrapper">
           <% @trending_issues.each do |issue| %>
-            <div data-swiper-target="slides" class="swiper-slide sm:p-16 !w-full !h-full">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="col-span-1 flex flex-col gap-4 md:col-span-2">
-                  <p class="text-xl sm:text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= issue.formatted_issue_number %> - <%= link_to issue.comic %></p>
-                  <a href="<%= comic_issue_path(issue, comic_id: issue.comic) %>" class="text-2xl sm:text-4xl font-bold"><%= issue.name %></a>
-
-                  <div class="max-h-[190px] overflow-hidden">
-                    <p><%= strip_description(description: issue.description) %></p>
-                  </div>
-                  <%= render LinkComponent.new(text: "View", href: comic_issue_path(issue, comic_id: issue.comic.id)) %>
+            <div data-swiper-target="slides" class="relative swiper-slide sm:p-16 !w-full !h-auto border-2 border-black rounded-2xl bg-no-repeat bg-cover overflow-hidden" style="background-image: url(<%= issue.image %>);">
+              <div class="flex flex-col gap-4 md:col-span-2 p-4">
+                <p class="text-xl text-white sm:text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= issue.formatted_issue_number %></p>
+                <a href="<%= comic_issue_path(issue, comic_id: issue.comic) %>" class="text-2xl sm:text-4xl text-white font-bold"><%= issue.name %></a>
+                <div class="max-h-[190px] overflow-hidden">
+                  <p class="text-white"><%= strip_description(description: issue.description) %></p>
                 </div>
-                <div class="col-span-1 order-first md:order-none flex justify-center">
-                  <div class="min-h-[200px] md:min-h-[500px] w-[150px] md:w-[300px] max-w-full rounded-lg bg-center bg-no-repeat bg-cover" style="background-image: url(<%= issue.image %>);"></div>
-                </div>
+                <%= render LinkComponent.new(text: "View", href: comic_issue_path(issue, comic_id: issue.comic)) %>
               </div>
+              <div class="z-[-1] absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-md"></div>
             </div>
           <% end %>
         </div>
@@ -113,7 +103,7 @@
 <%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Issues") %>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
       <% @recently_updated_issues.each do |issue| %>
         <%= render ResourceTileComponent.new(
           resource: issue,

@@ -13,7 +13,7 @@
           <% end %>
         </div>
       <% else %>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
           <% history.each do |issue_history| %>
             <%= render ResourceTileControlComponent.new(issue: issue_history.issue, user: current_user, read_at: issue_history.read_at) %>
           <% end %>

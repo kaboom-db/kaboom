@@ -58,6 +58,11 @@ class User < ApplicationRecord
     end
   end
 
+  def progress_for(comic)
+    amount_read = issues_read.where(comic:).distinct.count
+    ((amount_read.to_f / comic.count_of_issues) * 100).to_i
+  end
+
   # TODO: Possibly make this more efficient with indexes?
   def completed_comics
     comics

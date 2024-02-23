@@ -1,8 +1,6 @@
 <% days_ago = (Date.current - PagesController::PRIVACY_POLICY_UPDATE).to_i %>
 
-<%= render SectionComponent.new do %>
-  <%= render PageTitleComponent.new(text: "The Kaboom Privacy Policy") %>
-<% end %>
+<%= render PageTitleComponent.new(text: "The Kaboom Privacy Policy") %>
 
 <%= render SectionComponent.new do %>
   <p>Last updated: <b><%= PagesController::PRIVACY_POLICY_UPDATE.strftime("%-d %b %Y") %> (<%= "#{days_ago} #{"day".pluralize(days_ago)}" %> ago)</b></p>

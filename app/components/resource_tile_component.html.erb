@@ -1,3 +1,4 @@
+<!--
 <%= link_to @resource_path, data: {"turbo-frame": "_top"} do %>
   <div class="relative p-1.5 rounded-sm bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out">
     <div class="absolute flex m-1.5 left-0 bottom-0">
@@ -29,4 +30,36 @@
   <small class="font-bold">
     <%= @resource.name %><% if @resource.year.present? %> (<%= @resource.year %>)<% end %>
   </small>
+<% end %>
+-->
+
+<%= link_to @resource_path, data: {"turbo-frame": "_top"} do %>
+  <div class="group component-border relative rounded-4xl border-2 border-black w-[100%] pb-[100%] h-[0] overflow-hidden">
+    <img src="<%= @resource.image %>" alt="" class="w-full" />
+    <div class="opacity-0 group-hover:opacity-100 absolute h-[35%] w-full px-4 pt-2 md:text-sm left-0 bottom-0 border-t-2 border-black bg-gray-100 transition duration-300 ease-in-out">
+      <b><%= @resource.name %><% if @resource.year.present? %> (<%= @resource.year %>)<% end %></b>
+    </div>
+    <div class="m-4 absolute left-0 top-0 flex flex-wrap gap-2">
+      <% if @read %>
+        <div class="text-xs sm:text-sm rounded-full border-2 border-black h-8 w-8 flex items-center justify-center bg-[#ff6961]/80 backdrop-blur-sm">
+          <i class="fa-solid fa-check text-white"></i>
+        </div>
+      <% end %>
+      <% if @collected %>
+        <div class="text-xs sm:text-sm rounded-full border-2 border-black h-8 w-8 flex items-center justify-center bg-[#47bcea]/80 backdrop-blur-sm">
+          <i class="fa-solid fa-book-open text-white"></i>
+        </div>
+      <% end %>
+      <% if @wishlisted %>
+        <div class="text-xs sm:text-sm rounded-full border-2 border-black h-8 w-8 flex items-center justify-center bg-[#fdbd7d]/80 backdrop-blur-sm">
+          <i class="fa-solid fa-cake-candles text-white"></i>
+        </div>
+      <% end %>
+      <% if @favourited %>
+        <div class="text-xs sm:text-sm rounded-full border-2 border-black h-8 w-8 flex items-center justify-center bg-[#ff85a2]/80 backdrop-blur-sm">
+          <i class="fa-solid fa-heart text-white"></i>
+        </div>
+      <% end %>
+    </div>
+  </div>
 <% end %>

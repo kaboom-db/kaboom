@@ -46,8 +46,8 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Trend") %>
   <%= render BorderComponent.new do %>
-    <h3 class="font-bold text-xl cursor-pointer">Trend</h3>
     <div class="mt-4">
       <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
@@ -68,7 +68,7 @@
               data-read-range-chapter-count-value="<%= @comic.count_of_issues %>"
               data-read-range-url-value="<%= read_range_comic_path(@comic) %>">
             <div data-read-range-target="slider" class="mb-8 mt-16 mx-6" id="slider-round"></div>
-            <button data-read-range-target="submit" data-action="click->read-range#submit" class="inline-block py-1.5 px-3 bg-primary rounded-sm text-white border-2 border-primary cursor-pointer">
+            <button data-read-range-target="submit" data-action="click->read-range#submit" class="font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out">
               Submit
             </button>
           </div>
@@ -80,7 +80,7 @@
 
 <%= render SectionComponent.new do %>
   <%= render ChipHeaderComponent.new(text: "Issues") %>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
     <% @ordered_issues.each do |issue| %>
       <%= render ResourceTileControlComponent.new(issue:, user: current_user, read_at: nil) %>
     <% end %>
