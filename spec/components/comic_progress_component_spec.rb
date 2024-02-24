@@ -3,13 +3,38 @@
 require "rails_helper"
 
 RSpec.describe ComicProgressComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  include Rails.application.routes.url_helpers
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  context "when there is a next issue" do
+    it "renders the component with next issue text" do
+      comic = FactoryBot.create(:comic, name: "Test Comic", count_of_issues: 2, image: "/path/to/image.png")
+      issue = FactoryBot.create(:issue, comic:, absolute_number: 1, issue_number: "1")
+      FactoryBot.create(:issue, comic:, absolute_number: 2, issue_number: "2")
+      current_user = FactoryBot.create(:user)
+      FactoryBot.create(:read_issue, issue:, user: current_user)
+      render_inline(described_class.new(comic:, current_user:))
+      expect(page).to have_css "img[src='/path/to/image.png']"
+      expect(page).to have_css "a[href='#{comic_path(comic)}']"
+      expect(page).to have_content "Test Comic"
+      expect(page).to have_content "Next: Issue #2"
+      expect(page).to have_content "50%"
+      expect(page).to have_css "div[style='width: 50%;']"
+    end
+  end
+
+  context "when there isn't next issue" do
+    it "renders the component without next issue text" do
+      comic = FactoryBot.create(:comic, name: "Test Comic", count_of_issues: 2, image: "/path/to/image.png")
+      issue = FactoryBot.create(:issue, comic:, absolute_number: 1, issue_number: "1")
+      current_user = FactoryBot.create(:user)
+      FactoryBot.create(:read_issue, issue:, user: current_user)
+      render_inline(described_class.new(comic:, current_user:))
+      expect(page).to have_css "img[src='/path/to/image.png']"
+      expect(page).to have_css "a[href='#{comic_path(comic)}']"
+      expect(page).to have_content "Test Comic"
+      expect(page).not_to have_content "Next: Issue"
+      expect(page).to have_content "50%"
+      expect(page).to have_css "div[style='width: 50%;']"
+    end
+  end
 end
