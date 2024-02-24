@@ -71,7 +71,14 @@ export default class extends Chart {
     return {
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'bottom', display: this.displayLegendValue }
+        legend: {
+          position: 'bottom',
+          display: this.displayLegendValue,
+          labels: {
+            usePointStyle: true,
+            pointStyle: 'rectRounded'
+          }
+        }
       },
       scales: this.scales()
     }
