@@ -26,4 +26,6 @@ class Issue < ApplicationRecord
   end
 
   def to_param = absolute_number
+
+  def next = comic.issues.find_by(absolute_number: absolute_number + 1)
 end

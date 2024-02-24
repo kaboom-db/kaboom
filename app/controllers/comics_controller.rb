@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show edit update wishlist unwishlist favourite unfavourite read_range refresh]
-  before_action :user_required, only: %i[edit update import wishlist unwishlist favourite unfavourite read_range refresh]
+  before_action :set_comic, only: %i[show edit update wishlist unwishlist favourite unfavourite read_range refresh read_next_issue]
+  before_action :user_required, only: %i[edit update import wishlist unwishlist favourite unfavourite read_range refresh read_next_issue]
 
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
@@ -143,6 +143,14 @@ class ComicsController < ApplicationController
   def refresh
     ImportWorker.perform_async("Comic", @comic.cv_id)
     redirect_to comic_path(@comic), notice: "This comic will be refreshed soon."
+  end
+
+  def read_next_issue
+    issue = current_user.next_up_for(@comic)
+    if issue.present?
+      ReadIssue.create(read_at: Time.current, user: current_user, issue:)
+    end
+    render partial: "shared/user_progress_sidebar"
   end
 
   private

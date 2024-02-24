@@ -1,19 +1,19 @@
-<%= turbo_frame_tag "comic_progress_#{@comic.id}" do %>
-  <div class="bg-gray-100 flex gap-4 rounded-4xl border-2 border-black p-4 component-border">
-    <div class="h-16 min-h-16 w-16 min-w-16 md:h-32 md:min-h-32 md:w-32 md:min-w-32 overflow-hidden rounded-2xl border-2 border-black">
-      <img src="<%= @comic.image %>" class="w-full">
-    </div>
-    <div class="w-full flex flex-col justify-between">
-      <h3 class="font-bold text-xs sm:text-xl mb-2 max-h-14 overflow-hidden"><%= link_to @comic.name, comic_path(@comic), class: "hidden sm:inline" %></h3>
-      <div>
-        <div class="flex justify-between">
-          <p><span class="hidden sm:inline"><%= @progress %>%</span></p>
+<div class="bg-gray-100 flex gap-4 rounded-4xl border-2 border-black p-4 component-border">
+  <div class="h-16 min-h-16 w-16 min-w-16 md:h-32 md:min-h-32 md:w-32 md:min-w-32 overflow-hidden rounded-2xl border-2 border-black">
+    <img src="<%= @comic.image %>" class="w-full">
+  </div>
+  <div class="w-full flex flex-col justify-between">
+    <h3 class="font-bold text-xs sm:text-xl mb-2 max-h-14 overflow-hidden"><%= link_to @comic.name, comic_path(@comic), class: "hidden sm:inline", data: {turbo_frame: "_top"} %></h3>
+    <div>
+      <div class="flex justify-between">
+        <p><%= @progress %>%</p>
+        <%= button_to read_next_issue_comic_path(@comic), method: :post do %>
           <i class="fa-solid fa-circle-plus text-lg"></i>
-        </div>
-        <div class="w-full rounded-full border-2 border-black">
-          <div style="width: <%= @progress %>%;" class="h-2 rounded-full bg-primary"></div>
-        </div>
+        <% end %>
+      </div>
+      <div class="w-full rounded-full border-2 border-black">
+        <div style="width: <%= @progress %>%;" class="h-2 rounded-full bg-primary"></div>
       </div>
     </div>
   </div>
-<% end %>
+</div>
