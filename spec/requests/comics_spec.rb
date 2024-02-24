@@ -37,6 +37,25 @@ RSpec.describe "/comics", type: :request do
         end
       end
     end
+
+    context "when the user is logged in" do
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      it "renders the comics progress sidebar" do
+        get comics_path
+        assert_select "#comic_progress"
+      end
+    end
+
+    context "when the user is not logged in" do
+      it "renders a sign up form" do
+        get comics_path
+        assert_select "form[action='/users']"
+        assert_select "div.grid-cols-1" # Renders it in a mobile layout
+      end
+    end
   end
 
   describe "GET /show" do
