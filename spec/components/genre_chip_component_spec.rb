@@ -3,13 +3,9 @@
 require "rails_helper"
 
 RSpec.describe GenreChipComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
-
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "renders the component" do
+    genre = FactoryBot.create(:genre, name: "Action")
+    render_inline(described_class.new(genre:))
+    expect(page).to have_content "Action"
+  end
 end
