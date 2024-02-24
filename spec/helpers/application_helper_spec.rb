@@ -107,6 +107,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
     context "when the controller is not one of the supported controllers" do
       let(:controller_name) { "bogus" }
+      let(:action_name) { "index" }
 
       it "returns false" do
         expect(should_show_sidebar?).to be_falsey
