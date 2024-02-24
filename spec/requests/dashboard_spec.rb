@@ -41,6 +41,11 @@ RSpec.describe "Dashboards", type: :request do
         assert_select "div[data-controller='chart']"
         assert_select "canvas[data-chart-target='canvas']"
       end
+
+      it "renders the comics progress sidebar" do
+        get dashboard_path
+        assert_select "#comic_progress"
+      end
     end
   end
 
