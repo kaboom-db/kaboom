@@ -81,4 +81,36 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe "#should_show_sidebar" do
+    ApplicationHelper::SIDEBAR_CONTROLLERS.each do |controller_name|
+      context "when the controller is #{controller_name}" do
+        let(:controller_name) { controller_name }
+
+        context "when action_name is index" do
+          let(:action_name) { "index" }
+
+          it "returns true" do
+            expect(should_show_sidebar?).to be_truthy
+          end
+        end
+
+        context "when action_name is not index" do
+          let(:action_name) { "bogus" }
+
+          it "returns false" do
+            expect(should_show_sidebar?).to be_falsey
+          end
+        end
+      end
+    end
+
+    context "when the controller is not one of the supported controllers" do
+      let(:controller_name) { "bogus" }
+
+      it "returns false" do
+        expect(should_show_sidebar?).to be_falsey
+      end
+    end
+  end
 end

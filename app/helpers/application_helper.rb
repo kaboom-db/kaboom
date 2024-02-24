@@ -1,4 +1,9 @@
 module ApplicationHelper
+  SIDEBAR_CONTROLLERS = [
+    "dashboard",
+    "comics"
+  ]
+
   def strip_description(description:)
     return "" unless description.present?
 
@@ -23,10 +28,6 @@ module ApplicationHelper
   end
 
   def should_show_sidebar?
-    supported_controllers = [
-      "dashboard",
-      "comics"
-    ]
-    supported_controllers.include?(controller_name) && action_name == "index"
+    SIDEBAR_CONTROLLERS.include?(controller_name) && action_name == "index"
   end
 end
