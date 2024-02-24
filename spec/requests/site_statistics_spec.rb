@@ -13,6 +13,8 @@ RSpec.describe "SiteStatistics", type: :request do
       stats.each do |stat|
         assert_select "h2.text-2xl", text: stat
       end
+      assert_select "p.text-xl", text: "Comics"
+      assert_select "p.text-xl", text: "Users"
     end
   end
 end
