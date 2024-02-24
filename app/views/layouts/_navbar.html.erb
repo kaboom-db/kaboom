@@ -22,8 +22,10 @@
   </div>
 </aside>
 <!-- Mobile navbar -->
-<div class="h-14 sm:hidden w-full"></div>
-<div class="z-10 h-14 fixed top-0 sm:hidden px-[1rem] bg-primary w-full w-full flex items-center justify-between">
+<div class="h-24 sm:hidden w-full"></div>
+<div class="z-10 fixed top-0 sm:hidden px-[1rem] bg-primary w-full w-full">
+  <%= image_tag "logo-nav.svg", class: "mx-auto h-10 p-2" %>
+  <div class="h-14 flex items-center justify-between">
     <div class="flex">
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: controller_name == "comics" || controller_name == "issues", mobile: true) %>
@@ -38,4 +40,5 @@
         <%= render NavButtonComponent.new(href: edit_user_path(current_user), icon: "gear", text: "Settings", active: controller_name == "users" && action_name == "edit", mobile: true) %>
       <% end %>
     </div>
+  </div>
 </div>

@@ -1,9 +1,16 @@
 <div class="bg-gray-100 flex gap-4 rounded-4xl border-2 border-black p-4 component-border">
   <div class="h-16 min-h-16 w-16 min-w-16 md:h-32 md:min-h-32 md:w-32 md:min-w-32 overflow-hidden rounded-2xl border-2 border-black">
-    <img src="<%= @comic.image %>" class="w-full">
+    <%= link_to @comic, data: {turbo_frame: "_top"} do %>
+      <img src="<%= @comic.image %>" class="w-full">
+    <% end %>
   </div>
   <div class="w-full flex flex-col justify-between">
-    <h3 class="font-bold text-xs sm:text-xl mb-2 max-h-14 overflow-hidden"><%= link_to @comic.name, comic_path(@comic), class: "hidden sm:inline", data: {turbo_frame: "_top"} %></h3>
+    <div>
+      <h3 class="font-bold text-xs sm:text-xl mb-1 max-h-14 overflow-hidden"><%= link_to @comic.name, comic_path(@comic), class: "hidden sm:inline", data: {turbo_frame: "_top"} %></h3>
+      <% if @next_issue.present? %>
+        <small class="mb-1">Next: Issue #<%= @next_issue.formatted_issue_number %></small>
+      <% end %>
+    </div>
     <div>
       <div class="flex justify-between">
         <p><%= @progress %>%</p>

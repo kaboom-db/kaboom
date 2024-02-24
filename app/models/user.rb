@@ -60,7 +60,7 @@ class User < ApplicationRecord
 
   def progress_for(comic)
     amount_read = issues_read.where(comic:).distinct.count
-    ((amount_read.to_f / comic.count_of_issues) * 100).to_i
+    ((amount_read.to_f / comic.count_of_issues) * 100).floor
   end
 
   def read_issues_for(comic)
