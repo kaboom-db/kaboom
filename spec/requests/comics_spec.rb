@@ -480,4 +480,47 @@ RSpec.describe "/comics", type: :request do
       end
     end
   end
+
+  describe "POST /read_next_issue" do
+    context "when user is not logged in" do
+      it "redirects to the login page" do
+        comic = FactoryBot.create(:comic)
+        post read_next_issue_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when the user is logged in" do
+      before do
+        @user = FactoryBot.create(:user, :confirmed)
+        sign_in @user
+        @comic = FactoryBot.create(:comic)
+      end
+
+      context "when there is a next issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic: @comic)
+        end
+
+        it "creates a read issue" do
+          post read_next_issue_comic_path(@comic)
+          read_issue = ReadIssue.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq @user
+        end
+
+        it "renders the progress sidebar" do
+          post read_next_issue_comic_path(@comic)
+          assert_select "#comic_progress"
+        end
+      end
+
+      context "when there is no next issue" do
+        it "does not create a read issue" do
+          post read_next_issue_comic_path(@comic)
+          expect(ReadIssue.last).to be_nil
+        end
+      end
+    end
+  end
 end
