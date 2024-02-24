@@ -7,29 +7,44 @@ RSpec.describe ResourceTileControlComponent, type: :component do
 
   let(:user) { FactoryBot.create(:user) }
   let(:issue) { FactoryBot.create(:issue, issue_number: 1, image: "google.com") }
-  let!(:read_issue) { FactoryBot.create(:read_issue, issue:, user:, read_at: DateTime.new(2023, 7, 7, 10, 0)) }
 
-  before do
-    render_inline(described_class.new(issue:, user:))
+  context "when user exists" do
+    before do
+      FactoryBot.create(:read_issue, issue:, user:, read_at: DateTime.new(2023, 7, 7, 10, 0))
+      render_inline(described_class.new(issue:, user:))
+    end
+
+    it "renders the actions" do
+      expect(page).to have_css "i.fa-check"
+      expect(page).to have_css "i.fa-cake-candles"
+      expect(page).to have_css "i.fa-book-open"
+      expect(page).to have_css "i.fa-heart"
+    end
+
+    it "renders a link to the issue" do
+      expect(page).to have_css "a[href='#{comic_issue_path(issue, comic_id: issue.comic.id)}']"
+    end
+
+    it "renders the issue image" do
+      expect(page).to have_css "img[src='google.com']"
+    end
+
+    it "renders the issue number and time read" do
+      expect(page).to have_content "#1"
+      expect(page).to have_content "7 Jul 10:00"
+      expect(page).to have_css "div[data-controller='local-time']"
+    end
   end
 
-  it "renders the actions" do
-    expect(page).to have_css "i.fa-check"
-    expect(page).to have_css "i.fa-cake-candles"
-    expect(page).to have_css "i.fa-book-open"
-    expect(page).to have_css "i.fa-heart"
-  end
+  context "when user is nil" do
+    let(:user) { nil }
 
-  it "renders a link to the issue" do
-    expect(page).to have_css "a[href='#{comic_issue_path(issue, comic_id: issue.comic.id)}']"
-  end
+    before do
+      render_inline(described_class.new(issue:, user:))
+    end
 
-  it "renders the issue image" do
-    expect(page).to have_css "img[src='google.com']"
-  end
-
-  it "renders the issue number and time read" do
-    expect(page).to have_content "#1"
-    expect(page).to have_content "7 Jul 10:00"
+    it "does not render the read_at" do
+      expect(page).not_to have_css "div[data-controller='local-time']"
+    end
   end
 end

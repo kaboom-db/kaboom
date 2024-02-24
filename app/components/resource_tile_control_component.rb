@@ -5,6 +5,6 @@ class ResourceTileControlComponent < ViewComponent::Base
     @issue = issue
     @comic = issue.comic
     @user = user
-    @read_at = user.read_issues.order(read_at: :desc).where(issue:).first&.read_at
+    @read_at = user&.read_issues&.order(read_at: :desc)&.where(issue:)&.first&.read_at
   end
 end
