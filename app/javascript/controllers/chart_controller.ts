@@ -1,7 +1,7 @@
 import Chart from 'stimulus-chartjs'
 import { Chart as ChartJS } from 'chart.js'
 
-// Connects to data-controller="chart"
+// Connects to data-controller='chart'
 export default class extends Chart {
   static values = { displayLegend: { type: Boolean, default: true } }
 
@@ -23,7 +23,7 @@ export default class extends Chart {
           ctx.save()
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
-          ctx.font = "50px normal 'Montserrat'"
+          ctx.font = '50px normal "Montserrat"'
           ctx.fillStyle = 'gray'
           ctx.fillText(
             'No data',
@@ -48,19 +48,19 @@ export default class extends Chart {
     return {
       x: {
         ticks: {
-          color: "#000",
+          color: '#000',
           font: {
-            weight: "bolder",
-            family: "'Montserrat', sans-serif"
+            weight: 'bolder',
+            family: '"Montserrat", sans-serif'
           }
         }
       },
       y: {
         ticks: {
-          color: "#000",
+          color: '#000',
           font: {
-            weight: "bolder",
-            family: "'Montserrat', sans-serif"
+            weight: 'bolder',
+            family: '"Montserrat", sans-serif'
           }
         }
       }
