@@ -33,7 +33,7 @@
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #ffe3b7;
     border-radius: 5px;
   }
 
@@ -100,5 +100,13 @@
 
   #slider-round > div > div:nth-child(3) > div > div.noUi-tooltip {
     left: -150% !important;
+  }
+
+  .component-border {
+    box-shadow: 1px 1px 0 black, 2px 2px 0 black, 3px 3px 0 black, 4px 4px 0 black, 5px 5px 0 black, 6px 6px 0 black;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -136,6 +136,102 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#progress_for" do
+    let(:user) { FactoryBot.create(:user) }
+
+    before do
+      @comic = FactoryBot.create(:comic, count_of_issues: 3)
+      issue1 = FactoryBot.create(:issue, comic: @comic)
+      issue2 = FactoryBot.create(:issue, comic: @comic)
+      # Issue does not belong to this comic
+      issue3 = FactoryBot.create(:issue, absolute_number: 3)
+
+      FactoryBot.create(:read_issue, issue: issue1, user:)
+      FactoryBot.create(:read_issue, issue: issue2, user:)
+      FactoryBot.create(:read_issue, issue: issue1, user:)
+      FactoryBot.create(:read_issue, issue: issue3, user:)
+    end
+
+    it "returns the percentage read of a comic, rounded down" do
+      expect(user.progress_for(@comic)).to eq 66
+    end
+  end
+
+  describe "#read_issues_for" do
+    let(:user) { FactoryBot.create(:user) }
+
+    before do
+      @comic = FactoryBot.create(:comic, count_of_issues: 3)
+      issue1 = FactoryBot.create(:issue, comic: @comic, absolute_number: 1)
+      issue2 = FactoryBot.create(:issue, comic: @comic, absolute_number: 2)
+      # Issue does not belong to this comic
+      issue3 = FactoryBot.create(:issue, absolute_number: 3)
+
+      @ri1 = FactoryBot.create(:read_issue, issue: issue1, user:, read_at: Time.current - 10.seconds)
+      @ri2 = FactoryBot.create(:read_issue, issue: issue2, user:, read_at: Time.current - 4.seconds)
+      @ri3 = FactoryBot.create(:read_issue, issue: issue2, user:, read_at: Time.current - 5.seconds)
+      @ri4 = FactoryBot.create(:read_issue, issue: issue1, user:, read_at: Time.current + 10.seconds)
+      FactoryBot.create(:read_issue, issue: issue3, user:, read_at: Time.current + 15.seconds)
+    end
+
+    it "returns all the read issues of the comic for the user, ordered by absolute_number and read_at DESC" do
+      expect(user.read_issues_for(@comic)).to eq [@ri2, @ri3, @ri4, @ri1]
+    end
+  end
+
+  describe "#next_up_for" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:comic) { FactoryBot.create(:comic) }
+
+    before do
+      @issue1 = FactoryBot.create(:issue, comic:, absolute_number: 1)
+      @issue2 = FactoryBot.create(:issue, comic:, absolute_number: 2)
+      @issue3 = FactoryBot.create(:issue, comic:, absolute_number: 3)
+      @issue4 = FactoryBot.create(:issue, comic:, absolute_number: 4)
+    end
+
+    context "when the user has not read any issues in the comic" do
+      it "returns the first issue" do
+        expect(user.next_up_for(comic)).to eq @issue1
+      end
+    end
+
+    context "when the user has read an issue in the comic" do
+      before do
+        FactoryBot.create(:read_issue, issue: @issue3, user:)
+      end
+
+      it "returns the next issue relative to the highest issue read" do
+        expect(user.next_up_for(comic)).to eq @issue4
+      end
+    end
+
+    context "when the user has read the first and last issue but missed some in between" do
+      before do
+        FactoryBot.create(:read_issue, issue: @issue1, user:)
+        FactoryBot.create(:read_issue, issue: @issue2, user:)
+        FactoryBot.create(:read_issue, issue: @issue4, user:)
+      end
+
+      it "returns the first unread issue" do
+        expect(user.next_up_for(comic)).to eq @issue3
+      end
+    end
+
+    context "when the user has read all the issues in the comic" do
+      before do
+        FactoryBot.create(:read_issue, issue: @issue1, user:)
+        FactoryBot.create(:read_issue, issue: @issue2, user:)
+        FactoryBot.create(:read_issue, issue: @issue3, user:)
+        FactoryBot.create(:read_issue, issue: @issue4, user:)
+      end
+
+      it "returns nil" do
+        expect(user.next_up_for(comic)).to be_nil
+      end
+    end
+  end
+
   describe "#completed_comics" do
     let(:user) { FactoryBot.create(:user) }
 

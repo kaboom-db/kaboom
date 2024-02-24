@@ -1,21 +1,15 @@
-<!--
-<button class="group inline-block py-1.5 px-[5%] rounded-md border-2 border-[#47bcea] hover:bg-[#47bcea] cursor-pointer transition duration-300 ease-in-out">
-  <i class="fa-solid fa-book-open text-auto text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out"></i>
-</button>
--->
-
 <div data-controller="collect"
      data-collect-status-value="<%= @has_collected %>"
      data-collect-baseurl-value="<%= @resource_path %>">
 
   <button data-collect-target="button"
           data-action="click->collect#trigger"
-          class="group bg-white inline-block w-full py-1.5 px-[5%] border-x-none border-y-2 border-[#47bcea] hover:bg-[#47bcea] cursor-pointer transition duration-300 ease-in-out">
+          class="group bg-white inline-block w-full py-1.5 px-[5%] border-t-2 border-black bg-gray-100 hover:bg-[#47bcea] cursor-pointer transition duration-300 ease-in-out">
     <i data-collect-target="icon" class="fa-solid fa-book-open text-auto text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out"></i>
   </button>
 
   <dialog data-collect-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm" >
-    <%= render BorderComponent.new do %>
+    <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
       <div class="m-4">
         <h5 class="text-xl font-bold">Mark as collected</h1>
         <div class="my-4 flex flex-col gap-4">
@@ -25,13 +19,12 @@
                 required="required"
                 type="date">
           <small data-collect-target="error" class="font-bold text-red-500 hidden">Could not mark as collected.</small>
-          <button data-collect-target="collectedOnSubmit" data-action="click->collect#markAsCollected" class="inline-block py-1.5 px-3 bg-primary rounded-sm text-white border-2 border-primary cursor-pointer">
+          <button data-collect-target="collectedOnSubmit" data-action="click->collect#markAsCollected" class="font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out">
             Submit
           </button>
-          <!--<a href="<%= dashboard_history_path(issue: @resource.id) %>" class="text-hint underline">View history</a>-->
         </div>
       </div>
-    <% end %>
+    </div>
   </dialog>
 
 </div>

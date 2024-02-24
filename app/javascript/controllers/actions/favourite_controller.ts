@@ -9,8 +9,8 @@ interface FavouriteData extends ResponseData {
 // Connects to data-controller="favourite"
 export default class extends BaseActionController {
   connect (): void {
-    this.ON_BUTTON_CLASSES = ['bg-[#ff85a2]']
-    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#ff85a2]', 'bg-white']
+    this.ON_BUTTON_CLASSES = ['!bg-[#ff85a2]']
+    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#ff85a2]', 'bg-gray-100']
 
     this.ON_ICON_CLASSES = ['text-white']
     this.OFF_ICON_CLASSES = ['text-[#ff85a2]', 'group-hover:text-white']

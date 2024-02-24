@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "comic_progress", class: "col-span-3 sm:border-l-2 sm:border-black w-full" do %>
+  <div class="sticky top-0 max-h-screen h-fit overflow-scroll flex-col gap-4 p-4 no-scrollbar hidden sm:flex">
+    <%= render ProfileChipComponent.new(user: current_user) %>
+    <% current_user.incompleted_comics.each do |comic| %>
+      <%= render ComicProgressComponent.new(comic:, current_user:) %>
+    <% end %>
+  </div>
+
+
+  <div class="z-10 pt-4 sw-full bg-gray-100 border-t-2 border-black block sm:hidden">
+    <div class="px-4 pb-4 flex items-end gap-4 w-full overflow-scroll no-scrollbar">
+    <% current_user.incompleted_comics.each do |comic| %>
+      <div class="min-w-[80%]">
+        <%= render ComicProgressComponent.new(comic:, current_user:) %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

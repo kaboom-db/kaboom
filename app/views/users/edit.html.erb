@@ -1,6 +1,4 @@
-<%= render SectionComponent.new do %>
-  <%= render PageTitleComponent.new(text: "Update your account") %>
-<% end %>
+<%= render PageTitleComponent.new(text: "Update your account") %>
 
 <%= render SectionComponent.new do %>
   <%= form_for(@user, url: user_path(@user)) do |f| %>

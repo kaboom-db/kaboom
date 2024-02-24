@@ -9,6 +9,11 @@ module.exports = {
     './app/javascript/**/*.ts'
   ],
   theme: {
+    screens: {
+      'sm': '790px',
+      'md': '1000px',
+      'lg': '1200px'
+    },
     extend: {
       colors: {
         primary: '#ef6461',
@@ -35,6 +40,9 @@ module.exports = {
       },
       backgroundImage: {
         stripes: 'repeating-linear-gradient(45deg, #f2f2f2, #f2f2f2 20px, #ffffff 20px, #ffffff 40px)'
+      },
+      borderRadius: {
+        '4xl': '2rem'
       }
     },
     fontFamily: {

@@ -19,9 +19,9 @@ RSpec.describe "/comics", type: :request do
         get comics_path(search: "")
         assert_select "p.text-sm.font-bold", text: "Results for :", count: 0
         assert_select "#search" do
-          assert_select "small", text: "Test Comic", count: 0
-          assert_select "small", text: "Cool Comic", count: 0
-          assert_select "small", text: "No Name", count: 0
+          assert_select "b", text: "Test Comic", visible: :hidden, count: 0
+          assert_select "b", text: "Cool Comic", visible: :hidden, count: 0
+          assert_select "b", text: "No Name", visible: :hidden, count: 0
         end
       end
     end
@@ -29,12 +29,31 @@ RSpec.describe "/comics", type: :request do
     context "when there is a search query" do
       it "shows the search results" do
         get comics_path(search: "test")
-        assert_select "h2.text-sm.font-bold", text: "Results for test:"
+        assert_select "h2.text-2xl", text: "Results for test:"
         assert_select "#search" do
-          assert_select "small", text: "Test Comic"
-          assert_select "small", text: "Cool Comic"
-          assert_select "small", text: "No Name", count: 0
+          assert_select "b", text: "Test Comic", visible: :hidden
+          assert_select "b", text: "Cool Comic", visible: :hidden
+          assert_select "b", text: "No Name", visible: :hidden, count: 0
         end
+      end
+    end
+
+    context "when the user is logged in" do
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+      end
+
+      it "renders the comics progress sidebar" do
+        get comics_path
+        assert_select "#comic_progress"
+      end
+    end
+
+    context "when the user is not logged in" do
+      it "renders a sign up form" do
+        get comics_path
+        assert_select "form[action='/users']"
+        assert_select "div.grid-cols-1" # Renders it in a mobile layout
       end
     end
   end
@@ -477,6 +496,49 @@ RSpec.describe "/comics", type: :request do
         expect(ImportWorker).to receive(:perform_async).with("Comic", @comic.cv_id)
         post refresh_comic_path(@comic)
         expect(response).to redirect_to comic_path(@comic)
+      end
+    end
+  end
+
+  describe "POST /read_next_issue" do
+    context "when user is not logged in" do
+      it "redirects to the login page" do
+        comic = FactoryBot.create(:comic)
+        post read_next_issue_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when the user is logged in" do
+      before do
+        @user = FactoryBot.create(:user, :confirmed)
+        sign_in @user
+        @comic = FactoryBot.create(:comic)
+      end
+
+      context "when there is a next issue" do
+        before do
+          @issue = FactoryBot.create(:issue, comic: @comic)
+        end
+
+        it "creates a read issue" do
+          post read_next_issue_comic_path(@comic)
+          read_issue = ReadIssue.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq @user
+        end
+
+        it "renders the progress sidebar" do
+          post read_next_issue_comic_path(@comic)
+          assert_select "#comic_progress"
+        end
+      end
+
+      context "when there is no next issue" do
+        it "does not create a read issue" do
+          post read_next_issue_comic_path(@comic)
+          expect(ReadIssue.last).to be_nil
+        end
       end
     end
   end

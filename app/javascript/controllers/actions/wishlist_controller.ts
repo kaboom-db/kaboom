@@ -9,8 +9,8 @@ interface WishlistData extends ResponseData {
 // Connects to data-controller="wishlist"
 export default class extends BaseActionController {
   connect (): void {
-    this.ON_BUTTON_CLASSES = ['bg-[#fdbd7d]']
-    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#fdbd7d]', 'bg-white']
+    this.ON_BUTTON_CLASSES = ['!bg-[#fdbd7d]']
+    this.OFF_BUTTON_CLASSES = ['group', 'hover:bg-[#fdbd7d]', 'bg-gray-100']
 
     this.ON_ICON_CLASSES = ['text-white']
     this.OFF_ICON_CLASSES = ['text-[#fdbd7d]', 'group-hover:text-white']

@@ -1,15 +1,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
 
 <%= render SectionComponent.new do %>
-  <div class="px-4 py-6 md:px-6 md:py-12 lg:py-16 bg-gray-100 border-4 border-primary">
+  <div class="rounded-4xl border-2 border-black bg-gray-100 overflow-hidden">
+    <div class="px-4 py-6 md:px-6 md:py-12 lg:py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start max-w-6xl mx-auto">
-          <div class="overflow-hidden max-w-[300px]">
-            <img src="<%= @comic.image %>" alt="Comic cover image" width="300" height="420" class="object-cover aspect-[5/7]" />
-            <%= render Actions::ActionsComponent.new(resource: @comic, user: current_user) %>
+          <div class="overflow-hidden max-w-[300px] mx-auto lg:mx-0">
+            <img src="<%= @comic.image %>" alt="Comic cover image" width="300" height="420" class="object-cover aspect-[5/7] rounded-2xl border-2 border-black" />
           </div>
           <article class="prose prose-gray dark:prose-invert md:ml-[30px]">
               <div class="space-y-2 not-prose mb-4">
-                  <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
+                  <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl tracking-wide uppercase">
                       <%= @comic.name %>
                   </h1>
                   <div class="flex flex-wrap gap-4">
@@ -21,15 +21,24 @@
                       <% end %>
                   </div>
               </div>
-              <div class="flex gap-4">
-                <a href="<%= @comic.site_detail_url %>" class="flex font-bold w-max rounded-md text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
+              <div class="flex gap-4 flex-wrap">
+                <a href="<%= @comic.site_detail_url %>" class="flex font-bold w-max rounded-full border-2 border-black text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
                   <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
                 </a>
-                <%= button_to "Refresh", refresh_comic_path(@comic), method: :post, class: "flex font-bold w-max rounded-md text-sm bg-primary py-2 px-3" %>
-                <%= link_to "Edit", edit_comic_path(@comic), class: "flex font-bold w-max rounded-md text-sm bg-secondary py-2 px-3" %>
+                <%= button_to "Refresh", refresh_comic_path(@comic), method: :post, class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-primary py-2 px-3" %>
+                <%= link_to "Edit", edit_comic_path(@comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-secondary py-2 px-3" %>
+                <% if @comic.country %>
+                  <span class="flex font-bold w-max rounded-full border-2 text-sm bg-gray-100 py-2 px-3"
+                        style="border-color: <%= @comic.country.colour %>; color: <%= @comic.country.colour %>;"
+                        title="<%= @comic.country.name %>">
+                    <%= @comic.country.language_code.upcase %>
+                  </span>
+                <% end %>
               </div>
           </article>
       </div>
+    </div>
+    <%= render Actions::ActionsComponent.new(resource: @comic, user: current_user) %>
   </div>
 <% end %>
 
@@ -46,8 +55,8 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Trend") %>
   <%= render BorderComponent.new do %>
-    <h3 class="font-bold text-xl cursor-pointer">Trend</h3>
     <div class="mt-4">
       <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
@@ -68,7 +77,7 @@
               data-read-range-chapter-count-value="<%= @comic.count_of_issues %>"
               data-read-range-url-value="<%= read_range_comic_path(@comic) %>">
             <div data-read-range-target="slider" class="mb-8 mt-16 mx-6" id="slider-round"></div>
-            <button data-read-range-target="submit" data-action="click->read-range#submit" class="inline-block py-1.5 px-3 bg-primary rounded-sm text-white border-2 border-primary cursor-pointer">
+            <button data-read-range-target="submit" data-action="click->read-range#submit" class="font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out">
               Submit
             </button>
           </div>
@@ -80,9 +89,9 @@
 
 <%= render SectionComponent.new do %>
   <%= render ChipHeaderComponent.new(text: "Issues") %>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
     <% @ordered_issues.each do |issue| %>
-      <%= render ResourceTileControlComponent.new(issue:, user: current_user, read_at: nil) %>
+      <%= render ResourceTileControlComponent.new(issue:, user: current_user) %>
     <% end %>
   </div>
   <%= paginate @ordered_issues %>

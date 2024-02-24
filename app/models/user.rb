@@ -58,6 +58,20 @@ class User < ApplicationRecord
     end
   end
 
+  def progress_for(comic)
+    amount_read = issues_read.where(comic:).distinct.count
+    ((amount_read.to_f / comic.count_of_issues) * 100).floor
+  end
+
+  def read_issues_for(comic)
+    read_issues.joins(:issue).where(issue: {comic:}).order("issue.absolute_number DESC").order(read_at: :desc)
+  end
+
+  # Returns the next issue depending on read_at or the first unread issue
+  def next_up_for(comic)
+    read_issues_for(comic).first&.issue&.next || comic.ordered_issues.where.not(id: issues_read).first
+  end
+
   # TODO: Possibly make this more efficient with indexes?
   def completed_comics
     comics

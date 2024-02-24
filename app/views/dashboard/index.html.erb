@@ -1,27 +1,21 @@
-<%= render SectionComponent.new do %>
-  <%= render PageTitleComponent.new(text: "Dashboard") %>
-<% end %>
+<%= render PageTitleComponent.new(text: "Dashboard") %>
 
 <%= render SectionComponent.new do %>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <%= link_to dashboard_history_path do %>
-      <div class="group p-1.5 h-full bg-[#ff6961]">
-        <div class="bg-[#ff8f89] p-4 h-full group-hover:bg-[#ff6961] transition duration-300 ease-in-out">
+      <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
           <div class="h-32 flex flex-col justify-center items-center">
-            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= @issues_read %></p>
+            <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= @issues_read %></p>
           </div>
-          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Issues read</p>
-        </div>
+          <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Issues read</p>
       </div>
     <% end %>
     <%= link_to dashboard_collection_path do %>
-      <div class="group p-1.5 h-full bg-[#47bcea]">
-        <div class="bg-[#7bc3e0] p-4 h-full group-hover:bg-[#47bcea] transition duration-300 ease-in-out">
+      <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
           <div class="h-32 flex flex-col justify-center items-center">
-            <p class="text-4xl font-bold text-white transition duration-300 ease-in-out"><%= @issues_collected %></p>
+            <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= @issues_collected %></p>
           </div>
-          <p class="text-xl font-bold text-white transition duration-300 ease-in-out">Collected</p>
-        </div>
+          <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Collected</p>
       </div>
     <% end %>
   </div>
@@ -34,7 +28,7 @@
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
     </a>
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
     <% @deck.each do |comic| %>
       <%= render ResourceTileComponent.new(
         resource: comic,
@@ -51,7 +45,7 @@
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
     </a>
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
     <% @issue_history.each do |issue_history| %>
       <%= render ResourceTileComponent.new(
         resource: issue_history.issue,
@@ -64,8 +58,10 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Last 30 days") %>
-  <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
-    <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
-  </div>
+  <%= render ChipHeaderComponent.new(text: "Last 14 days") %>
+  <%= render BorderComponent.new do%>
+    <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
+      <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
+    </div>
+  <% end %>
 <% end %>

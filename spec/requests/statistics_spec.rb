@@ -7,7 +7,7 @@ RSpec.describe "Statistics", type: :request do
   shared_examples_for "a statistics page" do
     it "renders the read and collected counts" do
       get path
-      assert_select "h2.text-2xl", text: "Issues read and collected"
+      assert_select "h2.text-2xl", text: "Issues read and collected:"
     end
 
     context "when user has a private account" do

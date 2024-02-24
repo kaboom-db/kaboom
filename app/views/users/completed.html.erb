@@ -4,7 +4,7 @@
 
 <%= render SectionComponent.new do %>
     <div class="my-6">
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
         <% @completed.each do |comic| %>
           <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
         <% end %>

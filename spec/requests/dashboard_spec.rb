@@ -36,10 +36,15 @@ RSpec.describe "Dashboards", type: :request do
         assert_select "p.text-4xl", text: "3"
       end
 
-      it "renders a chart for the last 30 days" do
+      it "renders a chart for the last 14 days" do
         get dashboard_path
         assert_select "div[data-controller='chart']"
         assert_select "canvas[data-chart-target='canvas']"
+      end
+
+      it "renders the comics progress sidebar" do
+        get dashboard_path
+        assert_select "#comic_progress"
       end
     end
   end

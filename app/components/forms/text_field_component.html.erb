@@ -1,4 +1,6 @@
 <div>
   <%= @form.label @field, @placeholder, class: "font-bold text-lg after:content-[':']" %>
-  <%= @form.send(@type, @field, placeholder: @placeholder, autofocus: @autofocus, class: "w-full form-control p-2 mt-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary", required: @required, **@extras) %>
+  <div class="component-border bg-gray-100 w-full flex rounded-full border-2 border-black mt-2">
+    <%= @form.send(@type, @field, placeholder: @placeholder, autofocus: @autofocus, class: "rounded-full w-full bg-transparent p-4 focus:outline-none", required: @required, **@extras) %>
+  </div>
 </div>

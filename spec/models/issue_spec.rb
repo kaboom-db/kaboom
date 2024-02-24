@@ -78,4 +78,31 @@ RSpec.describe Issue, type: :model do
       end
     end
   end
+
+  describe "#next" do
+    let(:comic) { FactoryBot.create(:comic) }
+
+    context "when there is a next issue" do
+      before do
+        @issue = FactoryBot.create(:issue, comic:, absolute_number: 1)
+        @issue2 = FactoryBot.create(:issue, comic:, absolute_number: 2)
+      end
+
+      it "returns the next issue according to the absolute number" do
+        expect(@issue.next).to eq @issue2
+      end
+    end
+
+    context "when there is no next issue" do
+      before do
+        @issue = FactoryBot.create(:issue, comic:, absolute_number: 2)
+        # Issue isn't part of the comic
+        FactoryBot.create(:issue, absolute_number: 3)
+      end
+
+      it "returns the next issue according to the absolute number" do
+        expect(@issue.next).to be_nil
+      end
+    end
+  end
 end

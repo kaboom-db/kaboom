@@ -1,9 +1,13 @@
 <div>
   <%= @form.label @field, class: "font-bold text-lg after:content-[':']" %>
   <% if @multiple %>
-    <%= @form.collection_select @field, @options, @identifier, :to_s, {}, { multiple: true, class: "w-full form-control p-2 mt-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" } %>
-    <p class="text-sm">Control + Click to select/deselect an option</p>
+    <div class="component-border bg-gray-100 w-full flex rounded-4xl border-2 border-black mt-2">
+      <%= @form.collection_select @field, @options, @identifier, :to_s, {}, { multiple: true, class: "rounded-4xl w-full bg-transparent p-4 focus:outline-none no-scrollbar" } %>
+    </div>
+    <p class="text-sm mt-2">Control + Click to select/deselect an option</p>
   <% else %>
-    <%= @form.collection_select @field, @options, @identifier, :to_s, { include_blank: @include_blank }, class: "w-full form-control p-2 mt-2 rounded-sm border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" %>
+    <div class="component-border bg-gray-100 w-full flex rounded-4xl border-2 border-black mt-2">
+      <%= @form.collection_select @field, @options, @identifier, :to_s, { include_blank: @include_blank }, class: "rounded-full w-full bg-transparent p-4 focus:outline-none mr-4" %>
+    </div>
   <% end %>
 </div>

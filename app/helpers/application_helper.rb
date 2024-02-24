@@ -1,4 +1,9 @@
 module ApplicationHelper
+  SIDEBAR_CONTROLLERS = [
+    "dashboard",
+    "comics"
+  ]
+
   def strip_description(description:)
     return "" unless description.present?
 
@@ -20,5 +25,9 @@ module ApplicationHelper
     else
       "#{currency.symbol_native}#{issue.cover_price}"
     end
+  end
+
+  def should_show_sidebar?
+    SIDEBAR_CONTROLLERS.include?(controller_name) && action_name == "index"
   end
 end

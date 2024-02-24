@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     post :unfavourite, on: :member
     post :read_range, on: :member
     post :refresh, on: :member
+    post :read_next_issue, on: :member
   end
 
   resources :users, only: [:show, :edit, :update] do
