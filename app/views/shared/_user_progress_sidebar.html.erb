@@ -1,7 +1,17 @@
-<%# sticky top-0 max-h-screen h-fit overflow-scroll %>
-<div class="col-span-3 border-l-2 border-black w-full hidden sm:flex flex-col gap-4 p-4">
-  <%= render ProfileChipComponent.new(user: current_user) %>
+<div class="col-span-3 border-l-2 border-black w-full hidden sm:block">
+  <div class="sticky top-0 max-h-screen h-fit overflow-scroll flex flex-col gap-4 p-4 no-scrollbar">
+    <%= render ProfileChipComponent.new(user: current_user) %>
+    <% current_user.incompleted_comics.each do |comic| %>
+      <%= render ComicProgressComponent.new(comic:, current_user:) %>
+    <% end %>
+  </div>
+</div>
+
+<div class="z-10 pt-4 sw-full bg-gray-100 border-t-2 border-black block sm:hidden">
+  <div class="px-4 pb-4 flex items-end gap-4 w-full overflow-scroll no-scrollbar">
   <% current_user.incompleted_comics.each do |comic| %>
-    <%= render ComicProgressComponent.new(comic:, current_user:) %>
+    <div class="min-w-[80%]">
+      <%= render ComicProgressComponent.new(comic:, current_user:) %>
+    </div>
   <% end %>
 </div>

@@ -1,9 +1,10 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <% grid = local_assigns.fetch(:sidebar, false) ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2" %>
+  <% sidebar = local_assigns.fetch(:sidebar, false) %>
+  <% grid = sidebar ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2" %>
   <div class="grid <%= grid %> gap-4 my-4">
-    <%= render Forms::TextFieldComponent.new(form: f, field: :email, type: "email_field", autofocus: true, required: true) %>
+    <%= render Forms::TextFieldComponent.new(form: f, field: :email, type: "email_field", autofocus: !sidebar, required: true) %>
 
     <%= render Forms::TextFieldComponent.new(form: f, field: :username, type: "text_field", required: true) %>
 

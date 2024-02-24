@@ -9,7 +9,7 @@
       <p class="my-4 text-2xl font-bold"><%= day %></p>
       <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
         <% items.each do |itm| %>
-          <%= render ResourceTileControlComponent.new(issue: itm.issue, user: current_user, read_at: nil) %>
+          <%= render ResourceTileControlComponent.new(issue: itm.issue, user: current_user) %>
         <% end %>
       </div>
     </div>

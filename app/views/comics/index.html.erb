@@ -29,6 +29,18 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Genres") %>
+  <div class="relative">
+    <div class="pb-4 pr-4 flex gap-4 w-full flex-nowrap overflow-scroll no-scrollbar">
+      <% Genre.order(:name).each do |genre| %>
+        <%= render GenreChipComponent.new(genre:) %>
+      <% end %>
+    </div>
+    <div class="h-full w-24 absolute right-0 top-0 bg-gradient-to-r from-transparent to-[#fcf3e5] pointer-events-none"></div>
+  </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
     <%= render BorderComponent.new do %>

@@ -7,9 +7,10 @@ RSpec.describe ResourceTileControlComponent, type: :component do
 
   let(:user) { FactoryBot.create(:user) }
   let(:issue) { FactoryBot.create(:issue, issue_number: 1, image: "google.com") }
+  let!(:read_issue) { FactoryBot.create(:read_issue, issue:, user:, read_at: DateTime.new(2023, 7, 7, 10, 0)) }
 
   before do
-    render_inline(described_class.new(issue:, user:, read_at: DateTime.new(2023, 7, 7, 10, 0)))
+    render_inline(described_class.new(issue:, user:))
   end
 
   it "renders the actions" do
