@@ -40,12 +40,40 @@ export default class extends Chart {
     super.connect()
   }
 
+  scales () {
+    if (this.typeValue === 'doughnut') {
+      return {}
+    }
+
+    return {
+      x: {
+        ticks: {
+          color: "#000",
+          font: {
+            weight: "bolder",
+            family: "'Montserrat', sans-serif"
+          }
+        }
+      },
+      y: {
+        ticks: {
+          color: "#000",
+          font: {
+            weight: "bolder",
+            family: "'Montserrat', sans-serif"
+          }
+        }
+      }
+    }
+  }
+
   get defaultOptions () {
     return {
       maintainAspectRatio: false,
       plugins: {
         legend: { position: 'bottom', display: this.displayLegendValue }
-      }
+      },
+      scales: this.scales()
     }
   }
 }

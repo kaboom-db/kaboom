@@ -9,7 +9,7 @@ module Charts
         {
           type:,
           borderWidth: 2,
-          borderRadius: 5,
+          borderRadius: 15,
           fill: true,
           tension: 0.3
         }
@@ -28,11 +28,9 @@ module Charts
           {
             label:,
             backgroundColor: [
-              "rgba(#{rgb}, 0.5)"
+              "rgba(#{rgb}, 0.75)"
             ],
-            borderColor: [
-              "rgba(#{rgb}, 1)"
-            ],
+            borderColor: "#000",
             data:
           }.merge(common_attributes)
         )

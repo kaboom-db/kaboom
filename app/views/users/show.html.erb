@@ -6,7 +6,7 @@
   <%= render SectionComponent.new do %>
     <div class="flex justify-between items-center">
       <%= render ChipHeaderComponent.new(text: "History") %>
-      <a href="<%= history_user_path(@user) %>" class="underline">
+      <a href="<%= history_user_path(@user) %>" class="underline whitespace-nowrap">
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
@@ -22,7 +22,7 @@
   <%= render SectionComponent.new do %>
     <div class="flex justify-between items-center">
       <%= render ChipHeaderComponent.new(text: "Deck") %>
-      <a href="<%= deck_user_path(@user) %>" class="underline">
+      <a href="<%= deck_user_path(@user) %>" class="underline whitespace-nowrap">
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
@@ -38,7 +38,7 @@
   <%= render SectionComponent.new do %>
     <div class="flex justify-between items-center">
       <%= render ChipHeaderComponent.new(text: "Favourite Comics") %>
-      <a href="<%= favourites_user_path(@user) %>" class="underline">
+      <a href="<%= favourites_user_path(@user) %>" class="underline whitespace-nowrap">
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
@@ -54,7 +54,7 @@
   <%= render SectionComponent.new do %>
     <div class="flex justify-between items-center">
       <%= render ChipHeaderComponent.new(text: "Completed Comics") %>
-      <a href="<%= completed_user_path(@user) %>" class="underline">
+      <a href="<%= completed_user_path(@user) %>" class="underline whitespace-nowrap">
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
@@ -70,7 +70,7 @@
   <%= render SectionComponent.new do %>
     <div class="flex justify-between items-center">
       <%= render ChipHeaderComponent.new(text: "Collection") %>
-      <a href="<%= collection_user_path(@user) %>" class="underline">
+      <a href="<%= collection_user_path(@user) %>" class="underline whitespace-nowrap">
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>
@@ -86,7 +86,7 @@
   <%= render SectionComponent.new do %>
     <div class="flex justify-between items-center">
       <%= render ChipHeaderComponent.new(text: "Wishlist") %>
-      <a href="<%= wishlist_user_path(@user) %>" class="underline">
+      <a href="<%= wishlist_user_path(@user) %>" class="underline whitespace-nowrap">
         View all<i class="p-2 fa-solid fa-chevron-right"></i>
       </a>
     </div>

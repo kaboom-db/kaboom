@@ -24,7 +24,7 @@
 <%= render SectionComponent.new do %>
   <div class="flex justify-between items-center">
     <%= render ChipHeaderComponent.new(text: "Your deck") %>
-    <a href="<%= deck_user_path(current_user) %>" class="underline">
+    <a href="<%= deck_user_path(current_user) %>" class="underline whitespace-nowrap">
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
     </a>
   </div>
@@ -41,7 +41,7 @@
 <%= render SectionComponent.new do %>
   <div class="flex justify-between items-center">
     <%= render ChipHeaderComponent.new(text: "Your history") %>
-    <a href="<%= dashboard_history_path %>" class="underline">
+    <a href="<%= dashboard_history_path %>" class="underline whitespace-nowrap">
       View all<i class="p-2 fa-solid fa-chevron-right"></i>
     </a>
   </div>

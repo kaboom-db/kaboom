@@ -36,16 +36,16 @@ module Charts
     def labels = []
 
     def dataset(data, colours, label)
-      background_colour, border_colour = colours.map do |colour|
-        ["rgba(#{colour}, 0.5)", "rgba(#{colour}, 1)"]
-      end.transpose
+      background_colour = colours.map do |colour|
+        "rgba(#{colour}, 0.75)"
+      end
       {
         type:,
         label:,
         backgroundColor: background_colour,
-        borderColor: border_colour,
+        borderColor: "#000",
         borderWidth: 2,
-        borderRadius: 5,
+        borderRadius: 15,
         fill: true,
         tension: 0.3,
         data:

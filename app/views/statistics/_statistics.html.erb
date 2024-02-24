@@ -7,7 +7,11 @@
     <div class="col-span-full">
       <%= render ChipHeaderComponent.new(text: "Issues read by publisher") %>
       <%= render BorderComponent.new do %>
-        <div class="mt-4" data-controller="chart" data-chart-display-legend-value="false" data-chart-data-value="<%= @distinct_publisher_chart_data.to_json %>">
+        <div class="mt-4"
+             data-controller="chart"
+             data-chart-display-legend-value="true"
+             data-chart-data-value="<%= @distinct_publisher_chart_data.to_json %>"
+             data-chart-type-value="doughnut">
           <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
         </div>
       <% end %>
