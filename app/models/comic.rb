@@ -3,6 +3,8 @@ class Comic < ApplicationRecord
     TRADE_PAPERBACK = "Trade Paperback",
     GRAPHIC_NOVEL = "Graphic Novel",
     MANGA = "Manga",
+    MANHWA = "Manhwa",
+    COMPLETE = "Completed Series",
     ONGOING_SERIES = "Ongoing Series",
     ONESHOT = "Oneshot",
     HARDCOVER = "Hardcover",
