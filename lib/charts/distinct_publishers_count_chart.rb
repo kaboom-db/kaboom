@@ -10,7 +10,7 @@ module Charts
     private
 
     def datasets
-      data = collapsed_issues.values
+      data = collapsed_issues.second || []
       dataset = (data.any? { _1 >= 1 }) ? dataset(data, ChartCountGenerator::CHART_COLOURS, "Read Issues") : nil
       [
         dataset
@@ -18,7 +18,7 @@ module Charts
     end
 
     def labels
-      collapsed_issues.keys
+      collapsed_issues.first || []
     end
 
     def grouped_issues = @grouped_issues ||= resource.read_issues.joins(issue: :comic).select("comics.publisher, COUNT(*) as read_issue_count").where(read_at: range).group("comics.publisher")
@@ -35,7 +35,7 @@ module Charts
             i[key] ||= 0
             i[key] += issue.read_issue_count
           end
-          i
+          i.sort_by { -_2 }.transpose
         end
     end
   end
