@@ -26,7 +26,7 @@
         <%= render Forms::CollectionSelectComponent.new(form:, field: :country_id, options: Country.all, identifier: :id, include_blank: true) %>
       </div>
 
-      <%= render Forms::CollectionSelectComponent.new(form:, field: :genre_ids, options: Genre.all, identifier: :id, multiple: true) %>
+      <%= render Forms::CollectionSelectComponent.new(form:, field: :genre_ids, options: Genre.order(:name), identifier: :id, multiple: true) %>
 
 
       <div>
