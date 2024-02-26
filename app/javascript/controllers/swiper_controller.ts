@@ -24,7 +24,8 @@ export default class extends Controller {
       pagination: {
         el: this.paginationTarget,
         dynamicBullets: true
-      }
+      },
+      spaceBetween: 20
     })
   }
 }
