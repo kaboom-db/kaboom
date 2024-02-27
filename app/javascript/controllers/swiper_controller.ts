@@ -12,9 +12,9 @@ export default class extends Controller {
   declare readonly prevTarget: HTMLElement
   declare readonly paginationTarget: HTMLElement
 
-  declare readonly hasNextTarget: Boolean
-  declare readonly hasPrevTarget: Boolean
-  declare readonly hasPaginationTarget: Boolean
+  declare readonly hasNextTarget: boolean
+  declare readonly hasPrevTarget: boolean
+  declare readonly hasPaginationTarget: boolean
 
   declare readonly slidesTargets: HTMLElement[]
 
