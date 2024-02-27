@@ -58,11 +58,11 @@
   }
 
   #slider-round .noUi-handle {
-      height: 18px;
-      width: 18px;
-      top: -5px;
-      right: -9px; /* half the width */
-      border-radius: 9px;
+    height: 18px;
+    width: 18px;
+    top: -5px;
+    right: -9px; /* half the width */
+    border-radius: 9px;
   }
 
   #slider-round .noUi-handle-lower {
@@ -84,7 +84,6 @@
   .component-border {
     box-shadow: 1px 1px 0 black, 2px 2px 0 black, 3px 3px 0 black, 4px 4px 0 black, 5px 5px 0 black, 6px 6px 0 black;
   }
-
 
   /* Webkit scrollbar styles */
   ::-webkit-scrollbar {
