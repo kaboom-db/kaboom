@@ -8,15 +8,39 @@ export default class extends Controller {
   static values = { freeMode: { type: Boolean, default: false } }
 
   declare readonly containerTarget: HTMLElement
-  readonly nextTarget: HTMLElement | undefined = undefined
-  readonly prevTarget: HTMLElement | undefined = undefined
-  readonly paginationTarget: HTMLElement | undefined = undefined
+  declare readonly nextTarget: HTMLElement
+  declare readonly prevTarget: HTMLElement
+  declare readonly paginationTarget: HTMLElement
+
+  declare readonly hasNextTarget: Boolean
+  declare readonly hasPrevTarget: Boolean
+  declare readonly hasPaginationTarget: Boolean
 
   declare readonly slidesTargets: HTMLElement[]
 
   declare freeModeValue: boolean
 
   declare swiper: Swiper
+
+  navigation () {
+    if (this.hasNextTarget && this.hasPrevTarget) {
+      return {
+        nextEl: this.nextTarget,
+        prevEl: this.prevTarget
+      }
+    }
+    return {}
+  }
+
+  pagination () {
+    if (this.hasPaginationTarget) {
+      return {
+        el: this.paginationTarget,
+        dynamicBullets: true
+      }
+    }
+    return {}
+  }
 
   connect () {
     this.swiper = new Swiper(this.containerTarget, {
@@ -26,14 +50,8 @@ export default class extends Controller {
       freeMode: this.freeModeValue,
       slidesPerView: 'auto',
       mousewheel: this.freeModeValue,
-      navigation: {
-        nextEl: this.nextTarget,
-        prevEl: this.prevTarget
-      },
-      pagination: {
-        el: this.paginationTarget,
-        dynamicBullets: true
-      }
+      navigation: this.navigation(),
+      pagination: this.pagination()
     })
   }
 }
