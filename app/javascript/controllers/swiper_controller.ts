@@ -5,7 +5,7 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['container', 'next', 'prev', 'pagination', 'slides']
 
-  static values = { freeMode: {type: Boolean, default: false} }
+  static values = { freeMode: { type: Boolean, default: false } }
 
   declare readonly containerTarget: HTMLElement
   readonly nextTarget: HTMLElement | undefined = undefined
@@ -20,11 +20,11 @@ export default class extends Controller {
 
   connect () {
     this.swiper = new Swiper(this.containerTarget, {
-      direction: "horizontal",
+      direction: 'horizontal',
       loop: this.slidesTargets.length > 1,
       spaceBetween: 20,
       freeMode: this.freeModeValue,
-      slidesPerView: "auto",
+      slidesPerView: 'auto',
       mousewheel: this.freeModeValue,
       navigation: {
         nextEl: this.nextTarget,
