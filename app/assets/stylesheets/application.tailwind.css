@@ -13,39 +13,18 @@
     -webkit-box-orient: vertical;
   }
 
-  select[multiple="multiple"] > option {
+  select[multiple] > option {
     padding: 10px;
   }
 
   select[multiple] > option:checked {
     background-color: rgb(255, 95, 109);
+    border-radius: 2rem;
   }
 
   select[multiple] > option:focus {
     background-color: rgb(255, 95, 109);
-  }
-
-  /* width */
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #ffe3b7;
-    border-radius: 5px;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(255, 95, 109);
-    border-radius: 5px;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(255, 95, 109);
+    border-radius: 2rem;
   }
 
   ::-moz-selection {
@@ -106,7 +85,40 @@
     box-shadow: 1px 1px 0 black, 2px 2px 0 black, 3px 3px 0 black, 4px 4px 0 black, 5px 5px 0 black, 6px 6px 0 black;
   }
 
+
+  /* Webkit scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #ffe3b7;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(255, 95, 109);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 95, 109);
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Non-webkit scrollbar styles */
+  * {
+    scrollbar-width: 7px;
+    scrollbar-track-color: #ffe3b7;
+    scrollbar-color: rgb(255, 95, 109) transparent;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
