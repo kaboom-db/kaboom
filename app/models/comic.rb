@@ -101,8 +101,9 @@ class Comic < ApplicationRecord
 
   def to_s = name
 
-  def self.import(comic_vine_id:)
+  def self.import(comic_vine_id:, nsfw: false)
     comic = Comic.find_or_initialize_by(cv_id: comic_vine_id)
+    comic.nsfw = nsfw
     comic.sync
     comic
   end

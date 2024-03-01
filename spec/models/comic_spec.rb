@@ -158,10 +158,17 @@ RSpec.describe Comic, type: :model do
           expect(comic.publisher).to eq "Panini Verlag"
           expect(comic.site_detail_url).to eq "https://comicvine.gamespot.com/ultimate-comics-spider-man/4050-63559/"
           expect(comic.start_year).to eq 2012
+          expect(comic.nsfw).to eq false
         end
 
         it "returns the imported comic" do
           expect(Comic.import(comic_vine_id: 63559)).to eq comic
+        end
+
+        it "sets nsfw when present" do
+          Comic.import(comic_vine_id: 63559, nsfw: true)
+          comic.reload
+          expect(comic.nsfw).to eq true
         end
       end
 
@@ -193,11 +200,18 @@ RSpec.describe Comic, type: :model do
           expect(new_comic.publisher).to eq "Panini Verlag"
           expect(new_comic.site_detail_url).to eq "https://comicvine.gamespot.com/ultimate-comics-spider-man/4050-63559/"
           expect(new_comic.start_year).to eq 2012
+          expect(new_comic.nsfw).to eq false
           expect(Comic.count).to eq 2
         end
 
         it "returns the imported comic" do
           expect(Comic.import(comic_vine_id: 12345)).to eq Comic.last
+        end
+
+        it "sets nsfw when present" do
+          Comic.import(comic_vine_id: 12345, nsfw: true)
+          new_comic = Comic.last
+          expect(new_comic.nsfw).to eq true
         end
       end
     end

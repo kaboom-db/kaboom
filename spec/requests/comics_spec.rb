@@ -327,7 +327,14 @@ RSpec.describe "/comics", type: :request do
         it "imports issues for the comic" do
           post import_comics_path(params: {comicvine_id: "12345"})
           comic = Comic.last
+          expect(comic.nsfw).to eq false
           expect(comic.issues.count).to eq 2
+        end
+
+        it "sets nsfw if present" do
+          post import_comics_path(params: {comicvine_id: "12345", nsfw: true})
+          comic = Comic.last
+          expect(comic.nsfw).to eq true
         end
       end
 

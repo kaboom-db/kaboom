@@ -53,6 +53,11 @@
               <%= render TextInputComponent.new(name: "comicvine_id", placeholder: "ComicVine ID") %>
               <small class="max-w-[400px] break-words">You can find the ComicVine ID at the end of the URL, e.g. <code class="p-1 bg-gray-200 rounded">http://comicvine.gamespot.com/&lt;name&gt;/4050-&lt;id&gt;/</code></small>
 
+              <div>
+                <input type="checkbox" name="nsfw" id="nsfw_import">
+                <label for="nsfw_import">Adult content</label>
+              </div>
+
               <%= submit_tag "Import", class: "font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out" %>
             <% end %>
             <button onclick="importComic.close();" class="text-hint underline py-4">Cancel</button>

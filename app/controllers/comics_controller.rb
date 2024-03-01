@@ -41,7 +41,7 @@ class ComicsController < ApplicationController
   end
 
   def import
-    @comic = Comic.import(comic_vine_id: params[:comicvine_id])
+    @comic = Comic.import(comic_vine_id: params[:comicvine_id], nsfw: params[:nsfw] || false)
     unless @comic.persisted?
       return redirect_to comics_path, alert: "There was an error importing this comic."
     end
