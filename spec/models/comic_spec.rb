@@ -22,6 +22,14 @@ RSpec.describe Comic, type: :model do
     describe ".trending" do
       it_behaves_like "a trending resource", :comic
     end
+
+    describe ".safe_for_work" do
+      it "only returns the safe for work comics" do
+        FactoryBot.create(:comic, nsfw: true)
+        comic = FactoryBot.create(:comic)
+        expect(Comic.safe_for_work).to eq [comic]
+      end
+    end
   end
 
   describe "#aliases_to_array" do
@@ -61,6 +69,22 @@ RSpec.describe Comic, type: :model do
       FactoryBot.create(:comic, aliases: "Comic", name: "No Name")
       results = Comic.search(query: "test")
       expect(results).to contain_exactly(comic_1, comic_2)
+    end
+
+    it "does not include nsfw comics" do
+      FactoryBot.create(:comic, name: "Test Comic", nsfw: true)
+      comic_1 = FactoryBot.create(:comic, name: "Test Comic")
+      results = Comic.search(query: "test comic")
+      expect(results).to contain_exactly(comic_1)
+    end
+
+    context "when nsfw is true" do
+      it "includes nsfw comics" do
+        comic_1 = FactoryBot.create(:comic, name: "Test Comic", nsfw: true)
+        comic_2 = FactoryBot.create(:comic, name: "Test Comic")
+        results = Comic.search(query: "test comic", nsfw: true)
+        expect(results).to contain_exactly(comic_1, comic_2)
+      end
     end
   end
 

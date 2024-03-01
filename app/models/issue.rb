@@ -13,11 +13,12 @@ class Issue < ApplicationRecord
   # scopes
   scope :trending, -> {
     select("issues.*, COUNT(visits.id) AS visit_count")
-      .joins(:visits)
-      .where(visits: {created_at: (Time.current - 24.hours)..Time.current})
+      .joins(:visits, :comic)
+      .where(visits: {created_at: (Time.current - 24.hours)..Time.current}, comic: {nsfw: false})
       .group("issues.id")
       .order("visit_count DESC")
   }
+  scope :safe_for_work, -> { joins(:comic).where(comic: {nsfw: false}) }
 
   def year = store_date&.year
 

@@ -12,9 +12,9 @@ class ComicsController < ApplicationController
       @search = params[:search]
       @search_results = Comic.search(query: @search)
     end
-    @recently_updated = Comic.order(updated_at: :desc).limit(6)
+    @recently_updated = Comic.safe_for_work.order(updated_at: :desc).limit(6)
     @trending = Comic.trending.limit(5)
-    @recently_updated_issues = Issue.order(updated_at: :desc).limit(6)
+    @recently_updated_issues = Issue.safe_for_work.order(updated_at: :desc).limit(6)
     @trending_issues = Issue.trending.limit(5)
   end
 

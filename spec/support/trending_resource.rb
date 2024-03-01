@@ -25,4 +25,17 @@ RSpec.shared_examples "a trending resource" do |resource_type|
     expect(trending.fourth).to eq trending_4
     expect(trending.fifth).to eq trending_5
   end
+
+  it "does not include nsfw resources" do
+    comic = FactoryBot.create(:comic, nsfw: true)
+    nsfw = (resource_type == :issue) ? FactoryBot.create(:issue, comic:) : comic
+    FactoryBot.create_list(:visit, 2, visited: nsfw)
+
+    trending_1 = FactoryBot.create(resource_type)
+    FactoryBot.create_list(:visit, 1, visited: trending_1)
+
+    trending = trending_1.class.trending
+    expect(trending.first).to eq trending_1
+    expect(trending.second).to be_nil
+  end
 end

@@ -41,6 +41,15 @@ RSpec.describe Issue, type: :model do
     describe ".trending" do
       it_behaves_like "a trending resource", :issue
     end
+
+    describe ".safe_for_work" do
+      it "only returns the safe for work comics" do
+        nsfw = FactoryBot.create(:comic, nsfw: true)
+        FactoryBot.create(:issue, comic: nsfw)
+        issue = FactoryBot.create(:issue)
+        expect(Issue.safe_for_work).to eq [issue]
+      end
+    end
   end
 
   describe "#year" do

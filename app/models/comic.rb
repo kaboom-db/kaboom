@@ -29,10 +29,11 @@ class Comic < ApplicationRecord
   scope :trending, -> {
     select("comics.*, COUNT(visits.id) AS visit_count")
       .joins(:visits)
-      .where(visits: {created_at: (Time.current - 24.hours)..Time.current})
+      .where(visits: {created_at: (Time.current - 24.hours)..Time.current}, nsfw: false)
       .group("comics.id")
       .order("visit_count DESC")
   }
+  scope :safe_for_work, -> { where(nsfw: false) }
 
   def aliases_to_array
     return [] unless aliases.present?
@@ -106,10 +107,11 @@ class Comic < ApplicationRecord
     comic
   end
 
-  def self.search(query:)
+  def self.search(query:, nsfw: false)
     words = query.split(" ")
     results = Comic
     words.each { |word| results = results.where(["lower(name) LIKE ? OR lower(aliases) LIKE ?", "%#{word}%", "%#{word}%"]) }
-    results
+    nsfw_filter = nsfw ? {} : {nsfw: false}
+    results.where(nsfw_filter)
   end
 end

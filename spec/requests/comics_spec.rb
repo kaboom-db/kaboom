@@ -14,6 +14,23 @@ RSpec.describe "/comics", type: :request do
       expect(response).to be_successful
     end
 
+    it "renders recently updated safe for work comics" do
+      nsfw = FactoryBot.create(:comic, nsfw: true)
+      comic = FactoryBot.create(:comic, nsfw: false)
+      get comics_path
+      assert_select "a[href='#{comic_path(comic)}']", count: 1
+      assert_select "a[href='#{comic_path(nsfw)}']", count: 0
+    end
+
+    it "renders recently updated safe for work issues" do
+      nsfw = FactoryBot.create(:comic, nsfw: true)
+      nsfw_issue = FactoryBot.create(:issue, comic: nsfw)
+      issue = FactoryBot.create(:issue)
+      get comics_path
+      assert_select "a[href='#{comic_issue_path(issue, comic_id: issue.comic)}']", count: 1
+      assert_select "a[href='#{comic_issue_path(nsfw_issue, comic_id: nsfw)}']", count: 0
+    end
+
     context "when there is no search query" do
       it "does not show any search results" do
         get comics_path(search: "")
