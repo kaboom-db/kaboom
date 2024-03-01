@@ -29,7 +29,7 @@
         <p class="text-lg text-white"><b class="text-white">UPC:</b> <%= @issue.upc %></p>
       <% end %>
       <div class="flex gap-4">
-        <a href="<%= @comic.site_detail_url %>" class="flex font-bold w-max rounded-full border-2 border-black text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
+        <a href="<%= @issue.site_detail_url %>" class="flex font-bold w-max rounded-full border-2 border-black text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
           <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
         </a>
         <%= link_to "Edit", edit_comic_issue_path(@issue, comic_id: @comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-secondary py-2 px-3" %>
