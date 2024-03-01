@@ -21,5 +21,5 @@
       <% end %>
     </div>
   <% end %>
-  <%= paginate @issue_history %>
+  <%= will_paginate @issue_history, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
 <% end %>

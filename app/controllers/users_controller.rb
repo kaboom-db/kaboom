@@ -33,8 +33,7 @@ class UsersController < ApplicationController
     @issue_history = @user.read_issues
       .order(read_at: :desc)
       .where(build_filters)
-      .page(params[:page])
-      .per(30)
+      .paginate(page: params[:page], per_page: 30)
 
     @issue_history_grouped = @issue_history.group_by { _1.read_at.strftime("%-d %b %Y") }
   end
@@ -43,24 +42,21 @@ class UsersController < ApplicationController
     set_metadata(title: "#{@user}'s Deck", description: "Check out what comics #{@user} is reading on Kaboom!")
 
     @deck = @user.incompleted_comics
-      .page(params[:page])
-      .per(30)
+      .paginate(page: params[:page], per_page: 30)
   end
 
   def favourites
     set_metadata(title: "#{@user}'s Favourites", description: "Check out #{@user}'s favourite comics on Kaboom!")
 
     @favourites = @user.favourite_items
-      .page(params[:page])
-      .per(30)
+      .paginate(page: params[:page], per_page: 30)
   end
 
   def completed
     set_metadata(title: "#{@user}'s Completed Comics", description: "Check out what comics #{@user} has read on Kaboom!")
 
     @completed = @user.completed_comics
-      .page(params[:page])
-      .per(30)
+      .paginate(page: params[:page], per_page: 30)
   end
 
   def collection
@@ -68,8 +64,7 @@ class UsersController < ApplicationController
 
     @collection = current_user.collected_issues
       .order(collected_on: :desc)
-      .page(params[:page])
-      .per(30)
+      .paginate(page: params[:page], per_page: 30)
 
     @collection_grouped = @collection.group_by { _1.collected_on.strftime("%-d %b %Y") }
   end
@@ -78,8 +73,7 @@ class UsersController < ApplicationController
     set_metadata(title: "#{@user}'s Wishlist", description: "Check out what comics #{@user} wants to read on Kaboom!")
 
     @wishlist = @user.wishlist_items
-      .page(params[:page])
-      .per(30)
+      .paginate(page: params[:page], per_page: 30)
   end
 
   private

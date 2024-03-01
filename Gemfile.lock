@@ -178,18 +178,6 @@ GEM
     jsbundling-rails (1.2.1)
       railties (>= 6.0.0)
     json (2.7.1)
-    kaminari (1.2.2)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.2)
-      kaminari-activerecord (= 1.2.2)
-      kaminari-core (= 1.2.2)
-    kaminari-actionview (1.2.2)
-      actionview
-      kaminari-core (= 1.2.2)
-    kaminari-activerecord (1.2.2)
-      activerecord
-      kaminari-core (= 1.2.2)
-    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
     listen (3.8.0)
@@ -403,6 +391,7 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    will_paginate (4.0.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.13)
@@ -429,7 +418,6 @@ DEPENDENCIES
   isbn_validation
   jbuilder
   jsbundling-rails
-  kaminari (~> 1.2)
   net-ssh (= 7.2.0)
   pg (~> 1.5)
   puma (>= 5.0)
@@ -448,6 +436,7 @@ DEPENDENCIES
   web-console
   webmock (~> 3.19)
   whenever (~> 1.0)
+  will_paginate (~> 4.0)
 
 RUBY VERSION
    ruby 3.1.2p20

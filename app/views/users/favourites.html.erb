@@ -12,5 +12,5 @@
         <% end %>
       </div>
     </div>
-  <%= paginate @favourites %>
+  <%= will_paginate @favourites, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
 <% end %>

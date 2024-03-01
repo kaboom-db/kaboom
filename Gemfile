@@ -64,7 +64,7 @@ gem "sidekiq", "~> 7.2"
 gem "whenever", "~> 1.0", require: false
 
 # Paginate ActiveRecord relations
-gem "kaminari", "~> 1.2"
+gem "will_paginate", "~> 4.0"
 
 # For OpenSSL 3.0 in new Ubuntu versions
 gem "net-ssh", "7.2.0"

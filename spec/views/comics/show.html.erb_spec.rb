@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "comics/show", type: :view do
   before(:each) do
     assign(:comic, FactoryBot.create(:comic, name: "Demon Slayer"))
-    assign(:ordered_issues, Issue.page(1).per(1))
+    assign(:ordered_issues, Issue.paginate(page: 1, per_page: 1))
   end
 
   it "renders attributes in <p>" do

@@ -22,9 +22,7 @@ class ComicsController < ApplicationController
     set_resource_metadata(resource: @comic)
     add_visit(user: current_user, visited: @comic)
 
-    @ordered_issues = @comic.ordered_issues
-      .page(params[:page])
-      .per(30)
+    @ordered_issues = @comic.ordered_issues.paginate(page: params[:page], per_page: 30)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_elms: 14, type: Charts::ChartCountGenerator::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
   end
