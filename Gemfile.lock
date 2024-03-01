@@ -134,6 +134,8 @@ GEM
     crass (1.0.6)
     crawler_detect (1.2.3)
       qonfig (~> 0.24)
+    cssbundling-rails (1.4.0)
+      railties (>= 6.0.0)
     date (3.3.4)
     debug (1.9.1)
       irb (~> 1.10)
@@ -440,6 +442,7 @@ DEPENDENCIES
   capistrano3-puma!
   capybara (~> 3.40)
   crawler_detect
+  cssbundling-rails
   debug
   devise
   ed25519
