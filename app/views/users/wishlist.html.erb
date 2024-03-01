@@ -3,14 +3,14 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-    <div class="my-6">
-      <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-        <% @wishlist.each do |item| %>
-          <% resource = item.wishlistable%>
-          <% resource_path = resource.is_a?(Comic) ? comic_path(resource) : comic_issue_path(resource, comic_id: resource.comic) %>
-          <%= render ResourceTileComponent.new(resource:, resource_path:) %>
-        <% end %>
-      </div>
+  <div class="my-6">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @wishlist.each do |item| %>
+        <% resource = item.wishlistable%>
+        <% resource_path = resource.is_a?(Comic) ? comic_path(resource) : comic_issue_path(resource, comic_id: resource.comic) %>
+        <%= render ResourceTileComponent.new(resource:, resource_path:) %>
+      <% end %>
     </div>
+  </div>
   <%= will_paginate @wishlist, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
 <% end %>

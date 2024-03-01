@@ -3,12 +3,12 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-    <div class="my-6">
-      <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-        <% @completed.each do |comic| %>
-          <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
-        <% end %>
-      </div>
+  <div class="my-6">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @completed.each do |comic| %>
+        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+      <% end %>
     </div>
+  </div>
   <%= will_paginate @completed, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
 <% end %>
