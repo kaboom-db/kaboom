@@ -3,7 +3,7 @@ class GenresController < ApplicationController
   before_action :genre_required
 
   def show
-    set_metadata(title: "#{@genre.name} Comics", description: "Check out the #{genre.name} comics available on Kaboom.")
+    set_metadata(title: "#{@genre.name} Comics", description: "Check out the #{@genre.name} comics available on Kaboom.")
 
     @trending_comics = Comic.trending_for(@genre).limit(5)
     @comics = @genre.comics.safe_for_work.order(name: :asc).paginate(page: params[:page], per_page: 30)
