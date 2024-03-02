@@ -18,15 +18,21 @@ Rails.application.routes.draw do
       post :uncollect, on: :member
     end
 
-    post :import, on: :collection
+    collection do
+      resources :genres, only: [:show]
 
-    post :wishlist, on: :member
-    post :unwishlist, on: :member
-    post :favourite, on: :member
-    post :unfavourite, on: :member
-    post :read_range, on: :member
-    post :refresh, on: :member
-    post :read_next_issue, on: :member
+      post :import
+    end
+
+    member do
+      post :wishlist
+      post :unwishlist
+      post :favourite
+      post :unfavourite
+      post :read_range
+      post :refresh
+      post :read_next_issue
+    end
   end
 
   resources :users, only: [:show, :edit, :update] do

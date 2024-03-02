@@ -459,5 +459,23 @@ RSpec.describe Comic, type: :model do
         expect(comic.year).to eq 2013
       end
     end
+
+    describe ".trending_for" do
+      it "only returns the trending comics for a specific genre" do
+        genre = FactoryBot.create(:genre)
+        comic1 = FactoryBot.create(:comic)
+        FactoryBot.create(:visit, visited: comic1)
+        comic2 = FactoryBot.create(:comic, genres: [genre])
+        FactoryBot.create(:visit, visited: comic2)
+        expect(Comic.trending_for(genre)).to eq [comic2]
+      end
+
+      it "returns an empty relation when there are no trending comics for the genre" do
+        comic = FactoryBot.create(:comic)
+        FactoryBot.create(:visit, visited: comic)
+        genre = FactoryBot.create(:genre)
+        expect(Comic.trending_for(genre)).to eq []
+      end
+    end
   end
 end

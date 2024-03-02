@@ -108,6 +108,10 @@ class Comic < ApplicationRecord
     comic
   end
 
+  def self.trending_for(genre)
+    Comic.trending.joins(:genres).where(genres: genre)
+  end
+
   def self.search(query:, nsfw: false)
     words = query.split(" ")
     results = Comic

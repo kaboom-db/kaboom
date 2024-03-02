@@ -31,6 +31,17 @@ RSpec.describe "/comics", type: :request do
       assert_select "a[href='#{comic_issue_path(nsfw_issue, comic_id: nsfw)}']", count: 0
     end
 
+    it "renders links for all the genres" do
+      FactoryBot.create(:genre, name: "Genre 1")
+      FactoryBot.create(:genre, name: "Genre 2")
+      FactoryBot.create(:genre, name: "Genre 3")
+      get comics_path
+      Genre.all.each do |genre|
+        assert_select "a[href='#{genre_path(genre)}']"
+        assert_select "p.font-bold", text: genre.name
+      end
+    end
+
     context "when there is no search query" do
       it "does not show any search results" do
         get comics_path(search: "")

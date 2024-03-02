@@ -10,4 +10,10 @@ RSpec.describe Genre, type: :model do
       expect(Genre.new(name: "Action").to_s).to eq "Action"
     end
   end
+
+  describe "#to_param" do
+    it "returns the genre name in lowercase" do
+      expect(Genre.new(name: "Action").to_param).to eq "action"
+    end
+  end
 end
