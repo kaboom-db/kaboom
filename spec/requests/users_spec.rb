@@ -177,4 +177,114 @@ RSpec.describe "Users", type: :request do
 
     it_behaves_like "a private user"
   end
+
+  describe "GET /deck" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", private:) }
+    let(:private) { false }
+    let(:path) { deck_user_path(user) }
+
+    it "renders the in progress comics for the user" do
+      comic = FactoryBot.create(:comic, name: "Test 1", start_year: 2024, count_of_issues: 2)
+      issue = FactoryBot.create(:issue, comic:)
+      FactoryBot.create(:read_issue, issue:, user:)
+
+      comic2 = FactoryBot.create(:comic, name: "Test 2", start_year: 2024, count_of_issues: 2)
+      issue2 = FactoryBot.create(:issue, comic: comic2)
+      issue3 = FactoryBot.create(:issue, comic: comic2)
+      FactoryBot.create(:read_issue, issue: issue2, user:)
+      FactoryBot.create(:read_issue, issue: issue3, user:)
+
+      get path
+
+      assert_select "b", text: "Test 1 (2024)"
+      assert_select "b", text: "Test 2 (2024)", count: 0
+    end
+
+    it_behaves_like "a private user"
+  end
+
+  describe "GET /favourites" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", private:) }
+    let(:private) { false }
+    let(:path) { favourites_user_path(user) }
+
+    it "renders all the users favourites" do
+      comic = FactoryBot.create(:comic, name: "Test Comic", start_year: 2024)
+      issue = FactoryBot.create(:issue, name: "Test Issue", store_date: Date.new(2024, 1, 1))
+      FactoryBot.create(:issue, name: "Not Fav", store_date: Date.new(2024, 1, 1))
+      FactoryBot.create(:favourite_item, favouritable: comic, user:)
+      FactoryBot.create(:favourite_item, favouritable: issue, user:)
+
+      get path
+
+      assert_select "b", text: "Test Comic (2024)"
+      assert_select "b", text: "Test Issue (2024)"
+      assert_select "b", text: "Not Fav (2024)", count: 0
+    end
+
+    it_behaves_like "a private user"
+  end
+
+  describe "GET /completed" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", private:) }
+    let(:private) { false }
+    let(:path) { completed_user_path(user) }
+
+    it "renders the completed comics for the user" do
+      comic = FactoryBot.create(:comic, name: "Test 1", start_year: 2024, count_of_issues: 2)
+      issue = FactoryBot.create(:issue, comic:)
+      FactoryBot.create(:read_issue, issue:, user:)
+
+      comic2 = FactoryBot.create(:comic, name: "Test 2", start_year: 2024, count_of_issues: 2)
+      issue2 = FactoryBot.create(:issue, comic: comic2)
+      issue3 = FactoryBot.create(:issue, comic: comic2)
+      FactoryBot.create(:read_issue, issue: issue2, user:)
+      FactoryBot.create(:read_issue, issue: issue3, user:)
+
+      get path
+
+      assert_select "b", text: "Test 1 (2024)", count: 0
+      assert_select "b", text: "Test 2 (2024)"
+    end
+
+    it_behaves_like "a private user"
+  end
+
+  describe "GET /collection" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", private:) }
+    let(:private) { false }
+    let(:path) { collection_user_path(user) }
+
+    it "renders the collection for the user" do
+      issue = FactoryBot.create(:issue)
+      FactoryBot.create(:collected_issue, issue:, user:)
+
+      get path
+
+      assert_select "a[href='#{comic_issue_path(issue, comic_id: issue.comic)}']"
+    end
+
+    it_behaves_like "a private user"
+  end
+
+  describe "GET /wishlist" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", private:) }
+    let(:private) { false }
+    let(:path) { wishlist_user_path(user) }
+
+    it "renders the users wishlist" do
+      issue = FactoryBot.create(:issue)
+      FactoryBot.create(:wishlist_item, wishlistable: issue, user:)
+
+      comic = FactoryBot.create(:comic)
+      FactoryBot.create(:wishlist_item, wishlistable: comic, user:)
+
+      get path
+
+      assert_select "a[href='#{comic_issue_path(issue, comic_id: issue.comic)}']"
+      assert_select "a[href='#{comic_path(comic)}']"
+    end
+
+    it_behaves_like "a private user"
+  end
 end

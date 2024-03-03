@@ -26,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   # TODO: Extract to own class
-  # TODO: Add tests for each list
   def history
     set_metadata(title: "#{@user}'s History", description: "Check out what comics #{@user} is reading on Kaboom!")
 
