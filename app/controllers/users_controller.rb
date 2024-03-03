@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   def collection
     set_metadata(title: "#{@user}'s Comic Collection", description: "Check out #{@user}'s comic collection. Pretty neat!")
 
-    @collection = current_user.collected_issues
+    @collection = @user.collected_issues
       .order(collected_on: :desc)
       .paginate(page: params[:page], per_page: 30)
 
