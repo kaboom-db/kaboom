@@ -14,6 +14,7 @@ import ReadController from './actions/read_controller'
 import SwiperController from './swiper_controller'
 import WishlistController from './actions/wishlist_controller'
 import ReadRangeController from './read_range_controller'
+import GenreSwiperController from './genre_swiper_controller'
 
 application.register('collect', CollectController)
 application.register('dialog', DialogController)
@@ -25,3 +26,4 @@ application.register('read', ReadController)
 application.register('swiper', SwiperController)
 application.register('wishlist', WishlistController)
 application.register('read-range', ReadRangeController)
+application.register('genre-swiper', GenreSwiperController)
