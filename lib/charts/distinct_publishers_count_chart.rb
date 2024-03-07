@@ -11,10 +11,7 @@ module Charts
 
     def datasets
       data = collapsed_issues.second || []
-      dataset = (data.any? { _1 >= 1 }) ? dataset(data, ChartCountGenerator::CHART_COLOURS, "Read Issues") : nil
-      [
-        dataset
-      ].compact
+      [dataset(data, ChartCountGenerator::CHART_COLOURS, "Read Issues")]
     end
 
     def labels
@@ -29,7 +26,7 @@ module Charts
           i = {}
           grouped_issues.each do |issue|
             key = issue.publisher
-            if issue.read_issue_count < 5
+            if issue.read_issue_count <= 5
               key = "Other"
             end
             i[key] ||= 0
