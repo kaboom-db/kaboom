@@ -36,6 +36,8 @@ class StatisticsController < ApplicationController
       type: Charts::ChartCountGenerator::DOUGHNUT,
       range:
     ).generate
+
+    @most_activity_counts = Statistics::UserMostActivityCount.new(year: y, user: @user)
   end
 
   def set_user

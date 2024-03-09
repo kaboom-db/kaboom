@@ -4,6 +4,7 @@ class Issue < ApplicationRecord
   belongs_to :currency, optional: true
   has_many :visits, as: :visited, dependent: :delete_all
   has_many :read_issues, dependent: :delete_all
+  has_many :collected_issues, dependent: :delete_all
 
   # validations
   validates :name, :issue_number, :absolute_number, presence: true

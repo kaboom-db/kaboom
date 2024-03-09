@@ -1,9 +1,11 @@
+<%# TODO: DRY this up a bit %>
+
 <%= render SectionComponent.new do %>
   <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "#{year.humanize} Statistics") %>
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <div class="col-span-full">
       <%= render ChipHeaderComponent.new(text: "Issues read by publisher") %>
       <%= render BorderComponent.new do %>
@@ -69,6 +71,50 @@
         <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @read_collect_chart_data.to_json %>">
           <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
         </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <%= render ChipHeaderComponent.new(text: "Most read comics") %>
+      <%= render BorderComponent.new do %>
+        <% @most_activity_counts.read.each_with_index do |comic, index| %>
+          <% if index > 0 %>
+            <hr class="border-b-2 border-black my-4">
+          <% end %>
+          <%= link_to comic do %>
+            <div class="flex flex-nowrap gap-4 items-center">
+                <div class="w-16 h-16 min-w-16 rounded-2xl border-2 border-black 2xl bg-no-repeat bg-cover" style="background-image: url(<%= comic.image %>);"></div>
+                <div class="w-full grid grid-cols-4 gap-4 justify-between">
+                  <div class="col-span-3 max-w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                    <p class="font-bold"><%= comic.name %></p>
+                  </div>
+                  <p class="font-bold text-right"><%= comic.activity_count %></p>
+                </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <%= render ChipHeaderComponent.new(text: "Most collected comics") %>
+      <%= render BorderComponent.new do %>
+        <% @most_activity_counts.collected.each_with_index do |comic, index| %>
+          <% if index > 0 %>
+            <hr class="border-b-2 border-black my-4">
+          <% end %>
+          <%= link_to comic  do%>
+            <div class="flex flex-nowrap gap-4 items-center">
+              <div class="w-16 h-16 min-w-16 rounded-2xl border-2 border-black 2xl bg-no-repeat bg-cover" style="background-image: url(<%= comic.image %>);"></div>
+              <div class="w-full grid grid-cols-4 gap-4 justify-between">
+                <div class="col-span-3 max-w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                  <p class="font-bold"><%= comic.name %></p>
+                </div>
+                <p class="font-bold text-right"><%= comic.activity_count %></p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
   </div>
