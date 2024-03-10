@@ -72,8 +72,80 @@ module Statistics
     end
 
     describe "#collected" do
-      # TODO: Add specs
-      pending "Add some specs"
+      before do
+        @comic1 = FactoryBot.create(:comic)
+        @issue1, @issue2, @issue3, @issue4, @issue5 = FactoryBot.create_list(:issue, 5, comic: @comic1)
+        @comic2 = FactoryBot.create(:comic)
+        @issue6, @issue7, @issue8, @issue9, @issue10 = FactoryBot.create_list(:issue, 5, comic: @comic2)
+        @comic3 = FactoryBot.create(:comic)
+        @issue11, @issue12, @issue13, @issue14, @issue15 = FactoryBot.create_list(:issue, 5, comic: @comic3)
+        @comic4 = FactoryBot.create(:comic)
+        @issue16, @issue17, @issue18, @issue19, @issue20 = FactoryBot.create_list(:issue, 5, comic: @comic4)
+        @comic5 = FactoryBot.create(:comic)
+        @issue21, @issue22, @issue23, @issue24, @issue25 = FactoryBot.create_list(:issue, 5, comic: @comic5)
+        @comic6 = FactoryBot.create(:comic)
+        @issue26, @issue27, @issue28, @issue29, @issue30 = FactoryBot.create_list(:issue, 5, comic: @comic6)
+      end
+
+      def create_collection(date)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue1, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue2, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue3, user:)
+
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue6, user:)
+
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue11, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue13, user:)
+
+        FactoryBot.create(:collected_issue, collected_on: date - 1.year, issue: @issue17, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue18, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue19, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue20, user:)
+
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue21, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue22, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue23, user:)
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue24, user:)
+
+        # Not included
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue26, user: FactoryBot.create(:user))
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue27, user: FactoryBot.create(:user))
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue28, user: FactoryBot.create(:user))
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue29, user: FactoryBot.create(:user))
+        FactoryBot.create(:collected_issue, collected_on: date, issue: @issue30, user: FactoryBot.create(:user))
+      end
+
+      context "when year is alltime" do
+        let(:year) { BaseCount::ALLTIME }
+
+        it "returns the top 5 most collected comics of alltime for the user" do
+          create_collection(Time.current.to_date)
+
+          collected = count.collected
+          expect(collected).to eq [@comic4, @comic5, @comic1, @comic3, @comic2]
+          expect(collected.first.activity_count).to eq 4
+          expect(collected.second.activity_count).to eq 4
+          expect(collected.third.activity_count).to eq 3
+          expect(collected.fourth.activity_count).to eq 2
+          expect(collected.fifth.activity_count).to eq 1
+        end
+      end
+
+      context "when year is a year" do
+        let(:year) { 2024 }
+
+        it "returns the top 5 most collected comics in that year for the user" do
+          create_collection(Date.new(2024, 2, 2))
+
+          collected = count.collected
+          expect(collected).to eq [@comic5, @comic1, @comic4, @comic3, @comic2]
+          expect(collected.first.activity_count).to eq 4
+          expect(collected.second.activity_count).to eq 3
+          expect(collected.third.activity_count).to eq 3
+          expect(collected.fourth.activity_count).to eq 2
+          expect(collected.fifth.activity_count).to eq 1
+        end
+      end
     end
   end
 end
