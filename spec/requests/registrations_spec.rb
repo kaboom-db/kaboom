@@ -3,6 +3,42 @@ require "rails_helper"
 RSpec.describe "Registrations", type: :request do
   let(:user) { FactoryBot.create(:user, :confirmed) }
 
+  describe "GET /users/edit" do
+    context "when user is not signed in" do
+      it "redirects to the sign in page" do
+        get "/users/edit"
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is signed in" do
+      before { sign_in user }
+
+      it "redirects to the user page" do
+        get "/users/edit"
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+  end
+
+  describe "PUT /users" do
+    context "when user is not signed in" do
+      it "redirects to the sign in page" do
+        put "/users"
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is signed in" do
+      before { sign_in user }
+
+      it "redirects to the user page" do
+        put "/users"
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+  end
+
   describe "POST /user" do
     let(:params) {
       {
