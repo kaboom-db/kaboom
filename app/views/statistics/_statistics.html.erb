@@ -1,8 +1,6 @@
 <%# TODO: DRY this up a bit %>
 
-<%= render SectionComponent.new do %>
-  <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "#{year.humanize} Statistics") %>
-<% end %>
+<%= render UserHeroComponent.new(user: @user, current_user:, possessive: "#{year.humanize} Statistics") %>
 
 <%= render SectionComponent.new do %>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
