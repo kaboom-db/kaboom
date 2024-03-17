@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="80.389503mm" height="128.46519mm" viewBox="0 0 80.389503 128.46519" version="1.1" id="svg1" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <rect style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-dasharray:none" id="rectClip" width="63.399773" height="90.436516" x="233.5963" y="12.48862" ry="8.4666662" />
+    <clipPath id="clip">
+      <use xlink:href="#rectClip"/>
+    </clipPath>
+    <style>
+      @font-face {
+        font-family: 'Montserrat';
+        src: url('<%= Base64::AssetConverter.new(["fonts", "Montserrat-Bold.ttf"], "font/ttf").convert %>');
+        font-weight: bold;
+        font-style: normal;
+      }
+    </style>
+  </defs>
+  <g id="layer1" transform="translate(-225.23377,-121.53952)">
+    <rect style="fill:#fcf3e5;fill-opacity:1;stroke:#000000;stroke-width:0.530706;stroke-dasharray:none" id="rect2" width="79.858788" height="127.93449" x="225.49911" y="121.80488" ry="9.3851767" />
+    <path id="rect8" style="fill:#ef6461;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-dasharray:none" d="m 234.88437,121.80497 c -4.95732,0 -8.98425,3.80742 -9.3493,8.6682 v 12.71034 h 79.82304 v -11.99358 c 0,-5.19939 -4.1861,-9.38496 -9.38548,-9.38496 z" />
+    <rect style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.05833;stroke-dasharray:none" id="rect5" width="63.399773" height="90.436516" x="233.5963" y="150.51056" ry="8.4666662" />
+    <image
+      width="63.399773"
+      height="90.436516"
+      preserveAspectRatio="none"
+      xlink:href="<%= Base64::ImageUrlConverter.new(@user.last_read_issue&.issue).convert(:image) %>"
+      id="image5"
+      x="233.5963"
+      y="12.48862"
+      clip-path="url(#clip)"
+      transform="translate(0,138.02205)"
+    />
+    <text style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.14749px;line-height:0;font-family:'Montserrat';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0.071263px;text-anchor:middle;fill:#fcf3e5;fill-opacity:1;stroke-width:0.071263;stroke-dasharray:none; font-family: Montserrat;" x="265.30579" y="130.00955" id="text6">
+      <%= @user.username.upcase %>
+    </text>
+    <text style="font-style:normal;font-weight:bold;font-size:3.14749px;line-height:0;font-family:'Montserrat';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:0.071263px;text-anchor:middle;fill:#fcf3e5;fill-opacity:1;stroke-width:0.071263;stroke-dasharray:none;" x="265.30579" y="136.95589" id="text7">
+      LAST READ:
+    </text>
+  </g>
+</svg>
