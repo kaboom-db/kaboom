@@ -17,11 +17,11 @@ module Charts
       let(:generator) { CreatedAtCountChart.new(resource:, num_of_elms:, type:, range_type:, start_time:, rgb:, label:) }
       let(:resource) { Comic }
       let(:num_of_elms) { 7 }
-      let(:type) { ChartCountGenerator::LINE }
+      let(:type) { Constants::LINE }
       let(:range_type) { FrequencyChartGenerator::DAY }
       let(:start_time) { Date.new(2024, 1, 1) }
 
-      let(:rgb) { ChartCountGenerator::COMIC }
+      let(:rgb) { Constants::COMIC }
       let(:label) { "Comics imported" }
 
       subject { generator.generate }

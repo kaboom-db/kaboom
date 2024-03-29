@@ -14,7 +14,7 @@ class IssuesController < ApplicationController
     set_resource_metadata(resource: @issue)
     add_visit(user: current_user, visited: @issue)
 
-    @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_elms: 14, type: Charts::ChartCountGenerator::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
+    @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_elms: 14, type: Charts::Constants::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
   end
 
   def edit

@@ -5,7 +5,7 @@ require "rails_helper"
 module Charts
   RSpec.describe ChartCountGenerator do
     describe "#generate" do
-      let(:generator) { ChartCountGenerator.new(resource: Issue.new, type: ChartCountGenerator::LINE) }
+      let(:generator) { ChartCountGenerator.new(resource: Issue.new, type: Constants::LINE) }
 
       subject { generator.generate }
 

@@ -8,7 +8,7 @@ module Charts
       let(:user) { FactoryBot.create(:user) }
       let(:date) { Date.new(2024, 1, 1) }
       let(:range) { date.beginning_of_year..date.end_of_year.end_of_day }
-      let(:type) { ChartCountGenerator::LINE }
+      let(:type) { Constants::LINE }
       let(:generator) { DistinctPublishersCountChart.new(resource: user, type:, range:) }
 
       subject { generator.generate }
@@ -49,7 +49,7 @@ module Charts
               {
                 type:,
                 label: "Read Issues",
-                backgroundColor: ChartCountGenerator::CHART_COLOURS.map { "rgba(#{_1}, 0.75)" },
+                backgroundColor: Constants::CHART_COLOURS.map { "rgba(#{_1}, 0.75)" },
                 borderColor: "#000",
                 borderWidth: 2,
                 borderRadius: 15,

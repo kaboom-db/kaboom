@@ -17,7 +17,7 @@ module Charts
       let(:generator) { UserCountsChart.new(resource:, num_of_elms:, type:, range_type:, start_time:) }
       let(:resource) { FactoryBot.create(:user) }
       let(:num_of_elms) { 7 }
-      let(:type) { ChartCountGenerator::LINE }
+      let(:type) { Constants::LINE }
       let(:range_type) { FrequencyChartGenerator::DAY }
       let(:start_time) { Date.new(2024, 1, 1) }
 

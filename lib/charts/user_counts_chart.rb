@@ -10,13 +10,13 @@ module Charts
     end
 
     def issue_count
-      generate_count(ChartCountGenerator::READ, "Read issues") do |range|
+      generate_count(Constants::READ, "Read issues") do |range|
         resource.read_issues.where(read_at: range).count
       end
     end
 
     def collection_count
-      generate_count(ChartCountGenerator::COLLECTION, "Collected issues") do |range|
+      generate_count(Constants::COLLECTION, "Collected issues") do |range|
         resource.collected_issues.where(collected_on: range).count
       end
     end

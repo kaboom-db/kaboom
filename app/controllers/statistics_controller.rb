@@ -25,7 +25,7 @@ class StatisticsController < ApplicationController
     @read_collect_chart_data = Charts::UserCountsChart.new(
       resource: @user,
       num_of_elms: 12,
-      type: Charts::ChartCountGenerator::BAR,
+      type: Charts::Constants::BAR,
       range_type: Charts::FrequencyChartGenerator::MONTH,
       start_time:
     ).generate
@@ -33,7 +33,7 @@ class StatisticsController < ApplicationController
     range = (y == Statistics::BaseCount::ALLTIME) ? (..Time.current) : (Time.new(y).beginning_of_year..Time.new(y).end_of_year.end_of_day)
     @distinct_publisher_chart_data = Charts::DistinctPublishersCountChart.new(
       resource: @user,
-      type: Charts::ChartCountGenerator::DOUGHNUT,
+      type: Charts::Constants::DOUGHNUT,
       range:
     ).generate
 

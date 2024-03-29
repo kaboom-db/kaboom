@@ -6,36 +6,36 @@ class SiteStatisticsController < ApplicationController
       title: "Site visits",
       resource: Visit,
       num_of_elms: 30,
-      type: Charts::ChartCountGenerator::LINE,
+      type: Charts::Constants::LINE,
       range_type: Charts::FrequencyChartGenerator::DAY,
-      rgb: Charts::ChartCountGenerator::VISIT
+      rgb: Charts::Constants::VISIT
     )
 
     accounts_created = build_stats_hash(
       title: "Accounts created",
       resource: User,
       num_of_elms: 7,
-      type: Charts::ChartCountGenerator::LINE,
+      type: Charts::Constants::LINE,
       range_type: Charts::FrequencyChartGenerator::DAY,
-      rgb: Charts::ChartCountGenerator::USER
+      rgb: Charts::Constants::USER
     )
 
     comics_imported = build_stats_hash(
       title: "Comics imported",
       resource: Comic,
       num_of_elms: 12,
-      type: Charts::ChartCountGenerator::BAR,
+      type: Charts::Constants::BAR,
       range_type: Charts::FrequencyChartGenerator::MONTH,
-      rgb: Charts::ChartCountGenerator::COMIC
+      rgb: Charts::Constants::COMIC
     )
 
     issues_imported = build_stats_hash(
       title: "Issues imported",
       resource: Issue,
       num_of_elms: 12,
-      type: Charts::ChartCountGenerator::BAR,
+      type: Charts::Constants::BAR,
       range_type: Charts::FrequencyChartGenerator::MONTH,
-      rgb: Charts::ChartCountGenerator::ISSUE
+      rgb: Charts::Constants::ISSUE
     )
 
     @charts = [

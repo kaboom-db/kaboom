@@ -11,7 +11,7 @@ module Charts
 
     def datasets
       data = collapsed_issues.second || []
-      [dataset(data, ChartCountGenerator::CHART_COLOURS, "Read Issues")]
+      [dataset(data, Constants::CHART_COLOURS, "Read Issues")]
     end
 
     def labels
