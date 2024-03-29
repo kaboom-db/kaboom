@@ -22,11 +22,11 @@ module ComicVine
 
       context "when the count of issues is less than 100" do
         before do
-          stub_cv(results: [{issue_number: "2"}, {issue_number: "1"}, {issue_number: "½"}], volume_id: 123, offset: 0, status: 200)
+          stub_cv(results: [{issue_number: "2"}, {issue_number: "1"}, {issue_number: "-2"}, {issue_number: "½"}], volume_id: 123, offset: 0, status: 200)
         end
 
         it "returns an array of results ordered by issue_number" do
-          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 99).retrieve).to eq([{issue_number: "½"}, {issue_number: "1"}, {issue_number: "2"}])
+          expect(VolumeIssues.new(volume_id: 123, count_of_issues: 99).retrieve).to eq([{issue_number: "-2"}, {issue_number: "½"}, {issue_number: "1"}, {issue_number: "2"}])
         end
       end
 

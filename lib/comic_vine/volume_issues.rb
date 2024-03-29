@@ -19,7 +19,7 @@ module ComicVine
         results << result[:results]
       end
       results.flatten.sort_by do |el|
-        regex = /\d+/
+        regex = /[-]?\d+$/
         if (match = regex.match(el[:issue_number]))
           match[0].to_f
         else
