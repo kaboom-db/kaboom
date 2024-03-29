@@ -1,6 +1,4 @@
-<%= render SectionComponent.new do %>
-  <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "Collection") %>
-<% end %>
+<%= render UserHeroComponent.new(user: @user, current_user:, possessive: "Collection") %>
 
 <%= render SectionComponent.new do %>
   <% @collection_grouped.each_pair do |day, items| %>

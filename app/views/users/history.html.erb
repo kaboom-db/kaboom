@@ -1,6 +1,4 @@
-<%= render SectionComponent.new do %>
-  <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "History") %>
-<% end %>
+<%= render UserHeroComponent.new(user: @user, current_user:, possessive: "History") %>
 
 <%= render SectionComponent.new do %>
   <% @issue_history_grouped.each_pair do |day, history| %>
