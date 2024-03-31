@@ -113,7 +113,7 @@ class Comic < ApplicationRecord
   end
 
   def self.search(query:, nsfw: false)
-    words = query.split(" ")
+    words = query.downcase.split(" ")
     results = Comic
     words.each { |word| results = results.where(["lower(name) LIKE ? OR lower(aliases) LIKE ?", "%#{word}%", "%#{word}%"]) }
     nsfw_filter = nsfw ? {} : {nsfw: false}

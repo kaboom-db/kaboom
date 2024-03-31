@@ -86,6 +86,14 @@ RSpec.describe Comic, type: :model do
         expect(results).to contain_exactly(comic_1, comic_2)
       end
     end
+
+    context "when query contains capital letters" do
+      it "converts it to downcase" do
+        comic = FactoryBot.create(:comic, name: "The Way of the Househusband")
+        results = Comic.search(query: "The way of the househusband")
+        expect(results).to contain_exactly(comic)
+      end
+    end
   end
 
   describe "ComicVine API" do
