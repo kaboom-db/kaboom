@@ -108,6 +108,7 @@ RSpec.describe "Users", type: :request do
         get edit_user_path(user)
         assert_select "textarea[name='user[bio]']"
         assert_select "input[name='user[private]']"
+        assert_select "input[name='user[show_nsfw]']"
       end
     end
 
@@ -129,10 +130,11 @@ RSpec.describe "Users", type: :request do
       end
 
       it "updates the user" do
-        patch user_path(user), params: {user: {bio: "My cool new bio", private: true}}
+        patch user_path(user), params: {user: {bio: "My cool new bio", private: true, show_nsfw: true}}
         user.reload
         expect(user.bio).to eq "My cool new bio"
         expect(user.private?).to eq true
+        expect(user.show_nsfw?).to eq true
       end
     end
 

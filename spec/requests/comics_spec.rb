@@ -6,6 +6,7 @@ RSpec.describe "/comics", type: :request do
       FactoryBot.create(:comic, name: "Test Comic", start_year: nil)
       FactoryBot.create(:comic, aliases: "Comic\nTesting", name: "Cool Comic", start_year: nil)
       FactoryBot.create(:comic, aliases: "Comic", name: "No Name", start_year: nil)
+      FactoryBot.create(:comic, name: "NSFW Test Comic", nsfw: true, start_year: nil)
     end
 
     it "renders a successful response" do
@@ -55,13 +56,46 @@ RSpec.describe "/comics", type: :request do
     end
 
     context "when there is a search query" do
-      it "shows the search results" do
-        get comics_path(search: "test")
-        assert_select "h2.text-2xl", text: "Results for test:"
-        assert_select "#search" do
-          assert_select "b", text: "Test Comic", visible: :hidden
-          assert_select "b", text: "Cool Comic", visible: :hidden
-          assert_select "b", text: "No Name", visible: :hidden, count: 0
+      context "when the user has nsfw enabled" do
+        before { sign_in FactoryBot.create(:user, :confirmed, show_nsfw: true) }
+
+        it "includes nsfw results" do
+          get comics_path(search: "test")
+          assert_select "h2.text-2xl", text: "Results for test:"
+          assert_select "#search" do
+            assert_select "b", text: "Test Comic", visible: :hidden
+            assert_select "b", text: "Cool Comic", visible: :hidden
+            assert_select "b", text: "NSFW Test Comic", visible: :hidden
+            assert_select "b", text: "No Name", visible: :hidden, count: 0
+          end
+        end
+      end
+
+      context "when the user does not have nsfw enabled" do
+        before { sign_in FactoryBot.create(:user, :confirmed, show_nsfw: false) }
+
+        it "does not include nsfw results" do
+          get comics_path(search: "test")
+          assert_select "h2.text-2xl", text: "Results for test:"
+          assert_select "#search" do
+            assert_select "b", text: "Test Comic", visible: :hidden
+            assert_select "b", text: "Cool Comic", visible: :hidden
+            assert_select "b", text: "NSFW Test Comic", visible: :hidden, count: 0
+            assert_select "b", text: "No Name", visible: :hidden, count: 0
+          end
+        end
+      end
+
+      context "when there is no user" do
+        it "does not include nsfw results" do
+          get comics_path(search: "test")
+          assert_select "h2.text-2xl", text: "Results for test:"
+          assert_select "#search" do
+            assert_select "b", text: "Test Comic", visible: :hidden
+            assert_select "b", text: "Cool Comic", visible: :hidden
+            assert_select "b", text: "NSFW Test Comic", visible: :hidden, count: 0
+            assert_select "b", text: "No Name", visible: :hidden, count: 0
+          end
         end
       end
     end

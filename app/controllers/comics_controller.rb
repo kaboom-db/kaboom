@@ -10,7 +10,7 @@ class ComicsController < ApplicationController
     @header = "📚 Comics"
     if params[:search]
       @search = params[:search]
-      @search_results = Comic.search(query: @search)
+      @search_results = Comic.search(query: @search, nsfw: current_user&.show_nsfw?)
     end
     @recently_updated = Comic.safe_for_work.order(updated_at: :desc).limit(6)
     @trending = Comic.trending.limit(5)
