@@ -67,7 +67,7 @@ gem "whenever", "~> 1.0", require: false
 gem "will_paginate", "~> 4.0"
 
 # For OpenSSL 3.0 in new Ubuntu versions
-gem "net-ssh", "7.2.1"
+gem "net-ssh", "7.2.3"
 gem "ed25519"
 gem "bcrypt_pbkdf"
 
