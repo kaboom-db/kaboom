@@ -51,4 +51,8 @@ Rails.application.routes.draw do
   get "dashboard" => "dashboard#index"
   get "dashboard/history" => "dashboard#history"
   get "dashboard/collection" => "dashboard#collection"
+
+  unless Rails.application.config.consider_all_requests_local
+    get "*path", to: "application#not_found", via: :all
+  end
 end
