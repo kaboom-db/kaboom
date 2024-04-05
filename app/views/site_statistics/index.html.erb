@@ -1,27 +1,29 @@
 <%= render PageTitleComponent.new(text: "Site Statistics") %>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-  <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
-      <div class="h-32 flex flex-col justify-center items-center">
-        <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= Comic.count %></p>
-      </div>
-      <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Comics</p>
+<%= render SectionComponent.new do %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
+        <div class="h-32 flex flex-col justify-center items-center">
+          <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= Comic.count %></p>
+        </div>
+        <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Comics</p>
+    </div>
+    <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
+        <div class="h-32 flex flex-col justify-center items-center">
+          <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= User.count %></p>
+        </div>
+        <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Users</p>
+    </div>
   </div>
-  <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
-      <div class="h-32 flex flex-col justify-center items-center">
-        <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= User.count %></p>
-      </div>
-      <p class="text-xl my-4 text-center font-bold transition duration-300 ease-in-out">Users</p>
-  </div>
-</div>
+<% end %>
 
 <% @charts.each do |chart_data| %>
-  <div class="mb-4 mt-6">
+  <%= render SectionComponent.new do %>
     <%= render ChipHeaderComponent.new(text: chart_data[:title]) %>
     <%= render BorderComponent.new do %>
       <div class="mt-4" data-controller="chart" data-chart-display-legend-value="false" data-chart-data-value="<%= chart_data[:stats].to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
       </div>
     <% end %>
-  </div>
+  <% end %>
 <% end %>
