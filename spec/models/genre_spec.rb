@@ -5,6 +5,11 @@ RSpec.describe Genre, type: :model do
     it { should have_and_belong_to_many(:comics) }
   end
 
+  describe "validations" do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:fa_icon) }
+  end
+
   describe "#to_s" do
     it "returns the genre name" do
       expect(Genre.new(name: "Action").to_s).to eq "Action"

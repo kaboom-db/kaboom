@@ -40,6 +40,12 @@
   <%= render Actions::ActionsComponent.new(resource: @comic, user: current_user) %>
 </div>
 
+<% if @comic.genres.any? %>
+  <%= render SectionComponent.new do %>
+    <%= render "genres", genres: @comic.genres %>
+  <% end %>
+<% end %>
+
 <%= render SectionComponent.new do %>
   <%= render BorderComponent.new do %>
     <% if @comic.deck.present? %>

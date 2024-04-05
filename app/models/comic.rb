@@ -41,6 +41,7 @@ class Comic < ApplicationRecord
     aliases.split("\n").select { _1.present? }
   end
 
+  # TODO: Extract import_issues and sync to their own classes
   def import_issues
     results = ComicVine::VolumeIssues.new(volume_id: cv_id, count_of_issues:).retrieve
     failed = []

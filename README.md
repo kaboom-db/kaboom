@@ -21,6 +21,7 @@ Seed the database:
 ```bash
 bin/rails db:seed
 ```
+<sub>Note: Running seeds sends requests to ComicVine servers to import comics and issues. You will need an internet connection and an API key.</sub>
 
 Run the dev server:
 ```bash

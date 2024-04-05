@@ -1,0 +1,14 @@
+<%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Genres") %>
+  <div class="swiper relative" data-controller="genre-swiper" data-genre-swiper-target="container">
+    <div class="swiper-wrapper">
+      <% genres.order(:name).each do |genre| %>
+        <div class="swiper-slide w-fit pb-4 pr-2">
+          <%= render GenreChipComponent.new(genre:) %>
+        </div>
+      <% end %>
+    </div>
+    <div data-genre-swiper-target="leadingFade" class="opacity-0 z-10 h-full w-24 absolute left-0 top-0 bg-gradient-to-r from-[#fcf3e5] to-transparent pointer-events-none transition duration-300 ease-in-out"></div>
+    <div data-genre-swiper-target="trailingFade" class="z-10 h-full w-24 absolute right-0 top-0 bg-gradient-to-r from-transparent to-[#fcf3e5] pointer-events-none transition duration-300 ease-in-out"></div>
+  </div>
+<% end %>
