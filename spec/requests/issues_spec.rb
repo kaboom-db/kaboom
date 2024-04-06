@@ -731,4 +731,27 @@ RSpec.describe "/issues", type: :request do
   describe "favouriting" do
     it_behaves_like "a favouritable resource", :issue
   end
+
+  describe "POST /refresh" do
+    context "when user is not logged in" do
+      it "redirects to the login page" do
+        issue = FactoryBot.create(:issue)
+        post refresh_comic_issue_path(issue, comic_id: issue.comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is logged in" do
+      before do
+        sign_in FactoryBot.create(:user, :confirmed)
+        @issue = FactoryBot.create(:issue)
+      end
+
+      it "starts a background refresh of the comic" do
+        expect(ImportWorker).to receive(:perform_async).with("Issue", @issue.cv_id)
+        post refresh_comic_issue_path(@issue, comic_id: @issue.comic)
+        expect(response).to redirect_to comic_issue_path(@issue, comic_id: @issue.comic)
+      end
+    end
+  end
 end

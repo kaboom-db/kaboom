@@ -115,4 +115,151 @@ RSpec.describe Issue, type: :model do
       end
     end
   end
+
+  describe "ComicVine API" do
+    let!(:issue) { FactoryBot.create(:issue, cv_id: 123) }
+    let(:body) {
+      {
+        error: "OK",
+        results: {
+          aliases: nil,
+          api_detail_url: "https://comicvine.gamespot.com/api/issue/4000-129176/",
+          cover_date: "1997-12-29",
+          date_last_updated: "2022-05-31 19:47:55",
+          deck: nil,
+          description: "A really long description",
+          id: 123,
+          image: {
+            medium_url: "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786544-one%20piece%201.jpg"
+          },
+          issue_number: "1",
+          name: "Romance Dawn: Bōken no Yoake",
+          site_detail_url: "https://comicvine.gamespot.com/one-piece-1-romance-dawn-boken-no-yoake/4000-129176/",
+          store_date: "1997-12-24"
+        }
+      }.to_json
+    }
+
+    describe ".import" do
+      subject { Issue.import(comic_vine_id:) }
+
+      context "when the issue with the ComicVine id exists" do
+        let(:comic_vine_id) { 123 }
+
+        include_context "stub ComicVine API request" do
+          let(:options) {
+            {
+              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume"
+            }
+          }
+          let(:endpoint) { "issue/4000-123/" }
+          let(:response) { {status: 200, body:} }
+        end
+
+        it "updates the issue" do
+          subject
+          issue.reload
+          expect(issue.aliases).to be_nil
+          expect(issue.api_detail_url).to eq "https://comicvine.gamespot.com/api/issue/4000-129176/"
+          expect(issue.cover_date).to eq Date.parse("1997-12-29")
+          expect(issue.date_last_updated).to eq DateTime.parse("2022-05-31 19:47:55")
+          expect(issue.deck).to be_nil
+          expect(issue.description).to eq "A really long description"
+          expect(issue.cv_id).to eq 123
+          expect(issue.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786544-one%20piece%201.jpg"
+          expect(issue.issue_number).to eq "1"
+          expect(issue.name).to eq "Romance Dawn: Bōken no Yoake"
+          expect(issue.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-1-romance-dawn-boken-no-yoake/4000-129176/"
+          expect(issue.store_date).to eq Date.parse("1997-12-24")
+        end
+
+        it "returns the issue" do
+          expect(subject).to eq issue
+        end
+      end
+
+      context "when the issue with the ComicVin id does not exist" do
+        let(:comic_vine_id) { 1234 }
+
+        it "returns nil" do
+          expect(subject).to be_nil
+        end
+      end
+    end
+
+    describe "#sync" do
+      subject { issue.sync }
+
+      context "when the ComicVine api request succeeds" do
+        include_context "stub ComicVine API request" do
+          let(:options) {
+            {
+              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume"
+            }
+          }
+          let(:endpoint) { "issue/4000-123/" }
+          let(:response) { {status: 200, body:} }
+        end
+
+        it "updates the issue" do
+          subject
+          issue.reload
+          expect(issue.aliases).to be_nil
+          expect(issue.api_detail_url).to eq "https://comicvine.gamespot.com/api/issue/4000-129176/"
+          expect(issue.cover_date).to eq Date.parse("1997-12-29")
+          expect(issue.date_last_updated).to eq DateTime.parse("2022-05-31 19:47:55")
+          expect(issue.deck).to be_nil
+          expect(issue.description).to eq "A really long description"
+          expect(issue.cv_id).to eq 123
+          expect(issue.image).to eq "https://comicvine.gamespot.com/a/uploads/scale_medium/11136/111369808/6786544-one%20piece%201.jpg"
+          expect(issue.issue_number).to eq "1"
+          expect(issue.name).to eq "Romance Dawn: Bōken no Yoake"
+          expect(issue.site_detail_url).to eq "https://comicvine.gamespot.com/one-piece-1-romance-dawn-boken-no-yoake/4000-129176/"
+          expect(issue.store_date).to eq Date.parse("1997-12-24")
+        end
+
+        it "returns a truthy value" do
+          expect(subject).to be_truthy
+        end
+      end
+
+      context "when the ComicVine api request does not succeed" do
+        include_context "stub ComicVine API request" do
+          let(:options) {
+            {
+              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume"
+            }
+          }
+          let(:endpoint) { "issue/4000-123/" }
+          let(:response) { {status: 404} }
+        end
+
+        it "returns a falsey value" do
+          expect(subject).to be_falsey
+        end
+      end
+
+      context "when ComicVine responds with an error" do
+        let(:body) {
+          {
+            error: "Object not found."
+          }.to_json
+        }
+
+        include_context "stub ComicVine API request" do
+          let(:options) {
+            {
+              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume"
+            }
+          }
+          let(:endpoint) { "issue/4000-123/" }
+          let(:response) { {status: 200, body:} }
+        end
+
+        it "returns a falsey value" do
+          expect(subject).to be_falsey
+        end
+      end
+    end
+  end
 end

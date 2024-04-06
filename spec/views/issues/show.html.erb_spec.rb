@@ -11,4 +11,9 @@ RSpec.describe "issues/show", type: :view do
     render
     assert_select "h1.text-2xl", text: "Test Issue"
   end
+
+  it "renders the refresh button" do
+    render
+    assert_select "button", text: "Refresh"
+  end
 end

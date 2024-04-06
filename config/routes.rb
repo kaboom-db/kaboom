@@ -8,14 +8,17 @@ Rails.application.routes.draw do
 
   resources :comics, only: [:index, :show, :edit, :update] do
     resources :issues, only: [:index, :show, :edit, :update] do
-      post :read, on: :member
-      post :unread, on: :member
-      post :wishlist, on: :member
-      post :unwishlist, on: :member
-      post :favourite, on: :member
-      post :unfavourite, on: :member
-      post :collect, on: :member
-      post :uncollect, on: :member
+      member do
+        post :read
+        post :unread
+        post :wishlist
+        post :unwishlist
+        post :favourite
+        post :unfavourite
+        post :collect
+        post :uncollect
+        post :refresh
+      end
     end
 
     collection do

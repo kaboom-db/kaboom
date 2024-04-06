@@ -30,4 +30,33 @@ class Issue < ApplicationRecord
   def to_param = absolute_number
 
   def next = comic.issues.find_by(absolute_number: absolute_number + 1)
+
+  def sync
+    result = ComicVine::Issue.new(id: cv_id).retrieve
+    return unless result.present? && result[:error] == "OK"
+
+    issue = result[:results]
+
+    update(
+      aliases: issue[:aliases],
+      api_detail_url: issue[:api_detail_url],
+      cover_date: issue[:cover_date],
+      date_last_updated: issue[:date_last_updated],
+      deck: issue[:deck],
+      description: issue[:description],
+      image: issue[:image][:medium_url],
+      issue_number: issue[:issue_number],
+      name: issue[:name] || "Issue ##{issue[:issue_number]}",
+      site_detail_url: issue[:site_detail_url],
+      store_date: issue[:store_date]
+    )
+  end
+
+  # For duck typing with Comic.import
+  def self.import(comic_vine_id:)
+    issue = Issue.find_by(cv_id: comic_vine_id)
+    return unless issue.present?
+    issue.sync
+    issue
+  end
 end

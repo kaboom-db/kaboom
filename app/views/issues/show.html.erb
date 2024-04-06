@@ -31,6 +31,7 @@
       <a href="<%= @issue.site_detail_url %>" class="flex font-bold w-max rounded-full border-2 border-black text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
         <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
       </a>
+      <%= button_to "Refresh", refresh_comic_issue_path(@issue, comic_id: @comic), method: :post, class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-primary py-2 px-3" %>
       <%= link_to "Edit", edit_comic_issue_path(@issue, comic_id: @comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-secondary py-2 px-3" %>
     </div>
   </div>

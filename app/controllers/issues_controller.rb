@@ -173,6 +173,11 @@ class IssuesController < ApplicationController
     redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "Successfully unfavourited this issue."
   end
 
+  def refresh
+    ImportWorker.perform_async("Issue", @issue.cv_id)
+    redirect_to comic_issue_path(@issue, comic_id: @comic.id), notice: "This issue will be refreshed soon."
+  end
+
   private
 
   def issue_params

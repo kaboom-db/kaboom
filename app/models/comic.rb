@@ -71,30 +71,19 @@ class Comic < ApplicationRecord
     return unless result.present? && result[:error] == "OK"
 
     volume = result[:results]
-    aliases = volume[:aliases]
-    api_detail_url = volume[:api_detail_url]
-    count_of_issues = volume[:count_of_issues]
-    date_last_updated = volume[:date_last_updated]
-    deck = volume[:deck]
-    description = volume[:description]
-    image = volume[:image][:medium_url]
-    name = volume[:name]
-    publisher = volume[:publisher][:name]
-    site_detail_url = volume[:site_detail_url]
-    start_year = volume[:start_year]
 
     update(
-      aliases:,
-      api_detail_url:,
-      count_of_issues:,
-      date_last_updated:,
-      deck:,
-      description:,
-      image:,
-      name:,
-      publisher:,
-      site_detail_url:,
-      start_year:
+      aliases: volume[:aliases],
+      api_detail_url: volume[:api_detail_url],
+      count_of_issues: volume[:count_of_issues],
+      date_last_updated: volume[:date_last_updated],
+      deck: volume[:deck],
+      description: volume[:description],
+      image: volume[:image][:medium_url],
+      name: volume[:name],
+      publisher: volume[:publisher][:name],
+      site_detail_url: volume[:site_detail_url],
+      start_year: volume[:start_year]
     )
   end
 
