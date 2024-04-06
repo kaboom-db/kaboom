@@ -14,6 +14,11 @@
         <%= f.check_box :show_nsfw %>
         <%= f.label :show_nsfw, "Show NSFW in search results" %>
       </div>
+
+      <div>
+        <%= f.check_box :allow_email_notifications %>
+        <%= f.label :allow_email_notifications, "Email notifications (includes but not limited to user follows, comment replies etc)" %>
+      </div>
     </div>
 
     <%= render Forms::SubmitComponent.new(form: f, text: "Save") %>

@@ -99,7 +99,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:bio, :private, :show_nsfw)
+    params.require(:user).permit(:bio, :private, :show_nsfw, :allow_email_notifications)
   end
 
   def build_filters
