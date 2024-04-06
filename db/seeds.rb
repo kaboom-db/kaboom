@@ -1,14 +1,10 @@
-ReadIssue.delete_all
-WishlistItem.delete_all
-CollectedIssue.delete_all
-FavouriteItem.delete_all
+Country.destroy_all
+Currency.destroy_all
 Visit.delete_all
-Issue.delete_all
-Comic.delete_all
-User.delete_all
+Issue.destroy_all
+Comic.destroy_all
+User.destroy_all
 Genre.delete_all
-Country.delete_all
-Currency.delete_all
 
 def create_genres
   genres = ["Crime", "Espionage", "Fantasy", "Historical", "Horror", "Comedy", "Romance", "Science Fiction", "Sport"]
