@@ -10,7 +10,14 @@
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @history.each do |history| %>
-        <%= render ResourceTileComponent.new(resource: history.issue, resource_path: comic_issue_path(history.issue, comic_id: history.comic), read: true) %>
+        <%= render ResourceTileComponent.new(
+          resource: history.issue,
+          resource_path: comic_issue_path(history.issue, comic_id: history.comic),
+          read: current_user&.issues_read&.include?(history.issue),
+          collected: current_user&.collection&.include?(history.issue),
+          wishlisted: current_user&.wishlisted_comics&.include?(history.issue),
+          favourited: current_user&.favourited_comics&.include?(history.issue)
+        ) %>
       <% end %>
     </div>
   <% end %>
@@ -26,7 +33,12 @@
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @deck.each do |comic| %>
-        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+        <%= render ResourceTileComponent.new(
+          resource: comic,
+          resource_path: comic_path(comic),
+          wishlisted: current_user&.wishlisted_comics&.include?(comic),
+          favourited: current_user&.favourited_comics&.include?(comic)
+        ) %>
       <% end %>
     </div>
   <% end %>
@@ -42,7 +54,12 @@
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @favourite_comics.each do |comic| %>
-        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic)) %>
+        <%= render ResourceTileComponent.new(
+          resource: comic,
+          resource_path: comic_path(comic),
+          wishlisted: current_user&.wishlisted_comics&.include?(comic),
+          favourited: current_user&.favourited_comics&.include?(comic)
+        ) %>
       <% end %>
     </div>
   <% end %>
@@ -58,7 +75,12 @@
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @completed_comics.each do |comic| %>
-        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), read: true) %>
+        <%= render ResourceTileComponent.new(
+          resource: comic,
+          resource_path: comic_path(comic),
+          wishlisted: current_user&.wishlisted_comics&.include?(comic),
+          favourited: current_user&.favourited_comics&.include?(comic)
+        ) %>
       <% end %>
     </div>
   <% end %>
@@ -74,7 +96,14 @@
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @collection.each do |collected| %>
-        <%= render ResourceTileComponent.new(resource: collected.issue, resource_path: comic_issue_path(collected.issue, comic_id: collected.comic), collected: true) %>
+        <%= render ResourceTileComponent.new(
+          resource: collected.issue,
+          resource_path: comic_issue_path(collected.issue, comic_id: collected.comic),
+          read: current_user&.issues_read&.include?(collected.issue),
+          collected: current_user&.collection&.include?(collected.issue),
+          wishlisted: current_user&.wishlisted_comics&.include?(collected.issue),
+          favourited: current_user&.favourited_comics&.include?(collected.issue)
+        ) %>
       <% end %>
     </div>
   <% end %>
@@ -90,7 +119,12 @@
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
       <% @wishlisted.each do |comic| %>
-        <%= render ResourceTileComponent.new(resource: comic, resource_path: comic_path(comic), wishlisted: true) %>
+        <%= render ResourceTileComponent.new(
+          resource: comic,
+          resource_path: comic_path(comic),
+          wishlisted: current_user&.wishlisted_comics&.include?(comic),
+          favourited: current_user&.favourited_comics&.include?(comic)
+        ) %>
       <% end %>
     </div>
   <% end %>
