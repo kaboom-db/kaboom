@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_05_141308) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_06_125039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_141308) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_favourite_items_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.bigint "target_id", null: false
+    t.bigint "follower_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+    t.index ["target_id"], name: "index_follows_on_target_id"
   end
 
   create_table "genres", force: :cascade do |t|
@@ -172,6 +181,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_141308) do
   add_foreign_key "collected_issues", "users"
   add_foreign_key "comics", "countries"
   add_foreign_key "favourite_items", "users"
+  add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "follows", "users", column: "target_id"
   add_foreign_key "issues", "comics"
   add_foreign_key "issues", "currencies"
   add_foreign_key "read_issues", "issues"

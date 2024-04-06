@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist]
+  before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist follow unfollow]
   before_action :authorise_user, only: %i[edit update]
+  before_action :user_required, only: %i[follow unfollow]
   before_action :check_private, except: %i[edit update]
 
   def show
@@ -73,6 +74,26 @@ class UsersController < ApplicationController
 
     @wishlist = @user.wishlist_items
       .paginate(page: params[:page], per_page: 30)
+  end
+
+  def follow
+    follow_manager = Social::FollowManager.new(target: @user, follower: current_user)
+
+    if follow_manager.follow
+      redirect_to user_path(@user)
+    else
+      redirect_to user_path(@user), alert: "Could not follow #{@user}."
+    end
+  end
+
+  def unfollow
+    follow_manager = Social::FollowManager.new(target: @user, follower: current_user)
+
+    if follow_manager.unfollow
+      redirect_to user_path(@user)
+    else
+      redirect_to user_path(@user), alert: "Could not unfollow #{@user}."
+    end
   end
 
   private

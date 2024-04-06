@@ -34,6 +34,48 @@ RSpec.describe UserHeroComponent, type: :component do
     end
   end
 
+  context "when current user is present" do
+    let(:user) { FactoryBot.create(:user, username: "HeyThere", bio: "This is my bio!", private: false) }
+
+    context "when current user is following user" do
+      it "renders the unfollow button" do
+        current_user = FactoryBot.create(:user)
+        FactoryBot.create(:follow, target: user, follower: current_user)
+        render_inline(described_class.new(user:, current_user:))
+        expect(page).not_to have_css "button", text: "Follow"
+        expect(page).to have_css "button", text: "Unfollow"
+      end
+    end
+
+    context "when current user is not following user" do
+      it "renders the follow button" do
+        render_inline(described_class.new(user:, current_user: FactoryBot.create(:user)))
+        expect(page).to have_css "button", text: "Follow"
+        expect(page).not_to have_css "button", text: "Unfollow"
+      end
+    end
+  end
+
+  context "when current user is not present" do
+    let(:user) { FactoryBot.create(:user, username: "HeyThere", bio: "This is my bio!", private: false) }
+
+    it "does not render the follow button" do
+      render_inline(described_class.new(user:, current_user: nil))
+      expect(page).not_to have_css "button", text: "Follow"
+      expect(page).not_to have_css "button", text: "Unfollow"
+    end
+  end
+
+  context "when user is the current user" do
+    let(:user) { FactoryBot.create(:user, username: "HeyThere", bio: "This is my bio!", private: false) }
+
+    it "does not render the follow button" do
+      render_inline(described_class.new(user:, current_user: user))
+      expect(page).not_to have_css "button", text: "Follow"
+      expect(page).not_to have_css "button", text: "Unfollow"
+    end
+  end
+
   context "when user is private" do
     let(:user) { FactoryBot.create(:user, username: "HeyThere", bio: "This is my bio!", private: true) }
 
@@ -41,6 +83,12 @@ RSpec.describe UserHeroComponent, type: :component do
       comic = FactoryBot.create(:comic, name: "Test Comic")
       issue = FactoryBot.create(:issue, name: "Test Issue", comic:)
       FactoryBot.create(:read_issue, issue:, user:, read_at: Time.new(2024, 1, 1, 10, 0, 0, "+00:00"))
+    end
+
+    it "does not render the follow button" do
+      render_inline(described_class.new(user:, current_user: nil))
+      expect(page).not_to have_css "button", text: "Follow"
+      expect(page).not_to have_css "button", text: "Unfollow"
     end
 
     context "when is user is the current user" do
