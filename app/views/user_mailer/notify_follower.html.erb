@@ -1,0 +1,4 @@
+<%= render "shared/mailers/text", paragraphs: ["Hello, #{@user}!", "We're here to notify you that #{@follower} has started following you on Kaboom! You can view their Kaboom profile with the link below."] %>
+<%= render "shared/mailers/button", href: user_url(@follower), text: "View #{@follower}'s profile" %>
+<%= render "shared/mailers/text", paragraphs: ["If you no longer wish to receive these notifications from us, you can disable them in your account settings."] %>
+<%= render "shared/mailers/button", href: edit_user_url(@user), text: "Go to account settings" %>

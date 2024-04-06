@@ -5,15 +5,25 @@ RSpec.describe User, type: :model do
     it { should have_many(:read_issues).dependent(:delete_all) }
     it { should have_many(:comics).through(:read_issues) }
     it { should have_many(:issues_read).through(:read_issues).source(:issue) }
+
     it { should have_many(:visits).dependent(:delete_all) }
+
     it { should have_many(:wishlist_items).dependent(:delete_all) }
     it { should have_many(:wishlisted_comics).through(:wishlist_items).class_name("Comic") }
     it { should have_many(:wishlisted_issues).through(:wishlist_items).class_name("Issue") }
+
     it { should have_many(:favourite_items).dependent(:delete_all) }
     it { should have_many(:favourited_comics).through(:favourite_items).class_name("Comic") }
     it { should have_many(:favourited_issues).through(:favourite_items).class_name("Issue") }
+
     it { should have_many(:collected_issues).dependent(:delete_all) }
     it { should have_many(:collection).through(:collected_issues).source(:issue) }
+
+    it { should have_many(:follow_ers).class_name("Follow") }
+    it { should have_many(:followers).through(:follow_ers).source(:follower) }
+
+    it { should have_many(:follow_ing).class_name("Follow") }
+    it { should have_many(:following).through(:follow_ing).source(:target) }
   end
 
   describe "validations" do

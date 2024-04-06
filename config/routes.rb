@@ -41,12 +41,17 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :edit, :update] do
     resources :statistics, only: [:index, :show]
 
-    get :history, on: :member
-    get :deck, on: :member
-    get :favourites, on: :member
-    get :completed, on: :member
-    get :collection, on: :member
-    get :wishlist, on: :member
+    member do
+      get :history
+      get :deck
+      get :favourites
+      get :completed
+      get :collection
+      get :wishlist
+
+      post :follow
+      post :unfollow
+    end
   end
 
   resources :site_statistics, only: [:index]

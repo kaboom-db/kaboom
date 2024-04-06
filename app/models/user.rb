@@ -8,15 +8,25 @@ class User < ApplicationRecord
   has_many :read_issues, dependent: :delete_all
   has_many :comics, -> { distinct }, through: :read_issues
   has_many :issues_read, through: :read_issues, source: :issue
+
   has_many :wishlist_items, dependent: :delete_all
   has_many :wishlisted_comics, through: :wishlist_items, source: :wishlistable, source_type: "Comic"
   has_many :wishlisted_issues, through: :wishlist_items, source: :wishlistable, source_type: "Issue"
+
   has_many :favourite_items, dependent: :delete_all
   has_many :favourited_comics, through: :favourite_items, source: :favouritable, source_type: "Comic"
   has_many :favourited_issues, through: :favourite_items, source: :favouritable, source_type: "Issue"
+
   has_many :collected_issues, dependent: :delete_all
   has_many :collection, through: :collected_issues, source: :issue
+
   has_many :visits, dependent: :delete_all
+
+  has_many :follow_ers, foreign_key: :target_id, class_name: "Follow"
+  has_many :followers, through: :follow_ers, source: :follower
+
+  has_many :follow_ing, foreign_key: :follower_id, class_name: "Follow"
+  has_many :following, through: :follow_ing, source: :target
 
   # Validations
   validates :email, :username, presence: true

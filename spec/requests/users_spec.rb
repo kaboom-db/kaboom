@@ -109,6 +109,7 @@ RSpec.describe "Users", type: :request do
         assert_select "textarea[name='user[bio]']"
         assert_select "input[name='user[private]']"
         assert_select "input[name='user[show_nsfw]']"
+        assert_select "input[name='user[allow_email_notifications]']"
       end
     end
 
@@ -130,11 +131,12 @@ RSpec.describe "Users", type: :request do
       end
 
       it "updates the user" do
-        patch user_path(user), params: {user: {bio: "My cool new bio", private: true, show_nsfw: true}}
+        patch user_path(user), params: {user: {bio: "My cool new bio", private: true, show_nsfw: true, allow_email_notifications: false}}
         user.reload
         expect(user.bio).to eq "My cool new bio"
         expect(user.private?).to eq true
         expect(user.show_nsfw?).to eq true
+        expect(user.allow_email_notifications?).to eq false
       end
     end
 
@@ -288,5 +290,91 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+  end
+
+  describe "POST /follow" do
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+    let(:current_user) { FactoryBot.create(:user, :confirmed) }
+
+    context "when user not logged in" do
+      it "redirects to the sign in page" do
+        post follow_user_path(user)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when the follow succeeds" do
+      before { sign_in current_user }
+
+      it "creates a follow" do
+        post follow_user_path(user)
+        follow = Follow.last
+        expect(follow.target).to eq user
+        expect(follow.follower).to eq current_user
+      end
+
+      it "redirects to the user path" do
+        post follow_user_path(user)
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+
+    context "when the follow does not succeed" do
+      let(:current_user) { user }
+
+      before { sign_in current_user }
+
+      it "does not create a follow" do
+        post follow_user_path(user)
+        expect(Follow.count).to eq 0
+      end
+
+      it "sets a flash message and redirects to the user page" do
+        post follow_user_path(user)
+        expect(response).to redirect_to user_path(user)
+        expect(flash[:alert]).to eq "Could not follow #{user}."
+      end
+    end
+  end
+
+  describe "POST /unfollow" do
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+    let(:current_user) { FactoryBot.create(:user, :confirmed) }
+
+    context "when user not logged in" do
+      it "redirects to the sign in page" do
+        post unfollow_user_path(user)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when unfollow succeeds" do
+      before do
+        sign_in current_user
+        FactoryBot.create(:follow, target: user, follower: current_user)
+      end
+
+      it "removes the follow" do
+        post unfollow_user_path(user)
+        expect(Follow.count).to eq 0
+      end
+
+      it "redirects to the user page" do
+        post unfollow_user_path(user)
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+
+    context "when unfollow does not succeed" do
+      let(:current_user) { user }
+
+      before { sign_in current_user }
+
+      it "sets a flash message and redirects to the user page" do
+        post unfollow_user_path(user)
+        expect(response).to redirect_to user_path(user)
+        expect(flash[:alert]).to eq "Could not unfollow #{user}."
+      end
+    end
   end
 end
