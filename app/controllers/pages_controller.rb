@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_action :user_required, only: %i[dashboard]
 
-  PRIVACY_POLICY_UPDATE = Date.new(2024, 1, 30)
+  PRIVACY_POLICY_UPDATE = Date.new(2024, 4, 6)
 
   def index
     redirect_to dashboard_path if user_signed_in?
