@@ -6,4 +6,6 @@ class ReadIssue < ApplicationRecord
 
   # Validations
   validates_presence_of :read_at
+
+  def social_class = Social::ReadActivity
 end

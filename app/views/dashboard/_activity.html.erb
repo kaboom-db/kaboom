@@ -1,0 +1,16 @@
+<%= render BorderComponent.new do %>
+  <div class="flex gap-6">
+    <% if activity.image %>
+      <div class="h-16 min-h-16 w-16 min-w-16 overflow-hidden rounded-2xl border-2 border-black relative">
+        <img src="<%= activity.image %>" class="w-full">
+        <% if activity.link %>
+          <a href="<%= activity.link %>" class="absolute w-full h-full top-0 left-0"></a>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="flex flex-col gap-2 justify-between">
+      <p><%= activity.content %></p>
+      <small><%= activity.timestamp %></small>
+    </div>
+  </div>
+<% end %>

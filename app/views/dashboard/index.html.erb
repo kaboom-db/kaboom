@@ -65,3 +65,25 @@
     </div>
   <% end %>
 <% end %>
+
+<%= render SectionComponent.new do %>
+  <%= turbo_frame_tag "activities" do %>
+    <%= render ChipHeaderComponent.new(text: "Your Feed") %>
+    <div class="flex flex-col gap-8">
+      <% @feed_activity.each do |activity| %>
+        <%= render "activity", activity: %>
+      <% end %>
+    </div>
+    <div class="flex justify-between my-8">
+      <% if @page > 1 %>
+        <%= render LinkComponent.new(text: "Prev", href: dashboard_path(page: @page - 1)) %>
+      <% else %>
+        <div></div>
+      <% end %>
+
+      <% if @feed_activity.count >= Social::Feed::PER_PAGE %>
+        <%= render LinkComponent.new(text: "Next", href: dashboard_path(page: @page + 1)) %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

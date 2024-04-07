@@ -13,6 +13,9 @@ class DashboardController < ApplicationController
     @deck = current_user.incompleted_comics.take(6)
 
     @chart_data = Charts::UserCountsChart.new(resource: current_user, num_of_elms: 14, type: Charts::Constants::BAR, range_type: Charts::FrequencyChartGenerator::DAY).generate
+
+    @page = (params[:page] || 1).to_i
+    @feed_activity = Social::Feed.new(user: current_user, page: @page).generate
   end
 
   def history
