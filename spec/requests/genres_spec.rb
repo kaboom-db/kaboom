@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Genres", type: :request do
   describe "GET /show" do
-    let(:genre) { FactoryBot.create(:genre, name: "Action") }
+    let(:genre) { FactoryBot.create(:genre, name: "Action", fa_icon: "fa-bob") }
 
     it "renders the top 5 trending comics for the genre" do
       FactoryBot.create(:comic)
@@ -22,6 +22,11 @@ RSpec.describe "Genres", type: :request do
       get genre_path(genre)
       assert_select "b", text: "Test 1 (2024)"
       assert_select "b", text: "Test 2 (2024)"
+    end
+
+    it "renders the genres icon" do
+      get genre_path(genre)
+      assert_select "i.fa-bob"
     end
   end
 end

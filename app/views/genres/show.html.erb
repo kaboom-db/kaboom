@@ -1,4 +1,7 @@
-<%= render PageTitleComponent.new(text: @genre.name) %>
+<div class="flex flex-col-reverse sm:flex-row flex-wrap gap-8 justify-between">
+  <%= render PageTitleComponent.new(text: @genre.name) %>
+  <i class="text-6xl text-primary fa-solid <%= @genre.fa_icon %>"></i>
+</div>
 
 <%= render SectionComponent.new do %>
   <div class="mb-8">
