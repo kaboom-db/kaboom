@@ -65,3 +65,8 @@
     </div>
   <% end %>
 <% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render ChipHeaderComponent.new(text: "Your Feed") %>
+  <%= render "shared/activities", activities: @feed_activity, activities_load_more_path: dashboard_load_more_activities_path %>
+<% end %>

@@ -10,4 +10,10 @@ RSpec.describe ReadIssue, type: :model do
   describe "validations" do
     it { should validate_presence_of(:read_at) }
   end
+
+  describe "#social_class" do
+    it "returns ReadActivity" do
+      expect(ReadIssue.new.social_class).to eq Social::ReadActivity
+    end
+  end
 end

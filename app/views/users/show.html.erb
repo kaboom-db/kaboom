@@ -1,131 +1,142 @@
 <%= render UserHeroComponent.new(user: @user, current_user:) %>
 
-<% if @history.any? %>
-  <%= render SectionComponent.new do %>
-    <div class="flex justify-between items-center">
-      <%= render ChipHeaderComponent.new(text: "History") %>
-      <a href="<%= history_user_path(@user) %>" class="underline whitespace-nowrap">
-        View all<i class="p-2 fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @history.each do |history| %>
-        <%= render ResourceTileComponent.new(
-          resource: history.issue,
-          resource_path: comic_issue_path(history.issue, comic_id: history.comic),
-          read: current_user&.issues_read&.include?(history.issue),
-          collected: current_user&.collection&.include?(history.issue),
-          wishlisted: current_user&.wishlisted_comics&.include?(history.issue),
-          favourited: current_user&.favourited_comics&.include?(history.issue)
-        ) %>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-10">
+  <div class="md:col-span-3">
+    <% if @history.any? %>
+      <%= render SectionComponent.new do %>
+        <div class="flex justify-between items-center">
+          <%= render ChipHeaderComponent.new(text: "History") %>
+          <a href="<%= history_user_path(@user) %>" class="underline whitespace-nowrap">
+            View all<i class="p-2 fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @history.each do |history| %>
+            <%= render ResourceTileComponent.new(
+              resource: history.issue,
+              resource_path: comic_issue_path(history.issue, comic_id: history.comic),
+              read: current_user&.issues_read&.include?(history.issue),
+              collected: current_user&.collection&.include?(history.issue),
+              wishlisted: current_user&.wishlisted_comics&.include?(history.issue),
+              favourited: current_user&.favourited_comics&.include?(history.issue)
+            ) %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-<% end %>
+    <% end %>
 
-<% if @deck.any? %>
-  <%= render SectionComponent.new do %>
-    <div class="flex justify-between items-center">
-      <%= render ChipHeaderComponent.new(text: "Deck") %>
-      <a href="<%= deck_user_path(@user) %>" class="underline whitespace-nowrap">
-        View all<i class="p-2 fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @deck.each do |comic| %>
-        <%= render ResourceTileComponent.new(
-          resource: comic,
-          resource_path: comic_path(comic),
-          wishlisted: current_user&.wishlisted_comics&.include?(comic),
-          favourited: current_user&.favourited_comics&.include?(comic)
-        ) %>
+    <% if @deck.any? %>
+      <%= render SectionComponent.new do %>
+        <div class="flex justify-between items-center">
+          <%= render ChipHeaderComponent.new(text: "Deck") %>
+          <a href="<%= deck_user_path(@user) %>" class="underline whitespace-nowrap">
+            View all<i class="p-2 fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @deck.each do |comic| %>
+            <%= render ResourceTileComponent.new(
+              resource: comic,
+              resource_path: comic_path(comic),
+              wishlisted: current_user&.wishlisted_comics&.include?(comic),
+              favourited: current_user&.favourited_comics&.include?(comic)
+            ) %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-<% end %>
+    <% end %>
 
-<% if @favourite_comics.any? %>
-  <%= render SectionComponent.new do %>
-    <div class="flex justify-between items-center">
-      <%= render ChipHeaderComponent.new(text: "Favourite Comics") %>
-      <a href="<%= favourites_user_path(@user) %>" class="underline whitespace-nowrap">
-        View all<i class="p-2 fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @favourite_comics.each do |comic| %>
-        <%= render ResourceTileComponent.new(
-          resource: comic,
-          resource_path: comic_path(comic),
-          wishlisted: current_user&.wishlisted_comics&.include?(comic),
-          favourited: current_user&.favourited_comics&.include?(comic)
-        ) %>
+    <% if @favourite_comics.any? %>
+      <%= render SectionComponent.new do %>
+        <div class="flex justify-between items-center">
+          <%= render ChipHeaderComponent.new(text: "Favourite Comics") %>
+          <a href="<%= favourites_user_path(@user) %>" class="underline whitespace-nowrap">
+            View all<i class="p-2 fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @favourite_comics.each do |comic| %>
+            <%= render ResourceTileComponent.new(
+              resource: comic,
+              resource_path: comic_path(comic),
+              wishlisted: current_user&.wishlisted_comics&.include?(comic),
+              favourited: current_user&.favourited_comics&.include?(comic)
+            ) %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-<% end %>
+    <% end %>
 
-<% if @completed_comics.any? %>
-  <%= render SectionComponent.new do %>
-    <div class="flex justify-between items-center">
-      <%= render ChipHeaderComponent.new(text: "Completed Comics") %>
-      <a href="<%= completed_user_path(@user) %>" class="underline whitespace-nowrap">
-        View all<i class="p-2 fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @completed_comics.each do |comic| %>
-        <%= render ResourceTileComponent.new(
-          resource: comic,
-          resource_path: comic_path(comic),
-          wishlisted: current_user&.wishlisted_comics&.include?(comic),
-          favourited: current_user&.favourited_comics&.include?(comic)
-        ) %>
+    <% if @completed_comics.any? %>
+      <%= render SectionComponent.new do %>
+        <div class="flex justify-between items-center">
+          <%= render ChipHeaderComponent.new(text: "Completed Comics") %>
+          <a href="<%= completed_user_path(@user) %>" class="underline whitespace-nowrap">
+            View all<i class="p-2 fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @completed_comics.each do |comic| %>
+            <%= render ResourceTileComponent.new(
+              resource: comic,
+              resource_path: comic_path(comic),
+              wishlisted: current_user&.wishlisted_comics&.include?(comic),
+              favourited: current_user&.favourited_comics&.include?(comic)
+            ) %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-<% end %>
+    <% end %>
 
-<% if @collection.any? %>
-  <%= render SectionComponent.new do %>
-    <div class="flex justify-between items-center">
-      <%= render ChipHeaderComponent.new(text: "Collection") %>
-      <a href="<%= collection_user_path(@user) %>" class="underline whitespace-nowrap">
-        View all<i class="p-2 fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @collection.each do |collected| %>
-        <%= render ResourceTileComponent.new(
-          resource: collected.issue,
-          resource_path: comic_issue_path(collected.issue, comic_id: collected.comic),
-          read: current_user&.issues_read&.include?(collected.issue),
-          collected: current_user&.collection&.include?(collected.issue),
-          wishlisted: current_user&.wishlisted_comics&.include?(collected.issue),
-          favourited: current_user&.favourited_comics&.include?(collected.issue)
-        ) %>
+    <% if @collection.any? %>
+      <%= render SectionComponent.new do %>
+        <div class="flex justify-between items-center">
+          <%= render ChipHeaderComponent.new(text: "Collection") %>
+          <a href="<%= collection_user_path(@user) %>" class="underline whitespace-nowrap">
+            View all<i class="p-2 fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @collection.each do |collected| %>
+            <%= render ResourceTileComponent.new(
+              resource: collected.issue,
+              resource_path: comic_issue_path(collected.issue, comic_id: collected.comic),
+              read: current_user&.issues_read&.include?(collected.issue),
+              collected: current_user&.collection&.include?(collected.issue),
+              wishlisted: current_user&.wishlisted_comics&.include?(collected.issue),
+              favourited: current_user&.favourited_comics&.include?(collected.issue)
+            ) %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-<% end %>
+    <% end %>
 
-<% if @wishlisted.any? %>
-  <%= render SectionComponent.new do %>
-    <div class="flex justify-between items-center">
-      <%= render ChipHeaderComponent.new(text: "Wishlist") %>
-      <a href="<%= wishlist_user_path(@user) %>" class="underline whitespace-nowrap">
-        View all<i class="p-2 fa-solid fa-chevron-right"></i>
-      </a>
-    </div>
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @wishlisted.each do |comic| %>
-        <%= render ResourceTileComponent.new(
-          resource: comic,
-          resource_path: comic_path(comic),
-          wishlisted: current_user&.wishlisted_comics&.include?(comic),
-          favourited: current_user&.favourited_comics&.include?(comic)
-        ) %>
+    <% if @wishlisted.any? %>
+      <%= render SectionComponent.new do %>
+        <div class="flex justify-between items-center">
+          <%= render ChipHeaderComponent.new(text: "Wishlist") %>
+          <a href="<%= wishlist_user_path(@user) %>" class="underline whitespace-nowrap">
+            View all<i class="p-2 fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <% @wishlisted.each do |comic| %>
+            <%= render ResourceTileComponent.new(
+              resource: comic,
+              resource_path: comic_path(comic),
+              wishlisted: current_user&.wishlisted_comics&.include?(comic),
+              favourited: current_user&.favourited_comics&.include?(comic)
+            ) %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-<% end %>
+    <% end %>
+  </div>
+
+  <div class="md:col-span-2 md:border-l-2 border-black md:pl-10">
+    <%= render SectionComponent.new do %>
+      <%= render ChipHeaderComponent.new(text: "User activity") %>
+      <%= render "shared/activities", activities: @activities, activities_load_more_path: load_more_activities_user_path(@user) %>
+    <% end %>
+  </div>
+</div>

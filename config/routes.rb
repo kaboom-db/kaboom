@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       get :completed
       get :collection
       get :wishlist
+      get :load_more_activities
 
       post :follow
       post :unfollow
@@ -59,6 +60,7 @@ Rails.application.routes.draw do
   get "dashboard" => "dashboard#index"
   get "dashboard/history" => "dashboard#history"
   get "dashboard/collection" => "dashboard#collection"
+  get "dashboard/load_more_activities" => "dashboard#load_more_activities"
 
   unless Rails.application.config.consider_all_requests_local
     get "*path", to: "application#not_found", via: :all

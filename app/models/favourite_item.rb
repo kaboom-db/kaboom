@@ -5,4 +5,6 @@ class FavouriteItem < ApplicationRecord
 
   # Validations
   validates :user_id, uniqueness: {scope: [:favouritable_id, :favouritable_type]}
+
+  def social_class = Social::FavouritedActivity
 end

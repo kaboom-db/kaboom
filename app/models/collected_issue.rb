@@ -6,4 +6,6 @@ class CollectedIssue < ApplicationRecord
 
   # Validations
   validates :issue_id, uniqueness: {scope: :user_id}
+
+  def social_class = Social::CollectedActivity
 end

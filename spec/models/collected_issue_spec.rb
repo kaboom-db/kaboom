@@ -11,4 +11,10 @@ RSpec.describe CollectedIssue, type: :model do
     subject { FactoryBot.create(:collected_issue) }
     it { should validate_uniqueness_of(:issue_id).scoped_to(:user_id) }
   end
+
+  describe "#social_class" do
+    it "returns CollectedActivity" do
+      expect(CollectedIssue.new.social_class).to eq Social::CollectedActivity
+    end
+  end
 end

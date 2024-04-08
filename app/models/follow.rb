@@ -6,6 +6,8 @@ class Follow < ApplicationRecord
   # callbacks
   after_create :notify_target!
 
+  def social_class = Social::FollowedActivity
+
   private
 
   def notify_target!

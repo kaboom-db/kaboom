@@ -13,6 +13,9 @@ class DashboardController < ApplicationController
     @deck = current_user.incompleted_comics.take(6)
 
     @chart_data = Charts::UserCountsChart.new(resource: current_user, num_of_elms: 14, type: Charts::Constants::BAR, range_type: Charts::FrequencyChartGenerator::DAY).generate
+
+    @page = 1
+    @feed_activity = get_feed_activity
   end
 
   def history
@@ -36,7 +39,20 @@ class DashboardController < ApplicationController
     @collection_grouped = @collection.group_by { _1.collected_on.strftime("%-d %b %Y") }
   end
 
+  def load_more_activities
+    @page = (params[:page] || 1).to_i
+    @feed_activity = get_feed_activity
+    respond_to do |format|
+      format.html { not_found }
+      format.turbo_stream
+    end
+  end
+
   private
+
+  def get_feed_activity
+    Social::Feed.new(activities_by: current_user.following, page: @page).generate
+  end
 
   def build_filters
     filters = {}

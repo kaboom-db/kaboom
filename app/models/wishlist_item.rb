@@ -5,4 +5,6 @@ class WishlistItem < ApplicationRecord
 
   # Validations
   validates :user_id, uniqueness: {scope: [:wishlistable_id, :wishlistable_type]}
+
+  def social_class = Social::WishlistedActivity
 end
