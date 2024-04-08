@@ -27,7 +27,7 @@ RSpec.describe "shared/activity", type: :view do
     context "when link is present" do
       it "renders a link to the item" do
         perform
-        assert_select "a[href='#{comic_issue_path(issue, comic_id: comic)}']"
+        assert_select "a[href='#{comic_issue_path(issue, comic_id: comic)}'][data-turbo='false']"
       end
     end
 
