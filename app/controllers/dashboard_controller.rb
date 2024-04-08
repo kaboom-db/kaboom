@@ -39,6 +39,15 @@ class DashboardController < ApplicationController
     @collection_grouped = @collection.group_by { _1.collected_on.strftime("%-d %b %Y") }
   end
 
+  def load_more_activities
+    @page = (params[:page] || 1).to_i
+    @feed_activity = Social::Feed.new(user: current_user, page: @page).generate
+    respond_to do |format|
+      format.html { not_found }
+      format.turbo_stream
+    end
+  end
+
   private
 
   def build_filters
