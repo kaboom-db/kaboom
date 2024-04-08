@@ -1,20 +1,21 @@
 module Social
   class Feed
-    attr_reader :user, :page
+    attr_reader :activities_by, :page
 
     PER_PAGE = 10
 
-    def initialize(user:, page: 1)
-      @user = user
+    # Activities by can be one user or a list of users.
+    def initialize(activities_by:, page: 1)
+      @activities_by = activities_by
       @page = page
     end
 
     def generate
-      read_issues = get_activities_for(ReadIssue, {read_at: :desc}, {user: user.following}, [:issue, :comic, :user])
-      collected_issues = get_activities_for(CollectedIssue, {collected_on: :desc}, {user: user.following}, [:issue, :comic, :user])
-      wishlist_items = get_activities_for(WishlistItem, {created_at: :desc}, {user: user.following}, [:wishlistable, :user])
-      favourite_items = get_activities_for(FavouriteItem, {created_at: :desc}, {user: user.following}, [:favouritable, :user])
-      follows = get_activities_for(Follow, {created_at: :desc}, {follower: user.following}, [:follower, :target])
+      read_issues = get_activities_for(ReadIssue, {read_at: :desc}, {user: activities_by}, [:issue, :comic, :user])
+      collected_issues = get_activities_for(CollectedIssue, {collected_on: :desc}, {user: activities_by}, [:issue, :comic, :user])
+      wishlist_items = get_activities_for(WishlistItem, {created_at: :desc}, {user: activities_by}, [:wishlistable, :user])
+      favourite_items = get_activities_for(FavouriteItem, {created_at: :desc}, {user: activities_by}, [:favouritable, :user])
+      follows = get_activities_for(Follow, {created_at: :desc}, {follower: activities_by}, [:follower, :target])
       activities = sort(read_issues + collected_issues + wishlist_items + favourite_items + follows)
 
       start_index = (page - 1) * PER_PAGE

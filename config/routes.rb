@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       get :completed
       get :collection
       get :wishlist
+      get :load_more_activities
 
       post :follow
       post :unfollow

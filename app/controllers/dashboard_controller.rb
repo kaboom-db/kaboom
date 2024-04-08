@@ -14,8 +14,8 @@ class DashboardController < ApplicationController
 
     @chart_data = Charts::UserCountsChart.new(resource: current_user, num_of_elms: 14, type: Charts::Constants::BAR, range_type: Charts::FrequencyChartGenerator::DAY).generate
 
-    @page = (params[:page] || 1).to_i
-    @feed_activity = Social::Feed.new(user: current_user, page: @page).generate
+    @page = 1
+    @feed_activity = Social::Feed.new(activities_by: current_user.following, page: @page).generate
   end
 
   def history
@@ -41,7 +41,7 @@ class DashboardController < ApplicationController
 
   def load_more_activities
     @page = (params[:page] || 1).to_i
-    @feed_activity = Social::Feed.new(user: current_user, page: @page).generate
+    @feed_activity = Social::Feed.new(activities_by: current_user.following, page: @page).generate
     respond_to do |format|
       format.html { not_found }
       format.turbo_stream

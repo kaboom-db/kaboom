@@ -68,14 +68,5 @@
 
 <%= render SectionComponent.new do %>
   <%= render ChipHeaderComponent.new(text: "Your Feed") %>
-  <%= turbo_frame_tag "activities", class: "flex flex-col gap-8" do %>
-    <% @feed_activity.each do |activity| %>
-      <%= render "activity", activity: %>
-    <% end %>
-  <% end %>
-  <div class="flex justify-center my-8">
-    <%= turbo_frame_tag "load_more_link" do %>
-      <%= render "load_more_activities_link" %>
-    <% end %>
-  </div>
+  <%= render "shared/activities", activities: @feed_activity, activities_load_more_path: dashboard_load_more_activities_path %>
 <% end %>

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist follow unfollow]
+  before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist follow unfollow load_more_activities]
   before_action :authorise_user, only: %i[edit update]
   before_action :user_required, only: %i[follow unfollow]
   before_action :check_private, except: %i[edit update]
@@ -7,12 +7,15 @@ class UsersController < ApplicationController
   def show
     set_metadata(title: "#{@user}'s Profile", description: "#{@user} is tracking their favourite comics on Kaboom. Check out their profile!")
 
-    @history = @user.read_issues.order(read_at: :desc).limit(6)
-    @deck = @user.incompleted_comics.take(6)
-    @favourite_comics = @user.favourited_comics.limit(6)
-    @completed_comics = @user.completed_comics.take(12)
-    @collection = @user.collected_issues.order(collected_on: :desc).limit(12)
-    @wishlisted = @user.wishlisted_comics.limit(12)
+    @history = @user.read_issues.order(read_at: :desc).limit(4)
+    @deck = @user.incompleted_comics.take(4)
+    @favourite_comics = @user.favourited_comics.limit(4)
+    @completed_comics = @user.completed_comics.take(4)
+    @collection = @user.collected_issues.order(collected_on: :desc).limit(4)
+    @wishlisted = @user.wishlisted_comics.limit(4)
+
+    @page = 1
+    @activities = Social::Feed.new(activities_by: @user, page: @page).generate
   end
 
   def edit
@@ -93,6 +96,15 @@ class UsersController < ApplicationController
       redirect_to user_path(@user)
     else
       redirect_to user_path(@user), alert: "Could not unfollow #{@user}."
+    end
+  end
+
+  def load_more_activities
+    @page = (params[:page] || 1).to_i
+    @activities = Social::Feed.new(activities_by: @user, page: @page).generate
+    respond_to do |format|
+      format.html { not_found }
+      format.turbo_stream
     end
   end
 

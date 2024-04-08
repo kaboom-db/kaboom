@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "activities", class: "flex flex-col gap-8" do %>
+  <% activities.each do |activity| %>
+    <%= render "shared/activity", activity: %>
+  <% end %>
+<% end %>
+<% if activities.size >= Social::Feed::PER_PAGE %>
+  <div class="flex justify-center my-8">
+    <%= turbo_frame_tag "load_more_link" do %>
+      <%= render "shared/load_more_activities_link", href: activities_load_more_path %>
+    <% end %>
+  </div>
+<% end %>
