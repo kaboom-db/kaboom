@@ -15,6 +15,39 @@ RSpec.describe UserHeroComponent, type: :component do
     expect(page).to have_content "This is my bio!"
   end
 
+  it "renders the following and follower counts" do
+    user = FactoryBot.create(:user, bio: "This is my bio!")
+    render_inline(described_class.new(user:, current_user: nil))
+    expect(page).to have_content "0 followers"
+    expect(page).to have_content "0 following"
+  end
+
+  context "when user has followers" do
+    let(:user) { FactoryBot.create(:user) }
+
+    before do
+      FactoryBot.create(:follow, target: user, follower: FactoryBot.create(:user))
+    end
+
+    it "renders the followers count" do
+      render_inline(described_class.new(user:, current_user: nil))
+      expect(page).to have_content "1 follower"
+    end
+  end
+
+  context "when user follows other people" do
+    let(:user) { FactoryBot.create(:user) }
+
+    before do
+      FactoryBot.create(:follow, target: FactoryBot.create(:user), follower: user)
+    end
+
+    it "renders the followers count" do
+      render_inline(described_class.new(user:, current_user: nil))
+      expect(page).to have_content "1 following"
+    end
+  end
+
   context "when a possessive is specified" do
     it "adds the possessive to the title" do
       user = FactoryBot.create(:user, username: "HelloThereKenobi")

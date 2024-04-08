@@ -8,7 +8,11 @@
         </span>
       </span>
       <div class="text-2xl sm:text-4xl font-bold text-center text-gray-800 dark:text-gray-200">
-        <%= link_to @user, {}, {class: "decoration-dotted underline", data: {turbo: false}} %><% if @possessive.present? %>'s <%= @possessive %><% end %>
+        <span class="text-primary"><%= link_to @user, {}, {class: "decoration-dotted underline", data: {turbo: false}} %><% if @possessive.present? %>'s<span> <%= @possessive %><% end %>
+      </div>
+      <div class="flex justify-around max-w-[500px] w-full">
+        <p><b><%= @user.followers.count %></b> <%= "follower".pluralize(@user.followers.count) %></p>
+        <p><b><%= @user.following.count %></b> following</p>
       </div>
       <% if should_show_extra_info? %>
         <% if @user.bio.present? %>
