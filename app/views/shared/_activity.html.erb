@@ -10,7 +10,7 @@
     <% end %>
     <div class="flex flex-col gap-2 justify-between">
       <p><%= activity.content %></p>
-      <small><%= activity.timestamp %></small>
+      <small data-controller="local-time" data-local-time-utc-value="<%= activity.timestamp %>"><%= activity.timestamp %></small>
     </div>
   </div>
 <% end %>
