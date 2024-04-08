@@ -31,4 +31,10 @@ RSpec.describe Follow, type: :model do
       end
     end
   end
+
+  describe "#social_class" do
+    it "returns FollowedActivity" do
+      expect(Follow.new.social_class).to eq Social::FollowedActivity
+    end
+  end
 end

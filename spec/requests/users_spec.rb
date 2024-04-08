@@ -30,6 +30,12 @@ RSpec.describe "Users", type: :request do
     let(:private) { false }
     let(:path) { user_path(user) }
 
+    before do
+      target = FactoryBot.create(:user, username: "TestUser")
+      FactoryBot.create(:follow, target:, follower: user)
+      FactoryBot.create(:read_issue, user: target)
+    end
+
     context "when user is not confirmed" do
       let(:confirmed_at) { nil }
 
@@ -88,6 +94,13 @@ RSpec.describe "Users", type: :request do
       end
 
       it_behaves_like "a private user"
+
+      it "renders the user activity" do
+        get path
+        assert_select "#activities"
+        expect(response.body).not_to include("TestUser read Issue") # Assert that we are showing the users activity, not all activities
+        expect(response.body).to include("Obi1 started following TestUser")
+      end
     end
   end
 
@@ -374,6 +387,46 @@ RSpec.describe "Users", type: :request do
         post unfollow_user_path(user)
         expect(response).to redirect_to user_path(user)
         expect(flash[:alert]).to eq "Could not unfollow #{user}."
+      end
+    end
+  end
+
+  describe "GET /load_more_activities" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Anakin") }
+
+    context "when format is html" do
+      it "renders 404" do
+        get load_more_activities_user_path(user)
+        expect(response.status).to eq 404
+      end
+    end
+
+    context "when format is turbo_stream" do
+      before do
+        stub_const("Social::Feed::PER_PAGE", 1)
+      end
+
+      context "when the number of activities is less than the per page specified by Feed" do
+        it "renders the turbo stream to update the activities list and to remove the load more link" do
+          get load_more_activities_user_path(user, format: "turbo_stream")
+          assert_select "turbo-stream[action='append'][target='activities']"
+          assert_select "turbo-stream[action='remove'][target='load_more_link']"
+        end
+      end
+
+      context "when the number of activities is greater than or equal to the per page specified" do
+        before do
+          target = FactoryBot.create(:user, username: "Obi-Wan")
+          FactoryBot.create(:follow, target:, follower: user) # Create follow activity
+        end
+
+        it "renders the turbo stream to update the activities list and the load more link" do
+          get load_more_activities_user_path(user, format: "turbo_stream")
+          assert_select "turbo-stream[action='append'][target='activities']"
+          assert_select "p", text: "Anakin started following Obi-Wan"
+          assert_select "turbo-stream[action='update'][target='load_more_link']"
+          assert_select "a[href='#{load_more_activities_user_path(user, page: 2)}']"
+        end
       end
     end
   end

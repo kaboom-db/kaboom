@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     @wishlisted = @user.wishlisted_comics.limit(4)
 
     @page = 1
-    @activities = Social::Feed.new(activities_by: @user, page: @page).generate
+    @activities = get_activities
   end
 
   def edit
@@ -101,7 +101,7 @@ class UsersController < ApplicationController
 
   def load_more_activities
     @page = (params[:page] || 1).to_i
-    @activities = Social::Feed.new(activities_by: @user, page: @page).generate
+    @activities = get_activities
     respond_to do |format|
       format.html { not_found }
       format.turbo_stream
@@ -109,6 +109,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def get_activities
+    Social::Feed.new(activities_by: @user, page: @page).generate
+  end
 
   def user_params
     params.require(:user).permit(:bio, :private, :show_nsfw, :allow_email_notifications)

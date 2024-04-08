@@ -1,0 +1,63 @@
+# frozen_string_literal: true
+
+require "rails_helper"
+
+module Social
+  RSpec.describe CollectedActivity do
+    include Rails.application.routes.url_helpers
+
+    let(:user) { FactoryBot.create(:user, username: "BobMan") }
+    let(:comic) { FactoryBot.create(:comic, name: "Amazing Comic") }
+    let(:issue) { FactoryBot.create(:issue, comic:, issue_number: "1", name: "Amazing Issue", image: "/path/to/image.jpg") }
+    let(:record) { CollectedIssue.new(user:, issue:, collected_on: Date.new(2024, 1, 1)) }
+    let(:activity) { CollectedActivity.new(record:) }
+
+    describe "#content" do
+      subject { activity.content }
+
+      it "returns the content of the activity" do
+        expect(subject).to eq "BobMan collected Issue #1 of Amazing Comic (Amazing Issue)"
+      end
+    end
+
+    describe "#link" do
+      subject { activity.link }
+
+      it "returns the link to the issue" do
+        expect(subject).to eq comic_issue_path(issue, comic_id: comic)
+      end
+    end
+
+    describe "#timestamp" do
+      subject { activity.timestamp }
+
+      it "returns the date of collection at noon" do
+        expect(subject).to eq DateTime.new(2024, 1, 1, 12)
+      end
+    end
+
+    describe "#image" do
+      subject { activity.image }
+
+      it "returns the issue's image" do
+        expect(subject).to eq "/path/to/image.jpg"
+      end
+    end
+
+    describe "#type" do
+      subject { activity.type }
+
+      it "returns the class of the activity as a string" do
+        expect(subject).to eq "Social::CollectedActivity"
+      end
+    end
+
+    describe "#user" do
+      subject { activity.user }
+
+      it "returns the record's user" do
+        expect(subject).to eq user
+      end
+    end
+  end
+end
