@@ -4,7 +4,7 @@
       <div class="h-16 min-h-16 w-16 min-w-16 overflow-hidden rounded-2xl border-2 border-black relative">
         <img src="<%= activity.image %>" class="w-full">
         <% if activity.link %>
-          <a href="<%= activity.link %>" class="absolute w-full h-full top-0 left-0"></a>
+          <a href="<%= activity.link %>" class="absolute w-full h-full top-0 left-0" data-turbo="false"></a>
         <% end %>
       </div>
     <% end %>
