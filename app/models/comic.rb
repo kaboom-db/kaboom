@@ -45,6 +45,9 @@ class Comic < ApplicationRecord
   def import_issues
     results = ComicVine::VolumeIssues.new(volume_id: cv_id, count_of_issues:).retrieve
     failed = []
+    if results.size > count_of_issues
+      update(count_of_issues: results.size)
+    end
     results.each.with_index(1) do |r, index|
       issue = issues.find_or_initialize_by(cv_id: r[:id])
       success = issue.update(

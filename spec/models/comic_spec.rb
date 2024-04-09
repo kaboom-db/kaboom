@@ -371,6 +371,26 @@ RSpec.describe Comic, type: :model do
           comic.import_issues
         end
       end
+
+      context "when the number of issues returned is greater than the count_of_issues" do
+        include_context "stub ComicVine API request" do
+          let(:options) {
+            {
+              field_list: "aliases,api_detail_url,cover_date,date_last_updated,deck,description,id,image,issue_number,name,site_detail_url,store_date,volume",
+              filter: "volume:63559",
+              offset: 0
+            }
+          }
+          let(:endpoint) { "issues/" }
+          let(:response) { {status: 200, body: {results:}.to_json} }
+        end
+
+        it "updates the comics count of issues" do
+          expect(comic.count_of_issues).to eq 1
+          comic.import_issues
+          expect(comic.count_of_issues).to eq 2
+        end
+      end
     end
 
     describe "#sync" do
