@@ -3,12 +3,12 @@ function sendMessage (message: string, color: string, icon: string): void {
   if (notifContainer === null) return
 
   const outerDiv = document.createElement('div')
-  outerDiv.classList.add('z-10', 'px-6', 'py-4', 'bg-white', 'rounded-lg', 'border-[6px]', 'flex', 'gap-4', 'items-center', 'animate-fadeIn')
+  outerDiv.classList.add('px-6', 'py-4', 'backdrop-blur', 'rounded-4xl', 'border-[6px]', 'flex', 'gap-4', 'items-center', 'animate-fadeIn')
   outerDiv.style.borderColor = color
+  outerDiv.style.backgroundColor = addAlpha(color, 0.5)
 
   const iconElm = document.createElement('i')
   iconElm.classList.add('fa-solid', icon)
-  iconElm.style.color = color
   outerDiv.appendChild(iconElm)
 
   const messageElm = document.createElement('p')
@@ -22,6 +22,12 @@ function sendMessage (message: string, color: string, icon: string): void {
     outerDiv.classList.add('animate-fadeOut')
     setTimeout(() => outerDiv.remove(), 500)
   }, 6000)
+}
+
+function addAlpha(color: string, opacity: number) {
+  // coerce values so it is between 0 and 1.
+  var _opacity = Math.round(Math.min(Math.max(opacity ?? 1, 0), 1) * 255);
+  return color + _opacity.toString(16).toUpperCase();
 }
 
 export { sendMessage }
