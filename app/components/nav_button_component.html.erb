@@ -2,7 +2,7 @@
 <% button_size = @mobile ? "min-w-[3rem] h-12 w-12" : "h-16 w-16" %>
 <% text_size = @mobile ? "text-sm" : "text-xl" %>
 
-<%= link_to @href, class: "mx-auto", data: { turbo_method: @method } do %>
+<%= link_to @href, class: "mx-auto", data: {turbo_method: @method} do %>
   <div class="flex items-center justify-center rounded-full border-black <%= button_size %> <%= classes %>">
     <i class="<%= text_size %> fa-solid fa-<%= @icon %>"></i>
   </div>

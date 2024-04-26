@@ -15,11 +15,11 @@
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           <% @search_results.each do |comic| %>
             <%= render ResourceTileComponent.new(
-              resource: comic,
-              resource_path: comic_path(comic),
-              wishlisted: current_user&.wishlisted_comics&.include?(comic),
-              favourited: current_user&.favourited_comics&.include?(comic)
-            ) %>
+                  resource: comic,
+                  resource_path: comic_path(comic),
+                  wishlisted: current_user&.wishlisted_comics&.include?(comic),
+                  favourited: current_user&.favourited_comics&.include?(comic)
+                ) %>
           <% end %>
         </div>
         <small class="font-bold">Can't find the comic you're looking for? <button onclick="importComic.showModal();" class="text-hint underline">Import it.</button></small>
@@ -64,11 +64,11 @@
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
       <% @recently_updated.each do |comic| %>
         <%= render ResourceTileComponent.new(
-          resource: comic,
-          resource_path: comic_path(comic),
-          wishlisted: current_user&.wishlisted_comics&.include?(comic),
-          favourited: current_user&.favourited_comics&.include?(comic)
-        ) %>
+              resource: comic,
+              resource_path: comic_path(comic),
+              wishlisted: current_user&.wishlisted_comics&.include?(comic),
+              favourited: current_user&.favourited_comics&.include?(comic)
+            ) %>
       <% end %>
     </div>
   </div>
@@ -108,13 +108,13 @@
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
       <% @recently_updated_issues.each do |issue| %>
         <%= render ResourceTileComponent.new(
-          resource: issue,
-          resource_path: comic_issue_path(issue, comic_id: issue.comic.id),
-          read: current_user&.issues_read&.include?(issue),
-          collected: current_user&.collection&.include?(issue),
-          wishlisted: current_user&.wishlisted_issues&.include?(issue),
-          favourited: current_user&.favourited_issues&.include?(issue)
-        ) %>
+              resource: issue,
+              resource_path: comic_issue_path(issue, comic_id: issue.comic.id),
+              read: current_user&.issues_read&.include?(issue),
+              collected: current_user&.collection&.include?(issue),
+              wishlisted: current_user&.wishlisted_issues&.include?(issue),
+              favourited: current_user&.favourited_issues&.include?(issue)
+            ) %>
       <% end %>
     </div>
   </div>
@@ -132,4 +132,3 @@
     </div>
   <% end %>
 <% end %>
-

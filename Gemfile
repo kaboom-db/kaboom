@@ -115,6 +115,9 @@ group :development do
   gem "capistrano-rails", "~> 1.6", require: false
   gem "capistrano-rvm", git: "https://github.com/capistrano/rvm.git"
   gem "capistrano3-puma", "~> 5.2"
+
+  # Lint ERB files
+  gem "erb_lint", require: false
 end
 
 group :test do

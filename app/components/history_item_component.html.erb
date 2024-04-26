@@ -12,7 +12,7 @@
           <p class="font-bold"><%= @issue.name %></p>
           <small>
             Read at:
-            <span class="font-bold" data-controller="local-time" data-local-time-utc-value="<%= @read_issue.read_at %>"><%= @read_issue.read_at.strftime('%-d %b %H:%M') %></span>
+            <span class="font-bold" data-controller="local-time" data-local-time-utc-value="<%= @read_issue.read_at %>"><%= @read_issue.read_at.strftime("%-d %b %H:%M") %></span>
           </small>
         <% end %>
       </div>
@@ -20,7 +20,7 @@
         <i class="fa-solid fa-circle-xmark text-xl cursor-pointer" data-action="click->history-item#trigger"></i>
       </div>
     </div>
-    <dialog data-history-item-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm" >
+    <dialog data-history-item-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
       <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
         <h5 class="text-xl font-bold">Are you sure you want to remove this?</h1>
         <div class="my-4 flex flex-col gap-4">

@@ -64,7 +64,7 @@
   <p class="font-bold">Other issues:</p>
   <div class="flex gap-4 max-w-full overflow-auto my-4 pb-2">
     <% @comic.ordered_issues.each do |issue| %>
-      <% classes = @issue == issue ? "font-bold" : "font-light" %>
+      <% classes = (@issue == issue) ? "font-bold" : "font-light" %>
       <a href="<%= comic_issue_path(issue, comic_id: @comic.id) %>" class="<%= classes %>">
         #<%= issue.formatted_issue_number %>
       </a>

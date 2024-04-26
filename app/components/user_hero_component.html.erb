@@ -20,7 +20,7 @@
         <% end %>
         <% if @last_read_issue.present? %>
           <div class="text-md text-center text-gray-600 dark:text-gray-400">
-            <%= @user.username %> last read <b><%= @last_read_issue.issue.name %></b> of <b><%= @last_read_issue.comic %></b> at <b data-controller="local-time" data-local-time-utc-value="<%= @last_read_issue.read_at %>"><%= @last_read_issue.read_at.strftime('%-d %b %H:%M') %></b>
+            <%= @user.username %> last read <b><%= @last_read_issue.issue.name %></b> of <b><%= @last_read_issue.comic %></b> at <b data-controller="local-time" data-local-time-utc-value="<%= @last_read_issue.read_at %>"><%= @last_read_issue.read_at.strftime("%-d %b %H:%M") %></b>
           </div>
         <% end %>
         <div class="flex gap-4">

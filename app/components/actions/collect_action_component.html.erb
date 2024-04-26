@@ -8,7 +8,7 @@
     <i data-collect-target="icon" class="fa-solid fa-book-open text-auto text-[#47bcea] group-hover:text-white transition duration-300 ease-in-out"></i>
   </button>
 
-  <dialog data-collect-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm" >
+  <dialog data-collect-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
     <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
       <div class="m-4">
         <h5 class="text-xl font-bold">Mark as collected</h1>
@@ -17,7 +17,8 @@
                 data-collect-target="collectedOnInput"
                 class="form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary"
                 required="required"
-                type="date">
+                type="date"
+                autocomplete="off">
           <small data-collect-target="error" class="font-bold text-red-500 hidden">Could not mark as collected.</small>
           <button data-collect-target="collectedOnSubmit" data-action="click->collect#markAsCollected" class="font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out">
             Submit

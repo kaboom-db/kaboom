@@ -41,13 +41,12 @@
           <h2 class="text-2xl font-bold mb-4">First read</h2>
           <img src="<%= first_read_issue.issue.image %>" alt="Comic Cover" width="150" height="200" class="aspect-[3/4] overflow-hidden rounded-lg object-cover">
           <h2 class="text-2xl font-bold mt-4"><%= first_read_issue.issue.name %></h2>
-          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Read at: <b data-controller="local-time" data-local-time-utc-value="<%= first_read_issue.read_at %>"><%= first_read_issue.read_at.strftime('%-d %b %H:%M') %></b></span></div>
+          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Read at: <b data-controller="local-time" data-local-time-utc-value="<%= first_read_issue.read_at %>"><%= first_read_issue.read_at.strftime("%-d %b %H:%M") %></b></span></div>
         <% else %>
           <h2 class="text-2xl font-bold mb-4">No issues read</h2>
         <% end %>
       </div>
     <% end %>
-
 
     <% first_collected_issue = @user.first_collected_issue(year:) %>
     <%= render BorderComponent.new do %>
@@ -56,7 +55,7 @@
           <h2 class="text-2xl font-bold mb-4">First collected</h2>
           <img src="<%= first_collected_issue.issue.image %>" alt="Comic Cover" width="150" height="200" class="aspect-[3/4] overflow-hidden rounded-lg object-cover">
           <h2 class="text-2xl font-bold mt-4"><%= first_collected_issue.issue.name %></h2>
-          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Collected on: <b><%= first_collected_issue.collected_on.strftime('%-d %b %Y') %></b></span></div>
+          <div class="flex items-center gap-2 mt-2"><span class="text-sm text-gray-500">Collected on: <b><%= first_collected_issue.collected_on.strftime("%-d %b %Y") %></b></span></div>
         <% else %>
           <h2 class="text-2xl font-bold mb-4">No issues collected</h2>
         <% end %>
@@ -101,7 +100,7 @@
           <% if index > 0 %>
             <hr class="border-b-2 border-black my-4">
           <% end %>
-          <%= link_to comic  do%>
+          <%= link_to comic  do %>
             <div class="flex flex-nowrap gap-4 items-center">
               <div class="w-16 h-16 min-w-16 rounded-2xl border-2 border-black 2xl bg-no-repeat bg-cover" style="background-image: url(<%= comic.image %>);"></div>
               <div class="w-full grid grid-cols-4 gap-4 justify-between">

@@ -1,6 +1,6 @@
 <%= link_to @resource_path, data: {"turbo-frame": "_top"} do %>
   <div class="group component-border relative rounded-4xl border-2 border-black w-[100%] pb-[100%] h-[0] overflow-hidden">
-    <img src="<%= @resource.image %>" alt="" class="w-full" />
+    <img src="<%= @resource.image %>" alt="" class="w-full">
     <div class="opacity-0 group-hover:opacity-100 absolute h-[35%] w-full px-4 pt-2 text-sm left-0 bottom-0 border-t-2 border-black bg-gray-100 transition duration-300 ease-in-out">
       <b><%= @resource.name %><% if @resource.year.present? %> (<%= @resource.year %>)<% end %></b>
     </div>

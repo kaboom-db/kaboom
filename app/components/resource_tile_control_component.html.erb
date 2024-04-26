@@ -1,11 +1,11 @@
 
 <div class="component-border relative rounded-4xl border-2 border-black w-[100%] pb-[100%] h-[0] overflow-hidden">
   <%= link_to comic_issue_path(@issue, comic_id: @comic.id), data: {"turbo-frame": "_top"} do %>
-    <img src="<%= @issue.image %>" alt="" class="w-full" />
+    <img src="<%= @issue.image %>" alt="" class="w-full">
   <% end %>
   <div class="bg-primary m-2 px-2 py-1 text-xs font-bold rounded-full inline-block absolute top-0 right-0">#<%= @issue.formatted_issue_number %></div>
   <% if @read_at.present? %>
-    <div class="bg-primary m-2 px-2 py-1 text-xs font-bold rounded-full inline-block absolute bottom-10 left-0" data-controller="local-time" data-local-time-utc-value="<%= @read_at %>"><%= @read_at.strftime('%-d %b %H:%M') %></div>
+    <div class="bg-primary m-2 px-2 py-1 text-xs font-bold rounded-full inline-block absolute bottom-10 left-0" data-controller="local-time" data-local-time-utc-value="<%= @read_at %>"><%= @read_at.strftime("%-d %b %H:%M") %></div>
   <% end %>
   <div class="absolute left-0 bottom-0 w-full">
     <%= render Actions::ActionsComponent.new(resource: @issue, user: @user) %>

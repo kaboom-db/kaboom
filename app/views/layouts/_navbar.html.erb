@@ -7,7 +7,7 @@
       <% if user_signed_in? %>
         <%= render NavButtonComponent.new(href: user_path(current_user), icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics") %>
       <% else %>
-        <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join", active: devise_controller? || controller_name == "users" || controller_name == "statistics" ) %>
+        <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join", active: devise_controller? || controller_name == "users" || controller_name == "statistics") %>
       <% end %>
     </div>
     <div class="flex flex-col gap-4">

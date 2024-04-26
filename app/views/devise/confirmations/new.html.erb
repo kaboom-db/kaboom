@@ -2,7 +2,7 @@
 
 <%= render SectionComponent.new do %>
   <p>Enter your email below and we'll resend you the user account confirmation instructions shortly.</p>
-  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: {method: :post}) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div class="flex flex-col gap-4 my-4">

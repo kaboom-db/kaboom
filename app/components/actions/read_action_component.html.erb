@@ -8,7 +8,7 @@
     <i data-read-target="icon" class="fa-solid fa-check text-auto text-[#ff6961] group-hover:text-white transition duration-300 ease-in-out"></i>
   </button>
 
-  <dialog data-read-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm" >
+  <dialog data-read-target="dialog" data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="readDialog" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
     <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
       <div class="m-4">
         <h5 class="text-xl font-bold">Mark as read</h1>
@@ -17,7 +17,8 @@
                 data-read-target="readAtInput"
                 class="form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary"
                 required="required"
-                type="datetime-local">
+                type="datetime-local"
+                autocomplete="off">
           <small data-read-target="error" class="font-bold text-red-500 hidden">Could not mark as read.</small>
           <button data-read-target="readAtSubmit" data-action="click->read#markAsRead" class="font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out">
             Submit
