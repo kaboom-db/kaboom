@@ -47,5 +47,7 @@ jobs:
         run: yarn
       - name: Lint Ruby using Standard
         run: bundle exec standardrb
+      - name: Lint ERB using erb-lint
+        run: bundle exec erblint --cache --lint-all
       - name: Lint Javscript/Typescript using eslint
         run: yarn lint:js
