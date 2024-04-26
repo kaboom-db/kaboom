@@ -24,10 +24,10 @@ function sendMessage (message: string, color: string, icon: string): void {
   }, 6000)
 }
 
-function addAlpha(color: string, opacity: number) {
+function addAlpha (color: string, opacity: number) {
   // coerce values so it is between 0 and 1.
-  var _opacity = Math.round(Math.min(Math.max(opacity ?? 1, 0), 1) * 255);
-  return color + _opacity.toString(16).toUpperCase();
+  const _opacity = Math.round(Math.min(Math.max(opacity ?? 1, 0), 1) * 255)
+  return color + _opacity.toString(16).toUpperCase()
 }
 
 export { sendMessage }
