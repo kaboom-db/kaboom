@@ -6,7 +6,7 @@ RSpec.describe ResourceTileControlComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:user) { FactoryBot.create(:user) }
-  let(:issue) { FactoryBot.create(:issue, issue_number: 1, image: "google.com") }
+  let(:issue) { FactoryBot.create(:issue, name: "Issue 1", issue_number: 1, image: "google.com") }
 
   context "when user exists" do
     before do
@@ -21,8 +21,9 @@ RSpec.describe ResourceTileControlComponent, type: :component do
       expect(page).to have_css "i.fa-heart"
     end
 
-    it "renders a link to the issue" do
+    it "renders a link to the issue and the name" do
       expect(page).to have_css "a[href='#{comic_issue_path(issue, comic_id: issue.comic.id)}']"
+      expect(page).to have_css "b", text: "Issue 1"
     end
 
     it "renders the issue image" do
