@@ -1,5 +1,5 @@
 <div>
-  <%= @form.label @field, class: "font-bold text-lg after:content-[':']" %>
+  <%= @form.label @field, @label_text, class: "font-bold text-lg after:content-[':']" %>
   <% if @multiple %>
     <div class="component-border bg-gray-100 w-full flex rounded-4xl border-2 border-black mt-2">
       <%= @form.collection_select @field, @options, @identifier, :to_s, {}, {multiple: true, class: "rounded-4xl w-full bg-transparent p-4 focus:outline-none no-scrollbar"} %>
