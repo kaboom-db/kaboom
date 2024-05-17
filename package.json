@@ -8,7 +8,7 @@
     "chart.js": "^4.4.2",
     "esbuild": "^0.20.2",
     "esbuild-sass-plugin": "^3.0.0",
-    "nouislider": "^15.7.1",
+    "nouislider": "^15.7.2",
     "postcss": "^8.4.38",
     "stimulus-chartjs": "^5.0.1",
     "swiper": "^11.1.1",
