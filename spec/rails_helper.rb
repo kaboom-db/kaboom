@@ -54,6 +54,15 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  config.before(:each) do |example|
+    # Make it easy to find flaky tests in a full spec run.
+    Rails.logger.debug("")
+    Rails.logger.debug("@@@@@@@@@@@")
+    Rails.logger.debug("@@ RSPEC @@ #{example.full_description}")
+    Rails.logger.debug("@@@@@@@@@@@")
+    Rails.logger.debug("")
+  end
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
