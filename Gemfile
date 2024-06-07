@@ -13,7 +13,7 @@ gem "sprockets-rails"
 gem "pg", "~> 1.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.6"
+gem "puma", ">= 5.0"
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
@@ -111,10 +111,10 @@ group :development do
   # gem "spring"
 
   # Used for deploying
-  gem "capistrano", "~> 3.18", require: false
-  gem "capistrano-rails", "~> 1.6", require: false
-  gem "capistrano-rvm", git: "https://github.com/capistrano/rvm.git"
-  gem "capistrano3-puma", "~> 5.2"
+  gem "capistrano-rails"
+  gem "capistrano-rvm"
+  gem "capistrano3-puma", github: "seuros/capistrano-puma"
+  gem "capistrano-bundler"
 
   # Lint ERB files
   gem "erb_lint", require: false
