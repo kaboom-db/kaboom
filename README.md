@@ -5,8 +5,8 @@ Track your comic book collection. Kaboom is focused on tracking comic books and 
 ### Development
 
 Versions:
-- Ruby 3.1.2
-- Rails 7.0.5
+- Ruby 3.3.1
+- Rails 7.0.8
 
 Requirements:
 - Redis 6.2+
