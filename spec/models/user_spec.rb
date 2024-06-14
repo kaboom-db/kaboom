@@ -34,10 +34,26 @@ RSpec.describe User, type: :model do
   end
 
   describe "#avatar" do
-    let(:user) { FactoryBot.create(:user, :confirmed, email: "hello@there.obi") }
+    let(:user) { FactoryBot.build(:user, :confirmed, email: "hello@there.obi") }
 
     it "gets the avatar for the user from Gravatar" do
       expect(user.avatar).to eq "https://www.gravatar.com/avatar/898e4fc667e28813fe2ba58a7cec6286?d=retro"
+    end
+  end
+
+  describe "#image" do
+    let(:user) { FactoryBot.build(:user, :confirmed, email: "hello@there.obi") }
+
+    it "returns the avatar" do
+      expect(user.image).to eq "https://www.gravatar.com/avatar/898e4fc667e28813fe2ba58a7cec6286?d=retro"
+    end
+  end
+
+  describe "#name" do
+    let(:user) { FactoryBot.build(:user, :confirmed, username: "obi1") }
+
+    it "returns the username" do
+      expect(user.name).to eq "obi1"
     end
   end
 
@@ -300,6 +316,23 @@ RSpec.describe User, type: :model do
 
     it "returns the users completed comics" do
       expect(user.incompleted_comics.to_a).to eq [@comic3, @comic1]
+    end
+  end
+
+  describe ".search" do
+    it "searches by user" do
+      user_1 = FactoryBot.create(:user, username: "obi1")
+      FactoryBot.create(:user, username: "anak1n")
+      results = User.search(query: "obi")
+      expect(results).to eq [user_1]
+    end
+
+    context "when query contains capital letters" do
+      it "converts it to downcase" do
+        user = FactoryBot.create(:user, username: "obi1")
+        results = User.search(query: "Obi1")
+        expect(results).to eq [user]
+      end
     end
   end
 end

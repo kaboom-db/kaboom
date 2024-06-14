@@ -2,13 +2,13 @@
 
 <form action="<%= comics_path %>" method="get" data-turbo-frame="search">
   <div class="component-border bg-gray-100 w-full flex rounded-full border-2 border-black">
-    <input placeholder="Search" class="rounded-full w-full bg-transparent p-4 focus:outline-none" required="required" type="input" name="search" id="searchField">
+    <input placeholder="Search" class="rounded-full w-full bg-transparent p-4 focus:outline-none" required="required" type="input" name="search" id="searchField" value="<%= @search %>">
     <button type="submit" class="p-4"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
 </form>
 
-<%= render SectionComponent.new do %>
-  <%= turbo_frame_tag "search" do %>
+<%= turbo_frame_tag "search" do %>
+  <%= render SectionComponent.new do %>
     <% if @search.present? %>
       <div class="mb-8 search">
         <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
@@ -22,8 +22,21 @@
                 ) %>
           <% end %>
         </div>
-        <small class="font-bold">Can't find the comic you're looking for? <button onclick="importComic.showModal();" class="text-hint underline">Import it.</button></small>
+        <small class="font-bold">Can't find the comic you're looking for? Use our <%= link_to "global search", search_index_path(search: @search), class: "text-hint underline", data: {turbo: false} %> or <button onclick="importComic.showModal();" class="text-hint underline">import it.</button></small>
       </div>
+    <% end %>
+  <% end %>
+
+  <%= render SectionComponent.new do %>
+    <%= link_to search_index_path(search: @search), data: {turbo: false} do %>
+      <%= render BorderComponent.new do %>
+        <div class="absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-sm z-10"></div>
+        <%= image_tag "doodles.jpg", class: "absolute left-0 top-0 w-full h-full md:h-auto" %>
+        <div class="z-10 text-center relative p-12">
+          <h2 class="text-xl font-bold text-white uppercase tracking-widest mb-12">Global Search</h2>
+          <p class="text-white">Want more search results? Or maybe you want to find your fellow comic book friends? You can use our global search to search across both comics and users!</p>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

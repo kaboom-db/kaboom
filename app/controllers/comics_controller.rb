@@ -7,10 +7,9 @@ class ComicsController < ApplicationController
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
 
-    @header = "📚 Comics"
     if params[:search]
       @search = params[:search]
-      @search_results = Comic.search(query: @search, nsfw: current_user&.show_nsfw?)
+      @search_results = Comic.search(query: @search, nsfw: current_user&.show_nsfw?).limit(6)
     end
     @recently_updated = Comic.safe_for_work.order(updated_at: :desc).limit(6)
     @trending = Comic.trending.limit(5)

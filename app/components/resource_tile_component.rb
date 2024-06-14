@@ -8,5 +8,6 @@ class ResourceTileComponent < ViewComponent::Base
     @collected = collected
     @wishlisted = wishlisted
     @favourited = favourited
+    @year = resource.respond_to?(:year) ? resource.year : nil
   end
 end

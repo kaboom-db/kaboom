@@ -43,6 +43,11 @@ RSpec.describe "/comics", type: :request do
       end
     end
 
+    it "renders a link to global search with the search param" do
+      get comics_path(search: "HEY")
+      assert_select "a[href='#{search_index_path(search: "HEY")}']"
+    end
+
     context "when there is no search query" do
       it "does not show any search results" do
         get comics_path(search: "")
@@ -56,6 +61,17 @@ RSpec.describe "/comics", type: :request do
     end
 
     context "when there is a search query" do
+      it "limits results to 6" do
+        FactoryBot.create(:comic, name: "Test Comic The Sequel")
+        FactoryBot.create(:comic, name: "Test Comic The Sequels' Sequel")
+        FactoryBot.create(:comic, name: "Test Comic The Sequels' Sequels' Sequel")
+        FactoryBot.create(:comic, name: "Test Comic The Sequels' Sequels' Sequels' Sequel")
+        get comics_path(search: "comic")
+        assert_select "#search" do
+          assert_select "b", count: 6
+        end
+      end
+
       context "when the user has nsfw enabled" do
         before { sign_in FactoryBot.create(:user, :confirmed, show_nsfw: true) }
 

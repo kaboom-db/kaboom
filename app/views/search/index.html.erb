@@ -1,0 +1,46 @@
+<%= render PageTitleComponent.new(text: "Global Search") %>
+
+<%= render SectionComponent.new do %>
+  <p>Search our database for a wide range of comics, or find your comic book friends!</p>
+<% end %>
+
+<form action="<%= search_index_path %>" method="get" data-turbo-frame="search">
+  <div class="component-border bg-gray-100 w-full flex rounded-full border-2 border-black">
+    <input placeholder="Search" class="rounded-full w-full bg-transparent p-4 focus:outline-none" required="required" type="input" name="search" id="searchField" value="<%= @search %>">
+    <button type="submit" class="p-4"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+</form>
+
+<%= turbo_frame_tag "search" do %>
+  <% if @search.present? %>
+    <% if @comics.any? %>
+      <%= render SectionComponent.new do %>
+        <%= render ChipHeaderComponent.new(text: "Comics") %>
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
+          <% @comics.each do |comic| %>
+            <%= render ResourceTileComponent.new(
+                  resource: comic,
+                  resource_path: comic_path(comic),
+                  wishlisted: current_user&.wishlisted_comics&.include?(comic),
+                  favourited: current_user&.favourited_comics&.include?(comic)
+                ) %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if @users.any? %>
+      <%= render SectionComponent.new do %>
+        <%= render ChipHeaderComponent.new(text: "Users") %>
+        <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
+          <% @users.each do |user| %>
+            <%= render ResourceTileComponent.new(
+                  resource: user,
+                  resource_path: user_path(user)
+                ) %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

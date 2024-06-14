@@ -36,6 +36,12 @@ class User < ApplicationRecord
     Gravatar::Image.new(email:).get
   end
 
+  # For duck typing
+  def image = avatar
+
+  # For duck typing
+  def name = username
+
   def to_param
     username
   end
@@ -99,5 +105,12 @@ class User < ApplicationRecord
       .group("comics.id")
       .having("COUNT(DISTINCT issues.id) < comics.count_of_issues")
       .order("last_read_at DESC")
+  end
+
+  def self.search(query:)
+    words = query.downcase.split(" ")
+    results = User
+    words.each { |word| results = results.where(["lower(username) LIKE ? ", "%#{word}%"]) }
+    results
   end
 end

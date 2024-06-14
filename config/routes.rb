@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get "privacy_policy" => "pages#privacy"
   get "sitemap" => "pages#sitemap", :as => "sitemap", :format => "xml"
 
+  resources :search, only: [:index]
+
   resources :comics, only: [:index, :show, :edit, :update] do
     resources :issues, only: [:index, :show, :edit, :update] do
       member do
