@@ -2,7 +2,14 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist follow unfollow load_more_activities]
   before_action :authorise_user, only: %i[edit update]
   before_action :user_required, only: %i[follow unfollow]
-  before_action :check_private, except: %i[edit update]
+  before_action :check_private, except: %i[index edit update]
+
+  def index
+    if params[:search]
+      @search = params[:search]
+      @search_results = User.search(query: @search)
+    end
+  end
 
   def show
     set_metadata(title: "#{@user}'s Profile", description: "#{@user} is tracking their favourite comics on Kaboom. Check out their profile!")

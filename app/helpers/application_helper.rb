@@ -1,7 +1,8 @@
 module ApplicationHelper
   SIDEBAR_CONTROLLERS = [
     "dashboard",
-    "comics"
+    "comics",
+    "users"
   ]
 
   def strip_description(description:)

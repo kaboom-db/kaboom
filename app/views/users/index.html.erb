@@ -1,0 +1,23 @@
+<%= render PageTitleComponent.new(text: "Users") %>
+
+<form action="<%= users_path %>" method="get" data-turbo-frame="search">
+  <div class="component-border bg-gray-100 w-full flex rounded-full border-2 border-black">
+    <input placeholder="Search" class="rounded-full w-full bg-transparent p-4 focus:outline-none" required="required" type="input" name="search" id="searchField">
+    <button type="submit" class="p-4"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+</form>
+
+<%= render SectionComponent.new do %>
+  <%= turbo_frame_tag "search" do %>
+    <% if @search.present? %>
+      <div class="mb-8 search">
+        <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+          <% @search_results.each do |user| %>
+            <%= render ResourceTileComponent.new(resource: user, resource_path: user_path(user)) %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -100,4 +100,16 @@ class User < ApplicationRecord
       .having("COUNT(DISTINCT issues.id) < comics.count_of_issues")
       .order("last_read_at DESC")
   end
+
+  # Duck typing
+  def image = avatar
+
+  def name = username
+
+  def self.search(query:)
+    words = query.downcase.split(" ")
+    results = User
+    words.each { |word| results = results.where(["lower(username) LIKE ?", "%#{word}%"]) }
+    results
+  end
 end
