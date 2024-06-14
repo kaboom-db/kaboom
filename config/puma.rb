@@ -16,8 +16,6 @@ if ENV["RAILS_ENV"] == "production"
   require "concurrent-ruby"
   worker_count = Integer(ENV.fetch("WEB_CONCURRENCY") { Concurrent.physical_processor_count })
   workers worker_count if worker_count > 1
-
-  bind "unix://#{shared_dir}/tmp/sockets/puma.sock"
 end
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
