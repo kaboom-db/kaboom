@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_06_160717) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_14_193650) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -160,6 +160,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_160717) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "visit_buckets", force: :cascade do |t|
+    t.string "period", null: false
+    t.integer "period_start", null: false
+    t.integer "period_end", null: false
+    t.bigint "user_id"
+    t.string "visited_type", null: false
+    t.bigint "visited_id", null: false
+    t.integer "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "visited_type", "visited_id", "period", "period_start", "period_end"], name: "index_visit_buckets_on_unique_combination", unique: true
+    t.index ["user_id"], name: "index_visit_buckets_on_user_id"
+  end
+
   create_table "visits", force: :cascade do |t|
     t.bigint "user_id"
     t.string "visited_type", null: false
@@ -188,6 +202,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_160717) do
   add_foreign_key "issues", "currencies"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
+  add_foreign_key "visit_buckets", "users"
   add_foreign_key "visits", "users"
   add_foreign_key "wishlist_items", "users"
 end

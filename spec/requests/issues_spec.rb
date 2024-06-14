@@ -23,7 +23,7 @@ RSpec.describe "/issues", type: :request do
       it "does not add a visit to the comic" do
         issue = FactoryBot.create(:issue)
         get comic_issue_path(issue, comic_id: issue.comic.id), headers: {"User-Agent" => "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"}
-        expect(Visit.count).to eq 0
+        expect(VisitBucket.count).to eq 0
       end
     end
 
@@ -31,9 +31,27 @@ RSpec.describe "/issues", type: :request do
       it "adds a visit to the issue" do
         issue = FactoryBot.create(:issue)
         get comic_issue_path(issue, comic_id: issue.comic.id)
-        visit = Visit.last
-        expect(visit.user).to be_nil
-        expect(visit.visited).to eq issue
+        expect(VisitBucket.count).to eq 3
+        day = VisitBucket.find_by(period: VisitBucket::DAY)
+        expect(day.user).to be_nil
+        expect(day.visited).to eq issue
+        expect(day.period_start).to eq DateTime.current.beginning_of_day.to_i
+        expect(day.period_end).to eq DateTime.current.end_of_day.to_i
+        expect(day.count).to eq 1
+
+        month = VisitBucket.find_by(period: VisitBucket::MONTH)
+        expect(month.user).to be_nil
+        expect(month.visited).to eq issue
+        expect(month.period_start).to eq DateTime.current.beginning_of_month.to_i
+        expect(month.period_end).to eq DateTime.current.end_of_month.to_i
+        expect(month.count).to eq 1
+
+        year = VisitBucket.find_by(period: VisitBucket::YEAR)
+        expect(year.user).to be_nil
+        expect(year.visited).to eq issue
+        expect(year.period_start).to eq DateTime.current.beginning_of_year.to_i
+        expect(year.period_end).to eq DateTime.current.end_of_year.to_i
+        expect(year.count).to eq 1
       end
     end
 
@@ -44,19 +62,102 @@ RSpec.describe "/issues", type: :request do
         sign_in user
 
         @issue = FactoryBot.create(:issue)
+      end
+
+      def perform
         get comic_issue_path(@issue, comic_id: @issue.comic.id)
       end
 
       it "adds a visit to the issue" do
-        visit = Visit.last
-        expect(visit.user).to eq user
-        expect(visit.visited).to eq @issue
+        perform
+        day = VisitBucket.find_by(period: VisitBucket::DAY)
+        expect(day.user).to eq user
+        expect(day.visited).to eq @issue
+        expect(day.period_start).to eq DateTime.current.beginning_of_day.to_i
+        expect(day.period_end).to eq DateTime.current.end_of_day.to_i
+        expect(day.count).to eq 1
+
+        month = VisitBucket.find_by(period: VisitBucket::MONTH)
+        expect(month.user).to eq user
+        expect(month.visited).to eq @issue
+        expect(month.period_start).to eq DateTime.current.beginning_of_month.to_i
+        expect(month.period_end).to eq DateTime.current.end_of_month.to_i
+        expect(month.count).to eq 1
+
+        year = VisitBucket.find_by(period: VisitBucket::YEAR)
+        expect(year.user).to eq user
+        expect(year.visited).to eq @issue
+        expect(year.period_start).to eq DateTime.current.beginning_of_year.to_i
+        expect(year.period_end).to eq DateTime.current.end_of_year.to_i
+        expect(year.count).to eq 1
       end
 
       context "when user visited page less than 5 mins ago" do
         it "only adds one visit" do
+          perform
           get comic_issue_path(@issue, comic_id: @issue.comic.id) # Visiting the issue page again
-          expect(@issue.visits.count).to eq 1
+          expect(@issue.visit_buckets.count).to eq 3
+          day = @issue.visit_buckets.find_by(period: VisitBucket::DAY)
+          expect(day.user).to eq user
+          expect(day.visited).to eq @issue
+          expect(day.period_start).to eq DateTime.current.beginning_of_day.to_i
+          expect(day.period_end).to eq DateTime.current.end_of_day.to_i
+          expect(day.count).to eq 1
+
+          month = @issue.visit_buckets.find_by(period: VisitBucket::MONTH)
+          expect(month.user).to eq user
+          expect(month.visited).to eq @issue
+          expect(month.period_start).to eq DateTime.current.beginning_of_month.to_i
+          expect(month.period_end).to eq DateTime.current.end_of_month.to_i
+          expect(month.count).to eq 1
+
+          year = @issue.visit_buckets.find_by(period: VisitBucket::YEAR)
+          expect(year.user).to eq user
+          expect(year.visited).to eq @issue
+          expect(year.period_start).to eq DateTime.current.beginning_of_year.to_i
+          expect(year.period_end).to eq DateTime.current.end_of_year.to_i
+          expect(year.count).to eq 1
+        end
+      end
+
+      context "when user has already visited the issue" do
+        it "appends to the existing buckets" do
+          day = FactoryBot.create(
+            :visit_bucket,
+            period: VisitBucket::DAY,
+            period_start: DateTime.current.beginning_of_day.to_i,
+            period_end: DateTime.current.end_of_day.to_i,
+            visited: @issue,
+            count: 1,
+            updated_at: 301.seconds.ago,
+            user:
+          )
+          month = FactoryBot.create(
+            :visit_bucket,
+            period: VisitBucket::MONTH,
+            period_start: DateTime.current.beginning_of_month.to_i,
+            period_end: DateTime.current.end_of_month.to_i,
+            visited: @issue,
+            count: 1,
+            updated_at: 301.seconds.ago,
+            user:
+          )
+          year = FactoryBot.create(
+            :visit_bucket,
+            period: VisitBucket::YEAR,
+            period_start: DateTime.current.beginning_of_year.to_i,
+            period_end: DateTime.current.end_of_year.to_i,
+            visited: @issue,
+            count: 1,
+            updated_at: 301.seconds.ago,
+            user:
+          )
+          year.save
+          perform
+          expect(VisitBucket.count).to eq 3
+          expect(day.reload.count).to eq 2
+          expect(month.reload.count).to eq 2
+          expect(year.reload.count).to eq 2
         end
       end
     end

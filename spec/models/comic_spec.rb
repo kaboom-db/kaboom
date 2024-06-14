@@ -6,6 +6,7 @@ RSpec.describe Comic, type: :model do
     it { should have_many(:ordered_issues).class_name("Issue") }
     it { should have_many(:read_issues).through(:issues) }
     it { should have_many(:visits).dependent(:delete_all) }
+    it { should have_many(:visit_buckets).dependent(:delete_all) }
     it { should belong_to(:country).optional }
     it { should have_and_belong_to_many(:genres) }
   end
@@ -480,30 +481,51 @@ RSpec.describe Comic, type: :model do
         end
       end
     end
+  end
 
-    describe "#year" do
-      it "returns the start year of the comic" do
-        comic = FactoryBot.build(:comic, start_year: 2013)
-        expect(comic.year).to eq 2013
-      end
+  describe "#year" do
+    it "returns the start year of the comic" do
+      comic = FactoryBot.build(:comic, start_year: 2013)
+      expect(comic.year).to eq 2013
+    end
+  end
+
+  describe ".trending_for" do
+    it "only returns the trending comics for a specific genre" do
+      genre = FactoryBot.create(:genre)
+      comic1 = FactoryBot.create(:comic)
+      FactoryBot.create(
+        :visit_bucket,
+        period: VisitBucket::DAY,
+        period_start: DateTime.current.beginning_of_day,
+        period_end: DateTime.current.end_of_day,
+        visited: comic1,
+        count: 1
+      )
+      comic2 = FactoryBot.create(:comic, genres: [genre])
+      FactoryBot.create(
+        :visit_bucket,
+        period: VisitBucket::DAY,
+        period_start: DateTime.current.beginning_of_day,
+        period_end: DateTime.current.end_of_day,
+        visited: comic2,
+        count: 1
+      )
+      expect(Comic.trending_for(genre)).to eq [comic2]
     end
 
-    describe ".trending_for" do
-      it "only returns the trending comics for a specific genre" do
-        genre = FactoryBot.create(:genre)
-        comic1 = FactoryBot.create(:comic)
-        FactoryBot.create(:visit, visited: comic1)
-        comic2 = FactoryBot.create(:comic, genres: [genre])
-        FactoryBot.create(:visit, visited: comic2)
-        expect(Comic.trending_for(genre)).to eq [comic2]
-      end
-
-      it "returns an empty relation when there are no trending comics for the genre" do
-        comic = FactoryBot.create(:comic)
-        FactoryBot.create(:visit, visited: comic)
-        genre = FactoryBot.create(:genre)
-        expect(Comic.trending_for(genre)).to eq []
-      end
+    it "returns an empty relation when there are no trending comics for the genre" do
+      comic = FactoryBot.create(:comic)
+      FactoryBot.create(
+        :visit_bucket,
+        period: VisitBucket::DAY,
+        period_start: DateTime.current.beginning_of_day,
+        period_end: DateTime.current.end_of_day,
+        visited: comic,
+        count: 1
+      )
+      genre = FactoryBot.create(:genre)
+      expect(Comic.trending_for(genre)).to eq []
     end
   end
 end

@@ -2,14 +2,15 @@ class SiteStatisticsController < ApplicationController
   def index
     set_metadata(title: "Site Statistics", description: "Kaboom as a platform is growing every day with new features, comics and users. Check out how the site is performing!")
 
-    site_visits = build_stats_hash(
-      title: "Site visits",
-      resource: Visit,
-      num_of_elms: 30,
-      type: Charts::Constants::LINE,
-      range_type: Charts::FrequencyChartGenerator::DAY,
-      rgb: Charts::Constants::VISIT
-    )
+    site_activity = {
+      title: "Site activity",
+      stats: Charts::ResourceTrendChart.new(
+        resource: Struct.new(:visit_buckets, :read_issues).new(VisitBucket, ReadIssue),
+        num_of_elms: 30,
+        type: Charts::Constants::LINE,
+        range_type: Charts::FrequencyChartGenerator::DAY
+      ).generate
+    }
 
     accounts_created = build_stats_hash(
       title: "Accounts created",
@@ -39,7 +40,7 @@ class SiteStatisticsController < ApplicationController
     )
 
     @charts = [
-      site_visits,
+      site_activity,
       accounts_created,
       comics_imported,
       issues_imported

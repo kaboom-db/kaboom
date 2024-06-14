@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :collection, through: :collected_issues, source: :issue
 
   has_many :visits, dependent: :delete_all
+  has_many :visit_buckets, dependent: :delete_all
 
   has_many :follow_ers, foreign_key: :target_id, class_name: "Follow"
   has_many :followers, through: :follow_ers, source: :follower

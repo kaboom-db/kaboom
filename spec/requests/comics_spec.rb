@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "/comics", type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   describe "GET /index" do
     before do
       FactoryBot.create(:comic, name: "Test Comic", start_year: nil)
@@ -153,7 +155,7 @@ RSpec.describe "/comics", type: :request do
       it "does not add a visit to the comic" do
         comic = FactoryBot.create(:comic)
         get comic_path(comic), headers: {"User-Agent" => "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"}
-        expect(Visit.count).to eq 0
+        expect(VisitBucket.count).to eq 0
       end
     end
 
@@ -161,9 +163,27 @@ RSpec.describe "/comics", type: :request do
       it "adds a visit to the comic" do
         comic = FactoryBot.create(:comic)
         get comic_path(comic)
-        visit = Visit.last
-        expect(visit.user).to be_nil
-        expect(visit.visited).to eq comic
+        expect(VisitBucket.count).to eq 3
+        day = VisitBucket.find_by(period: VisitBucket::DAY)
+        expect(day.user).to be_nil
+        expect(day.visited).to eq comic
+        expect(day.period_start).to eq DateTime.current.beginning_of_day.to_i
+        expect(day.period_end).to eq DateTime.current.end_of_day.to_i
+        expect(day.count).to eq 1
+
+        month = VisitBucket.find_by(period: VisitBucket::MONTH)
+        expect(month.user).to be_nil
+        expect(month.visited).to eq comic
+        expect(month.period_start).to eq DateTime.current.beginning_of_month.to_i
+        expect(month.period_end).to eq DateTime.current.end_of_month.to_i
+        expect(month.count).to eq 1
+
+        year = VisitBucket.find_by(period: VisitBucket::YEAR)
+        expect(year.user).to be_nil
+        expect(year.visited).to eq comic
+        expect(year.period_start).to eq DateTime.current.beginning_of_year.to_i
+        expect(year.period_end).to eq DateTime.current.end_of_year.to_i
+        expect(year.count).to eq 1
       end
     end
 
@@ -174,19 +194,102 @@ RSpec.describe "/comics", type: :request do
         sign_in user
 
         @comic = FactoryBot.create(:comic)
+      end
+
+      def perform
         get comic_path(@comic)
       end
 
       it "adds a visit to the comic" do
-        visit = Visit.last
-        expect(visit.user).to eq user
-        expect(visit.visited).to eq @comic
+        perform
+        day = VisitBucket.find_by(period: VisitBucket::DAY)
+        expect(day.user).to eq user
+        expect(day.visited).to eq @comic
+        expect(day.period_start).to eq DateTime.current.beginning_of_day.to_i
+        expect(day.period_end).to eq DateTime.current.end_of_day.to_i
+        expect(day.count).to eq 1
+
+        month = VisitBucket.find_by(period: VisitBucket::MONTH)
+        expect(month.user).to eq user
+        expect(month.visited).to eq @comic
+        expect(month.period_start).to eq DateTime.current.beginning_of_month.to_i
+        expect(month.period_end).to eq DateTime.current.end_of_month.to_i
+        expect(month.count).to eq 1
+
+        year = VisitBucket.find_by(period: VisitBucket::YEAR)
+        expect(year.user).to eq user
+        expect(year.visited).to eq @comic
+        expect(year.period_start).to eq DateTime.current.beginning_of_year.to_i
+        expect(year.period_end).to eq DateTime.current.end_of_year.to_i
+        expect(year.count).to eq 1
       end
 
       context "when user visited page less than 5 mins ago" do
-        it "only adds one visit" do
+        it "does not add another visit" do
+          perform
           get comic_path(@comic) # Visiting the comic page again
-          expect(@comic.visits.count).to eq 1
+          expect(@comic.visit_buckets.count).to eq 3
+          day = @comic.visit_buckets.find_by(period: VisitBucket::DAY)
+          expect(day.user).to eq user
+          expect(day.visited).to eq @comic
+          expect(day.period_start).to eq DateTime.current.beginning_of_day.to_i
+          expect(day.period_end).to eq DateTime.current.end_of_day.to_i
+          expect(day.count).to eq 1
+
+          month = @comic.visit_buckets.find_by(period: VisitBucket::MONTH)
+          expect(month.user).to eq user
+          expect(month.visited).to eq @comic
+          expect(month.period_start).to eq DateTime.current.beginning_of_month.to_i
+          expect(month.period_end).to eq DateTime.current.end_of_month.to_i
+          expect(month.count).to eq 1
+
+          year = @comic.visit_buckets.find_by(period: VisitBucket::YEAR)
+          expect(year.user).to eq user
+          expect(year.visited).to eq @comic
+          expect(year.period_start).to eq DateTime.current.beginning_of_year.to_i
+          expect(year.period_end).to eq DateTime.current.end_of_year.to_i
+          expect(year.count).to eq 1
+        end
+      end
+
+      context "when user has already visited the comic" do
+        it "appends to the existing buckets" do
+          day = FactoryBot.create(
+            :visit_bucket,
+            period: VisitBucket::DAY,
+            period_start: DateTime.current.beginning_of_day.to_i,
+            period_end: DateTime.current.end_of_day.to_i,
+            visited: @comic,
+            count: 1,
+            updated_at: 301.seconds.ago,
+            user:
+          )
+          month = FactoryBot.create(
+            :visit_bucket,
+            period: VisitBucket::MONTH,
+            period_start: DateTime.current.beginning_of_month.to_i,
+            period_end: DateTime.current.end_of_month.to_i,
+            visited: @comic,
+            count: 1,
+            updated_at: 301.seconds.ago,
+            user:
+          )
+          year = FactoryBot.create(
+            :visit_bucket,
+            period: VisitBucket::YEAR,
+            period_start: DateTime.current.beginning_of_year.to_i,
+            period_end: DateTime.current.end_of_year.to_i,
+            visited: @comic,
+            count: 1,
+            updated_at: 301.seconds.ago,
+            user:
+          )
+          year.save
+          perform
+          expect(VisitBucket.count).to eq 3
+          expect(day.reload.count).to eq 2
+          expect(month.reload.count).to eq 2
+          expect(year.reload.count).to eq 2
         end
       end
     end

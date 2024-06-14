@@ -48,7 +48,14 @@ module Charts
             (start_time - 6.days) - 1.second
           ].each do |timestamp|
             FactoryBot.create(:read_issue, issue: resource, read_at: timestamp)
-            FactoryBot.create(:visit, visited: resource, created_at: timestamp)
+            FactoryBot.create(
+              :visit_bucket,
+              period: VisitBucket::DAY,
+              period_start: timestamp.beginning_of_day,
+              period_end: timestamp.end_of_day,
+              visited: resource,
+              count: 1
+            )
           end
           data = subject
           datasets = data[:datasets]
@@ -71,7 +78,14 @@ module Charts
             (start_time - 6.months) - 1.second
           ].each do |timestamp|
             FactoryBot.create(:read_issue, issue: resource, read_at: timestamp)
-            FactoryBot.create(:visit, visited: resource, created_at: timestamp)
+            FactoryBot.create(
+              :visit_bucket,
+              period: VisitBucket::MONTH,
+              period_start: timestamp.beginning_of_month.beginning_of_day,
+              period_end: timestamp.end_of_month.end_of_day,
+              visited: resource,
+              count: 1
+            )
           end
           data = subject
           datasets = data[:datasets]
@@ -94,7 +108,14 @@ module Charts
             (start_time - 6.years) - 1.second
           ].each do |timestamp|
             FactoryBot.create(:read_issue, issue: resource, read_at: timestamp)
-            FactoryBot.create(:visit, visited: resource, created_at: timestamp)
+            FactoryBot.create(
+              :visit_bucket,
+              period: VisitBucket::YEAR,
+              period_start: timestamp.beginning_of_year.beginning_of_day,
+              period_end: timestamp.end_of_year.end_of_day,
+              visited: resource,
+              count: 1
+            )
           end
           data = subject
           datasets = data[:datasets]

@@ -1,6 +1,5 @@
 Country.destroy_all
 Currency.destroy_all
-Visit.delete_all
 Issue.destroy_all
 Comic.destroy_all
 User.destroy_all

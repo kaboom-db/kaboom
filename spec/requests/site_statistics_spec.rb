@@ -4,7 +4,7 @@ RSpec.describe "SiteStatistics", type: :request do
   describe "GET /index" do
     it "renders the all the current site stats" do
       stats = [
-        "Site visits:",
+        "Site activity:",
         "Accounts created:",
         "Comics imported:",
         "Issues imported:"

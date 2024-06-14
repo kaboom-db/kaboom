@@ -3,6 +3,7 @@ class Issue < ApplicationRecord
   belongs_to :comic
   belongs_to :currency, optional: true
   has_many :visits, as: :visited, dependent: :delete_all
+  has_many :visit_buckets, as: :visited, dependent: :delete_all
   has_many :read_issues, dependent: :delete_all
   has_many :collected_issues, dependent: :delete_all
 
@@ -13,11 +14,12 @@ class Issue < ApplicationRecord
 
   # scopes
   scope :trending, -> {
-    select("issues.*, COUNT(visits.id) AS visit_count")
-      .joins(:visits, :comic)
-      .where(visits: {created_at: (Time.current - 24.hours)..Time.current}, comic: {nsfw: false})
+    joins(:visit_buckets, :comic)
+      .where(comics: {nsfw: false})
+      .where(visit_buckets: {period: VisitBucket::DAY})
+      .where(visit_buckets: {period_start: DateTime.yesterday.beginning_of_day.., period_end: ..DateTime.current.end_of_day})
       .group("issues.id")
-      .order("visit_count DESC")
+      .order("SUM(visit_buckets.count) DESC")
   }
   scope :safe_for_work, -> { joins(:comic).where(comic: {nsfw: false}) }
 
