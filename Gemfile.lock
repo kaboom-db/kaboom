@@ -128,7 +128,7 @@ GEM
       xpath (~> 3.2)
     chronic (0.10.2)
     coderay (1.1.3)
-    concurrent-ruby (1.3.2)
+    concurrent-ruby (1.3.3)
     connection_pool (2.4.1)
     crack (1.0.0)
       bigdecimal
@@ -158,7 +158,7 @@ GEM
       rainbow
       rubocop
       smart_properties
-    erubi (1.12.0)
+    erubi (1.13.0)
     factory_bot (6.4.5)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -238,7 +238,7 @@ GEM
       net-protocol
     net-ssh (7.2.3)
     nio4r (2.7.3)
-    nokogiri (1.16.5-x86_64-linux)
+    nokogiri (1.16.6-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -259,7 +259,7 @@ GEM
       nio4r (~> 2.0)
     qonfig (0.28.0)
     racc (1.8.0)
-    rack (3.0.11)
+    rack (3.1.3)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -373,7 +373,7 @@ GEM
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
-    sprockets-rails (3.5.0)
+    sprockets-rails (3.5.1)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
