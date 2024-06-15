@@ -16,8 +16,11 @@ export default class extends Controller {
       const toggler = document.getElementById(this.togglerIdValue)
       toggler?.addEventListener('click', () => {
         this.dialogTarget.showModal()
+        document.documentElement.style.overflow = 'hidden'
       })
     }
+
+    this.dialogTarget.addEventListener('close', () => { document.documentElement.style.overflow = '' })
   }
 
   disconnect (): void {

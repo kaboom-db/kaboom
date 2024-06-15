@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update history deck favourites completed collection wishlist follow unfollow load_more_activities]
+  before_action :set_user
+  before_action :set_followers, except: %i[follow unfollow load_more_followers load_more_following edit update]
+  before_action :set_following, except: %i[follow unfollow load_more_followers load_more_following edit update]
   before_action :authorise_user, only: %i[edit update]
   before_action :user_required, only: %i[follow unfollow]
   before_action :check_private, except: %i[edit update]
+
+  FOLLOWS_PER_PAGE = 20
 
   def show
     set_metadata(title: "#{@user}'s Profile", description: "#{@user} is tracking their favourite comics on Kaboom. Check out their profile!")
@@ -108,10 +112,36 @@ class UsersController < ApplicationController
     end
   end
 
+  def load_more_followers
+    @followers_page = (params[:page] || 1).to_i
+    @followers = get_followers
+    respond_to do |format|
+      format.html { not_found }
+      format.turbo_stream
+    end
+  end
+
+  def load_more_following
+    @following_page = (params[:page] || 1).to_i
+    @following = get_following
+    respond_to do |format|
+      format.html { not_found }
+      format.turbo_stream
+    end
+  end
+
   private
 
   def get_activities
     Social::Feed.new(activities_by: @user, page: @page).generate
+  end
+
+  def get_followers
+    @user.followers.paginate(page: @followers_page, per_page: FOLLOWS_PER_PAGE)
+  end
+
+  def get_following
+    @user.following.paginate(page: @following_page, per_page: FOLLOWS_PER_PAGE)
   end
 
   def user_params
@@ -126,6 +156,16 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.where.not(confirmed_at: nil).find_by!(username: params[:id])
+  end
+
+  def set_followers
+    @followers_page = 1
+    @followers = get_followers
+  end
+
+  def set_following
+    @following_page = 1
+    @following = get_following
   end
 
   def authorise_user

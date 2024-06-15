@@ -25,6 +25,48 @@ RSpec.describe "Users", type: :request do
     end
   end
 
+  shared_examples_for "follow dialogs" do
+    context "when the user has followers" do
+      before do
+        FactoryBot.create(:follow, target: user, follower: FactoryBot.create(:user, username: "IFollow"))
+      end
+
+      it "renders the followers dialog and the followers" do
+        get path
+        assert_select "dialog[data-dialog-toggler-id-value='followersBtn']"
+        assert_select "p", text: "IFollow"
+      end
+    end
+
+    context "when the user does not have followers" do
+      it "does not render the followers dialog" do
+        Follow.destroy_all
+        get path
+        assert_select "dialog[data-dialog-toggler-id-value='followersBtn']", count: 0
+      end
+    end
+
+    context "when the user follows another" do
+      before do
+        FactoryBot.create(:follow, follower: user, target: FactoryBot.create(:user, username: "ITarget"))
+      end
+
+      it "renders the following dialog" do
+        get path
+        assert_select "dialog[data-dialog-toggler-id-value='followingBtn']"
+        assert_select "p", text: "ITarget"
+      end
+    end
+
+    context "when the user does not have followings" do
+      it "does not render the following dialog" do
+        Follow.destroy_all
+        get path
+        assert_select "dialog[data-dialog-toggler-id-value='followingBtn']", count: 0
+      end
+    end
+  end
+
   describe "GET /show" do
     let(:user) { FactoryBot.create(:user, username: "Obi1", confirmed_at:, private:) }
     let(:private) { false }
@@ -94,6 +136,8 @@ RSpec.describe "Users", type: :request do
       end
 
       it_behaves_like "a private user"
+
+      it_behaves_like "follow dialogs"
 
       it "renders the user activity" do
         get path
@@ -193,6 +237,8 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+
+    it_behaves_like "follow dialogs"
   end
 
   describe "GET /deck" do
@@ -218,6 +264,8 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+
+    it_behaves_like "follow dialogs"
   end
 
   describe "GET /favourites" do
@@ -240,6 +288,8 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+
+    it_behaves_like "follow dialogs"
   end
 
   describe "GET /completed" do
@@ -265,6 +315,8 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+
+    it_behaves_like "follow dialogs"
   end
 
   describe "GET /collection" do
@@ -282,6 +334,8 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+
+    it_behaves_like "follow dialogs"
   end
 
   describe "GET /wishlist" do
@@ -303,6 +357,8 @@ RSpec.describe "Users", type: :request do
     end
 
     it_behaves_like "a private user"
+
+    it_behaves_like "follow dialogs"
   end
 
   describe "POST /follow" do
@@ -426,6 +482,84 @@ RSpec.describe "Users", type: :request do
           assert_select "p", text: "Anakin started following Obi-Wan"
           assert_select "turbo-stream[action='update'][target='load_more_link']"
           assert_select "a[href='#{load_more_activities_user_path(user, page: 2)}']"
+        end
+      end
+    end
+  end
+
+  describe "GET /load_more_followers" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Anakin") }
+
+    context "when format is html" do
+      it "renders 404" do
+        get load_more_followers_user_path(user)
+        expect(response.status).to eq 404
+      end
+    end
+
+    context "when format is turbo_stream" do
+      before do
+        stub_const("UsersController::FOLLOWS_PER_PAGE", 1)
+      end
+
+      context "when the number of followers is less than the per page specified" do
+        it "renders the turbo stream to update the follows list and to remove the load more link" do
+          get load_more_followers_user_path(user, format: "turbo_stream")
+          assert_select "turbo-stream[action='append'][target='followers']"
+          assert_select "turbo-stream[action='remove'][target='follows_load_more_link']"
+        end
+      end
+
+      context "when the number of followers is greater than or equal to the per page specified" do
+        before do
+          follower = FactoryBot.create(:user, username: "Obi-Wan")
+          FactoryBot.create(:follow, target: user, follower:)
+        end
+
+        it "renders the turbo stream to update the followers list and the load more link" do
+          get load_more_followers_user_path(user, format: "turbo_stream")
+          assert_select "turbo-stream[action='append'][target='followers']"
+          assert_select "turbo-stream[action='update'][target='follows_load_more_link']"
+          assert_select "a[href='#{load_more_followers_user_path(user, page: 2)}']"
+        end
+      end
+    end
+  end
+
+  describe "GET /load_more_following" do
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Anakin") }
+
+    context "when format is html" do
+      it "renders 404" do
+        get load_more_following_user_path(user)
+        expect(response.status).to eq 404
+      end
+    end
+
+    context "when format is turbo_stream" do
+      before do
+        stub_const("UsersController::FOLLOWS_PER_PAGE", 1)
+      end
+
+      context "when the number of following is less than the per page specified" do
+        it "renders the turbo stream to update the following list and to remove the load more link" do
+          get load_more_following_user_path(user, format: "turbo_stream")
+          assert_select "turbo-stream[action='append'][target='following']"
+          assert_select "turbo-stream[action='remove'][target='follows_load_more_link']"
+        end
+      end
+
+      context "when the number of following is greater than or equal to the per page specified" do
+        before do
+          target = FactoryBot.create(:user, username: "Obi-Wan")
+          FactoryBot.create(:follow, target:, follower: user)
+        end
+
+        it "renders the turbo stream to update the following list and the load more link" do
+          get load_more_following_user_path(user, format: "turbo_stream")
+          assert_select "turbo-stream[action='append'][target='following']"
+          assert_select "turbo-stream[action='update'][target='follows_load_more_link']"
+          assert_select "a[href='#{load_more_following_user_path(user, page: 2)}']"
         end
       end
     end

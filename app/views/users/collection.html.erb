@@ -1,5 +1,7 @@
 <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "Collection") %>
 
+<%= render partial: "follow_dialogs" %>
+
 <%= render SectionComponent.new do %>
   <% @collection_grouped.each_pair do |day, items| %>
     <div class="my-6">

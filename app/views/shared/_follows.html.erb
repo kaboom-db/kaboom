@@ -1,0 +1,12 @@
+<%= turbo_frame_tag type, class: "flex flex-col gap-8" do %>
+  <% follows.each do |user| %>
+    <%= render "shared/follow", user: %>
+  <% end %>
+<% end %>
+<% if follows.size >= UsersController::FOLLOWS_PER_PAGE %>
+  <div class="flex justify-center my-8">
+    <%= turbo_frame_tag "follows_load_more_link" do %>
+      <%= render "shared/load_more_activities_link", href:, page: %>
+  <% end %>
+  </div>
+<% end %>

@@ -1,4 +1,4 @@
-<%= link_to user_path(@user), data: {turbo_frame: "_top"} do %>
+<%= link_to user_path(@user), class: "outline-none", data: {turbo_frame: "_top"} do %>
   <div class="w-full h-fit p-4 rounded-xl flex justify-center md:justify-start items-center gap-4">
     <img src="<%= @user.avatar %>" alt="Profile Image" class="w-16 h-16 rounded-full border-2 border-black">
     <div class="hidden md:block">

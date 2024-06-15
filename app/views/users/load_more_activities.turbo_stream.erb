@@ -1,7 +1,7 @@
 <%= turbo_stream.append("activities", partial: "shared/activity", collection: @activities, as: :activity) %>
 
 <% if @activities.size >= Social::Feed::PER_PAGE %>
-  <%= turbo_stream.update("load_more_link", partial: "shared/load_more_activities_link", locals: {href: load_more_activities_user_path(@user)}) %>
+  <%= turbo_stream.update("load_more_link", partial: "shared/load_more_activities_link", locals: {href: load_more_activities_user_path(@user), page: @page}) %>
 <% else %>
   <%= turbo_stream.remove("load_more_link") %>
 <% end %>

@@ -1,5 +1,7 @@
 <%= render UserHeroComponent.new(user: @user, current_user:) %>
 
+<%= render "follow_dialogs" %>
+
 <div class="grid grid-cols-1 md:grid-cols-5 gap-10">
   <div class="md:col-span-3">
     <% if @history.any? %>

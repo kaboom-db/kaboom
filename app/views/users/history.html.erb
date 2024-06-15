@@ -1,5 +1,7 @@
 <%= render UserHeroComponent.new(user: @user, current_user:, possessive: "History") %>
 
+<%= render partial: "follow_dialogs" %>
+
 <%= render SectionComponent.new do %>
   <% @issue_history_grouped.each_pair do |day, history| %>
     <div class="my-6">

@@ -1,0 +1,7 @@
+<%= turbo_stream.append("following", partial: "shared/follow", collection: @following, as: :user) %>
+
+<% if @following.size >= UsersController::FOLLOWS_PER_PAGE %>
+  <%= turbo_stream.update("follows_load_more_link", partial: "shared/load_more_activities_link", locals: {href: load_more_following_user_path(@user), page: @following_page}) %>
+<% else %>
+  <%= turbo_stream.remove("follows_load_more_link") %>
+<% end %>
