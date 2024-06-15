@@ -5,7 +5,20 @@ import { HTMLEvent } from '../types/html_event'
 export default class extends Controller {
   static targets = ['dialog']
 
+  static values = { togglerId: String }
+
   declare readonly dialogTarget: HTMLDialogElement
+
+  declare togglerIdValue: string
+
+  connect (): void {
+    if (this.togglerAvailable()) {
+      const toggler = document.getElementById(this.togglerIdValue)
+      toggler?.addEventListener('click', () => {
+        this.dialogTarget.showModal()
+      })
+    }
+  }
 
   disconnect (): void {
     this.dialogTarget.close()
@@ -15,5 +28,9 @@ export default class extends Controller {
     if (event.target === this.dialogTarget) {
       this.dialogTarget.close()
     }
+  }
+
+  togglerAvailable (): boolean {
+    return this.togglerIdValue !== null && this.togglerAvailable !== undefined && this.togglerIdValue !== ''
   }
 }

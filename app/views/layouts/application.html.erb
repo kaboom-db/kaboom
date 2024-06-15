@@ -46,10 +46,15 @@
       <div class="<%= main_cols %> ml-[1rem] sm:ml-[3rem] mt-[1rem] sm:mt-[3rem] mr-[1rem] sm:mr-[3rem]">
         <%= render "layouts/flash" %>
         <%= yield %>
-        <dialog data-controller="dialog" data-action="click->dialog#click" data-dialog-target="dialog" id="importComic" class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
+        <dialog data-controller="dialog"
+                data-dialog-toggler-id-value="importComicBtn"
+                data-action="click->dialog#click"
+                data-dialog-target="dialog"
+                id="importComic"
+                class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
           <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
             <h5 class="text-xl font-bold">Import a comic</h1>
-            <%= form_tag(import_comics_path, method: "post", class: "my-4 flex flex-col gap-4") do |form| %>
+            <%= form_tag(import_comics_pathonclick="importComic.showModal();", method: "post", class: "my-4 flex flex-col gap-4") do |form| %>
               <%= render TextInputComponent.new(name: "comicvine_id", placeholder: "ComicVine ID") %>
               <small class="max-w-[400px] break-words">You can find the ComicVine ID at the end of the URL, e.g. <code class="p-1 bg-gray-200 rounded">http://comicvine.gamespot.com/&lt;name&gt;/4050-&lt;id&gt;/</code></small>
 
@@ -85,7 +90,7 @@
         <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
         developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a> ·
         <a href="<%= privacy_policy_path %>" class="text-hint underline">Privacy Policy</a> ·
-        <button onclick="importComic.showModal();" class="text-hint underline">Import</button>
+        <button id="importComicBtn" class="text-hint underline">Import</button>
       </div>
     </footer>
   </body>
