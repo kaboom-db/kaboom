@@ -6,6 +6,13 @@ RSpec.describe "Pages", type: :request do
       get root_path
       expect(response).to be_successful
     end
+
+    it "renders a form in a dialog to import a comic" do
+      get root_path
+      assert_select "dialog[id='importComic']" do
+        assert_select "form[action='#{import_comics_path}']"
+      end
+    end
   end
 
   describe "GET /sitemap" do
