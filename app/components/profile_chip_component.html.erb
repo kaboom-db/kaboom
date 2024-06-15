@@ -1,7 +1,7 @@
 <%= link_to user_path(@user), class: "outline-none", data: {turbo_frame: "_top"} do %>
   <div class="w-full h-fit p-4 rounded-xl flex justify-center md:justify-start items-center gap-4">
     <img src="<%= @user.avatar %>" alt="Profile Image" class="w-16 h-16 rounded-full border-2 border-black">
-    <div class="hidden md:block">
+    <div class="<%= @in_dialog ? "block" : "hidden md:block" %>">
       <p class="font-bold text-xl"><%= @user.username %></p>
       <p class="text-sm">Member since: <%= @user.created_at.strftime("%-d %b %Y %H:%M") %></p>
     </div>
