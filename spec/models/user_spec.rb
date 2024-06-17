@@ -34,6 +34,14 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of(:username) }
   end
 
+  describe "scope .confirmed" do
+    it "only includes confirmed users" do
+      user = FactoryBot.create(:user, :confirmed)
+      FactoryBot.create(:user)
+      expect(User.confirmed).to eq [user]
+    end
+  end
+
   describe "#avatar" do
     let(:user) { FactoryBot.build(:user, :confirmed, email: "hello@there.obi") }
 
@@ -322,15 +330,20 @@ RSpec.describe User, type: :model do
 
   describe ".search" do
     it "searches by user" do
-      user_1 = FactoryBot.create(:user, username: "obi1")
-      FactoryBot.create(:user, username: "anak1n")
+      user_1 = FactoryBot.create(:user, :confirmed, username: "obi1")
+      FactoryBot.create(:user, :confirmed, username: "anak1n")
       results = User.search(query: "obi")
       expect(results).to eq [user_1]
     end
 
+    it "does not include unconfirmed users" do
+      FactoryBot.create(:user, username: "Test") # Unconfirmed by default
+      expect(User.search(query: "test")).to eq []
+    end
+
     context "when query contains capital letters" do
       it "converts it to downcase" do
-        user = FactoryBot.create(:user, username: "obi1")
+        user = FactoryBot.create(:user, :confirmed, username: "obi1")
         results = User.search(query: "Obi1")
         expect(results).to eq [user]
       end

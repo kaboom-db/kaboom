@@ -32,7 +32,7 @@ RSpec.describe "Search", type: :request do
 
     context "when there are user search results" do
       it "renders the users header" do
-        FactoryBot.create(:user, username: "Test")
+        FactoryBot.create(:user, :confirmed, username: "Test")
         get search_index_path(search: "Test")
         assert_select "h2", text: "Users:"
       end
@@ -40,7 +40,7 @@ RSpec.describe "Search", type: :request do
 
     context "when there are no user search results" do
       it "does not render the users header" do
-        FactoryBot.create(:user, username: "None")
+        FactoryBot.create(:user, :confirmed, username: "None")
         get search_index_path(search: "Test")
         assert_select "h2", text: "Users:", count: 0
       end

@@ -33,6 +33,9 @@ class User < ApplicationRecord
   validates :email, :username, presence: true
   validates_uniqueness_of :username
 
+  # Scope
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
+
   def avatar
     Gravatar::Image.new(email:).get
   end
@@ -110,7 +113,7 @@ class User < ApplicationRecord
 
   def self.search(query:)
     words = query.downcase.split(" ")
-    results = User
+    results = User.confirmed
     words.each { |word| results = results.where(["lower(username) LIKE ? ", "%#{word}%"]) }
     results
   end
