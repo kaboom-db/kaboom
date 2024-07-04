@@ -181,7 +181,7 @@ class IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:rating, :cover_price, :currency_id, :page_count, :isbn, :upc)
+    params.require(:issue).permit(:rating, :page_count, :isbn, :upc)
   end
 
   def has_read

@@ -23,10 +23,6 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
       <%= render Forms::TextFieldComponent.new(form:, field: :rating) %>
 
-      <%= render Forms::TextFieldComponent.new(form:, field: :cover_price, type: "number_field", extras: {step: ".01", min: 0}) %>
-
-      <%= render Forms::CollectionSelectComponent.new(form:, field: :currency_id, options: Currency.all, identifier: :id, include_blank: true) %>
-
       <%= render Forms::TextFieldComponent.new(form:, field: :page_count, type: "number_field") %>
 
       <%= render Forms::TextFieldComponent.new(form:, field: :isbn, placeholder: "ISBN") %>

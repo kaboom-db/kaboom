@@ -43,45 +43,6 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe "#format_price" do
-    let(:issue) { FactoryBot.create(:issue, cover_price: 3.99, currency:) }
-    let(:currency) { FactoryBot.create(:currency, symbol_native: "£", placement:) }
-
-    subject { format_price(issue:) }
-
-    context "when there is no currency" do
-      let(:currency) { nil }
-
-      it "returns the cover price" do
-        expect(subject).to eq 3.99
-      end
-    end
-
-    context "when there is no placement" do
-      let(:placement) { "" }
-
-      it "defaults to the start of the value" do
-        expect(subject).to eq "£3.99"
-      end
-    end
-
-    context "when placement is start" do
-      let(:placement) { Currency::VALUE_START }
-
-      it "places the symbol at the start" do
-        expect(subject).to eq "£3.99"
-      end
-    end
-
-    context "when placement is end" do
-      let(:placement) { Currency::VALUE_END }
-
-      it "places the symbol at the end" do
-        expect(subject).to eq "3.99£"
-      end
-    end
-  end
-
   describe "#should_show_sidebar" do
     ApplicationHelper::SIDEBAR_CONTROLLERS.each do |controller_name|
       context "when the controller is #{controller_name}" do

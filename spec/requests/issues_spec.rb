@@ -173,8 +173,6 @@ RSpec.describe "/issues", type: :request do
         issue = FactoryBot.create(:issue, comic:)
         get edit_comic_issue_path(issue, comic_id: comic)
         assert_select "input[name='issue[rating]']"
-        assert_select "input[name='issue[cover_price]']"
-        assert_select "select[name='issue[currency_id]']"
         assert_select "input[name='issue[page_count]']"
         assert_select "input[name='issue[isbn]']"
         assert_select "input[name='issue[upc]']"
@@ -193,12 +191,9 @@ RSpec.describe "/issues", type: :request do
 
   describe "PATCH /update" do
     context "when user is signed in" do
-      let(:currency) { FactoryBot.create(:currency) }
       let(:valid_params) {
         {
           rating: "Teens",
-          cover_price: 3.99,
-          currency_id: currency.id,
           page_count: 127,
           isbn: "978-1-56619-909-4",
           upc: "0987654321"
@@ -224,8 +219,6 @@ RSpec.describe "/issues", type: :request do
 
         it "updates the comic" do
           expect(issue.reload.rating).to eq "Teens"
-          expect(issue.cover_price).to eq 3.99
-          expect(issue.currency).to eq currency
           expect(issue.page_count).to eq 127
           expect(issue.isbn).to eq "978-1-56619-909-4"
           expect(issue.upc).to eq "0987654321"
@@ -239,8 +232,6 @@ RSpec.describe "/issues", type: :request do
 
         it "renders the edit form" do
           assert_select "input[name='issue[rating]']"
-          assert_select "input[name='issue[cover_price]']"
-          assert_select "select[name='issue[currency_id]']"
           assert_select "input[name='issue[page_count]']"
           assert_select "input[name='issue[isbn]']"
           assert_select "input[name='issue[upc]']"

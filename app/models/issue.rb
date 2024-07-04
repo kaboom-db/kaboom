@@ -1,7 +1,6 @@
 class Issue < ApplicationRecord
   # associations
   belongs_to :comic
-  belongs_to :currency, optional: true
   has_many :visits, as: :visited, dependent: :delete_all
   has_many :visit_buckets, as: :visited, dependent: :delete_all
   has_many :read_issues, dependent: :delete_all

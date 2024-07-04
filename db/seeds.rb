@@ -58,7 +58,6 @@ puts "\nCreating Countries"
 create_countries
 
 us = Country.find_by(name: "United States of America")
-usd = Currency.find_by(code: "USD")
 
 puts "\nCreating Users"
 user = FactoryBot.create(:user, :confirmed, username: "comicbooklover123", email: "test@example.com", password: "123456")
@@ -85,7 +84,6 @@ comic_5 = Comic.import(comic_vine_id: 144349)
 comic_5.import_issues
 
 Comic.update_all(country_id: us.id)
-Issue.update_all(currency_id: usd.id)
 
 puts "\nCreating Read Issues"
 comic_0.issues.reverse_order.each_with_index do |issue, index|

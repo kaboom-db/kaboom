@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_14_193650) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_04_181840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -113,14 +113,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_193650) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "rating"
-    t.decimal "cover_price"
-    t.bigint "currency_id"
     t.integer "page_count"
     t.string "isbn"
     t.string "upc"
     t.integer "absolute_number"
     t.index ["comic_id"], name: "index_issues_on_comic_id"
-    t.index ["currency_id"], name: "index_issues_on_currency_id"
     t.index ["issue_number", "comic_id"], name: "index_issues_on_issue_number_and_comic_id", unique: true
   end
 
@@ -199,7 +196,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_193650) do
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "follows", "users", column: "target_id"
   add_foreign_key "issues", "comics"
-  add_foreign_key "issues", "currencies"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
   add_foreign_key "visit_buckets", "users"

@@ -12,10 +12,6 @@
       <p class="text-lg text-white"><b class="text-white">Rating:</b> <%= @issue.rating %></p>
     <% end %>
 
-    <% if @issue.cover_price.present? %>
-      <p class="text-lg text-white"><b class="text-white">Cover Price:</b> <%= format_price(issue: @issue) %></p>
-    <% end %>
-
     <% if @issue.page_count.present? %>
       <p class="text-lg text-white"><b class="text-white">Page Count:</b> <%= @issue.page_count %></p>
     <% end %>
