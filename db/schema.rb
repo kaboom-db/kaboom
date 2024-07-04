@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_04_184121) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_04_185923) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_184121) do
     t.date "collected_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price_paid", precision: 10, scale: 2, default: "0.0", null: false
     t.index ["issue_id"], name: "index_collected_issues_on_issue_id"
     t.index ["user_id", "issue_id"], name: "index_collected_issues_on_user_id_and_issue_id", unique: true
     t.index ["user_id"], name: "index_collected_issues_on_user_id"

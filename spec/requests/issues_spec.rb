@@ -596,10 +596,10 @@ RSpec.describe "/issues", type: :request do
         end
       end
 
-      context "when collected_on is valid" do
+      context "when collected_on and price_paid are valid" do
         before do
           @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
-          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "2023-07-07 18:47:56")
+          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "2023-07-07 18:47:56", price_paid: 7.99)
         end
 
         it "redirects to the issue page" do
@@ -615,10 +615,11 @@ RSpec.describe "/issues", type: :request do
           expect(collected_issue.issue).to eq @issue
           expect(collected_issue.user).to eq user
           expect(collected_issue.collected_on).to eq Date.new(2023, 7, 7)
+          expect(collected_issue.price_paid).to eq 7.99
         end
       end
 
-      context "when collected_on is not specified" do
+      context "when collected_on and price_paid are not specified" do
         before do
           freeze_time
           @issue = FactoryBot.create(:issue, comic:, issue_number: 1)
@@ -638,6 +639,7 @@ RSpec.describe "/issues", type: :request do
           expect(collected_issue.issue).to eq @issue
           expect(collected_issue.user).to eq user
           expect(collected_issue.collected_on).to eq Date.today
+          expect(collected_issue.price_paid).to eq 0
         end
       end
     end
@@ -665,10 +667,10 @@ RSpec.describe "/issues", type: :request do
         end
       end
 
-      context "when collected_on is valid" do
+      context "when collected_on and price_paid are valid" do
         before do
           @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
-          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "2023-07-07")
+          post collect_comic_issue_path(@issue, comic_id: comic.id, collected_on: "2023-07-07", price_paid: 7.99)
         end
 
         it "returns json wuth a message and success status" do
@@ -684,10 +686,11 @@ RSpec.describe "/issues", type: :request do
           expect(collected_issue.issue).to eq @issue
           expect(collected_issue.user).to eq user
           expect(collected_issue.collected_on).to eq Date.new(2023, 7, 7)
+          expect(collected_issue.price_paid).to eq 7.99
         end
       end
 
-      context "when collected_on is not specified" do
+      context "when collected_on and price_paid are not specified" do
         before do
           freeze_time
           @issue = FactoryBot.create(:issue, comic:, issue_number: 1, name: "Issue 1")
@@ -702,11 +705,12 @@ RSpec.describe "/issues", type: :request do
           expect(body["message"]).to eq "You collected Test Comic - Issue 1."
         end
 
-        it "creates a collect issue with collected_on the current time" do
+        it "creates a collect issue with collected_on the current time with 0 price_paid" do
           collected_issue = user.collected_issues.last
           expect(collected_issue.issue).to eq @issue
           expect(collected_issue.user).to eq user
           expect(collected_issue.collected_on).to eq Date.today
+          expect(collected_issue.price_paid).to eq 0
         end
       end
     end

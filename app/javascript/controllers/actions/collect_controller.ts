@@ -8,11 +8,12 @@ interface CollectData extends ResponseData {
 
 // Connects to data-controller="collect"
 export default class extends BaseActionController {
-  static targets = ['dialog', 'collectedOnSubmit', 'collectedOnInput', 'error']
+  static targets = ['dialog', 'collectedOnSubmit', 'collectedOnInput', 'pricePaidInput', 'error']
 
   declare readonly dialogTarget: HTMLDialogElement
   declare readonly collectedOnSubmitTarget: HTMLButtonElement
   declare readonly collectedOnInputTarget: HTMLInputElement
+  declare readonly pricePaidInputTarget: HTMLInputElement
   declare readonly errorTarget: HTMLElement
 
   connect (): void {
@@ -64,7 +65,9 @@ export default class extends BaseActionController {
 
   async markAsCollected (): Promise<void> {
     this.errorTarget.classList.add('hidden')
-    this.sendRequest(`${this.baseurlValue}/collect`, { collected_on: this.collectedOnInputTarget.value }, this.handleData.bind(this), this.handleError.bind(this))
+    const pricePaid = this.pricePaidInputTarget.value === '' ? '0' : this.pricePaidInputTarget.value
+    const data = { collected_on: this.collectedOnInputTarget.value, price_paid: pricePaid }
+    this.sendRequest(`${this.baseurlValue}/collect`, data, this.handleData.bind(this), this.handleError.bind(this))
   }
 
   closeDialog (): void {

@@ -17,4 +17,10 @@ RSpec.describe Actions::CollectActionComponent, type: :component do
   it "renders the icon" do
     expect(page).to have_css "i.fa-book-open"
   end
+
+  it "renders the dialog with the inputs" do
+    expect(page).to have_css "dialog[data-collect-target='dialog']"
+    expect(page).to have_css "input[type='date'][data-collect-target='collectedOnInput']"
+    expect(page).to have_css "input[type='number'][data-collect-target='pricePaidInput']"
+  end
 end

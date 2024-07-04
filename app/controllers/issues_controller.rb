@@ -72,7 +72,12 @@ class IssuesController < ApplicationController
   end
 
   def collect
-    collected_issue = CollectedIssue.new(collected_on: params[:collected_on] || Date.today, user: current_user, issue: @issue)
+    collected_issue = CollectedIssue.new(
+      collected_on: params[:collected_on] || Date.today,
+      user: current_user,
+      issue: @issue,
+      price_paid: params[:price_paid] || 0
+    )
 
     if collected_issue.save
       @success = true

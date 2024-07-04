@@ -13,12 +13,20 @@
       <div class="m-4">
         <h5 class="text-xl font-bold">Mark as collected</h1>
         <div class="my-4 flex flex-col gap-4">
-          <input placeholder="Read at"
+          <input placeholder="Collected on"
                 data-collect-target="collectedOnInput"
                 class="form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary"
                 required="required"
                 type="date"
                 autocomplete="off">
+          <div>
+            <label for="pricePaidInput">Price paid (optional):</label>
+            <input type="number"
+                  id="pricePaidInput"
+                  data-collect-target="pricePaidInput"
+                  class="form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary"
+                  step="0.01">
+          </div>
           <small data-collect-target="error" class="font-bold text-red-500 hidden">Could not mark as collected.</small>
           <button data-collect-target="collectedOnSubmit" data-action="click->collect#markAsCollected" class="font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out">
             Submit
