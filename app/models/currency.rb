@@ -5,7 +5,7 @@ class Currency < ApplicationRecord
   ]
 
   # Associations
-  has_many :issues, dependent: :nullify
+  has_many :users, dependent: :nullify
 
   # Validations
   validates :symbol, :symbol_native, :name, :code, presence: true

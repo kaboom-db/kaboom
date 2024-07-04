@@ -145,7 +145,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:bio, :private, :show_nsfw, :allow_email_notifications)
+    params.require(:user).permit(:bio, :private, :show_nsfw, :allow_email_notifications, :currency_id)
   end
 
   def build_filters

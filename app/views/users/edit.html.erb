@@ -19,6 +19,9 @@
         <%= f.check_box :allow_email_notifications %>
         <%= f.label :allow_email_notifications, "Email notifications (includes but not limited to user follows, comment replies etc)" %>
       </div>
+
+      <%= render Forms::CollectionSelectComponent.new(form: f, field: :currency_id, options: Currency.all, identifier: :id, include_blank: true) %>
+      <small>This setting is used to control how prices are displayed in your collection.</small>
     </div>
 
     <%= render Forms::SubmitComponent.new(form: f, text: "Save") %>

@@ -25,6 +25,8 @@ RSpec.describe User, type: :model do
 
     it { should have_many(:follow_ing).class_name("Follow") }
     it { should have_many(:following).through(:follow_ing).source(:target) }
+
+    it { should belong_to(:currency).optional }
   end
 
   describe "validations" do

@@ -58,10 +58,12 @@ puts "\nCreating Countries"
 create_countries
 
 us = Country.find_by(name: "United States of America")
+usd = Currency.find_by(code: "USD")
+gbp = Currency.find_by(code: "GBP")
 
 puts "\nCreating Users"
-user = FactoryBot.create(:user, :confirmed, username: "comicbooklover123", email: "test@example.com", password: "123456")
-user2 = FactoryBot.create(:user, :confirmed, username: "comicbookhater123", email: "test2@example.com", password: "123456")
+user = FactoryBot.create(:user, :confirmed, username: "comicbooklover123", email: "test@example.com", password: "123456", currency: gbp)
+user2 = FactoryBot.create(:user, :confirmed, username: "comicbookhater123", email: "test2@example.com", password: "123456", currency: usd)
 
 puts "\nImporting Comics and Issues"
 # Demon Slayer

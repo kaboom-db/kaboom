@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Currency, type: :model do
+  describe "associations" do
+    it { should have_many(:users).dependent(:nullify) }
+  end
+
   describe "validations" do
     subject { FactoryBot.build(:currency) }
     it { should validate_presence_of(:symbol) }

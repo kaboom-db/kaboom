@@ -167,6 +167,7 @@ RSpec.describe "Users", type: :request do
         assert_select "input[name='user[private]']"
         assert_select "input[name='user[show_nsfw]']"
         assert_select "input[name='user[allow_email_notifications]']"
+        assert_select "select[name='user[currency_id]']"
       end
     end
 
@@ -180,7 +181,7 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PATCH /update" do
-    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com") }
+    let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com", currency: nil) }
 
     context "when user is current user" do
       before do
@@ -188,12 +189,14 @@ RSpec.describe "Users", type: :request do
       end
 
       it "updates the user" do
-        patch user_path(user), params: {user: {bio: "My cool new bio", private: true, show_nsfw: true, allow_email_notifications: false}}
+        currency = FactoryBot.create(:currency)
+        patch user_path(user), params: {user: {bio: "My cool new bio", private: true, show_nsfw: true, allow_email_notifications: false, currency_id: currency.id}}
         user.reload
         expect(user.bio).to eq "My cool new bio"
         expect(user.private?).to eq true
         expect(user.show_nsfw?).to eq true
         expect(user.allow_email_notifications?).to eq false
+        expect(user.currency).to eq currency
       end
     end
 

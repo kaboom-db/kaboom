@@ -29,6 +29,8 @@ class User < ApplicationRecord
   has_many :follow_ing, foreign_key: :follower_id, class_name: "Follow"
   has_many :following, through: :follow_ing, source: :target
 
+  belongs_to :currency, optional: true
+
   # Validations
   validates :email, :username, presence: true
   validates_uniqueness_of :username
