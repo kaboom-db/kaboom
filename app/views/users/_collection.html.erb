@@ -1,9 +1,12 @@
 <%= render SectionComponent.new do %>
-  <div data-controller="search">
-    <input placeholder="Start typing to search..."
-      data-action="search#trigger"
-      class="form-control p-2 mb-8 w-full sm:w-1/2 rounded-2xl border-2 border-black bg-gray-100 cursor-pointer focus:border-secondary"
-      autocomplete="off">
+  <div data-controller="search expand-all">
+    <div class="flex flex-wrap justify-between mb-8">
+      <input placeholder="Start typing to search..."
+        data-action="search#trigger"
+        class="form-control p-2 mb-8 sm:mb-0 w-full sm:w-1/2 rounded-2xl border-2 border-black bg-gray-100 cursor-pointer focus:border-secondary"
+        autocomplete="off">
+      <button data-action="expand-all#toggle" class="flex font-bold h-fit w-max rounded-full border-2 border-black text-sm bg-primary py-2 px-3">Expand all</button>
+    </div>
     <% presenter.grouped_collection.each_pair do |comic, collected_issues| %>
       <div class="mb-4 text-sm sm:text-base relative rounded-2xl border-2 border-black bg-gray-100 p-4 overflow-hidden"
            data-search-target="item"
@@ -30,10 +33,13 @@
                 <div class="grid grid-cols-4 w-full">
                   <div class="col-span-2 whitespace-nowrap overflow-hidden">
                     <p><b>#<%= collected_issue.issue.formatted_issue_number %> - <%= collected_issue.issue.name %></b></p>
+                    <p class="inline sm:hidden"><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
                   </div>
-                  <p class="col-span-1 text-end ml-4"><%= display_if current_user == presenter.user, format_price(price: collected_issue.price_paid, user: presenter.user) %></p>
+                  <div class="col-span-1 flex items-center justify-end ml-4">
+                    <p><%= display_if current_user == presenter.user, format_price(price: collected_issue.price_paid, user: presenter.user) %></p>
+                  </div>
                   <div class="col-span-1 flex items-center justify-end gap-4 ml-4">
-                    <p><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
+                    <p class="hidden sm:inline"><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
                     <% if current_user == presenter.user %>
                       <i class="fa-solid fa-circle-xmark text-xl cursor-pointer" data-action="click->remove-item#trigger"></i>
                     <% end %>
