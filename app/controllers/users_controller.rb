@@ -69,11 +69,7 @@ class UsersController < ApplicationController
   def collection
     set_metadata(title: "#{@user}'s Comic Collection", description: "Check out #{@user}'s comic collection. Pretty neat!")
 
-    @collection = @user.collected_issues
-      .order(collected_on: :desc)
-      .paginate(page: params[:page], per_page: 30)
-
-    @collection_grouped = @collection.group_by { _1.collected_on.strftime("%-d %b %Y") }
+    @presenter = UserCollectionPresenter.new(user: @user)
   end
 
   def wishlist

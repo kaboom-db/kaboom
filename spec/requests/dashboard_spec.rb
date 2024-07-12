@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Dashboards", type: :request do
+RSpec.describe "Dashboard", type: :request do
   describe "GET /index" do
     context "when user is not logged in" do
       it "redirects to the log in page" do
@@ -74,7 +74,7 @@ RSpec.describe "Dashboards", type: :request do
         sign_in user
       end
 
-      it "renders a successfull response" do
+      it "renders a successful response" do
         get dashboard_history_path
         expect(response).to be_successful
       end
@@ -125,6 +125,26 @@ RSpec.describe "Dashboards", type: :request do
           assert_select "p.font-bold", text: issue_1.name
           assert_select "p.font-bold", text: issue_2.name, count: 0
         end
+      end
+    end
+  end
+
+  describe "GET /dashboard/collection" do
+    describe "GET /collection" do
+      let(:user) { FactoryBot.create(:user, :confirmed, username: "Obi2", email: "obi2@obi.com") }
+
+      before do
+        sign_in user
+      end
+
+      it "renders the collection for the current user" do
+        comic = FactoryBot.create(:comic, name: "Demon Slayer")
+        issue = FactoryBot.create(:issue, comic:)
+        FactoryBot.create(:collected_issue, issue:, user:)
+
+        get dashboard_collection_path
+
+        assert_select "p", text: "Demon Slayer"
       end
     end
   end

@@ -32,11 +32,7 @@ class DashboardController < ApplicationController
   def collection
     set_metadata(title: "Your Collection", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
 
-    @collection = current_user.collected_issues
-      .order(collected_on: :desc)
-      .paginate(page: params[:page], per_page: 30)
-
-    @collection_grouped = @collection.group_by { _1.collected_on.strftime("%-d %b %Y") }
+    @presenter = UserCollectionPresenter.new(user: current_user)
   end
 
   def load_more_activities

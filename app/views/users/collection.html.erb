@@ -2,16 +2,4 @@
 
 <%= render partial: "follow_dialogs" %>
 
-<%= render SectionComponent.new do %>
-  <% @collection_grouped.each_pair do |day, items| %>
-    <div class="my-6">
-      <p class="my-4 text-2xl font-bold"><%= day %></p>
-      <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-        <% items.each do |item| %>
-          <%= render ResourceTileControlComponent.new(issue: item.issue, user: current_user) %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-  <%= will_paginate @collection, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
-<% end %>
+<%= render "collection", presenter: @presenter %>

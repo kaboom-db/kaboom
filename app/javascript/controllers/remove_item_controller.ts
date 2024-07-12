@@ -3,13 +3,15 @@ import { sendRequest } from '../common/request'
 
 export default class extends Controller {
   static targets = ['dialog', 'error']
-  static values = { readId: String, baseurl: String }
+  static values = { url: String, data: Object }
 
   declare readonly dialogTarget: HTMLDialogElement
   declare readonly errorTarget: HTMLElement
 
-  declare readIdValue: string
-  declare baseurlValue: string
+  declare urlValue: string
+  declare dataValue: string
+
+  declare hasDataValue: boolean
 
   canShowDialog = true
 
@@ -29,9 +31,10 @@ export default class extends Controller {
     setTimeout(() => this.element.remove(), 500)
   }
 
-  async markAsUnread (): Promise<void> {
+  async removeItem (): Promise<void> {
     try {
-      const response = await sendRequest(`${this.baseurlValue}/unread`, { read_id: this.readIdValue })
+      const requestBody = this.hasDataValue ? this.dataValue : {}
+      const response = await sendRequest(this.urlValue, requestBody)
       if (response.status === 200 || response.status === 204) {
         this.closeDialog()
         this.destroy()

@@ -1,0 +1,57 @@
+<%= render SectionComponent.new do %>
+  <% presenter.grouped_collection.each_pair do |comic, collected_issues| %>
+    <div class="mb-4 text-sm sm:text-base relative rounded-2xl border-2 border-black bg-gray-100 p-4 overflow-hidden">
+      <details>
+        <summary class="grid grid-cols-4 w-full outline-none cursor-pointer">
+          <div class="col-span-2 flex items-center gap-4 whitespace-nowrap overflow-hidden">
+            <div class="h-8 min-h-8 w-8 min-w-8 overflow-hidden rounded-2xl border-2 border-black">
+              <img src="<%= comic.image %>" class="w-full">
+            </div>
+            <p><b><%= comic.name %></b></p>
+          </div>
+          <div class="col-span-1 flex items-center justify-end">
+            <p><%= display_if current_user == presenter.user, format_price(price: collected_issues.sum(&:price_paid), user: presenter.user) %></p>
+          </div>
+          <div class="col-span-1 flex items-center justify-end">
+            <p><%= collected_issues.size %> / <%= comic.count_of_issues %></p>
+          </div>
+        </summary>
+        <div class="flex flex-col gap-4 mt-4 pt-4 border-t-2 border-black">
+          <% collected_issues.each do |collected_issue| %>
+            <div data-controller="remove-item"
+              data-remove-item-url-value="<%= uncollect_comic_issue_path(collected_issue.issue, comic_id: collected_issue.comic) %>">
+              <div class="grid grid-cols-4 w-full">
+                <div class="col-span-2 whitespace-nowrap overflow-hidden">
+                  <p><b>#<%= collected_issue.issue.formatted_issue_number %> - <%= collected_issue.issue.name %></b></p>
+                </div>
+                <p class="col-span-1 text-end ml-4"><%= display_if current_user == presenter.user, format_price(price: collected_issue.price_paid, user: presenter.user) %></p>
+                <div class="col-span-1 flex items-center justify-end gap-4 ml-4">
+                  <p><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
+                  <% if current_user == presenter.user %>
+                    <i class="fa-solid fa-circle-xmark text-xl cursor-pointer" data-action="click->remove-item#trigger"></i>
+                  <% end %>
+                </div>
+              </div>
+              <%= render RemoveItemDialogComponent.new do %>
+                <p>This action will remove this issue from your collection.</p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </details>
+    </div>
+  <% end %>
+  <div class="mb-4 relative rounded-2xl border-2 border-black bg-gray-100 p-4 overflow-hidden h-16">
+    <div class="grid grid-cols-4 w-full h-full outline-none">
+      <div class="col-span-2 h-full flex items-center gap-4 whitespace-nowrap overflow-hidden">
+        <p><b>Totals</b></p>
+      </div>
+      <div class="col-span-1 h-full flex items-center justify-end">
+        <p><%= display_if current_user == presenter.user, format_price(price: presenter.total_price_paid, user: presenter.user) %></p>
+      </div>
+      <div class="col-span-1 h-full flex items-center justify-end">
+        <p><%= presenter.overall_collection_progress %></p>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "shared/activity", type: :view do
+RSpec.describe "shared/follow", type: :view do
   let(:user) { FactoryBot.create(:user, username: "BobMan") }
 
   def perform

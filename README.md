@@ -51,6 +51,11 @@ To fix all fixable linting issues:
 bundle exec standardrb --fix
 ```
 
+Lint ERB files:
+```bash
+bundle exec erblint --cache --lint-all
+```
+
 Lint all Javascript/Typescript files:
 ```bash
 yarn lint:js --fix

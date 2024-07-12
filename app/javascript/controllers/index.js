@@ -8,7 +8,7 @@ import CollectController from './actions/collect_controller'
 import DialogController from './dialog_controller'
 import FavouriteController from './actions/favourite_controller'
 import ChartController from './chart_controller'
-import HistoryItemController from './history_item_controller'
+import RemoveItemController from './remove_item_controller'
 import LocalTimeController from './local_time_controller'
 import ReadController from './actions/read_controller'
 import SwiperController from './swiper_controller'
@@ -20,7 +20,7 @@ application.register('collect', CollectController)
 application.register('dialog', DialogController)
 application.register('favourite', FavouriteController)
 application.register('chart', ChartController)
-application.register('history-item', HistoryItemController)
+application.register('remove-item', RemoveItemController)
 application.register('local-time', LocalTimeController)
 application.register('read', ReadController)
 application.register('swiper', SwiperController)

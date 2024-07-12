@@ -223,7 +223,7 @@ RSpec.describe "Users", type: :request do
 
       it "renders the history component" do
         get path
-        assert_select "div[data-controller='history-item']"
+        assert_select "div[data-controller='remove-item']"
       end
     end
 
@@ -328,12 +328,13 @@ RSpec.describe "Users", type: :request do
     let(:path) { collection_user_path(user) }
 
     it "renders the collection for the user" do
-      issue = FactoryBot.create(:issue)
+      comic = FactoryBot.create(:comic, name: "Demon Slayer")
+      issue = FactoryBot.create(:issue, comic:)
       FactoryBot.create(:collected_issue, issue:, user:)
 
       get path
 
-      assert_select "a[href='#{comic_issue_path(issue, comic_id: issue.comic)}']"
+      assert_select "p", text: "Demon Slayer"
     end
 
     it_behaves_like "a private user"
