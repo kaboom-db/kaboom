@@ -1,7 +1,7 @@
 <div class="component-border relative rounded-4xl border-2 border-black w-[100%] pb-[100%] h-[0] overflow-hidden">
   <%= link_to comic_issue_path(@issue, comic_id: @comic.id), class: "group", data: {"turbo-frame": "_top"} do %>
     <img src="<%= @issue.image %>" alt="" class="w-full">
-    <div class="absolute top-0 left-0 h-full w-full opacity-0 group-hover:opacity-100 bg-black/50 flex text-center items-center justify-center p-8 backdrop-blur-sm transition duration-300 ease-in-out">
+    <div class="z-10 absolute top-0 left-0 h-full w-full opacity-0 group-hover:opacity-100 bg-black/50 flex text-center items-center justify-center p-8 backdrop-blur-sm transition duration-300 ease-in-out">
       <b class="text-white"><%= @issue.name %><% if @issue.year.present? %> (<%= @issue.year %>)<% end %></b>
     </div>
   <% end %>
