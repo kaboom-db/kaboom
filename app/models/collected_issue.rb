@@ -6,6 +6,7 @@ class CollectedIssue < ApplicationRecord
 
   # Validations
   validates :issue_id, uniqueness: {scope: :user_id}
+  validates :collected_on, presence: true
   validates :price_paid, numericality: {greater_than_or_equal_to: 0, less_than_or_equal_to: 100_000}
 
   def social_class = Social::CollectedActivity

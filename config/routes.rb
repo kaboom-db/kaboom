@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :collected_issues, only: [:update]
   resources :site_statistics, only: [:index]
 
   get "dashboard" => "dashboard#index"

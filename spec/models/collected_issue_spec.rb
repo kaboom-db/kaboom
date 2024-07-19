@@ -10,6 +10,7 @@ RSpec.describe CollectedIssue, type: :model do
   describe "validations" do
     subject { FactoryBot.create(:collected_issue) }
     it { should validate_uniqueness_of(:issue_id).scoped_to(:user_id) }
+    it { should validate_presence_of(:collected_on) }
     it { should validate_numericality_of(:price_paid).is_greater_than_or_equal_to(0) }
     it { should validate_numericality_of(:price_paid).is_less_than_or_equal_to(100_000) }
   end

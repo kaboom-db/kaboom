@@ -5,8 +5,8 @@ RSpec.describe "users/collection", type: :view do
     comic = FactoryBot.create(:comic, name: "Demon Slayer", count_of_issues: 2)
     issue1 = FactoryBot.create(:issue, comic:, name: "Issue 1", issue_number: 1)
     issue2 = FactoryBot.create(:issue, comic:, name: "Issue 2", issue_number: 2)
-    FactoryBot.create(:collected_issue, issue: issue1, user:, price_paid: 10.99)
-    FactoryBot.create(:collected_issue, issue: issue2, user:, price_paid: 10.99)
+    @ci1 = FactoryBot.create(:collected_issue, issue: issue1, user:, price_paid: 10.99)
+    @ci2 = FactoryBot.create(:collected_issue, issue: issue2, user:, price_paid: 10.99)
     presenter = UserCollectionPresenter.new(user:)
 
     render "users/collection", presenter:
@@ -30,6 +30,11 @@ RSpec.describe "users/collection", type: :view do
       assert_select "p", text: "21.98", count: 2 # One for Demon Slayer total, the other for overall total
       assert_select "p", text: "2 / 2", count: 2 # One for Demon Slayer total, the other for overall total
     end
+
+    it "renders the dialog for editing the collected issue" do
+      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci1.id}']"
+      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci2.id}']"
+    end
   end
 
   context "when user is not the current user" do
@@ -42,6 +47,11 @@ RSpec.describe "users/collection", type: :view do
     it "does not render any prices" do
       assert_select "p", text: "21.98", count: 0
       assert_select "p", text: "10.99", count: 0
+    end
+
+    it "does not render the dialog for editing the collected issue" do
+      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci1.id}']", count: 0
+      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci2.id}']", count: 0
     end
   end
 end

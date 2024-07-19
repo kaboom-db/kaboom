@@ -33,14 +33,39 @@
                 <div class="grid grid-cols-4 w-full">
                   <div class="col-span-2 whitespace-nowrap overflow-hidden">
                     <p><b>#<%= collected_issue.issue.formatted_issue_number %> - <%= collected_issue.issue.name %></b></p>
-                    <p class="inline sm:hidden"><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
+                    <p class="inline"><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
                   </div>
                   <div class="col-span-1 flex items-center justify-end ml-4">
                     <p><%= display_if current_user == presenter.user, format_price(price: collected_issue.price_paid, user: presenter.user) %></p>
                   </div>
                   <div class="col-span-1 flex items-center justify-end gap-4 ml-4">
-                    <p class="hidden sm:inline"><%= collected_issue.collected_on.strftime("%-d %b %Y") %></p>
                     <% if current_user == presenter.user %>
+                      <i class="fa-solid fa-pen-nib text-xl cursor-pointer" id="toggleEditor<%= collected_issue.id %>"></i>
+                      <dialog data-controller="dialog"
+                              data-action="click->dialog#click"
+                              data-dialog-target="dialog"
+                              data-dialog-toggler-id-value="toggleEditor<%= collected_issue.id %>"
+                              class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
+                        <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
+                          <div class="m-4">
+                            <h5 class="text-xl font-bold">Update details for <%= collected_issue.issue.name %></h1>
+                            <div class="my-4 flex flex-col gap-4">
+                              <%= form_with(model: collected_issue) do |form| %>
+                                <div class="flex flex-col gap-4 my-4">
+                                  <%= form.date_field :collected_on, class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" %>
+
+                                  <div>
+                                    <label for="pricePaid<%= collected_issue.id %>">Price paid (optional):</label>
+                                    <%= form.number_field :price_paid, id: "pricePaid#{collected_issue.id}", class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" %>
+                                  </div>
+
+                                  <%= render Forms::SubmitComponent.new(form:, text: "Save") %>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </dialog>
                       <i class="fa-solid fa-circle-xmark text-xl cursor-pointer" data-action="click->remove-item#trigger"></i>
                     <% end %>
                   </div>
