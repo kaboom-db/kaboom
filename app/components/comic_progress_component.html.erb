@@ -20,9 +20,14 @@
     <div>
       <div class="flex justify-between">
         <p><%= @progress %>%</p>
-        <%= button_to read_next_issue_comic_path(@comic), method: :post do %>
-          <i class="fa-solid fa-circle-plus text-lg"></i>
-        <% end %>
+        <div class="flex gap-2">
+          <%= button_to hide_comic_path(@comic), method: :post do %>
+            <i class="fa-solid fa-ban text-lg"></i>
+          <% end %>
+          <%= button_to read_next_issue_comic_path(@comic), method: :post do %>
+            <i class="fa-solid fa-circle-plus text-lg"></i>
+          <% end %>
+        </div>
       </div>
       <div class="w-full rounded-full border-2 border-black">
         <div style="width: <%= @progress %>%;" class="h-2 rounded-full bg-primary"></div>

@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # Associations
   has_many :read_issues, dependent: :delete_all
   has_many :comics, -> { distinct }, through: :read_issues
+  has_many :hidden_comics, dependent: :delete_all
+  has_many :comics_hidden_from_progress, through: :hidden_comics, source: :comic
   has_many :issues_read, through: :read_issues, source: :issue
 
   has_many :wishlist_items, dependent: :delete_all
@@ -107,6 +109,7 @@ class User < ApplicationRecord
   def incompleted_comics
     comics
       .joins(:issues)
+      .where.not(id: comics_hidden_from_progress)
       .select("comics.*, MAX(read_issues.read_at) AS last_read_at")
       .group("comics.id")
       .having("COUNT(DISTINCT issues.id) < comics.count_of_issues")

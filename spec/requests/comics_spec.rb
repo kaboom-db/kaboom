@@ -729,4 +729,34 @@ RSpec.describe "/comics", type: :request do
       end
     end
   end
+
+  describe "POST /comics/:id/hide" do
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+    let(:comic) { FactoryBot.create(:comic) }
+
+    context "when user is not logged in" do
+      it "redirects to the sign in page" do
+        post hide_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is signed in" do
+      before do
+        sign_in user
+      end
+
+      it "creates a hidden comic" do
+        post hide_comic_path(comic)
+        hidden_comic = HiddenComic.last
+        expect(hidden_comic.comic).to eq comic
+        expect(hidden_comic.user).to eq user
+      end
+
+      it "renders the progress sidebar" do
+        post hide_comic_path(comic)
+        assert_select "#comic_progress"
+      end
+    end
+  end
 end

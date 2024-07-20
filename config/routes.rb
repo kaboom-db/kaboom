@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       post :read_range
       post :refresh
       post :read_next_issue
+      post :hide
     end
   end
 

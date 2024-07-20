@@ -4,6 +4,8 @@ RSpec.describe User, type: :model do
   describe "associations" do
     it { should have_many(:read_issues).dependent(:delete_all) }
     it { should have_many(:comics).through(:read_issues) }
+    it { should have_many(:hidden_comics).dependent(:delete_all) }
+    it { should have_many(:comics_hidden_from_progress).through(:hidden_comics).source(:comic) }
     it { should have_many(:issues_read).through(:read_issues).source(:issue) }
 
     it { should have_many(:visits).dependent(:delete_all) }
@@ -325,8 +327,13 @@ RSpec.describe User, type: :model do
       FactoryBot.create(:read_issue, user:, issue: issue5, read_at: Time.current)
     end
 
-    it "returns the users completed comics" do
+    it "returns the users incompleted comics" do
       expect(user.incompleted_comics.to_a).to eq [@comic3, @comic1]
+    end
+
+    it "does not include hidden comics" do
+      FactoryBot.create(:hidden_comic, user:, comic: @comic1)
+      expect(user.incompleted_comics).to eq [@comic3]
     end
   end
 

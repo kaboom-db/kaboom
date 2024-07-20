@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_04_185923) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_19_202217) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,6 +95,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_185923) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fa_icon", default: "fa-masks-theater", null: false
+  end
+
+  create_table "hidden_comics", force: :cascade do |t|
+    t.bigint "comic_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comic_id"], name: "index_hidden_comics_on_comic_id"
+    t.index ["user_id"], name: "index_hidden_comics_on_user_id"
   end
 
   create_table "issues", force: :cascade do |t|
@@ -198,6 +207,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_185923) do
   add_foreign_key "favourite_items", "users"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "follows", "users", column: "target_id"
+  add_foreign_key "hidden_comics", "comics"
+  add_foreign_key "hidden_comics", "users"
   add_foreign_key "issues", "comics"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"

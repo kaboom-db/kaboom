@@ -1,8 +1,8 @@
 class ComicsController < ApplicationController
   include VisitConcerns
 
-  before_action :set_comic, only: %i[show edit update wishlist unwishlist favourite unfavourite read_range refresh read_next_issue]
-  before_action :user_required, only: %i[edit update import wishlist unwishlist favourite unfavourite read_range refresh read_next_issue]
+  before_action :set_comic, except: %i[index import]
+  before_action :user_required, except: %i[index show]
 
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
@@ -147,6 +147,11 @@ class ComicsController < ApplicationController
     if issue.present?
       ReadIssue.create(read_at: Time.current, user: current_user, issue:)
     end
+    render partial: "shared/user_progress_sidebar"
+  end
+
+  def hide
+    HiddenComic.create(comic: @comic, user: current_user)
     render partial: "shared/user_progress_sidebar"
   end
 
