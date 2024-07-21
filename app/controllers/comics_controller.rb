@@ -155,6 +155,13 @@ class ComicsController < ApplicationController
     render partial: "shared/user_progress_sidebar"
   end
 
+  def unhide
+    hidden_comic = HiddenComic.find_by(user: current_user, comic: @comic)
+    hidden_comic&.destroy
+
+    head :ok
+  end
+
   private
 
   def set_comic

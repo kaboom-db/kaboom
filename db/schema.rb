@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_19_202217) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_21_101933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_19_202217) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["comic_id"], name: "index_hidden_comics_on_comic_id"
+    t.index ["user_id", "comic_id"], name: "index_hidden_comics_on_unique_combination", unique: true
     t.index ["user_id"], name: "index_hidden_comics_on_user_id"
   end
 

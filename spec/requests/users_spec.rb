@@ -169,6 +169,22 @@ RSpec.describe "Users", type: :request do
         assert_select "input[name='user[allow_email_notifications]']"
         assert_select "select[name='user[currency_id]']"
       end
+
+      context "when user has hidden comics" do
+        it "renders the hidden comics" do
+          hc = FactoryBot.create(:hidden_comic, user:)
+          get edit_user_path(user)
+          assert_select "h2", text: "Hidden Comics:"
+          assert_select "p", text: hc.comic.name
+        end
+      end
+
+      context "when user does not have hidden comics" do
+        it "does not render the hidden comic header" do
+          get edit_user_path(user)
+          assert_select "h2", text: "Hidden Comics:", count: 0
+        end
+      end
     end
 
     context "when user is not the current user" do

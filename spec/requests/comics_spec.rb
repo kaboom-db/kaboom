@@ -759,4 +759,45 @@ RSpec.describe "/comics", type: :request do
       end
     end
   end
+
+  describe "POST /comics/:id/unhide" do
+    let(:user) { FactoryBot.create(:user, :confirmed) }
+    let(:comic) { FactoryBot.create(:comic) }
+
+    context "when user is not logged in" do
+      it "redirects to the sign in page" do
+        post unhide_comic_path(comic)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context "when user is signed in" do
+      before do
+        sign_in user
+      end
+
+      context "when a hidden comic is found" do
+        before do
+          FactoryBot.create(:hidden_comic, comic:, user:)
+        end
+
+        it "destroys the hidden comic" do
+          post unhide_comic_path(comic)
+          expect(HiddenComic.count).to eq 0
+        end
+
+        it "responds with a 200 ok" do
+          post unhide_comic_path(comic)
+          expect(response.status).to eq 200
+        end
+      end
+
+      context "when a hidden comic is not found" do
+        it "still responds with 200 ok" do
+          post unhide_comic_path(comic)
+          expect(response.status).to eq 200
+        end
+      end
+    end
+  end
 end

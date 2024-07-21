@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       post :refresh
       post :read_next_issue
       post :hide
+      post :unhide
     end
   end
 
