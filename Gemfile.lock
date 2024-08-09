@@ -136,7 +136,7 @@ GEM
     crass (1.0.6)
     crawler_detect (1.2.4)
       qonfig (>= 0.24)
-    cssbundling-rails (1.4.0)
+    cssbundling-rails (1.4.1)
       railties (>= 6.0.0)
     date (3.3.4)
     debug (1.9.2)
