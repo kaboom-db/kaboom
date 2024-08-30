@@ -12,7 +12,7 @@
     "nouislider": "^15.8.1",
     "postcss": "^8.4.41",
     "stimulus-chartjs": "^5.0.1",
-    "swiper": "^11.1.10",
+    "swiper": "^11.1.11",
     "tailwindcss": "^3.4.10"
   },
   "scripts": {
