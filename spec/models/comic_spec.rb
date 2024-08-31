@@ -5,6 +5,7 @@ RSpec.describe Comic, type: :model do
     it { should have_many(:issues) }
     it { should have_many(:ordered_issues).class_name("Issue") }
     it { should have_many(:read_issues).through(:issues) }
+    it { should have_many(:users).through(:read_issues) }
     it { should have_many(:visits).dependent(:delete_all) }
     it { should have_many(:visit_buckets).dependent(:delete_all) }
     it { should belong_to(:country).optional }

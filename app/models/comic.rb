@@ -16,6 +16,7 @@ class Comic < ApplicationRecord
   has_many :issues
   has_many :ordered_issues, -> { order(absolute_number: :asc) }, class_name: "Issue"
   has_many :read_issues, through: :issues
+  has_many :users, -> { distinct }, through: :read_issues
   has_many :visits, as: :visited, dependent: :delete_all
   has_many :visit_buckets, as: :visited, dependent: :delete_all
   belongs_to :country, optional: true

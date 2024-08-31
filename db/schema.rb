@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_21_101933) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_31_113352) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -132,6 +132,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_21_101933) do
     t.index ["issue_number", "comic_id"], name: "index_issues_on_issue_number_and_comic_id", unique: true
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "read_at"
+    t.datetime "email_sent_at"
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.string "notification_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "read_issues", force: :cascade do |t|
     t.datetime "read_at", null: false
     t.bigint "user_id", null: false
@@ -211,6 +223,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_21_101933) do
   add_foreign_key "hidden_comics", "comics"
   add_foreign_key "hidden_comics", "users"
   add_foreign_key "issues", "comics"
+  add_foreign_key "notifications", "users"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
   add_foreign_key "users", "currencies"

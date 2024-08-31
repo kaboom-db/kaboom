@@ -52,6 +52,38 @@ RSpec.describe Issue, type: :model do
     end
   end
 
+  describe "callbacks" do
+    describe "after_create :create_notifications" do
+      let(:comic) { FactoryBot.create(:comic) }
+      let(:issue1) { FactoryBot.create(:issue, comic:) }
+      let(:issue2) { FactoryBot.build(:issue, comic:) }
+
+      context "when there are no users reading the comic" do
+        it "does not create any notifications" do
+          issue2.save
+          expect(Notification.count).to eq 0
+        end
+      end
+
+      context "when there are users reading the comic" do
+        it "creates the notifications for the users" do
+          user1 = FactoryBot.create(:read_issue, issue: issue1).user
+          user2 = FactoryBot.create(:read_issue, issue: issue1).user
+          issue2.save
+
+          expect(Notification.count).to eq 2
+          notification1 = Notification.where(user: user1).first
+          expect(notification1.notifiable).to eq issue2
+          expect(notification1.notification_type).to eq Notification::CREATED
+
+          notification2 = Notification.where(user: user2).first
+          expect(notification2.notifiable).to eq issue2
+          expect(notification2.notification_type).to eq Notification::CREATED
+        end
+      end
+    end
+  end
+
   describe "#year" do
     context "when there is a store date" do
       it "returns the year of the store date" do

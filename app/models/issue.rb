@@ -22,6 +22,9 @@ class Issue < ApplicationRecord
   }
   scope :safe_for_work, -> { joins(:comic).where(comic: {nsfw: false}) }
 
+  # callbacks
+  after_create :create_notifications
+
   def year = store_date&.year
 
   def formatted_issue_number
@@ -59,5 +62,11 @@ class Issue < ApplicationRecord
     return unless issue.present?
     issue.sync
     issue
+  end
+
+  private
+
+  def create_notifications
+    NotificationCreator.create(users: comic.reload.users, notifiable: self, notification_type: Notification::CREATED)
   end
 end
