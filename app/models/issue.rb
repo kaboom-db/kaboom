@@ -67,6 +67,6 @@ class Issue < ApplicationRecord
   private
 
   def create_notifications
-    NotificationCreator.create(users: comic.reload.users, notifiable: self, notification_type: Notification::CREATED)
+    NotificationCreator.create(users: comic.reload.users, notifiable: self, notification_type: Notification::NEW_ISSUE)
   end
 end

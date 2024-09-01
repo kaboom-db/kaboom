@@ -74,11 +74,11 @@ RSpec.describe Issue, type: :model do
           expect(Notification.count).to eq 2
           notification1 = Notification.where(user: user1).first
           expect(notification1.notifiable).to eq issue2
-          expect(notification1.notification_type).to eq Notification::CREATED
+          expect(notification1.notification_type).to eq Notification::NEW_ISSUE
 
           notification2 = Notification.where(user: user2).first
           expect(notification2.notifiable).to eq issue2
-          expect(notification2.notification_type).to eq Notification::CREATED
+          expect(notification2.notification_type).to eq Notification::NEW_ISSUE
         end
       end
     end

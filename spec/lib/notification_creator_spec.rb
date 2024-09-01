@@ -5,7 +5,7 @@ RSpec.describe NotificationCreator do
     let(:creator) { NotificationCreator.new(users:, notifiable:, notification_type:) }
     let(:users) { [] }
     let(:notifiable) { FactoryBot.create(:issue) }
-    let(:notification_type) { Notification::CREATED }
+    let(:notification_type) { Notification::NEW_ISSUE }
 
     subject { creator.create }
 
@@ -35,11 +35,11 @@ RSpec.describe NotificationCreator do
         expect(Notification.count).to eq 2
         notification1 = Notification.where(user: user1).first
         expect(notification1.notifiable).to eq notifiable
-        expect(notification1.notification_type).to eq Notification::CREATED
+        expect(notification1.notification_type).to eq Notification::NEW_ISSUE
 
         notification2 = Notification.where(user: user2).first
         expect(notification2.notifiable).to eq notifiable
-        expect(notification2.notification_type).to eq Notification::CREATED
+        expect(notification2.notification_type).to eq Notification::NEW_ISSUE
       end
 
       context "when notifiable is nil" do
@@ -50,11 +50,11 @@ RSpec.describe NotificationCreator do
           expect(Notification.count).to eq 2
           notification1 = Notification.where(user: user1).first
           expect(notification1.notifiable).to eq nil
-          expect(notification1.notification_type).to eq Notification::CREATED
+          expect(notification1.notification_type).to eq Notification::NEW_ISSUE
 
           notification2 = Notification.where(user: user2).first
           expect(notification2.notifiable).to eq nil
-          expect(notification2.notification_type).to eq Notification::CREATED
+          expect(notification2.notification_type).to eq Notification::NEW_ISSUE
         end
       end
     end

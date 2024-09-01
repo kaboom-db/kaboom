@@ -19,6 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
+every :hour do
+  runner "EmailNotificationsWorker.perform_async"
+end
+
 every :day, at: "12:00pm" do
   runner "SyncWorker.perform_async"
 end

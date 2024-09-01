@@ -7,7 +7,7 @@ FactoryBot.define do
     deck { "MyText" }
     description { "MyText" }
     cv_id { 1 }
-    image { "MyString" }
+    image { "https://example.com/test.png" }
     sequence(:issue_number) { _1 }
     sequence(:absolute_number) { _1 }
     name { "MyString" }

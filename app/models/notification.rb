@@ -1,6 +1,6 @@
 class Notification < ApplicationRecord
   TYPES = [
-    CREATED = "created"
+    NEW_ISSUE = "new_issue"
   ]
 
   NOTIFIABLES = [
