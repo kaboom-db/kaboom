@@ -1,5 +1,6 @@
 class IssuesController < ApplicationController
   include VisitConcerns
+  include NotificationConcerns
 
   before_action :set_comic
   before_action :set_issue, except: %i[index]
@@ -13,6 +14,7 @@ class IssuesController < ApplicationController
   def show
     set_resource_metadata(resource: @issue)
     add_visit(user: current_user, visited: @issue)
+    mark_notifications(user: current_user, notifiable: @issue)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_elms: 14, type: Charts::Constants::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
   end

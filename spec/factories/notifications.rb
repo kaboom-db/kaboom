@@ -3,7 +3,7 @@ FactoryBot.define do
     user
     read_at { nil }
     email_sent_at { nil }
-    notification_type { "created" }
+    notification_type { "new_issue" }
     for_issue
 
     trait :for_issue do

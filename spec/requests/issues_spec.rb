@@ -159,6 +159,28 @@ RSpec.describe "/issues", type: :request do
           # expect(year.reload.count).to eq 2
         end
       end
+
+      context "when user has notifications for that issue" do
+        before do
+          travel_to DateTime.new(2024, 2, 2, 10)
+
+          @notification1 = FactoryBot.create(:notification, user:, notifiable: @issue, read_at: nil)
+          # Notification that has already been read
+          @notification2 = FactoryBot.create(:notification, user:, notifiable: @issue, read_at: DateTime.new(2024, 1, 1, 10))
+          # Notification that is not for the logged in user
+          @notification3 = FactoryBot.create(:notification, user: FactoryBot.create(:user), notifiable: @issue, read_at: nil)
+          # Notification for a different issue
+          @notification4 = FactoryBot.create(:notification, user:, notifiable: FactoryBot.create(:issue), read_at: nil)
+        end
+
+        it "marks the relevant notifications read at to the current time" do
+          perform
+          expect(@notification1.reload.read_at).to eq DateTime.new(2024, 2, 2, 10)
+          expect(@notification2.reload.read_at).to eq DateTime.new(2024, 1, 1, 10)
+          expect(@notification3.reload.read_at).to eq nil
+          expect(@notification4.reload.read_at).to eq nil
+        end
+      end
     end
   end
 
