@@ -10,6 +10,7 @@ import DialogController from './dialog_controller'
 import ExpandAllController from './expand_all_controller'
 import FavouriteController from './actions/favourite_controller'
 import GenreSwiperController from './genre_swiper_controller'
+import HorizontalStackChartController from './horizontal_stack_chart_controller'
 import LocalTimeController from './local_time_controller'
 import ReadController from './actions/read_controller'
 import ReadRangeController from './read_range_controller'
@@ -24,6 +25,7 @@ application.register('dialog', DialogController)
 application.register('expand-all', ExpandAllController)
 application.register('favourite', FavouriteController)
 application.register('genre-swiper', GenreSwiperController)
+application.register('horizontal-stack-chart', HorizontalStackChartController)
 application.register('local-time', LocalTimeController)
 application.register('read', ReadController)
 application.register('read-range', ReadRangeController)

@@ -114,5 +114,7 @@
         <% end %>
       <% end %>
     </div>
+
+    <%= render Charts::StackedChartComponent.new(data: @stacked_genre_chart, title: "Issues read by genre", type: "issues") %>
   </div>
 <% end %>

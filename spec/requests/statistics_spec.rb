@@ -65,6 +65,25 @@ RSpec.describe "Statistics", type: :request do
         assert_select "p.text-4xl", text: "1", count: 2
       end
     end
+
+    context "when the user does not have any stacked genre data" do
+      it "does not show the stacked genre chart" do
+        get path
+        assert_select "h2.text-2xl", text: "Issues read by genre:", count: 0
+      end
+    end
+
+    context "when the user has stacked genre data" do
+      it "shows the stacked genre chart" do
+        genre = FactoryBot.create(:genre, name: "Space Adventure")
+        comic = FactoryBot.create(:comic, genres: [genre])
+        issue = FactoryBot.create(:issue, comic:)
+        FactoryBot.create(:read_issue, issue:, user:, read_at: Time.new(2023, 1, 2, 0, 0))
+        get path
+        assert_select "h2.text-2xl", text: "Issues read by genre:"
+        assert_select "h3.text-2xl", text: "Space Adventure"
+      end
+    end
   end
 
   describe "GET /index" do

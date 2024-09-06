@@ -1,0 +1,25 @@
+<div class="col-span-full mt-6" data-controller="horizontal-stack-chart">
+  <%= render ChipHeaderComponent.new(text: @title) %>
+  <%= render BorderComponent.new do %>
+    <div class="w-full h-16 border-2 border-black rounded-2xl flex overflow-hidden">
+      <% @data.each_with_index do |entry, index| %>
+        <div class="hover:brightness-105"
+              style="width: <%= entry[:percentage] %>%; background-color: rgb(<%= @colours.next %>);"
+              data-name="<%= entry[:name] %>"
+              data-percentage="<%= strip_float(number: entry[:percentage]) %>"
+              data-count="<%= entry[:count] %>"
+              data-horizontal-stack-chart-target="segment">
+        </div>
+      <% end %>
+    </div>
+    <div class="text-center p-8">
+      <h3 data-horizontal-stack-chart-target="name" class="text-2xl font-bold"><%= @data.first[:name] %></h3>
+      <p>
+        <span data-horizontal-stack-chart-target="sub">
+          <%= strip_float(number: @data.first[:percentage]) %>% - <%= @data.first[:count] %>
+        </span>
+        <%= @type %>
+      </p>
+    </div>
+  <% end %>
+</div>

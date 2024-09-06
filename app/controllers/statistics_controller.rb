@@ -37,6 +37,8 @@ class StatisticsController < ApplicationController
       range:
     ).generate
 
+    @stacked_genre_chart = Charts::Stacked::GenreChart.new(user: @user, range:).generate
+
     @most_activity_counts = Statistics::UserMostActivityCount.new(year: y, user: @user)
   end
 
