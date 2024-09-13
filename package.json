@@ -13,7 +13,7 @@
     "postcss": "^8.4.45",
     "stimulus-chartjs": "^5.0.1",
     "swiper": "^11.1.12",
-    "tailwindcss": "^3.4.10"
+    "tailwindcss": "^3.4.11"
   },
   "scripts": {
     "build": "node esbuild.config.js",
