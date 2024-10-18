@@ -8,7 +8,7 @@
     "chart.js": "^4.4.4",
     "esbuild": "^0.20.2",
     "esbuild-sass-plugin": "^3.0.0",
-    "fuzzysort": "^3.0.2",
+    "fuzzysort": "^3.1.0",
     "nouislider": "^15.8.1",
     "postcss": "^8.4.47",
     "stimulus-chartjs": "^5.0.1",
