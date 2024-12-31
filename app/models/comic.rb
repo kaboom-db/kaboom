@@ -1,15 +1,11 @@
 class Comic < ApplicationRecord
   TYPES = [
-    TRADE_PAPERBACK = "Trade Paperback",
-    GRAPHIC_NOVEL = "Graphic Novel",
+    COLLECTED_SERIES = "Collected Series",
     MANGA = "Manga",
     MANHWA = "Manhwa",
-    COMPLETE = "Completed Series",
-    ONGOING_SERIES = "Ongoing Series",
-    ONESHOT = "Oneshot",
-    HARDCOVER = "Hardcover",
     ANNUAL_SERIES = "Annual Series",
-    SPECIAL = "Special Series"
+    SERIES = "Series",
+    ONESHOT = "Oneshot"
   ]
 
   # associations
