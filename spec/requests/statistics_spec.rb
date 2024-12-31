@@ -117,8 +117,8 @@ RSpec.describe "Statistics", type: :request do
 
     it "renders links to the next and previous year" do
       get path
-      assert_select "a.cursor-pointer", text: "< 2022"
-      assert_select "a.cursor-pointer", text: "2024 >"
+      assert_select "a.cursor-pointer", text: "« 2022"
+      assert_select "a.cursor-pointer", text: "2024 »"
     end
 
     it_behaves_like "a statistics page"
