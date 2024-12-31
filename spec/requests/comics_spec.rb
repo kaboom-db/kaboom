@@ -475,7 +475,7 @@ RSpec.describe "/comics", type: :request do
 
         it "redirects to the imported comic" do
           post import_comics_path(params: {comicvine_id: "12345"})
-          expect(response).to redirect_to comic_path(Comic.last)
+          expect(response).to redirect_to edit_comic_path(Comic.last)
         end
 
         it "sets a flash message" do

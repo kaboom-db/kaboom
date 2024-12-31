@@ -45,7 +45,7 @@ class ComicsController < ApplicationController
 
     @comic.import_issues
 
-    redirect_to comic_path(@comic), notice: "#{@comic.name} was successfully imported."
+    redirect_to edit_comic_path(@comic), notice: "#{@comic.name} was successfully imported."
   end
 
   def wishlist
