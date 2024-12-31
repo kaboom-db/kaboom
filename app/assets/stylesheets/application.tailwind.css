@@ -37,12 +37,16 @@
     background-color: rgba(255, 195, 113, 1);
   }
 
-  .resource-description > h1, .resource-description > h2, .resource-description > h3, .resource-description > h4, .resource-description > h5 {
-    @apply text-xl font-bold
+  .resource-description > h1,
+  .resource-description > h2,
+  .resource-description > h3,
+  .resource-description > h4,
+  .resource-description > h5 {
+    @apply text-xl font-bold;
   }
 
   .resource-description > ul {
-    @apply list-disc ml-8
+    @apply list-disc ml-8;
   }
 
   :root {
@@ -54,7 +58,7 @@
   }
 
   #slider-round .noUi-connect {
-      background: rgba(255, 195, 113, 1);
+    background: rgba(255, 195, 113, 1);
   }
 
   #slider-round .noUi-handle {
@@ -70,7 +74,7 @@
   }
 
   #slider-round .noUi-handle-upper {
-      right: -18px;
+    right: -18px;
   }
 
   #slider-round > div > div:nth-child(2) > div > div.noUi-tooltip {
@@ -82,7 +86,13 @@
   }
 
   .component-border {
-    box-shadow: 1px 1px 0 black, 2px 2px 0 black, 3px 3px 0 black, 4px 4px 0 black, 5px 5px 0 black, 6px 6px 0 black;
+    box-shadow:
+      1px 1px 0 black,
+      2px 2px 0 black,
+      3px 3px 0 black,
+      4px 4px 0 black,
+      5px 5px 0 black,
+      6px 6px 0 black;
   }
 
   /* Webkit scrollbar styles */
@@ -123,26 +133,29 @@
 
   /* Pagination */
   .pagination {
-    @apply flex flex-wrap gap-4 justify-center mt-8
+    @apply flex flex-wrap gap-4 justify-center mt-8;
   }
 
-  .previous_page, .next_page {
-    @apply font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light transition duration-300 ease-in-out
+  .previous_page,
+  .next_page {
+    @apply font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light transition duration-300 ease-in-out;
   }
 
-  a.previous_page, a.next_page {
-    @apply hover:bg-primary
+  a.previous_page,
+  a.next_page {
+    @apply hover:bg-primary;
   }
 
   .pagination * {
-    @apply min-w-10 min-h-10 flex justify-center items-center
+    @apply min-w-10 min-h-10 flex justify-center items-center;
   }
 
   .pagination a {
-    @apply font-bold rounded-full border-2 border-black py-1.5 px-3 bg-primary-light hover:bg-primary transition duration-300 ease-in-out
+    @apply font-bold rounded-full border-2 border-black py-1.5 px-3 bg-primary-light hover:bg-primary transition duration-300 ease-in-out;
   }
 
-  .pagination span, .pagination em {
-    @apply font-bold border-2 bg-gray-100 rounded-full border-black
+  .pagination span,
+  .pagination em {
+    @apply font-bold border-2 bg-gray-100 rounded-full border-black;
   }
 }
