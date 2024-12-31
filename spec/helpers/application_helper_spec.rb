@@ -105,6 +105,11 @@ RSpec.describe ApplicationHelper, type: :helper do
     ApplicationHelper::SIDEBAR_CONTROLLERS.each do |controller_name|
       context "when the controller is #{controller_name}" do
         let(:controller_name) { controller_name }
+        let(:current_user) { FactoryBot.create(:user) }
+
+        before do
+          allow(helper).to receive(:current_user).and_return(current_user)
+        end
 
         context "when action_name is index" do
           let(:action_name) { "index" }
@@ -116,6 +121,15 @@ RSpec.describe ApplicationHelper, type: :helper do
 
         context "when action_name is not index" do
           let(:action_name) { "bogus" }
+
+          it "returns false" do
+            expect(should_show_sidebar?).to be_falsey
+          end
+        end
+
+        context "when action_name is index and user is not logged in" do
+          let(:action_name) { "index" }
+          let(:current_user) { nil }
 
           it "returns false" do
             expect(should_show_sidebar?).to be_falsey

@@ -43,49 +43,55 @@
         <%= render "layouts/navbar" %>
       </div>
       <% main_cols = should_show_sidebar? ? "col-span-5" : "col-span-8" %>
-      <div class="<%= main_cols %> ml-[1rem] sm:ml-[3rem] mt-[1rem] sm:mt-[3rem] mr-[1rem] sm:mr-[3rem]">
-        <%= render "layouts/flash" %>
-        <%= yield %>
-        <dialog data-controller="dialog"
-                data-dialog-toggler-id-value="importComicBtn"
-                data-action="click->dialog#click"
-                data-dialog-target="dialog"
-                id="importComic"
-                class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
-          <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
-            <h5 class="text-xl font-bold">Import a comic</h1>
-            <%= form_tag(import_comics_path, method: "post", class: "my-4 flex flex-col gap-4") do |form| %>
-              <%= render TextInputComponent.new(name: "comicvine_id", placeholder: "ComicVine ID") %>
-              <small class="max-w-[400px] break-words">You can find the ComicVine ID at the end of the URL, e.g. <code class="p-1 bg-gray-200 rounded">http://comicvine.gamespot.com/&lt;name&gt;/4050-&lt;id&gt;/</code></small>
+      <div class="<%= main_cols %>">
+        <div class="min-h-screen ml-[1rem] sm:ml-[3rem] mt-[1rem] sm:mt-[3rem] mr-[1rem] sm:mr-[3rem]">
+          <%= render "layouts/flash" %>
+          <%= yield %>
+          <dialog data-controller="dialog"
+                  data-dialog-toggler-id-value="importComicBtn"
+                  data-action="click->dialog#click"
+                  data-dialog-target="dialog"
+                  id="importComic"
+                  class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
+            <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
+              <h5 class="text-xl font-bold">Import a comic</h1>
+              <%= form_tag(import_comics_path, method: "post", class: "my-4 flex flex-col gap-4") do |form| %>
+                <%= render TextInputComponent.new(name: "comicvine_id", placeholder: "ComicVine ID") %>
+                <small class="max-w-[400px] break-words">You can find the ComicVine ID at the end of the URL, e.g. <code class="p-1 bg-gray-200 rounded">http://comicvine.gamespot.com/&lt;name&gt;/4050-&lt;id&gt;/</code></small>
 
-              <div>
-                <input type="checkbox" name="nsfw" id="nsfw_import">
-                <label for="nsfw_import">Adult content</label>
-              </div>
+                <div>
+                  <input type="checkbox" name="nsfw" id="nsfw_import">
+                  <label for="nsfw_import">Adult content</label>
+                </div>
 
-              <%= submit_tag "Import", class: "font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out" %>
-            <% end %>
-            <button onclick="importComic.close();" class="text-hint underline py-4">Cancel</button>
-          </div>
-        </dialog>
-        <div class="relative pointer-events-none z-20">
-          <div class="fixed right-5 bottom-5 ml-5">
-            <div class="flex flex-col gap-4 items-end" id="notifContainer"></div>
+                <%= submit_tag "Import", class: "font-bold rounded-full border-2 border-black inline-block py-1.5 px-3 bg-primary-light cursor-pointer hover:bg-primary transition duration-300 ease-in-out" %>
+              <% end %>
+              <button onclick="importComic.close();" class="text-hint underline py-4">Cancel</button>
+            </div>
+          </dialog>
+          <div class="relative pointer-events-none z-20">
+            <div class="fixed right-5 bottom-5 ml-5">
+              <div class="flex flex-col gap-4 items-end" id="notifContainer"></div>
+            </div>
           </div>
         </div>
+        <footer class="hidden sm:block bg-secondary pl-[1rem] sm:pl-[3rem] text-sm py-6 border-t-2 border-black">
+          <div class="mx-auto">
+            <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
+            developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a> ·
+            <a href="<%= privacy_policy_path %>" class="text-hint underline">Privacy Policy</a> ·
+            <%# TODO: Do not use onclick %>
+            <button onclick="importComic.showModal();" class="text-hint underline">Import</button>
+          </div>
+        </footer>
       </div>
       <% if should_show_sidebar? %>
         <% if current_user %>
           <%= render "shared/user_progress_sidebar" %>
-        <% else %>
-          <div class="col-span-3 mx-4 my-16">
-            <%= render ChipHeaderComponent.new(text: "Create an account") %>
-            <%= render "shared/sign_up_form", resource: User.new, resource_name: :user, sidebar: true %>
-          </div>
         <% end %>
       <% end %>
     </main>
-    <footer class="bg-secondary pl-[1rem] sm:pl-[3rem] text-sm py-6 border-t-2 border-black">
+    <footer class="sm:hidden bg-secondary pl-[1rem] sm:pl-[3rem] text-sm py-6 border-t-2 border-black">
       <div class="mx-auto">
         <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
         developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a> ·

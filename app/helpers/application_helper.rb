@@ -29,7 +29,7 @@ module ApplicationHelper
   end
 
   def should_show_sidebar?
-    SIDEBAR_CONTROLLERS.include?(controller_name) && action_name == "index"
+    SIDEBAR_CONTROLLERS.include?(controller_name) && action_name == "index" && current_user.present?
   end
 
   def display_if(condition, value)
