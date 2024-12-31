@@ -49,6 +49,11 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :view
   config.include Devise::Test::ControllerHelpers, type: :view
 
+  # TODO: Remove in next release of Devise. Courtesy of heartcombo/devise#5705
+  config.before(:each, type: :component) do
+    Rails.application.reload_routes_unless_loaded
+  end
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
