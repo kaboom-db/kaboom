@@ -33,7 +33,7 @@ RSpec.describe "Users", type: :request do
 
       it "renders the followers dialog and the followers" do
         get path
-        assert_select "dialog[data-dialog-toggler-id-value='followersBtn']"
+        assert_select "dialog[data-dialog-toggler-class-value='followersBtn']"
         assert_select "p", text: "IFollow"
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe "Users", type: :request do
       it "does not render the followers dialog" do
         Follow.destroy_all
         get path
-        assert_select "dialog[data-dialog-toggler-id-value='followersBtn']", count: 0
+        assert_select "dialog[data-dialog-toggler-class-value='followersBtn']", count: 0
       end
     end
 
@@ -53,7 +53,7 @@ RSpec.describe "Users", type: :request do
 
       it "renders the following dialog" do
         get path
-        assert_select "dialog[data-dialog-toggler-id-value='followingBtn']"
+        assert_select "dialog[data-dialog-toggler-class-value='followingBtn']"
         assert_select "p", text: "ITarget"
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe "Users", type: :request do
       it "does not render the following dialog" do
         Follow.destroy_all
         get path
-        assert_select "dialog[data-dialog-toggler-id-value='followingBtn']", count: 0
+        assert_select "dialog[data-dialog-toggler-class-value='followingBtn']", count: 0
       end
     end
   end

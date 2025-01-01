@@ -47,7 +47,7 @@
         <div class="min-h-screen ml-[1rem] sm:ml-[3rem] mt-[1rem] sm:mt-[3rem] mr-[1rem] sm:mr-[3rem]">
           <%= yield %>
           <dialog data-controller="dialog"
-                  data-dialog-toggler-id-value="importComicBtn"
+                  data-dialog-toggler-class-value="importComicBtn"
                   data-action="click->dialog#click"
                   data-dialog-target="dialog"
                   id="importComic"
@@ -81,8 +81,7 @@
             <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
             developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a> ·
             <a href="<%= privacy_policy_path %>" class="text-hint underline">Privacy Policy</a> ·
-            <%# TODO: Do not use onclick %>
-            <button onclick="importComic.showModal();" class="text-hint underline">Import</button>
+            <button class="text-hint underline importComicBtn">Import</button>
           </div>
         </footer>
       </div>
@@ -97,7 +96,7 @@
         <a href="https://github.com/kaboom-db/kaboom" class="text-hint underline">Kaboom</a>
         developed by <a href="https://github.com/crxssed7" class="text-hint underline">crxssed</a> ·
         <a href="<%= privacy_policy_path %>" class="text-hint underline">Privacy Policy</a> ·
-        <button id="importComicBtn" class="text-hint underline">Import</button>
+        <button class="text-hint underline importComicBtn">Import</button>
       </div>
     </footer>
   </body>

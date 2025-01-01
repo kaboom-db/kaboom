@@ -40,11 +40,11 @@
                   </div>
                   <div class="col-span-1 flex items-center justify-end gap-4 ml-4">
                     <% if current_user == presenter.user %>
-                      <i class="fa-solid fa-pen-nib text-xl cursor-pointer" id="toggleEditor<%= collected_issue.id %>"></i>
+                      <i class="fa-solid fa-pen-nib text-xl cursor-pointer toggleEditor<%= collected_issue.id %>"></i>
                       <dialog data-controller="dialog"
                               data-action="click->dialog#click"
                               data-dialog-target="dialog"
-                              data-dialog-toggler-id-value="toggleEditor<%= collected_issue.id %>"
+                              data-dialog-toggler-class-value="toggleEditor<%= collected_issue.id %>"
                               class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
                         <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
                           <div class="m-4">

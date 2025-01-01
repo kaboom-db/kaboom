@@ -11,8 +11,8 @@
         <span class="text-primary"><%= link_to @user, {}, {class: "decoration-dotted underline", data: {turbo: false}} %><% if @possessive.present? %>'s<span> <%= @possessive %><% end %>
       </div>
       <div class="flex justify-around max-w-[500px] w-full">
-        <p id="followersBtn" class="underline cursor-pointer"><b><%= @user.followers.count %></b> <%= "follower".pluralize(@user.followers.count) %></p>
-        <p id="followingBtn" class="underline cursor-pointer"><b><%= @user.following.count %></b> following</p>
+        <p class="followersBtn underline cursor-pointer"><b><%= @user.followers.count %></b> <%= "follower".pluralize(@user.followers.count) %></p>
+        <p class="followingBtn underline cursor-pointer"><b><%= @user.following.count %></b> following</p>
       </div>
       <% if should_show_extra_info? %>
         <% if @user.bio.present? %>

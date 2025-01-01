@@ -32,8 +32,8 @@ RSpec.describe "users/collection", type: :view do
     end
 
     it "renders the dialog for editing the collected issue" do
-      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci1.id}']"
-      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci2.id}']"
+      assert_select "dialog[data-dialog-toggler-class-value='toggleEditor#{@ci1.id}']"
+      assert_select "dialog[data-dialog-toggler-class-value='toggleEditor#{@ci2.id}']"
     end
   end
 
@@ -50,8 +50,8 @@ RSpec.describe "users/collection", type: :view do
     end
 
     it "does not render the dialog for editing the collected issue" do
-      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci1.id}']", count: 0
-      assert_select "dialog[data-dialog-toggler-id-value='toggleEditor#{@ci2.id}']", count: 0
+      assert_select "dialog[data-dialog-toggler-class-value='toggleEditor#{@ci1.id}']", count: 0
+      assert_select "dialog[data-dialog-toggler-class-value='toggleEditor#{@ci2.id}']", count: 0
     end
   end
 end

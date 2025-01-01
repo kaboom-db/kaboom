@@ -5,18 +5,20 @@ import { HTMLEvent } from '../types/html_event'
 export default class extends Controller {
   static targets = ['dialog']
 
-  static values = { togglerId: String }
+  static values = { togglerClass: String }
 
   declare readonly dialogTarget: HTMLDialogElement
 
-  declare togglerIdValue: string
+  declare togglerClassValue: string
 
   connect (): void {
     if (this.togglerAvailable()) {
-      const toggler = document.getElementById(this.togglerIdValue)
-      toggler?.addEventListener('click', () => {
-        this.dialogTarget.showModal()
-        document.documentElement.style.overflow = 'hidden'
+      const togglers = document.getElementsByClassName(this.togglerClassValue)
+      Array.from(togglers).forEach((toggler) => {
+        toggler.addEventListener('click', () => {
+          this.dialogTarget.showModal()
+          document.documentElement.style.overflow = 'hidden'
+        })
       })
     }
 
@@ -34,6 +36,6 @@ export default class extends Controller {
   }
 
   togglerAvailable (): boolean {
-    return this.togglerIdValue !== null && this.togglerAvailable !== undefined && this.togglerIdValue !== ''
+    return this.togglerClassValue !== null && this.togglerAvailable !== undefined && this.togglerClassValue !== ''
   }
 }

@@ -1,6 +1,6 @@
 <% if @user.followers.any? %>
   <dialog data-controller="dialog"
-          data-dialog-toggler-id-value="followersBtn"
+          data-dialog-toggler-class-value="followersBtn"
           data-action="click->dialog#click"
           data-dialog-target="dialog"
           class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
@@ -15,7 +15,7 @@
 
 <% if @user.following.any? %>
   <dialog data-controller="dialog"
-          data-dialog-toggler-id-value="followingBtn"
+          data-dialog-toggler-class-value="followingBtn"
           data-action="click->dialog#click"
           data-dialog-target="dialog"
           class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
