@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   get "privacy_policy" => "pages#privacy"
   get "sitemap" => "pages#sitemap", :as => "sitemap", :format => "xml"
-  get "error" => "pages#error", :as => "error"
 
   resources :search, only: [:index]
 
