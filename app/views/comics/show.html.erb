@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
 
-<div class="rounded-4xl border-2 border-black bg-gray-100 overflow-hidden">
+<div class="w-full-header border-b-2 border-black bg-gray-100 overflow-hidden">
   <div class="px-4 py-6 md:px-6 md:py-12 lg:py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start max-w-6xl mx-auto">
         <div class="overflow-hidden max-w-[300px] mx-auto lg:mx-0">
@@ -58,14 +58,14 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <%= render ChipHeaderComponent.new(text: "Trend") %>
-  <%= render BorderComponent.new do %>
+  <div class="w-full-container mt-0 p-12 border-t-2 border-b-2 border-black bg-gray-100">
+    <%= render ChipHeaderComponent.new(text: "Trend") %>
     <div class="mt-4">
       <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
       </div>
     </div>
-  <% end %>
+  </div>
 <% end %>
 
 <% if user_signed_in? %>

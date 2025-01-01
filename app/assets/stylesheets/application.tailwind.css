@@ -158,4 +158,27 @@
   .pagination em {
     @apply font-bold border-2 bg-gray-100 rounded-full border-black;
   }
+
+  /* Comic page */
+  .w-full-container,
+  .w-full-header {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  .w-full-header {
+    margin-top: -1rem;
+  }
+
+  @media screen and (min-width: 790px) {
+    .w-full-container,
+    .w-full-header {
+      margin-left: -3rem;
+      margin-right: -3rem;
+    }
+
+    .w-full-header {
+      margin-top: -3rem;
+    }
+  }
 }

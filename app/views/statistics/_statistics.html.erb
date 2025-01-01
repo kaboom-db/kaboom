@@ -63,12 +63,12 @@
     <% end %>
 
     <div class="col-span-full mt-6">
-      <%= render ChipHeaderComponent.new(text: "Issues read and collected") %>
-      <%= render BorderComponent.new do %>
+      <div class="w-full-container mt-0 p-12 border-t-2 border-b-2 border-black bg-gray-100">
+        <%= render ChipHeaderComponent.new(text: "Issues read and collected") %>
         <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @read_collect_chart_data.to_json %>">
           <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
         </div>
-      <% end %>
+      </div>
     </div>
 
     <div class="mt-6">

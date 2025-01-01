@@ -13,7 +13,6 @@ export default class extends SwiperBase {
 
   options (): SwiperOptions {
     return {
-      loop: this.slidesTargets.length > 1,
       spaceBetween: 20,
       navigation: {
         nextEl: this.nextTarget,
