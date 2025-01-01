@@ -58,14 +58,14 @@
 <% end %>
 
 <%= render SectionComponent.new do %>
-  <div class="w-full-container mt-0 p-12 border-t-2 border-b-2 border-black bg-gray-100">
+  <%= render FullWidthComponent.new do %>
     <%= render ChipHeaderComponent.new(text: "Trend") %>
     <div class="mt-4">
       <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
         <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
       </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
 
 <% if user_signed_in? %>
