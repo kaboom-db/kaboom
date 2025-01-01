@@ -24,4 +24,8 @@ class PagesController < ApplicationController
       format.xml { render layout: false }
     end
   end
+
+  def error
+    raise "Intentional error"
+  end
 end

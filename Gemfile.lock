@@ -181,6 +181,8 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.1.2)
+    honeybadger (5.26.1)
+      logger
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -454,6 +456,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   guard-rspec
+  honeybadger
   image_processing (~> 1.13)
   isbn_validation
   jbuilder
