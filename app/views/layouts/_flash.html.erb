@@ -1,12 +1,12 @@
 <% if notice %>
-  <div class="my-4 p-6 rounded-md bg-secondary-light border-2 border-secondary">
-    <i class="fa-solid fa-circle-info mr-4"></i>
-    <%= notice %>
+  <div class="px-6 py-4 backdrop-blur rounded-4xl border-[6px] flex gap-4 items-center animate-fadeIn border-[#e8c388] bg-opacity-50 bg-[#e8c388]">
+    <i class="fa-solid fa-circle-info"></i>
+    <p><b><%= notice %></b></p>
   </div>
 <% end %>
 <% if alert %>
-  <div class="my-4 p-6 rounded-md bg-primary-light border-2 border-primary">
-    <i class="fa-solid fa-triangle-exclamation mr-4"></i>
-    <%= alert %>
+  <div class="px-6 py-4 backdrop-blur rounded-4xl border-[6px] flex gap-4 items-center animate-fadeIn border-primary bg-opacity-50 bg-primary">
+    <i class="fa-solid fa-circle-info"></i>
+    <p><b><%= alert %></b></p>
   </div>
 <% end %>

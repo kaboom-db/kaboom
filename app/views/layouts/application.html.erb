@@ -45,7 +45,6 @@
       <% main_cols = should_show_sidebar? ? "col-span-5" : "col-span-8" %>
       <div class="<%= main_cols %>">
         <div class="min-h-screen ml-[1rem] sm:ml-[3rem] mt-[1rem] sm:mt-[3rem] mr-[1rem] sm:mr-[3rem]">
-          <%= render "layouts/flash" %>
           <%= yield %>
           <dialog data-controller="dialog"
                   data-dialog-toggler-id-value="importComicBtn"
@@ -71,7 +70,9 @@
           </dialog>
           <div class="relative pointer-events-none z-20">
             <div class="fixed right-5 bottom-5 ml-5">
-              <div class="flex flex-col gap-4 items-end" id="notifContainer"></div>
+              <div class="flex flex-col gap-4 items-end" id="notifContainer">
+                <%= render "layouts/flash" %>
+              </div>
             </div>
           </div>
         </div>
