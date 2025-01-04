@@ -22,7 +22,7 @@
                 ) %>
           <% end %>
         </div>
-        <small class="font-bold">Can't find the comic you're looking for? Use our <%= link_to "global search", search_index_path(search: @search), class: "text-hint underline", data: {turbo: false} %> or <button onclick="importComic.showModal();" class="text-hint underline">import it.</button></small>
+        <small class="font-bold">Can't find the comic you're looking for? Use our <%= link_to "global search", search_index_path(search: @search), class: "text-hint underline", data: {turbo: false} %> or <button class="text-hint underline importComicBtn">import it.</button></small>
       </div>
     <% end %>
   <% end %>
@@ -135,7 +135,7 @@
       <%= image_tag "comicvine.svg", class: "w-16 h-fit" %>
       <div>
         <h2 class="mb-4 text-2xl font-black uppercase tracking-widest">Can't find the comic you're looking for?</h2>
-        <p>We use <a href="https://comicvine.gamespot.com/" class="underline">ComicVine</a> for the source of our data. If the comic is available on ComicVine, you can <button onclick="importComic.showModal();" class="underline">import it into Kaboom</button>.</p>
+        <p>We use <a href="https://comicvine.gamespot.com/" class="underline">ComicVine</a> for the source of our data. If the comic is available on ComicVine, you can <button class="underline importComicBtn">import it into Kaboom</button>.</p>
         <small>Please note that we don't support adult content by default. Any adult comics must be marked as adult when importing.</small>
       </div>
     </div>
