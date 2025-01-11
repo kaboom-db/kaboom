@@ -5,6 +5,7 @@ class Issue < ApplicationRecord
   has_many :visit_buckets, as: :visited, dependent: :delete_all
   has_many :read_issues, dependent: :delete_all
   has_many :collected_issues, dependent: :delete_all
+  has_many :ratings, as: :rateable, dependent: :delete_all
 
   # validations
   validates :name, :issue_number, :absolute_number, presence: true

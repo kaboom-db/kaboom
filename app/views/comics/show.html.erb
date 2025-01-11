@@ -59,10 +59,20 @@
 
 <%= render SectionComponent.new do %>
   <%= render FullWidthComponent.new do %>
-    <%= render ChipHeaderComponent.new(text: "Trend") %>
-    <div class="mt-4">
-      <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
-        <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
+    <div class="grid grid-cols-1 md:grid-cols-2 -m-4 sm:-m-12">
+      <div class="col-span-1 p-[10%] flex justify-center items-center">
+        <%= render Svg::RatingCircleComponent.new(rating: @rating_presenter.average_rating, multiplier: 1.25, classes: "w-full max-w-[350px] h-auto") %>
+      </div>
+      <div class="col-span-1 flex items-center h-full md:pt-[10%] pb-[10%]">
+        <div class="flex flex-col justify-center gap-8 h-full w-full">
+          <% @rating_presenter.top_reviews.each do |review| %>
+            <div class="cursor-pointer relative flex flex-col items-center p-6 md:rounded-l-full border-2 border-l-0 md:border-l-2 border-r-0 border-black bg-gradient-to-l to-transparent <%= review.colour %> transition duration-300 ease-in-out">
+              <b class="text-lg w-[80%] text-center leading-8 h-8 overflow-hidden"><%= review.title %></b>
+              <small><%= review.user.username %> | <%= review.likes.count %> likes</small>
+              <b class="absolute left-0 text-2xl m-2 ml-6"><%= review.score * 10 %></b>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   <% end %>
@@ -103,4 +113,15 @@
   <% end %>
 
   <%= will_paginate @ordered_issues, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <%= render FullWidthComponent.new do %>
+    <%= render ChipHeaderComponent.new(text: "Trend") %>
+    <div class="mt-4">
+      <div class="mt-4" data-controller="chart" data-chart-data-value="<%= @chart_data.to_json %>">
+        <canvas data-chart-target="canvas" class="w-full h-96"></canvas>
+      </div>
+    </div>
+  <% end %>
 <% end %>

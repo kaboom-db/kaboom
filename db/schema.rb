@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_11_112032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -144,6 +144,17 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "rateable_type"
+    t.bigint "rateable_id"
+    t.decimal "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "rateable_type", "rateable_id"], name: "index_ratings_on_user_id_and_rateable_type_and_rateable_id", unique: true
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
   create_table "read_issues", force: :cascade do |t|
     t.datetime "read_at", null: false
     t.bigint "user_id", null: false
@@ -224,6 +235,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
   add_foreign_key "hidden_comics", "users"
   add_foreign_key "issues", "comics"
   add_foreign_key "notifications", "users"
+  add_foreign_key "ratings", "users"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
   add_foreign_key "users", "currencies"
