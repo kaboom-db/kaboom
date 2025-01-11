@@ -6,6 +6,7 @@ RSpec.describe Issue, type: :model do
     it { should have_many(:visits).dependent(:delete_all) }
     it { should have_many(:read_issues).dependent(:delete_all) }
     it { should have_many(:collected_issues).dependent(:delete_all) }
+    it { should have_many(:ratings).dependent(:delete_all) }
   end
 
   describe "validations" do

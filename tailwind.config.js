@@ -4,15 +4,16 @@ module.exports = {
     './app/components/**/*.erb',
     './app/views/**/*.html.erb',
     './app/helpers/**/*.rb',
+    './app/presenters/**/*.rb',
     './app/assets/stylesheets/**/*.css',
     './app/javascript/**/*.js',
     './app/javascript/**/*.ts'
   ],
   theme: {
     screens: {
-      'sm': '790px',
-      'md': '1000px',
-      'lg': '1200px'
+      sm: '790px',
+      md: '1000px',
+      lg: '1200px'
     },
     extend: {
       colors: {
