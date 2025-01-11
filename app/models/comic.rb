@@ -83,7 +83,7 @@ class Comic < ApplicationRecord
       description: volume[:description],
       image: volume[:image][:medium_url],
       name: volume[:name],
-      publisher: volume[:publisher][:name],
+      publisher: volume[:publisher] ? volume[:publisher][:name] : nil,
       site_detail_url: volume[:site_detail_url],
       start_year: volume[:start_year]
     )

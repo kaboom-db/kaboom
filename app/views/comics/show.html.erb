@@ -12,8 +12,8 @@
                     <%= @comic.name %>
                 </h1>
                 <div class="flex flex-wrap gap-4">
-                    <p class="text-gray-500 dark:text-gray-400">Started in <%= @comic.start_year %></p>
-                    <p class="text-gray-500 dark:text-gray-400">Published by <%= @comic.publisher %></p>
+                    <p class="text-gray-500 dark:text-gray-400">Started in <%= @comic.start_year.presence || "unknown" %></p>
+                    <p class="text-gray-500 dark:text-gray-400">Published by <%= @comic.publisher.presence || "unknown" %></p>
                     <p class="text-gray-500 dark:text-gray-400"><%= @comic.count_of_issues %> issues</p>
                     <% if @comic.comic_type.present? %>
                       <p class="text-gray-500 dark:text-gray-400"><%= @comic.comic_type %></p>
@@ -52,7 +52,7 @@
       <p class="font-bold text-xl mb-4"><%= @comic.deck %></p>
     <% end %>
     <div class="flex flex-col gap-2 resource-description">
-      <%= safe_description(description: @comic.description) %>
+      <%= safe_description(description: @comic.description).presence || "There is no description for this comic yet. Head over to ComicVine and add one!" %>
     </div>
   <% end %>
 <% end %>
@@ -68,7 +68,7 @@
   <% end %>
 <% end %>
 
-<% if user_signed_in? %>
+<% if user_signed_in? && @ordered_issues.any? %>
   <%= render SectionComponent.new do %>
     <%= render BorderComponent.new do %>
       <details>
@@ -92,10 +92,15 @@
 
 <%= render SectionComponent.new do %>
   <%= render ChipHeaderComponent.new(text: "Issues") %>
-  <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-    <% @ordered_issues.each do |issue| %>
-      <%= render ResourceTileControlComponent.new(issue:, user: current_user) %>
-    <% end %>
-  </div>
+  <% if @ordered_issues.any? %>
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+      <% @ordered_issues.each do |issue| %>
+        <%= render ResourceTileControlComponent.new(issue:, user: current_user) %>
+      <% end %>
+    </div>
+  <% else %>
+    <div>No issues have been released yet!</div>
+  <% end %>
+
   <%= will_paginate @ordered_issues, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
 <% end %>

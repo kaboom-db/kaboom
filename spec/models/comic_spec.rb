@@ -132,13 +132,16 @@ RSpec.describe Comic, type: :model do
             medium_url: "https://comicvine.gamespot.com/a/uploads/scale_medium/11/119711/3109464-ultimatecomicsspiderman1_831.jpg"
           },
           name: "Ultimate Comics: Spider-Man",
-          publisher: {
-            name: "Panini Verlag"
-          },
+          publisher:,
           site_detail_url: "https://comicvine.gamespot.com/ultimate-comics-spider-man/4050-63559/",
           start_year: "2012"
         }
       }.to_json
+    }
+    let(:publisher) {
+      {
+        name: "Panini Verlag"
+      }
     }
 
     describe ".import" do
@@ -425,6 +428,15 @@ RSpec.describe Comic, type: :model do
 
         it "returns a truthy value" do
           expect(comic.sync).to be_truthy
+        end
+
+        context "when there is no publisher for the comic" do
+          let(:publisher) { nil }
+
+          it "sets the publisher for the comic to nil" do
+            comic.sync
+            expect(comic.publisher).to be_nil
+          end
         end
       end
 
