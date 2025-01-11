@@ -7,12 +7,14 @@
   </div>
 </form>
 
+<%# Account for sidebar presence %>
+<% col_span = user_signed_in? ? "lg:grid-cols-3" : "lg:grid-cols-6" %>
 <%= turbo_frame_tag "search" do %>
   <%= render SectionComponent.new do %>
     <% if @search.present? %>
       <div class="mb-8 search">
         <%= render ChipHeaderComponent.new(text: "Results for #{@search}") %>
-        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-2 <%= col_span %> gap-4 mb-6">
           <% @search_results.each do |comic| %>
             <%= render ResourceTileComponent.new(
                   resource: comic,
@@ -72,7 +74,7 @@
 <%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Comics") %>
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 <%= col_span %> gap-4">
       <% @recently_updated.each do |comic| %>
         <%= render ResourceTileComponent.new(
               resource: comic,
@@ -114,7 +116,7 @@
 <%= render SectionComponent.new do %>
   <div class="mb-8">
     <%= render ChipHeaderComponent.new(text: "Recently Updated Issues") %>
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 <%= col_span %> gap-4">
       <% @recently_updated_issues.each do |issue| %>
         <%= render ResourceTileComponent.new(
               resource: issue,
