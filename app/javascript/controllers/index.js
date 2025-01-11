@@ -12,6 +12,7 @@ import FavouriteController from './actions/favourite_controller'
 import GenreSwiperController from './genre_swiper_controller'
 import HorizontalStackChartController from './horizontal_stack_chart_controller'
 import LocalTimeController from './local_time_controller'
+import MessagesController from './messages_controller'
 import ReadController from './actions/read_controller'
 import ReadRangeController from './read_range_controller'
 import RemoveItemController from './remove_item_controller'
@@ -27,6 +28,7 @@ application.register('favourite', FavouriteController)
 application.register('genre-swiper', GenreSwiperController)
 application.register('horizontal-stack-chart', HorizontalStackChartController)
 application.register('local-time', LocalTimeController)
+application.register('messages', MessagesController)
 application.register('read', ReadController)
 application.register('read-range', ReadRangeController)
 application.register('remove-item', RemoveItemController)

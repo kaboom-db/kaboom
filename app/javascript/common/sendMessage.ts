@@ -16,12 +16,6 @@ function sendMessage (message: string, color: string, icon: string): void {
   outerDiv.appendChild(messageElm)
 
   notifContainer.appendChild(outerDiv)
-
-  setTimeout(() => {
-    outerDiv.classList.remove('animate-fadeIn')
-    outerDiv.classList.add('animate-fadeOut')
-    setTimeout(() => outerDiv.remove(), 500)
-  }, 6000)
 }
 
 function addAlpha (color: string, opacity: number) {
