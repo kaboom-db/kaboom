@@ -34,7 +34,7 @@
             </span>
           <% end %>
         </div>
-        <%= render StarRatingComponent.new(current_user:) %>
+        <%= render StarRatingComponent.new(current_user:, rate_url: rate_comic_path(@comic), rating: @rating_presenter.user_rating) %>
       </article>
     </div>
   </div>

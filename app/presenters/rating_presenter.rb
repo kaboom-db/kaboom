@@ -1,10 +1,15 @@
 require "ostruct"
 
 class RatingPresenter
-  attr_reader :rateable
+  attr_reader :rateable, :current_user
 
-  def initialize(rateable:)
+  def initialize(rateable:, current_user: nil)
     @rateable = rateable
+    @current_user = current_user
+  end
+
+  def user_rating
+    @user_rating ||= current_user&.ratings&.find_by(rateable:)&.score || 0
   end
 
   def average_rating
