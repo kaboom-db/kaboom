@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         post :unwishlist
         post :favourite
         post :unfavourite
+        post :rate
         post :collect
         post :uncollect
         post :refresh
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
       post :unwishlist
       post :favourite
       post :unfavourite
+      post :rate
       post :read_range
       post :refresh
       post :read_next_issue

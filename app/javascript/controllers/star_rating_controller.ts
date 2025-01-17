@@ -1,15 +1,18 @@
 import { Controller } from '@hotwired/stimulus'
+import { sendRequest } from '../common/request'
+import { sendMessage } from '../common/sendMessage'
 
 // Connects to data-controller="star-rating"
 export default class extends Controller {
   static targets = ['star', 'subheading']
 
-  static values = { currentScore: Number }
+  static values = { currentScore: Number, url: String }
 
   declare readonly starTargets: HTMLElement[]
   declare readonly subheadingTarget: HTMLElement
 
   declare currentScoreValue: number // Current score is 1-10
+  declare urlValue: string
 
   SUBHEADINGS = [
     '1 - Abysmal',
@@ -43,10 +46,28 @@ export default class extends Controller {
       })
 
       star.addEventListener('click', () => {
-        this.currentScoreValue = index + 1
-        this.highlightStars(index)
+        this.selectStar(index)
       })
     })
+  }
+
+  selectStar (index: number): void {
+    sendRequest(this.urlValue, { rating: index + 1 })
+      .then(this.handleResponse)
+      .then((data) => {
+        if (data.success) {
+          this.currentScoreValue = index + 1
+          this.highlightStars(index)
+        } else {
+          sendMessage('Could not submit rating.', 'red', 'fa-star')
+        }
+      })
+      .catch(() => sendMessage('Could not submit rating.', 'red', 'fa-star'))
+  }
+
+  async handleResponse (response: Response) {
+    const json = await response.json()
+    return response.ok ? json : Promise.reject(json)
   }
 
   highlightStars (index: number): void {
@@ -63,7 +84,7 @@ export default class extends Controller {
   }
 
   clearStars (): void {
-    this.subheadingTarget.innerText = ''
+    this.subheadingTarget.innerText = 'Not rated'
     this.starTargets.forEach(star => {
       star.classList.remove('text-yellow-300')
       star.classList.add('text-gray-300')

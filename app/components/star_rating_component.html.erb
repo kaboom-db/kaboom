@@ -1,9 +1,9 @@
-<div data-controller="star-rating" data-star-rating-current-score-value="0">
+<div data-controller="star-rating" data-star-rating-current-score-value="<%= @rating %>" data-star-rating-url-value="<%= @rate_url %>">
   <p class="mb-2"><b>Your rating:</b></p>
   <div class="grid grid-cols-10 mb-4">
     <% 10.times do %>
       <i class="fa-solid fa-star text-xl text-gray-300 text-shadow-border text-center cursor-pointer" data-star-rating-target="star"></i>
     <% end %>
   </div>
-  <p class="uppercase font-bold tracking-widest text-center" data-star-rating-target="subheading"></p>
+  <p class="uppercase font-bold tracking-widest text-center" data-star-rating-target="subheading">Not rated</p>
 </div>
