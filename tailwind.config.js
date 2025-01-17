@@ -44,10 +44,16 @@ module.exports = {
       },
       borderRadius: {
         '4xl': '2rem'
+      },
+      textShadow: {
+        border: '2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000',
       }
     },
     fontFamily: {
       sans: ['"Montserrat"', 'sans-serif']
     }
-  }
+  },
+  plugins: [
+    require('tailwindcss-textshadow')
+  ]
 }

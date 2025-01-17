@@ -17,6 +17,7 @@ import ReadController from './actions/read_controller'
 import ReadRangeController from './read_range_controller'
 import RemoveItemController from './remove_item_controller'
 import SearchController from './search_controller'
+import StarRatingController from './star_rating_controller'
 import SwiperController from './swiper_controller'
 import WishlistController from './actions/wishlist_controller'
 
@@ -33,5 +34,6 @@ application.register('read', ReadController)
 application.register('read-range', ReadRangeController)
 application.register('remove-item', RemoveItemController)
 application.register('search', SearchController)
+application.register('star-rating', StarRatingController)
 application.register('swiper', SwiperController)
 application.register('wishlist', WishlistController)
