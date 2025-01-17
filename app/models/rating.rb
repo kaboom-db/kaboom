@@ -5,5 +5,5 @@ class Rating < ApplicationRecord
 
   # Validations
   validates :user_id, uniqueness: {scope: [:rateable_id, :rateable_type]}
-  validates :score, :max_mean, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 10}
+  validates :score, :score, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 10}
 end
