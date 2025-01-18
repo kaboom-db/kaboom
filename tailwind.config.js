@@ -4,7 +4,7 @@ module.exports = {
     './app/components/**/*.erb',
     './app/views/**/*.html.erb',
     './app/helpers/**/*.rb',
-    './app/presenters/**/*.rb',
+    './app/components/**/*.rb',
     './app/assets/stylesheets/**/*.css',
     './app/javascript/**/*.js',
     './app/javascript/**/*.ts'
