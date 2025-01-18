@@ -16,6 +16,7 @@ class RatingPresenter
     return @average_rating if @average_rating
     ratings = rateable.ratings
     num_of_ratings = ratings.load.count.to_f
+    return 0 if num_of_ratings == 0
     sum_of_ratings = ratings.sum(&:score)
     @average_rating = sum_of_ratings / num_of_ratings
   end
