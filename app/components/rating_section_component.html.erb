@@ -1,0 +1,16 @@
+<%= render SectionComponent.new do %>
+  <%= render FullWidthComponent.new do %>
+    <div class="grid grid-cols-1 md:grid-cols-2 -m-4 sm:-m-12">
+      <div class="col-span-1 p-[10%] flex justify-center items-center">
+        <%= render Svg::RatingCircleComponent.new(rating: @rating_presenter.average_rating, multiplier: 1.25, classes: "w-full max-w-[350px] h-auto") %>
+      </div>
+      <div class="col-span-1 flex items-center h-full md:pt-[10%] pb-[10%]">
+        <div class="flex flex-col justify-center gap-8 h-full w-full">
+          <% @rating_presenter.top_reviews.each do |review| %>
+            <%= render TopReviewComponent.new(review:) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
