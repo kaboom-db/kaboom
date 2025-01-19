@@ -1,0 +1,43 @@
+<%= render "header" %>
+
+<%= render SectionComponent.new do %>
+  <div class="flex justify-between">
+    <%= link_to @resource_path, class: "flex gap-4 items-center mb-4 w-min" do %>
+      <i class="fa-solid fa-circle-chevron-left text-xl"></i>
+      <h2 class="text-2xl font-black uppercase tracking-widest">Reviews</h2>
+    <% end %>
+    <%= link_to new_review_path(reviewable_type: @resource.class.to_s, reviewable_id: @resource.id) do %>
+      <i class="fa-solid fa-circle-plus text-xl"></i>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render SectionComponent.new do %>
+  <div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <% @reviews.each do |review| %>
+      <%= render BorderComponent.new do %>
+        <div class="flex justify-between gap-3 mb-6">
+          <div class="w-full overflow-hidden h-8">
+          <%= link_to review_path(review) do %>
+            <h3 class="font-bold text-lg leading-8"><%= review.title %></h3>
+          <% end %>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="fa-regular fa-thumbs-up"></i>
+            <span className="text-sm font-medium">0</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 mb-2">
+          <img src="<%= review.user.avatar %>" class="w-6 h-6 rounded-full">
+          <p class="text-sm font-medium"><%= review.user.username %></p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-gray-200 h-[10px] rounded-full overflow-hidden">
+            <div class="bg-black rounded-full h-full" style="width: <%= review.score * 10 %>%;"></div>
+          </div>
+          <p className="text-sm font-medium"><%= (review.score * 10).to_s.sub(".0", "") %>/100</p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
