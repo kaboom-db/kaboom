@@ -87,8 +87,11 @@ FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_2)
 # Hunger
 comic_3 = Comic.import(comic_vine_id: 65628)
 comic_3.import_issues
-FactoryBot.create(:rating, user: user, score: rand(1..10), rateable: comic_3)
-FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_3)
+FactoryBot.create(:review, user:, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
 # Hinamatsuri
 comic_4 = Comic.import(comic_vine_id: 113437)
 comic_4.import_issues

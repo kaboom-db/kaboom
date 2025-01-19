@@ -1,43 +1,4 @@
-<div class="w-full-header border-b-2 border-black overflow-hidden bg-cover bg-no-repeat" style="background-image: url('<%= @issue.image %>');">
-  <div class="flex flex-col gap-4 p-[1rem] sm:p-[3rem] bg-black/60 backdrop-blur-md">
-    <a href="<%= comic_path(@comic) %>" class="text-sm underline text-primary"><%= @comic.name %></a>
-    <%= render PageTitleComponent.new(text: @issue.name) %>
-    <p class="text-lg text-white"><b class="text-white">Issue:</b> #<%= @issue.formatted_issue_number %></p>
-    <p class="text-lg text-white"><b class="text-white">Cover date:</b> <%= @issue.cover_date %></p>
-    <% if @issue.store_date.present? %>
-      <p class="text-lg text-white"><b class="text-white">Store date:</b> <%= @issue.store_date %></p>
-    <% end %>
-
-    <% if @issue.rating.present? %>
-      <p class="text-lg text-white"><b class="text-white">Rating:</b> <%= @issue.rating %></p>
-    <% end %>
-
-    <% if @issue.page_count.present? %>
-      <p class="text-lg text-white"><b class="text-white">Page Count:</b> <%= @issue.page_count %></p>
-    <% end %>
-
-    <% if @issue.isbn.present? %>
-      <p class="text-lg text-white"><b class="text-white">ISBN:</b> <%= @issue.isbn %></p>
-    <% end %>
-
-    <% if @issue.upc.present? %>
-      <p class="text-lg text-white"><b class="text-white">UPC:</b> <%= @issue.upc %></p>
-    <% end %>
-    <div class="flex flex-wrap gap-4">
-      <a href="<%= @issue.site_detail_url %>" class="flex font-bold w-max rounded-full border-2 border-black text-sm bg-[#231f20] py-2 px-3" target="_blank" rel="noopener noreferrer">
-        <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
-      </a>
-      <%= button_to "Refresh", refresh_comic_issue_path(@issue, comic_id: @comic), method: :post, class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-primary py-2 px-3" %>
-      <%= link_to "Edit", edit_comic_issue_path(@issue, comic_id: @comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-secondary py-2 px-3" %>
-    </div>
-    <% if current_user.present? %>
-      <div class="md:w-1/2 bg-white/50 rounded-xl p-2">
-        <%= render StarRatingComponent.new(current_user:, rate_url: rate_comic_issue_path(@issue, comic_id: @comic), rating: @rating_presenter.user_rating) %>
-      </div>
-    <% end %>
-  </div>
-  <%= render Actions::ActionsComponent.new(resource: @issue, user: current_user) %>
-</div>
+<%= render "header" %>
 
 <%= render SectionComponent.new do %>
   <p class="font-bold">Other issues:</p>
@@ -51,7 +12,7 @@
   </div>
 <% end %>
 
-<%= render RatingSectionComponent.new(rating_presenter: @rating_presenter) %>
+<%= render RatingSectionComponent.new(rating_presenter: @rating_presenter, reviews_path: reviews_comic_issue_path(@issue, comic_id: @comic)) %>
 
 <%= render SectionComponent.new do %>
   <%= render BorderComponent.new do %>

@@ -9,6 +9,6 @@ class TopReviewComponent < ViewComponent::Base
 
   def initialize(review:)
     @review = review
-    @classes = review ? CLASSES[review.tier] : nil
+    @classes = (review && review.tier) ? CLASSES[review.tier] : nil
   end
 end

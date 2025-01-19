@@ -1,9 +1,10 @@
 class ComicsController < ApplicationController
   include VisitConcerns
   include RatingConcerns
+  include ReviewConcerns
 
   before_action :set_comic, except: %i[index import]
-  before_action :user_required, except: %i[index show]
+  before_action :user_required, except: %i[index show reviews]
 
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")

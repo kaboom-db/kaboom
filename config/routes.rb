@@ -7,10 +7,14 @@ Rails.application.routes.draw do
   get "sitemap" => "pages#sitemap", :as => "sitemap", :format => "xml"
 
   resources :search, only: [:index]
+  resources :reviews, except: [:index]
+  resources :collected_issues, only: [:update]
+  resources :site_statistics, only: [:index]
 
   resources :comics, only: [:index, :show, :edit, :update] do
     resources :issues, only: [:index, :show, :edit, :update] do
       member do
+        get :reviews
         post :read
         post :unread
         post :wishlist
@@ -31,6 +35,7 @@ Rails.application.routes.draw do
     end
 
     member do
+      get :reviews
       post :wishlist
       post :unwishlist
       post :favourite
@@ -62,9 +67,6 @@ Rails.application.routes.draw do
       post :unfollow
     end
   end
-
-  resources :collected_issues, only: [:update]
-  resources :site_statistics, only: [:index]
 
   get "dashboard" => "dashboard#index"
   get "dashboard/history" => "dashboard#history"

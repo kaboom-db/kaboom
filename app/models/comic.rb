@@ -16,6 +16,7 @@ class Comic < ApplicationRecord
   has_many :visits, as: :visited, dependent: :delete_all
   has_many :visit_buckets, as: :visited, dependent: :delete_all
   has_many :ratings, as: :rateable, dependent: :delete_all
+  has_many :reviews, as: :reviewable, dependent: :delete_all
   belongs_to :country, optional: true
   has_and_belongs_to_many :genres
 

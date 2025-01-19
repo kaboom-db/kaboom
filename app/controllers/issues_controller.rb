@@ -2,10 +2,11 @@ class IssuesController < ApplicationController
   include VisitConcerns
   include NotificationConcerns
   include RatingConcerns
+  include ReviewConcerns
 
   before_action :set_comic
   before_action :set_issue, except: %i[index]
-  before_action :user_required, except: %i[index show]
+  before_action :user_required, except: %i[index show reviews]
   before_action :issue_required, except: %i[index]
 
   def index
