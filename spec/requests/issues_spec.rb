@@ -1,4 +1,5 @@
 require "rails_helper"
+require_relative "shared_examples/reviews"
 
 RSpec.describe "/issues", type: :request do
   include ActiveSupport::Testing::TimeHelpers
@@ -869,6 +870,14 @@ RSpec.describe "/issues", type: :request do
         post refresh_comic_issue_path(@issue, comic_id: @issue.comic)
         expect(response).to redirect_to comic_issue_path(@issue, comic_id: @issue.comic)
       end
+    end
+  end
+
+  describe "GET /comics/:comic_id/issues/:id/reviews" do
+    it_behaves_like "a reviewable resource" do
+      let(:resource) { FactoryBot.create(:issue) }
+      let(:reviews_path) { reviews_comic_issue_path(resource, comic_id: resource.comic) }
+      let(:resource_path) { comic_issue_path(resource, comic_id: resource.comic) }
     end
   end
 end
