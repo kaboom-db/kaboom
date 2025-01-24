@@ -2,7 +2,7 @@ class ReviewsController < ApplicationController
   before_action :set_review, except: [:new, :create]
   before_action :user_required, except: [:show]
   before_action :validate_user, only: [:edit, :update, :destroy]
-  before_action :validate_type, only: [:new, :update, :create]
+  before_action :validate_type, only: [:new, :create]
 
   def show
   end
@@ -12,15 +12,15 @@ class ReviewsController < ApplicationController
 
   def new
     @reviewable = reviewable
-    return redirect_back fallback_location: root_path unless @reviewable
+    return redirect_back fallback_location: root_path, alert: "Could not find resource to review" unless @reviewable
     @review = Review.find_or_initialize_by(user: current_user, reviewable: @reviewable)
   end
 
   def create
     @reviewable = reviewable
-    return redirect_back fallback_location: root_path unless @reviewable
-    @review = Review.new(user: current_user, reviewable: @reviewable)
+    return redirect_back fallback_location: root_path, alert: "Could not find resource to review" unless @reviewable
 
+    @review = Review.new(user: current_user, reviewable: @reviewable)
     if @review.update(review_params)
       redirect_to review_path(@review), notice: "Review submitted."
     else
@@ -38,7 +38,11 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review.destroy
-    redirect_to polymorphic_path([@review.reviewable.respond_to?(:comic) ? @review.reviewable.comic : nil, @review.reviewable]), notice: "Review has been deleted."
+    if @review.reviewable.respond_to?(:comic)
+      redirect_to comic_issue_path(@review.reviewable, comic_id: @review.reviewable.comic), notice: "Review has been deleted."
+    else
+      redirect_to comic_path(@review.reviewable), notice: "Review has been deleted."
+    end
   end
 
   private
