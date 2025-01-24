@@ -1,10 +1,12 @@
 class IssuesController < ApplicationController
   include VisitConcerns
   include NotificationConcerns
+  include RatingConcerns
+  include ReviewConcerns
 
   before_action :set_comic
   before_action :set_issue, except: %i[index]
-  before_action :user_required, except: %i[index show]
+  before_action :user_required, except: %i[index show reviews]
   before_action :issue_required, except: %i[index]
 
   def index
@@ -17,6 +19,7 @@ class IssuesController < ApplicationController
     mark_notifications(user: current_user, notifiable: @issue)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_elms: 14, type: Charts::Constants::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
+    @rating_presenter = RatingPresenter.new(resource: @issue, current_user:)
   end
 
   def edit
@@ -216,5 +219,6 @@ class IssuesController < ApplicationController
 
   def set_issue
     @issue = @comic.issues.find_by(absolute_number: params[:id])
+    @resource = @issue
   end
 end

@@ -7,6 +7,7 @@ RSpec.describe "comics/show", type: :view do
   before(:each) do
     assign(:comic, comic)
     assign(:ordered_issues, Issue.paginate(page: 1, per_page: 1))
+    assign(:rating_presenter, RatingPresenter.new(resource: comic))
   end
 
   it "renders attributes in <p>" do
@@ -19,6 +20,12 @@ RSpec.describe "comics/show", type: :view do
     render
     assert_select "p.uppercase", text: "Action"
     assert_select "i.fa-action"
+  end
+
+  it "renders the rating section" do
+    FactoryBot.create(:review, reviewable: comic, title: "This is a review")
+    render
+    assert_select "b.text-lg", text: "This is a review"
   end
 
   context "when comic has no description" do

@@ -1,8 +1,10 @@
 class ComicsController < ApplicationController
   include VisitConcerns
+  include RatingConcerns
+  include ReviewConcerns
 
   before_action :set_comic, except: %i[index import]
-  before_action :user_required, except: %i[index show]
+  before_action :user_required, except: %i[index show reviews]
 
   def index
     set_metadata(title: "Comics", description: "Track your comic reading habits. Discover new issues and add to your ever growing pull list!")
@@ -24,6 +26,7 @@ class ComicsController < ApplicationController
     @ordered_issues = @comic.ordered_issues.paginate(page: params[:page], per_page: 30)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_elms: 14, type: Charts::Constants::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
+    @rating_presenter = RatingPresenter.new(resource: @comic, current_user:)
   end
 
   def edit
@@ -166,6 +169,7 @@ class ComicsController < ApplicationController
 
   def set_comic
     @comic = Comic.find(params[:id])
+    @resource = @comic
   end
 
   def comic_params

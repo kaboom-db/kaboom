@@ -7,6 +7,8 @@ RSpec.describe User, type: :model do
     it { should have_many(:hidden_comics).dependent(:delete_all) }
     it { should have_many(:comics_hidden_from_progress).through(:hidden_comics).source(:comic) }
     it { should have_many(:issues_read).through(:read_issues).source(:issue) }
+    it { should have_many(:ratings).dependent(:delete_all) }
+    it { should have_many(:reviews).dependent(:delete_all) }
 
     it { should have_many(:visits).dependent(:delete_all) }
     it { should have_many(:visit_buckets).dependent(:delete_all) }

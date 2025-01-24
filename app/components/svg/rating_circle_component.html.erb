@@ -1,0 +1,29 @@
+<svg class="<%= @classes %>" width="<%= @dimensions %>" height="<%= @dimensions %>" viewBox="0 0 <%= @viewport %> <%= @viewport %>">
+  <circle
+    stroke-width="3"
+    stroke="#080808"
+    fill="transparent"
+    r="<%= @radius %>"
+    cx="<%= @dimensions %>"
+    cy="<%= @dimensions %>" />
+  <circle
+    stroke-width="25"
+    stroke-dasharray="<%= @circumfrence %>"
+    stroke-dashoffset="<%= @percent_as_circle %>"
+    stroke-linecap="round"
+    stroke="<%= @colour %>"
+    fill="transparent"
+    r="<%= @radius %>"
+    cx="<%= @dimensions %>"
+    cy="<%= @dimensions %>"
+    transform="rotate(-90 <%= @dimensions %> <%= @dimensions %>)">
+      <animate
+        attributeName="stroke-dashoffset"
+        values="<%= @circumfrence %>;<%= @percent_as_circle %>"
+        dur="0.5s"
+        repeatCount="1" />
+  </circle>
+  <text x="50%" y="25%" fill="black" style="font-family: 'Montserrat'; font-size: 50px; font-weight: 600;" dominant-baseline="middle" text-anchor="middle">AVERAGE</text>
+  <text x="50%" y="50%" fill="black" style="font-family: 'Montserrat'; font-size: 185px; font-weight: 900;" dominant-baseline="middle" text-anchor="middle"><%= @rating.to_s.sub(".0", "") %></text>
+  <text x="50%" y="73%" fill="black" style="font-family: 'Montserrat'; font-size: 50px; font-weight: 600;" dominant-baseline="middle" text-anchor="middle">RATING</text>
+</svg>

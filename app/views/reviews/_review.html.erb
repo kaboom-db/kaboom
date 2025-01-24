@@ -1,0 +1,83 @@
+<%= render PageTitleComponent.new(text: "Review") %>
+
+<style>
+.contentWrapper {
+  display: grid;
+}
+
+.contentWrapper::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.contentWrapper::after,
+.content {
+  padding: 0.75rem;
+  grid-area: 1 / 1 / 2 / 2;
+}
+</style>
+<%= render FullWidthComponent.new(extra_classes: ["relative"]) do %>
+  <% if readonly && current_user == review.user %>
+    <div class="w-full text-right right-0 top-0 relative md:absolute">
+      <div class="flex justify-end gap-4 m-2 md:m-8">
+        <%= link_to edit_review_path(review) do %>
+          <i class="fa-solid fa-pencil"></i>
+        <% end %>
+
+        <%= button_to review_path(review), method: :delete do %>
+          <i class="fa-solid fa-trash"></i>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form_with(model: review, data: {turbo: false}) do |form| %>
+    <% if review.errors.any? %>
+      <div class="p-4 mb-4 border-2 border-red-500 bg-red-500/10 rounded-md">
+        <h3 class="text-red-500">Could not save your review due to the following issues:</h3>
+
+        <ul class="list-disc">
+          <% review.errors.each do |error| %>
+            <li class="ml-10 text-red-500"><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <% input_border = readonly ? "bg-transparent border-transparent" : "bg-white border-black" %>
+    <%= form.text_field :title, placeholder: "Title", readonly:, class: "w-full text-2xl font-bold p-3 rounded-lg focus:outline-none border-2 #{input_border}" %>
+    <%= form.hidden_field :reviewable_type %>
+    <%= form.hidden_field :reviewable_id %>
+    <div class="w-full h-fit p-4 rounded-xl flex items-center gap-4">
+      <img src="<%= review.user.avatar %>" alt="Profile Image" class="w-8 h-8 rounded-full">
+      <div>
+        <p class="text-sm font-bold"><%= review.user.username %></p>
+        <p class="text-sm"><%= (review.created_at || Time.current).strftime("%B %-d, %Y") %></p>
+      </div>
+    </div>
+    <div class="contentWrapper mb-4" data-replicated-value="<%= review.content %>">
+      <%= form.text_area :content,
+            placeholder: "Your review content",
+            readonly:,
+            class: "content w-full rounded-lg focus:outline-none border-2 #{input_border} resize-none overflow-hidden",
+            oninput: "this.parentNode.dataset.replicatedValue = this.value" %>
+    </div>
+    <% if !readonly && current_user == review.user %>
+      <div class="flex gap-4">
+        <%= render Forms::SubmitComponent.new(form:, text: "Save") %>
+        <% if review.persisted? %>
+          <%= render LinkComponent.new(text: "Cancel", href: review_path(review)) %>
+        <% end %>
+      </div>
+    <% end %>
+    <hr class="border-t border-black my-4">
+    <div class="flex gap-4">
+      <img class="w-24 h-auto border-2 border-black rounded-xl" src="<%= review.reviewable.image %>">
+      <div class="flex flex-col gap-4">
+        <h3 class="text-xl font-semibold"><%= review.reviewable.name %></h3>
+        <%= render LinkComponent.new(text: "View", href: [review.reviewable.respond_to?(:comic) ? review.reviewable.comic : nil, review.reviewable]) %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

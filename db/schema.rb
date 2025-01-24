@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_18_151309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -144,6 +144,17 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "rateable_type"
+    t.bigint "rateable_id"
+    t.decimal "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "rateable_type", "rateable_id"], name: "index_ratings_on_user_id_and_rateable_type_and_rateable_id", unique: true
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
   create_table "read_issues", force: :cascade do |t|
     t.datetime "read_at", null: false
     t.bigint "user_id", null: false
@@ -152,6 +163,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
     t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_read_issues_on_issue_id"
     t.index ["user_id"], name: "index_read_issues_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.string "reviewable_type"
+    t.bigint "reviewable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "reviewable_type", "reviewable_id"], name: "index_reviews_on_user_id_and_reviewable_type_and_reviewable_id", unique: true
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -224,8 +247,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185811) do
   add_foreign_key "hidden_comics", "users"
   add_foreign_key "issues", "comics"
   add_foreign_key "notifications", "users"
+  add_foreign_key "ratings", "users"
   add_foreign_key "read_issues", "issues"
   add_foreign_key "read_issues", "users"
+  add_foreign_key "reviews", "users"
   add_foreign_key "users", "currencies"
   add_foreign_key "visit_buckets", "users"
   add_foreign_key "visits", "users"

@@ -1,5 +1,7 @@
 Country.destroy_all
 Currency.destroy_all
+Rating.destroy_all
+Review.destroy_all
 Issue.destroy_all
 Comic.destroy_all
 User.destroy_all
@@ -69,21 +71,37 @@ puts "\nImporting Comics and Issues"
 # Demon Slayer
 comic_0 = Comic.import(comic_vine_id: 112010)
 comic_0.import_issues
+FactoryBot.create(:rating, user: user, score: rand(1..10), rateable: comic_0)
+FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_0)
+FactoryBot.create(:review, user:, title: "This is a review", content: "Review content goes here", reviewable: comic_0)
 # F
 comic_1 = Comic.import(comic_vine_id: 109217)
 comic_1.import_issues
+FactoryBot.create(:rating, user: user, score: rand(1..10), rateable: comic_1)
+FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_1)
 # Ultimate Comics Spider-Man
 comic_2 = Comic.import(comic_vine_id: 42821)
 comic_2.import_issues
+FactoryBot.create(:rating, user: user, score: rand(1..10), rateable: comic_2)
+FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_2)
 # Hunger
 comic_3 = Comic.import(comic_vine_id: 65628)
 comic_3.import_issues
+FactoryBot.create(:review, user:, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
+FactoryBot.create(:review, title: "This is a review", content: "Review content goes here", reviewable: comic_3)
 # Hinamatsuri
 comic_4 = Comic.import(comic_vine_id: 113437)
 comic_4.import_issues
+FactoryBot.create(:rating, user: user, score: rand(1..10), rateable: comic_4)
+FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_4)
 # YKK
 comic_5 = Comic.import(comic_vine_id: 144349)
 comic_5.import_issues
+FactoryBot.create(:rating, user: user, score: rand(1..10), rateable: comic_5)
+FactoryBot.create(:rating, user: user2, score: rand(1..10), rateable: comic_5)
 
 Comic.update_all(country_id: us.id)
 
@@ -137,3 +155,25 @@ ReadIssue.create!(
   user:,
   issue: comic_5.issues.first
 )
+
+# Add random ratings to all read issues
+puts "\nAdding random ratings and reviews to read issues"
+reviews = [
+  ["Really bad.", "This comic was really bad"],
+  ["Really bad.", "This comic was really bad"],
+  ["Really bad.", "This comic was really bad"],
+  ["It was okay.", "This comic was okay"],
+  ["It was okay.", "This comic was okay"],
+  ["It was okay.", "This comic was okay"],
+  ["It was okay.", "This comic was okay"],
+  ["Really good..", "This comic was really good"],
+  ["Really good..", "This comic was really good"],
+  ["Really good..", "This comic was really good"]
+]
+ReadIssue.all.each do |read_issue|
+  score = rand(1..10)
+  # Use build and save to avoid throwing exception when the read_issue is already rated
+  FactoryBot.build(:rating, user:, rateable: read_issue.issue, score:).save
+  FactoryBot.build(:review, user:, reviewable: read_issue.issue, title: reviews[score - 1][0], content: reviews[score - 1][1]).save
+  FactoryBot.build(:rating, user: user2, rateable: read_issue.issue, score: rand(1..10)).save
+end

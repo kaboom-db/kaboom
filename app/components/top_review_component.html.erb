@@ -1,0 +1,14 @@
+<% if @review %>
+  <%= link_to review_path(@review) do %>
+    <div class="relative flex flex-col items-center p-6 md:rounded-l-full border-2 border-l-0 md:border-l-2 border-r-0 border-black bg-gradient-to-l to-transparent <%= @classes %> transition duration-300 ease-in-out">
+      <b class="text-lg w-[80%] text-center leading-8 h-8 overflow-hidden"><%= @review.title %></b>
+      <small><%= @review.user.username %> | <%= "0" %> likes</small>
+      <b class="absolute left-0 text-2xl m-2 ml-6"><%= @review.score.to_s.sub(".0", "") %></b>
+    </div>
+  <% end %>
+<% else %>
+  <div class="bg-stripes relative flex flex-col items-center p-6 md:rounded-l-full border-2 border-l-0 md:border-l-2 border-r-0 border-[#d8d8d8]">
+    <b class="text-lg w-[80%] text-center text-[#d8d8d8] leading-8 h-8 overflow-hidden bg-white rounded">NO DATA</b>
+    <small><b class="text-[#d8d8d8]">---</b></small>
+  </div>
+<% end %>
