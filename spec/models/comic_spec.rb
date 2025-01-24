@@ -9,6 +9,7 @@ RSpec.describe Comic, type: :model do
     it { should have_many(:visits).dependent(:delete_all) }
     it { should have_many(:visit_buckets).dependent(:delete_all) }
     it { should have_many(:ratings).dependent(:delete_all) }
+    it { should have_many(:reviews).dependent(:delete_all) }
     it { should belong_to(:country).optional }
     it { should have_and_belong_to_many(:genres) }
   end
