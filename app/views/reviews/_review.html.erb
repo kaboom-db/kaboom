@@ -58,11 +58,10 @@
     </div>
     <div class="contentWrapper mb-4" data-replicated-value="<%= review.content %>">
       <%= form.text_area :content,
-        placeholder: "Your review content",
-        readonly:,
-        class: "content w-full rounded-lg focus:outline-none border-2 #{input_border} resize-none overflow-hidden",
-        oninput: "this.parentNode.dataset.replicatedValue = this.value"
-      %>
+            placeholder: "Your review content",
+            readonly:,
+            class: "content w-full rounded-lg focus:outline-none border-2 #{input_border} resize-none overflow-hidden",
+            oninput: "this.parentNode.dataset.replicatedValue = this.value" %>
     </div>
     <% if !readonly && current_user == review.user %>
       <div class="flex gap-4">
