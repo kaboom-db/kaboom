@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :comics_hidden_from_progress, through: :hidden_comics, source: :comic
   has_many :issues_read, through: :read_issues, source: :issue
   has_many :ratings, dependent: :delete_all
+  has_many :reviews, dependent: :delete_all
 
   has_many :wishlist_items, dependent: :delete_all
   has_many :wishlisted_comics, through: :wishlist_items, source: :wishlistable, source_type: "Comic"
