@@ -19,7 +19,7 @@ class IssuesController < ApplicationController
     mark_notifications(user: current_user, notifiable: @issue)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @issue, num_of_elms: 14, type: Charts::Constants::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
-    @rating_presenter = RatingPresenter.new(rateable: @issue, current_user:)
+    @rating_presenter = RatingPresenter.new(resource: @issue, current_user:)
   end
 
   def edit

@@ -26,7 +26,7 @@ class ComicsController < ApplicationController
     @ordered_issues = @comic.ordered_issues.paginate(page: params[:page], per_page: 30)
 
     @chart_data = Charts::ResourceTrendChart.new(resource: @comic, num_of_elms: 14, type: Charts::Constants::LINE, range_type: Charts::FrequencyChartGenerator::DAY).generate
-    @rating_presenter = RatingPresenter.new(rateable: @comic, current_user:)
+    @rating_presenter = RatingPresenter.new(resource: @comic, current_user:)
   end
 
   def edit

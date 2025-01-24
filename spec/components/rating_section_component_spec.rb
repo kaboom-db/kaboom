@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe RatingSectionComponent, type: :component do
   let(:issue) { FactoryBot.create(:issue) }
-  let(:rating_presenter) { RatingPresenter.new(rateable: issue) }
+  let(:rating_presenter) { RatingPresenter.new(resource: issue) }
 
   it "renders a link to more reviews" do
     render_inline(described_class.new(rating_presenter:, reviews_path: "/"))
