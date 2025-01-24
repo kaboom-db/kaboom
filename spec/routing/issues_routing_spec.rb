@@ -41,5 +41,13 @@ RSpec.describe IssuesController, type: :routing do
     it "routes to #uncollect" do
       expect(post: "comics/1/issues/1/uncollect").to route_to("issues#uncollect", id: "1", comic_id: "1")
     end
+
+    it "routes to #reviews" do
+      expect(get: "/comics/1/issues/1/reviews").to route_to("issues#reviews", id: "1", comic_id: "1")
+    end
+
+    it "routes to #rate" do
+      expect(post: "/comics/1/issues/1/rate").to route_to("issues#rate", id: "1", comic_id: "1")
+    end
   end
 end
