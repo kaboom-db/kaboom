@@ -62,6 +62,9 @@ RSpec.configure do |config|
   config.before(:each, type: :presenter) do
     Rails.application.reload_routes_unless_loaded
   end
+  config.before(:each, type: :request) do
+    Rails.application.reload_routes_unless_loaded
+  end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
