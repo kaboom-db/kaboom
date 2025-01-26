@@ -36,6 +36,8 @@ class Comic < ApplicationRecord
   }
   scope :safe_for_work, -> { where(nsfw: false) }
 
+  def to_s = name
+
   def aliases_to_array
     return [] unless aliases.present?
 

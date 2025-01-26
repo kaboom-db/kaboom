@@ -11,4 +11,10 @@ RSpec.describe Rating, type: :model do
     it { should validate_uniqueness_of(:user_id).scoped_to([:rateable_id, :rateable_type]) }
     it { should validate_numericality_of(:score).is_greater_than_or_equal_to(1).is_less_than_or_equal_to(10) }
   end
+
+  describe "#social_class" do
+    it "returns the RatedActivity class" do
+      expect(Rating.new.social_class).to eq Social::RatedActivity
+    end
+  end
 end

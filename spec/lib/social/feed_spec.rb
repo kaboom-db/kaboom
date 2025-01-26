@@ -16,6 +16,8 @@ module Social
         @favourite_item = FactoryBot.create(:favourite_item, favouritable: issue, user: @user, created_at: DateTime.new(2024, 1, 1, 22, 7))
         @follow1 = FactoryBot.create(:follow, target: @user2, follower: @user, created_at: DateTime.new(2024, 1, 1, 6))
         @follow2 = FactoryBot.create(:follow, target: @user, follower: @user2, created_at: DateTime.new(2024, 1, 1, 21, 10))
+        @rating1 = FactoryBot.create(:rating, user: @user, score: 3, updated_at: DateTime.new(2024, 1, 1, 6))
+        @rating2 = FactoryBot.create(:rating, user: @user2, score: 4, updated_at: DateTime.new(2024, 1, 1, 21, 10))
       end
 
       context "when page is too large" do
@@ -43,12 +45,13 @@ module Social
         it "returns the activities created by `activities_by` in order of time descending" do
           feed = Feed.new(activities_by: @user, page: 1)
           activities = feed.generate
-          expect(activities.size).to eq 5
+          expect(activities.size).to eq 6
           expect(activities.first.record).to eq @favourite_item
           expect(activities.second.record).to eq @read_issue
           expect(activities.third.record).to eq @collected_issue
           expect(activities.fourth.record).to eq @wishlist_item
-          expect(activities[4].record).to eq @follow1
+          expect(activities[4].record).to eq @rating1
+          expect(activities[5].record).to eq @follow1
         end
       end
 
@@ -56,13 +59,15 @@ module Social
         it "returns the activities created by those users in order of time descending" do
           feed = Feed.new(activities_by: [@user, @user2], page: 1)
           activities = feed.generate
-          expect(activities.size).to eq 6
+          expect(activities.size).to eq 8
           expect(activities.first.record).to eq @favourite_item
-          expect(activities.second.record).to eq @follow2
-          expect(activities.third.record).to eq @read_issue
-          expect(activities.fourth.record).to eq @collected_issue
-          expect(activities[4].record).to eq @wishlist_item
-          expect(activities[5].record).to eq @follow1
+          expect(activities.second.record).to eq @rating2
+          expect(activities.third.record).to eq @follow2
+          expect(activities.fourth.record).to eq @read_issue
+          expect(activities[4].record).to eq @collected_issue
+          expect(activities[5].record).to eq @wishlist_item
+          expect(activities[6].record).to eq @rating1
+          expect(activities[7].record).to eq @follow1
         end
       end
     end

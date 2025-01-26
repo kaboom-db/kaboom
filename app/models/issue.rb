@@ -35,6 +35,8 @@ class Issue < ApplicationRecord
 
   def to_param = absolute_number
 
+  def to_s = "#{comic.name} - #{name}"
+
   def next = comic.issues.find_by(absolute_number: absolute_number + 1)
 
   def sync

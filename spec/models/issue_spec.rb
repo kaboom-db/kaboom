@@ -122,6 +122,14 @@ RSpec.describe Issue, type: :model do
     end
   end
 
+  describe "#to_s" do
+    it "returns the comic name and the issue name" do
+      comic = Comic.new(name: "Amazing Comic")
+      issue = Issue.new(name: "Amazing Issue", comic:)
+      expect(issue.to_s).to eq "Amazing Comic - Amazing Issue"
+    end
+  end
+
   describe "#next" do
     let(:comic) { FactoryBot.create(:comic) }
 

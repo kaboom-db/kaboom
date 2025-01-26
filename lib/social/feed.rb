@@ -16,7 +16,8 @@ module Social
       wishlist_items = get_activities_for(WishlistItem, {created_at: :desc}, {user: activities_by}, [:wishlistable, :user])
       favourite_items = get_activities_for(FavouriteItem, {created_at: :desc}, {user: activities_by}, [:favouritable, :user])
       follows = get_activities_for(Follow, {created_at: :desc}, {follower: activities_by}, [:follower, :target])
-      activities = sort(read_issues + collected_issues + wishlist_items + favourite_items + follows)
+      ratings = get_activities_for(Rating, {updated_at: :desc}, {user: activities_by}, [:user, :rateable])
+      activities = sort(read_issues + collected_issues + wishlist_items + favourite_items + follows + ratings)
 
       start_index = (page - 1) * PER_PAGE
       end_index = start_index + (PER_PAGE - 1)

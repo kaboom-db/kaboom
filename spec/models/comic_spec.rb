@@ -36,6 +36,12 @@ RSpec.describe Comic, type: :model do
     end
   end
 
+  describe "#to_s" do
+    it "returns the name of the comic" do
+      expect(Comic.new(name: "Amazing Comic").to_s).to eq "Amazing Comic"
+    end
+  end
+
   describe "#aliases_to_array" do
     before do
       @comic = FactoryBot.create(:comic, aliases:)
