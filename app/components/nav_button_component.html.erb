@@ -1,9 +1,8 @@
 <% classes = @active ? "border-2 bg-[#fcf3e5]" : "bg-primary hover:bg-[#fcf3e5] transition duration-300 ease-in-out" %>
-<% button_size = @mobile ? "min-w-[3rem] h-12 w-12" : "h-16 w-16" %>
-<% text_size = @mobile ? "text-sm" : "text-xl" %>
+<% button_size = @mobile ? "min-w-[3rem] h-14 w-16" : "h-12 w-full" %>
 
-<%= link_to @href, class: "mx-auto", data: {turbo_method: @method} do %>
-  <div class="flex items-center justify-center rounded-full border-black <%= button_size %> <%= classes %>">
-    <i class="<%= text_size %> fa-solid fa-<%= @icon %>"></i>
+<%= link_to @href, class: "sm:px-2 w-full", data: {turbo_method: @method} do %>
+  <div class="flex items-center justify-center rounded-xl border-black <%= button_size %> <%= classes %>">
+    <i class="text-sm fa-solid fa-<%= @icon %>"></i>
   </div>
 <% end %>

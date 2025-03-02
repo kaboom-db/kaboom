@@ -1,7 +1,7 @@
-<aside class="hidden sm:flex border-r-2 border-black bg-primary w-full sticky left-0 top-0 h-screen py-[50px]">
+<aside class="hidden sm:flex border-r-2 border-black bg-primary w-[88px] sticky left-0 top-0 h-screen py-2">
   <div class="h-full w-full flex flex-col justify-between">
-    <div class="flex flex-col gap-4">
-      <%= image_tag "logo-nav.svg", class: "px-4" %>
+    <div class="flex flex-col gap-2">
+      <%#= image_tag "logo-nav.svg", class: "px-4" %>
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard") %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: ["comics", "search", "issues", "genres"].include?(controller_name)) %>
       <% if user_signed_in? %>
@@ -22,16 +22,15 @@
   </div>
 </aside>
 <!-- Mobile navbar -->
-<div class="h-24 sm:hidden w-full"></div>
-<div class="z-30 fixed top-0 sm:hidden px-[1rem] bg-primary w-full border-b-2 border-black">
-  <%= image_tag "logo-nav.svg", class: "mx-auto h-10 p-2" %>
-  <div class="h-14 flex items-center justify-between">
-    <div class="flex">
+<div class="z-30 fixed bottom-0 sm:hidden px-2 bg-primary w-full border-t-2 border-black">
+  <%#= image_tag "logo-nav.svg", class: "mx-auto h-10 p-2" %>
+  <div class="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar py-2">
+    <div class="flex gap-2">
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: ["comics", "search", "issues", "genres"].include?(controller_name), mobile: true) %>
       <%= render NavButtonComponent.new(href: user_signed_in? ? user_path(current_user) : new_user_session_path, icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics", mobile: true) %>
     </div>
-    <div class="flex">
+    <div class="flex gap-2">
       <% if user_signed_in? %>
         <%= render NavButtonComponent.new(href: destroy_user_session_path, icon: "right-from-bracket", text: "Log out", method: :delete, mobile: true) %>
       <% end %>

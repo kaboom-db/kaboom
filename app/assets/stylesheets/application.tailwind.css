@@ -170,6 +170,10 @@
     margin-top: -1rem;
   }
 
+  .content {
+    grid-template-columns: 1fr;
+  }
+
   @media screen and (min-width: 790px) {
     .w-full-container,
     .w-full-header {
@@ -179,6 +183,10 @@
 
     .w-full-header {
       margin-top: -3rem;
+    }
+
+    .content {
+      grid-template-columns: calc(88px) 1fr;
     }
   }
 }
