@@ -32,6 +32,6 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.6.0",
     "tsc-watch": "^6.2.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   }
 }
