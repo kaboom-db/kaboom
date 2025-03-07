@@ -170,7 +170,7 @@
     margin-top: -1rem;
   }
 
-  .content {
+  .mainContent {
     grid-template-columns: 1fr;
   }
 
@@ -185,7 +185,7 @@
       margin-top: -3rem;
     }
 
-    .content {
+    .mainContent {
       grid-template-columns: calc(88px) 1fr;
     }
   }
