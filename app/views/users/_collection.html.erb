@@ -3,7 +3,7 @@
     <div class="flex flex-wrap justify-between mb-8">
       <input placeholder="Start typing to search..."
         data-action="search#trigger"
-        class="form-control p-2 mb-8 sm:mb-0 w-full sm:w-1/2 rounded-2xl border-2 border-black bg-gray-100 cursor-pointer focus:border-secondary"
+        class="form-control p-2 mb-8 sm:mb-0 w-full sm:w-1/2 rounded-2xl border-2 border-black bg-gray-100 cursor-pointer focus:border-tangerine"
         autocomplete="off">
       <button data-action="expand-all#toggle" class="flex font-bold h-fit w-max rounded-full border-2 border-black text-sm bg-primary py-2 px-3">Expand all</button>
     </div>
@@ -52,11 +52,11 @@
                             <div class="my-4 flex flex-col gap-4">
                               <%= form_with(model: collected_issue) do |form| %>
                                 <div class="flex flex-col gap-4 my-4">
-                                  <%= form.date_field :collected_on, class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" %>
+                                  <%= form.date_field :collected_on, class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-tangerine" %>
 
                                   <div>
                                     <label for="pricePaid<%= collected_issue.id %>">Price paid (optional):</label>
-                                    <%= form.number_field :price_paid, id: "pricePaid#{collected_issue.id}", class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-secondary" %>
+                                    <%= form.number_field :price_paid, id: "pricePaid#{collected_issue.id}", class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-tangerine" %>
                                   </div>
 
                                   <%= render Forms::SubmitComponent.new(form:, text: "Save") %>

@@ -23,7 +23,7 @@
             <p class="text-[#29cc82]">Comic</p><p class="text-[#f9e150]">Vine</p>
           </a>
           <%= button_to "Refresh", refresh_comic_path(@comic), method: :post, class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-primary py-2 px-3" %>
-          <%= link_to "Edit", edit_comic_path(@comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-secondary py-2 px-3" %>
+          <%= link_to "Edit", edit_comic_path(@comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-tangerine py-2 px-3" %>
           <% if @comic.country %>
             <span class="flex font-bold w-max rounded-full border-2 text-sm bg-gray-100 py-2 px-3"
                   style="border-color: <%= @comic.country.colour %>; color: <%= @comic.country.colour %>;"

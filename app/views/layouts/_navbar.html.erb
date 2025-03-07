@@ -31,10 +31,10 @@
       <%= render NavButtonComponent.new(href: user_signed_in? ? user_path(current_user) : new_user_session_path, icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics", mobile: true) %>
     </div>
     <div class="flex gap-2">
+      <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics", mobile: true) %>
       <% if user_signed_in? %>
         <%= render NavButtonComponent.new(href: destroy_user_session_path, icon: "right-from-bracket", text: "Log out", method: :delete, mobile: true) %>
       <% end %>
-      <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics", mobile: true) %>
       <% if user_signed_in? %>
         <%= render NavButtonComponent.new(href: edit_user_path(current_user), icon: "gear", text: "Settings", active: controller_name == "users" && action_name == "edit", mobile: true) %>
       <% end %>
