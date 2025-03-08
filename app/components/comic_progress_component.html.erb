@@ -1,5 +1,5 @@
-<div class="bg-gray-100 flex gap-4 rounded-4xl border-2 border-black p-4 component-border">
-  <div class="h-16 min-h-16 w-16 min-w-16 md:h-32 md:min-h-32 md:w-32 md:min-w-32 overflow-hidden rounded-2xl border-2 border-black">
+<div class="bg-gray-100 flex gap-4 rounded-xl border-2 border-black p-4 component-border">
+  <div class="h-16 min-h-16 w-16 min-w-16 md:h-32 md:min-h-32 md:w-32 md:min-w-32 overflow-hidden rounded-lg border-2 border-black">
     <% if @next_issue.present? %>
       <%= link_to comic_issue_path(@next_issue, comic_id: @comic), data: {turbo_frame: "_top"} do %>
         <img src="<%= @next_issue.image %>" class="w-full">

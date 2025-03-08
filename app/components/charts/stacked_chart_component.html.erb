@@ -1,7 +1,7 @@
 <div class="col-span-full mt-6" data-controller="horizontal-stack-chart">
   <%= render ChipHeaderComponent.new(text: @title) %>
   <%= render BorderComponent.new do %>
-    <div class="w-full h-16 border-2 border-black rounded-2xl flex overflow-hidden">
+    <div class="w-full h-16 border-2 border-black rounded-lg flex overflow-hidden">
       <% @data.each_with_index do |entry, index| %>
         <div class="hover:brightness-105"
               style="width: <%= entry[:percentage] %>%; background-color: rgb(<%= @colours.next %>);"

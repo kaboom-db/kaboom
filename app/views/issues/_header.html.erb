@@ -31,7 +31,7 @@
       <%= link_to "Edit", edit_comic_issue_path(@issue, comic_id: @comic), class: "flex font-bold w-max rounded-full border-2 border-black text-sm bg-tangerine py-2 px-3" %>
     </div>
     <% if current_user.present? %>
-      <div class="md:w-1/2 bg-white/50 rounded-xl p-2">
+      <div class="md:w-1/2 bg-white/50 rounded-lg p-2">
         <%= render StarRatingComponent.new(current_user:, rate_url: rate_comic_issue_path(@issue, comic_id: @comic), rating: @rating_presenter.user_rating) %>
       </div>
     <% end %>

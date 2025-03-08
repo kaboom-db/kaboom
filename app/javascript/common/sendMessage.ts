@@ -3,7 +3,7 @@ function sendMessage (message: string, color: string, icon: string): void {
   if (notifContainer === null) return
 
   const outerDiv = document.createElement('div')
-  outerDiv.classList.add('px-6', 'py-4', 'backdrop-blur', 'rounded-4xl', 'border-[6px]', 'flex', 'gap-4', 'items-center', 'animate-fadeIn')
+  outerDiv.classList.add('px-6', 'py-4', 'backdrop-blur', 'rounded-xl', 'border-[6px]', 'flex', 'gap-4', 'items-center', 'animate-fadeIn')
   outerDiv.style.borderColor = color
   outerDiv.style.backgroundColor = addAlpha(color, 0.5)
 

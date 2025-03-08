@@ -51,7 +51,7 @@
       <%= render ChipHeaderComponent.new(text: "Trending Comics") %>
       <div class="swiper-wrapper">
         <% @trending.each_with_index do |comic, index| %>
-          <div data-swiper-target="slides" class="relative swiper-slide sm:p-16 !w-full !h-auto border-2 border-black rounded-2xl bg-no-repeat bg-cover overflow-hidden" style="background-image: url(<%= comic.image %>);">
+          <div data-swiper-target="slides" class="relative swiper-slide sm:p-16 !w-full !h-auto border-2 border-black rounded-xl bg-no-repeat bg-cover overflow-hidden" style="background-image: url(<%= comic.image %>);">
             <div class="flex flex-col gap-4 md:col-span-2 p-4">
               <p class="text-xl text-white sm:text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= index + 1 %></p>
               <a href="<%= comic_path(comic) %>" class="text-2xl sm:text-4xl text-white font-bold"><%= comic.name %></a>
@@ -60,7 +60,7 @@
               </div>
               <%= render LinkComponent.new(text: "View", href: comic_path(comic)) %>
             </div>
-            <div class="z-[-1] absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-md rounded-2xl"></div>
+            <div class="z-[-1] absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-md rounded-lg"></div>
           </div>
         <% end %>
       </div>
@@ -93,7 +93,7 @@
       <%= render ChipHeaderComponent.new(text: "Trending Issues") %>
       <div class="swiper-wrapper">
         <% @trending_issues.each do |issue| %>
-          <div data-swiper-target="slides" class="relative swiper-slide sm:p-16 !w-full !h-auto border-2 border-black rounded-2xl bg-no-repeat bg-cover overflow-hidden" style="background-image: url(<%= issue.image %>);">
+          <div data-swiper-target="slides" class="relative swiper-slide sm:p-16 !w-full !h-auto border-2 border-black rounded-xl bg-no-repeat bg-cover overflow-hidden" style="background-image: url(<%= issue.image %>);">
             <div class="flex flex-col gap-4 md:col-span-2 p-4">
               <p class="text-xl text-white sm:text-2xl font-bold underline decoration-primary decoration-[7px]">#<%= issue.formatted_issue_number %></p>
               <a href="<%= comic_issue_path(issue, comic_id: issue.comic) %>" class="text-2xl sm:text-4xl text-white font-bold"><%= issue.name %></a>
@@ -102,7 +102,7 @@
               </div>
               <%= render LinkComponent.new(text: "View", href: comic_issue_path(issue, comic_id: issue.comic)) %>
             </div>
-            <div class="z-[-1] absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-md rounded-2xl"></div>
+            <div class="z-[-1] absolute left-0 top-0 w-full h-full bg-black/50 backdrop-blur-md rounded-lg"></div>
           </div>
         <% end %>
       </div>

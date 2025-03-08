@@ -3,7 +3,7 @@
 <%= render SectionComponent.new do %>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <%= link_to dashboard_history_path do %>
-      <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
+      <div class="component-border rounded-xl border-2 border-black bg-gray-100">
           <div class="h-32 flex flex-col justify-center items-center">
             <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= @issues_read %></p>
           </div>
@@ -11,7 +11,7 @@
       </div>
     <% end %>
     <%= link_to dashboard_collection_path do %>
-      <div class="component-border rounded-4xl border-2 border-black bg-gray-100">
+      <div class="component-border rounded-xl border-2 border-black bg-gray-100">
           <div class="h-32 flex flex-col justify-center items-center">
             <p class="text-4xl font-bold transition duration-300 ease-in-out"><%= @issues_collected %></p>
           </div>

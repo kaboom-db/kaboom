@@ -7,21 +7,21 @@
   <%= render LinkComponent.new(text: "Create your account!", href: new_registration_path(User)) %>
 </div>
 <div class="my-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-  <div class="col-span-1 flex flex-col p-1.5 rounded-4xl border-2 border-black bg-gradient-to-r from-primary to-tangerine">
+  <div class="col-span-1 flex flex-col p-1.5 rounded-xl border-2 border-black bg-gradient-to-r from-primary to-tangerine">
     <div class="flex flex-col max-h-full h-56 items-center justify-center">
       <h2 class="font-bold text-4xl">📚 <%= @comic_count %></h2>
     </div>
-    <div class="p-4 bg-white rounded-4xl flex flex-col flex-auto gap-4">
+    <div class="p-4 bg-white rounded-xl flex flex-col flex-auto gap-4">
       <h5 class="text-xl">Comics</h5>
       <p>We currently have <%= @comic_count %> <%= "comic".pluralize(@comic_count) %> in our database!</p>
       <%= render LinkComponent.new(text: "Comics", href: comics_path) %>
     </div>
   </div>
-  <div class="col-span-1 flex flex-col p-1.5 rounded-4xl border-2 border-black bg-gradient-to-r from-primary to-tangerine">
+  <div class="col-span-1 flex flex-col p-1.5 rounded-xl border-2 border-black bg-gradient-to-r from-primary to-tangerine">
     <div class="flex flex-col max-h-full h-56 items-center justify-center">
       <h2 class="font-bold text-4xl">😃 <%= @user_count %></h2>
     </div>
-    <div class="p-4 bg-white rounded-4xl flex flex-col flex-auto gap-4">
+    <div class="p-4 bg-white rounded-xl flex flex-col flex-auto gap-4">
       <h5 class="text-xl">Users</h5>
       <p>Join <%= @user_count %> <%= "other".pluralize(@user_count) %> in tracking their favourite comics!</p>
       <%= render LinkComponent.new(text: "Join now", href: new_registration_path(User)) %>

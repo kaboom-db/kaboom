@@ -4,7 +4,7 @@
           data-action="click->dialog#click"
           data-dialog-target="dialog"
           class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
-    <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
+    <div class="rounded-xl border-2 border-black bg-gray-100 p-4">
       <h5 class="text-xl font-bold mb-8">Followers</h1>
       <div class="m-4 max-h-[350px] overflow-y-auto">
         <%= render "shared/follows", type: "followers", follows: @followers, href: load_more_followers_user_path(@user), page: @followers_page %>
@@ -19,7 +19,7 @@
           data-action="click->dialog#click"
           data-dialog-target="dialog"
           class="open:flex open:p-0 open:bg-transparent open:flex-col open:gap-4 backdrop:backdrop-blur-sm">
-    <div class="rounded-4xl border-2 border-black bg-gray-100 p-4">
+    <div class="rounded-xl border-2 border-black bg-gray-100 p-4">
       <h5 class="text-xl font-bold mb-8">Following</h1>
       <div class="m-4 max-h-[350px] overflow-y-auto">
         <%= render "shared/follows", type: "following", follows: @following, href: load_more_following_user_path(@user), page: @following_page %>

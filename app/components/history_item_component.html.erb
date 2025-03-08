@@ -3,7 +3,7 @@
      data-remove-item-data-value="<%= {read_id: @read_issue.id}.to_json %>">
   <%= render BorderComponent.new do %>
     <div class="flex gap-4">
-      <div class="h-16 w-16 min-w-[4rem] overflow-hidden rounded-2xl border-2 border-black">
+      <div class="h-16 w-16 min-w-[4rem] overflow-hidden rounded-lg border-2 border-black">
         <img src="<%= @issue.image %>" class="w-full">
       </div>
       <div class="w-full">
