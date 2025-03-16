@@ -13,7 +13,6 @@ export default class extends SwiperBase {
     return {
       spaceBetween: 10,
       freeMode: true,
-      mousewheel: true,
       on: {
         sliderMove: this.updateFades.bind(this),
         scroll: this.updateFades.bind(this),
