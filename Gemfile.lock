@@ -132,7 +132,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    crawler_detect (1.2.5)
+    crawler_detect (1.2.6)
       qonfig (>= 0.24)
     cssbundling-rails (1.4.1)
       railties (>= 6.0.0)
@@ -266,7 +266,8 @@ GEM
     public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
-    qonfig (0.29.0)
+    qonfig (0.30.0)
+      base64 (>= 0.2)
     racc (1.8.1)
     rack (3.1.12)
     rack-session (2.1.0)
