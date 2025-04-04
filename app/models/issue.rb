@@ -33,6 +33,10 @@ class Issue < ApplicationRecord
     issue_number.to_s.gsub(/\.0\b/, "")
   end
 
+  def short_name
+    comic.collected? ? "Volume ##{formatted_issue_number}" : "Issue ##{formatted_issue_number}"
+  end
+
   def to_param = absolute_number
 
   def to_s = "#{comic.name} - #{name}"

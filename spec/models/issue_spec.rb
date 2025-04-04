@@ -122,6 +122,34 @@ RSpec.describe Issue, type: :model do
     end
   end
 
+  describe "#short_name" do
+    context "when comic is a collected comic type" do
+      [Comic::COLLECTED_SERIES, Comic::MANGA, Comic::MANHWA].each do |type|
+        context "when comic type is #{type}" do
+          let(:comic) { FactoryBot.build(:comic, comic_type: type) }
+          let(:issue) { FactoryBot.build(:issue, comic:, issue_number: 1) }
+
+          it "returns the short name of the comic" do
+            expect(issue.short_name).to eq "Volume #1"
+          end
+        end
+      end
+    end
+
+    context "when comic is a standard comic type" do
+      [Comic::ANNUAL_SERIES, Comic::SERIES, Comic::ONESHOT].each do |type|
+        context "when comic type is #{type}" do
+          let(:comic) { FactoryBot.build(:comic, comic_type: type) }
+          let(:issue) { FactoryBot.build(:issue, comic:, issue_number: 1) }
+
+          it "returns the short name of the comic" do
+            expect(issue.short_name).to eq "Issue #1"
+          end
+        end
+      end
+    end
+  end
+
   describe "#to_s" do
     it "returns the comic name and the issue name" do
       comic = Comic.new(name: "Amazing Comic")

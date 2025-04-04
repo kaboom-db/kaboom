@@ -72,6 +72,32 @@ RSpec.describe Comic, type: :model do
     end
   end
 
+  describe "#collected?" do
+    context "when comic is a collected comic type" do
+      [Comic::COLLECTED_SERIES, Comic::MANGA, Comic::MANHWA].each do |type|
+        context "when comic type is #{type}" do
+          let(:comic) { FactoryBot.build(:comic, comic_type: type) }
+
+          it "returns the short name of the comic" do
+            expect(comic.collected?).to eq true
+          end
+        end
+      end
+    end
+
+    context "when comic is a standard comic type" do
+      [Comic::ANNUAL_SERIES, Comic::SERIES, Comic::ONESHOT].each do |type|
+        context "when comic type is #{type}" do
+          let(:comic) { FactoryBot.build(:comic, comic_type: type) }
+
+          it "returns the short name of the comic" do
+            expect(comic.collected?).to eq false
+          end
+        end
+      end
+    end
+  end
+
   describe ".search" do
     it "searches by name and alias" do
       comic_1 = FactoryBot.create(:comic, name: "Test Comic")

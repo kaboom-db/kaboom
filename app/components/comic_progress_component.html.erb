@@ -14,7 +14,7 @@
     <div>
       <h3 class="font-bold text-xs sm:text-xl mb-1 max-h-14 overflow-hidden"><%= link_to @comic.name, comic_path(@comic), class: "hidden sm:inline", data: {turbo_frame: "_top"} %></h3>
       <% if @next_issue.present? %>
-        <small class="mb-1">Next: Issue #<%= @next_issue.formatted_issue_number %></small>
+        <small class="mb-1">Next: <%= @next_issue.short_name %></small>
       <% end %>
     </div>
     <div>
