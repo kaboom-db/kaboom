@@ -1,11 +1,25 @@
-<aside class="hidden sm:flex border-r-2 border-black bg-primary w-[88px] sticky left-0 top-0 h-screen py-2">
+<% u_active = ((controller_name == "users" && action_name != "edit") || controller_name == "statistics") ? "border-2 !bg-secondary" : "" %>
+<aside class="hidden sm:flex border-r-2 border-black bg-primary w-[88px] sticky left-0 top-0 h-screen py-2 z-50">
   <div class="h-full w-full flex flex-col justify-between">
     <div class="flex flex-col gap-2">
       <%#= image_tag "logo-nav.svg", class: "px-4" %>
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard") %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: ["comics", "search", "issues", "genres"].include?(controller_name)) %>
       <% if user_signed_in? %>
-        <%= render NavButtonComponent.new(href: user_path(current_user), icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics") %>
+        <div class="sm:px-2 w-full">
+          <details class="group relative">
+            <summary class="marker:hidden list-none cursor-pointer flex items-center justify-center rounded-xl border-black h-12 w-full bg-secondary/60 hover:bg-secondary group-open:border-2 group-open:bg-secondary <%= u_active %> transition duration-300 ease-in-out">
+              <i class="text-sm fa-solid fa-user"></i>
+            </summary>
+            <div class="absolute top-0 left-[105%] right-0 bg-tangerine rounded-xl border-2 border-black p-4 flex flex-col gap-2">
+              <%= render LinkComponent.new(href: user_path(current_user), text: "Profile") %>
+              <%= render LinkComponent.new(href: history_user_path(current_user), text: "History") %>
+              <%= render LinkComponent.new(href: deck_user_path(current_user), text: "Deck") %>
+              <%= render LinkComponent.new(href: favourites_user_path(current_user), text: "Favourites") %>
+              <%= render LinkComponent.new(href: completed_user_path(current_user), text: "Completed") %>
+            </div>
+          </details>
+        </div>
       <% else %>
         <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Join", active: devise_controller? || controller_name == "users" || controller_name == "statistics") %>
       <% end %>
@@ -28,7 +42,24 @@
     <div class="flex gap-2">
       <%= render NavButtonComponent.new(href: root_path, icon: "house", text: "Home", active: controller_name == "pages" || controller_name == "dashboard", mobile: true) %>
       <%= render NavButtonComponent.new(href: comics_path, icon: "magnifying-glass", text: "Discover", active: ["comics", "search", "issues", "genres"].include?(controller_name), mobile: true) %>
-      <%= render NavButtonComponent.new(href: user_signed_in? ? user_path(current_user) : new_user_session_path, icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics", mobile: true) %>
+      <% if user_signed_in? %>
+        <div class="sm:px-2 w-full">
+          <details class="group">
+            <summary class="marker:hidden list-none cursor-pointer flex items-center justify-center rounded-xl border-black min-w-[3rem] h-14 w-16 bg-secondary/60 hover:bg-secondary group-open:border-2 group-open:bg-secondary <%= u_active %> transition duration-300 ease-in-out">
+              <i class="text-sm fa-solid fa-user"></i>
+            </summary>
+            <div class="m-6 w-fit absolute bottom-[105%] -translate-x-1/2 bg-tangerine rounded-xl border-2 border-black p-4 flex flex-col items-center gap-2 z-50">
+              <%= render LinkComponent.new(href: user_path(current_user), text: "Profile") %>
+              <%= render LinkComponent.new(href: history_user_path(current_user), text: "History") %>
+              <%= render LinkComponent.new(href: deck_user_path(current_user), text: "Deck") %>
+              <%= render LinkComponent.new(href: favourites_user_path(current_user), text: "Favourites") %>
+              <%= render LinkComponent.new(href: completed_user_path(current_user), text: "Completed") %>
+            </div>
+          </details>
+        </div>
+      <% else %>
+        <%= render NavButtonComponent.new(href: new_user_session_path, icon: "user", text: "Profile", active: devise_controller? || (controller_name == "users" && action_name != "edit") || controller_name == "statistics", mobile: true) %>
+      <% end %>
     </div>
     <div class="flex gap-2">
       <%= render NavButtonComponent.new(href: site_statistics_path, icon: "chart-simple", text: "Site Stats", active: controller_name == "site_statistics", mobile: true) %>
