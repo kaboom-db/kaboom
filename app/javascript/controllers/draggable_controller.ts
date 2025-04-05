@@ -26,6 +26,8 @@ export default class extends Controller {
   }
 
   onSorted (event: SortableStopEvent): void {
+    if (event.oldIndex === event.newIndex) return
+
     if (this.requestInFlight) {
       this.revert(event.oldContainer)
       return
