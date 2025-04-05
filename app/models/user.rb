@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :ratings, dependent: :delete_all
   has_many :reviews, dependent: :delete_all
 
-  has_many :wishlist_items, dependent: :delete_all
+  has_many :wishlist_items, -> { order(position: :asc) }, dependent: :delete_all
   has_many :wishlisted_comics, through: :wishlist_items, source: :wishlistable, source_type: "Comic"
   has_many :wishlisted_issues, through: :wishlist_items, source: :wishlistable, source_type: "Issue"
 
