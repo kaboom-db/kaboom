@@ -364,16 +364,16 @@ RSpec.describe "Users", type: :request do
     let(:path) { wishlist_user_path(user) }
 
     it "renders the users wishlist" do
-      issue = FactoryBot.create(:issue)
+      issue = FactoryBot.create(:issue, name: "Issue 1")
       FactoryBot.create(:wishlist_item, wishlistable: issue, user:)
 
-      comic = FactoryBot.create(:comic)
+      comic = FactoryBot.create(:comic, name: "Demon Slayer")
       FactoryBot.create(:wishlist_item, wishlistable: comic, user:)
 
       get path
 
-      assert_select "a[href='#{comic_issue_path(issue, comic_id: issue.comic)}']"
-      assert_select "a[href='#{comic_path(comic)}']"
+      assert_select "p", text: "Demon Slayer"
+      assert_select "p", text: "Issue 1"
     end
 
     it_behaves_like "a private user"

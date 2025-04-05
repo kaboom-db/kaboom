@@ -9,6 +9,13 @@ Rails.application.routes.draw do
   resources :search, only: [:index]
   resources :reviews, except: [:index]
   resources :collected_issues, only: [:update]
+
+  resources :wishlist_items, only: [] do
+    member do
+      post :move
+    end
+  end
+
   resources :site_statistics, only: [:index]
 
   resources :comics, only: [:index, :show, :edit, :update] do

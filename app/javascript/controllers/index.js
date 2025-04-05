@@ -7,6 +7,7 @@ import { application } from './application'
 import CollectController from './actions/collect_controller'
 import ChartController from './chart_controller'
 import DialogController from './dialog_controller'
+import DraggableController from './draggable_controller'
 import ExpandAllController from './expand_all_controller'
 import FavouriteController from './actions/favourite_controller'
 import GenreSwiperController from './genre_swiper_controller'
@@ -24,6 +25,7 @@ import WishlistController from './actions/wishlist_controller'
 application.register('collect', CollectController)
 application.register('chart', ChartController)
 application.register('dialog', DialogController)
+application.register('draggable', DraggableController)
 application.register('expand-all', ExpandAllController)
 application.register('favourite', FavouriteController)
 application.register('genre-swiper', GenreSwiperController)

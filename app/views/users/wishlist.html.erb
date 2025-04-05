@@ -4,12 +4,36 @@
 
 <%= render SectionComponent.new do %>
   <div class="my-6">
-    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-      <% @wishlist.each do |item| %>
-        <% resource = item.wishlistable %>
-        <% resource_path = resource.is_a?(Comic) ? comic_path(resource) : comic_issue_path(resource, comic_id: resource.comic) %>
-        <%= render ResourceTileComponent.new(resource:, resource_path:) %>
-      <% end %>
+    <%# TODO: System specs %>
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+      <div class="col-span-1 relative flex flex-col gap-4"
+        data-controller="draggable"
+        data-draggable-readonly-value="<%= !(current_user == @user) %>">
+        <% @wishlist.each do |item| %>
+          <div class="draggable min-w-[50%]" data-move-position-url="<%= move_wishlist_item_path(item) %>">
+            <%= render BorderComponent.new do %>
+              <div class="flex gap-6">
+                <div class="h-16 min-h-16 w-16 min-w-16 overflow-hidden rounded-lg border-2 border-black relative">
+                  <img src="<%= item.wishlistable.image %>" class="w-full">
+                </div>
+                <div class="flex flex-col gap-2 justify-between w-full">
+                  <p><%= item.wishlistable.name %></p>
+                  <small>
+                    <% if item.wishlistable.is_a?(Comic) %>
+                      <%= item.wishlistable.count_of_issues %> issues -
+                    <% end %>
+                    Listed: <%= item.created_at.strftime("%B %d, %Y") %>
+                  </small>
+                </div>
+                <% if current_user == @user %>
+                  <i class="fas fa-bars cursor-grab"></i>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-span-1"></div>
     </div>
   </div>
   <%= will_paginate @wishlist, previous_label: "« Prev", next_label: "Next »", inner_window: 1, outer_window: 0 %>
