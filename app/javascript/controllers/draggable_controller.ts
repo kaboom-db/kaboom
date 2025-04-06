@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { DraggableContainer, MirrorCreateEvent, Sortable, SortableStopEvent } from '@shopify/draggable'
+import { DraggableContainer, DragStartEvent, MirrorCreateEvent, Sortable, SortableStopEvent } from '@shopify/draggable'
 import { sendRequest } from '../common/request'
 
 // Connects to data-controller="draggable"
@@ -16,11 +16,19 @@ export default class extends Controller {
     this.sortable = new Sortable(this.element as DraggableContainer, {
       draggable: '.draggable'
     })
+    this.sortable.on('drag:start', this.onDragStart.bind(this))
     this.sortable.on('sortable:stop', this.onSorted.bind(this))
-    this.sortable.on('mirror:create', this.onDragStart.bind(this))
+    this.sortable.on('mirror:create', this.onMirrorCreate.bind(this))
   }
 
-  onDragStart (event: MirrorCreateEvent) {
+  onDragStart (event: DragStartEvent): void {
+    const target = event.originalEvent.target as HTMLElement
+    if (target !== null && Array.from(target.classList).includes('prevent-drag')) {
+      event.cancel()
+    }
+  }
+
+  onMirrorCreate (event: MirrorCreateEvent): void {
     event.source.style.width = `${this.element.clientWidth}px`
     event.source.style.minWidth = '0'
   }

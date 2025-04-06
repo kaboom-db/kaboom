@@ -14,7 +14,11 @@
             <%= render BorderComponent.new do %>
               <div class="flex gap-6">
                 <div class="h-16 min-h-16 w-16 min-w-16 overflow-hidden rounded-lg border-2 border-black relative">
-                  <img src="<%= item.wishlistable.image %>" class="w-full">
+                  <% resource = item.wishlistable %>
+                  <% resource_path = resource.is_a?(Comic) ? comic_path(resource) : comic_issue_path(resource, comic_id: resource.comic) %>
+                  <%= link_to resource_path, class: "prevent-drag" do %>
+                    <img src="<%= item.wishlistable.image %>" class="w-full prevent-drag">
+                  <% end %>
                 </div>
                 <div class="flex flex-col gap-2 justify-between w-full">
                   <p><%= item.wishlistable.name %></p>
