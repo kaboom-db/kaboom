@@ -13,16 +13,29 @@ export default class extends Controller {
 
   connect (): void {
     if (this.togglerAvailable()) {
-      const togglers = document.getElementsByClassName(this.togglerClassValue)
+      const togglers = document.querySelectorAll<HTMLElement>(`.${this.togglerClassValue}`)
       Array.from(togglers).forEach((toggler) => {
-        toggler.addEventListener('click', () => {
-          this.dialogTarget.showModal()
-          document.documentElement.style.overflow = 'hidden'
-        })
+        this.addToggler(toggler)
       })
     }
 
+    document.addEventListener('turbo:before-frame-render', this.onDomChanged.bind(this))
     this.dialogTarget.addEventListener('close', () => { document.documentElement.style.overflow = '' })
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onDomChanged (event: any) {
+    const newTogglers = (event.detail.newFrame as HTMLElement).querySelectorAll<HTMLElement>(`.${this.togglerClassValue}`)
+    Array.from(newTogglers).forEach((toggler) => {
+      this.addToggler(toggler)
+    })
+  }
+
+  addToggler (toggler: HTMLElement): void {
+    toggler.addEventListener('click', () => {
+      this.dialogTarget.showModal()
+      document.documentElement.style.overflow = 'hidden'
+    })
   }
 
   disconnect (): void {
