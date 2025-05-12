@@ -56,7 +56,7 @@
 
                                   <div>
                                     <label for="pricePaid<%= collected_issue.id %>">Price paid (optional):</label>
-                                    <%= form.number_field :price_paid, id: "pricePaid#{collected_issue.id}", class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-tangerine" %>
+                                    <%= form.number_field :price_paid, step: "0.01", id: "pricePaid#{collected_issue.id}", class: "form-control p-2 w-full rounded-md border-2 border-primary bg-gray-100 cursor-pointer focus:border-tangerine" %>
                                   </div>
 
                                   <%= render Forms::SubmitComponent.new(form:, text: "Save") %>
