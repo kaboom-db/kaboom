@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/seuros/capistrano-puma.git
-  revision: dd9b8b7653f8eebc6bf2c96804303169da7cede8
+  revision: a9f499c5eb2c58ac9c35b6e8f0eb2d1bb91c064b
   specs:
     capistrano3-puma (6.0.0)
       capistrano (~> 3.7)
@@ -238,7 +238,7 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-scp (4.0.0)
+    net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
     net-sftp (4.0.0)
       net-ssh (>= 5.0.0, < 8.0.0)
@@ -396,8 +396,9 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sshkit (1.23.2)
+    sshkit (1.24.0)
       base64
+      logger
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
