@@ -32,7 +32,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.6.0",
-    "tsc-watch": "^6.2.1",
+    "tsc-watch": "^7.1.1",
     "typescript": "^5.8.3"
   }
 }
