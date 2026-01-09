@@ -314,10 +314,10 @@
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@shopify/draggable@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@shopify/draggable/-/draggable-1.1.4.tgz#e3a4f1dae67681ac516d00a8f94987fac39c77e3"
-  integrity sha512-EkXxBtQH119pGpLWhhhIPEdaeirGcVwkh6Nft1nqbMdM4N6b4r4v9wCmR1/r2gjTwu888I6qGI0VSlhoYivbYw==
+"@shopify/draggable@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@shopify/draggable/-/draggable-1.2.1.tgz#b0d4bfaabeb1d53881b6c62e0f7743eb61c910cd"
+  integrity sha512-hYKhd99nl1mkO4ybA8i3rxvZgYS2A4Imcxpq7BoUu7h4LmFt997YxHLy8Mm5J7ST+G4DTQXqBsTx9mDid6piZg==
 
 "@types/json-schema@^7.0.9":
   version "7.0.12"
