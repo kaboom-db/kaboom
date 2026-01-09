@@ -5,7 +5,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.16",
     "@shopify/draggable": "^1.1.4",
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.4.23",
     "chart.js": "^4.5.0",
     "esbuild": "^0.25.9",
     "esbuild-sass-plugin": "^3.0.0",
