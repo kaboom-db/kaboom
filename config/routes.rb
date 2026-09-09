@@ -69,6 +69,7 @@ Rails.application.routes.draw do
       get :load_more_activities
       get :load_more_followers
       get :load_more_following
+      get :upnext
 
       post :follow
       post :unfollow

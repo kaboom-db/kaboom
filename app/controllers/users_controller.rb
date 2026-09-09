@@ -126,6 +126,15 @@ class UsersController < ApplicationController
     end
   end
 
+  # TODO: Move this into API with specs
+  def upnext
+    @incompleted_comics = @user.incompleted_comics
+    respond_to do |format|
+      format.html { not_found }
+      format.json
+    end
+  end
+
   private
 
   def get_activities
