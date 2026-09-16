@@ -3786,10 +3786,10 @@ ts-interface-checker@^0.1.9:
   resolved "https://registry.npmjs.org/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
 
-tsc-watch@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/tsc-watch/-/tsc-watch-7.2.0.tgz#372eab1d46d107eedb2639ee53f504c51e066860"
-  integrity sha512-4gRFawQD1cVSaILvG7wl2x6NtteKbS2dGBMbL7Q6n1ldLIOKXCJUoEwUXdGuee4dp+zcnA6tukBBLz1lZrNI9w==
+tsc-watch@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/tsc-watch/-/tsc-watch-7.2.1.tgz#1e3261b49e3930df18dbf76db31ab7aebbc8eb7b"
+  integrity sha512-FcntBnz5bXGQ/q265acfDzU7xi6R/sgwMokI+Iu293n14Wu8ovAtcwqNfU9vv/DM1THlnmmxatSSyGOvWsSblg==
   dependencies:
     cross-spawn "^7.0.6"
     node-cleanup "^2.1.2"
