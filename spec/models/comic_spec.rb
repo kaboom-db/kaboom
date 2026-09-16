@@ -537,6 +537,19 @@ RSpec.describe Comic, type: :model do
     end
   end
 
+  describe "#latest_reread_for" do
+    it "returns the latest reread for the given user" do
+      user = FactoryBot.create(:user)
+      comic = FactoryBot.create(:comic)
+      FactoryBot.create(:comic_reread, user:, comic:, reread_started_at: 2.seconds.ago)
+      reread = FactoryBot.create(:comic_reread, user:, comic:, reread_started_at: 1.second.ago)
+      # Latest, but for a different user
+      FactoryBot.create(:comic_reread, comic:, reread_started_at: Time.current)
+
+      expect(comic.latest_reread_for(user)).to eq reread
+    end
+  end
+
   describe ".trending_for" do
     it "only returns the trending comics for a specific genre" do
       genre = FactoryBot.create(:genre)

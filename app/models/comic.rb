@@ -99,6 +99,14 @@ class Comic < ApplicationRecord
 
   def year = start_year
 
+  def latest_reread_for(user)
+    latest_reread = ComicReread
+      .where(user:)
+      .where(comic: self)
+      .order(reread_started_at: :desc)
+      .first
+  end
+
   def self.import(comic_vine_id:, nsfw: false)
     comic = Comic.find_or_initialize_by(cv_id: comic_vine_id)
     comic.nsfw = nsfw
