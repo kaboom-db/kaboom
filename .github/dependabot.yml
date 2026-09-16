@@ -11,9 +11,11 @@ updates:
       interval: "weekly"
       day: "friday"
       time: "07:00"
+    open-pull-requests-limit: 5
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
       day: "friday"
       time: "07:00"
+    open-pull-requests-limit: 5
