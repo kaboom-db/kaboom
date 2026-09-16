@@ -311,30 +311,49 @@ RSpec.describe User, type: :model do
       @comic1 = FactoryBot.create(:comic, count_of_issues: 2)
       issue1 = FactoryBot.create(:issue, comic: @comic1)
       FactoryBot.create(:issue, comic: @comic1)
+      FactoryBot.create(:read_issue, user:, issue: issue1, read_at: 5.hours.ago)
+      FactoryBot.create(:read_issue, user:, issue: issue1, read_at: 4.hours.ago) # Does not count this towards the progress of the comic
 
       @comic2 = FactoryBot.create(:comic, count_of_issues: 2)
       issue3 = FactoryBot.create(:issue, comic: @comic2)
       issue4 = FactoryBot.create(:issue, comic: @comic2)
+      FactoryBot.create(:read_issue, user:, issue: issue3)
+      FactoryBot.create(:read_issue, user:, issue: issue4)
 
       @comic3 = FactoryBot.create(:comic, count_of_issues: 2)
       issue5 = FactoryBot.create(:issue, comic: @comic3)
       FactoryBot.create(:issue, comic: @comic3)
-
-      FactoryBot.create(:read_issue, user:, issue: issue1, read_at: Time.current - 5.hours)
-      FactoryBot.create(:read_issue, user:, issue: issue1, read_at: Time.current - 4.hours) # Does not count this towards the progress of the comic
-
-      FactoryBot.create(:read_issue, user:, issue: issue3)
-      FactoryBot.create(:read_issue, user:, issue: issue4)
-
       FactoryBot.create(:read_issue, user:, issue: issue5, read_at: Time.current)
+
+      # This comic will still appear as incompleted even though
+      # all issues have been read because the comic is marked as
+      # being re-read. This comic has been partially re-read.
+      @comic4 = FactoryBot.create(:comic, count_of_issues: 2)
+      issue6 = FactoryBot.create(:issue, comic: @comic4)
+      issue7 = FactoryBot.create(:issue, comic: @comic4)
+      FactoryBot.create(:read_issue, user:, issue: issue6, read_at: 2.seconds.ago)
+      FactoryBot.create(:read_issue, user:, issue: issue7, read_at: 1.second.ago)
+      FactoryBot.create(:comic_reread, comic: @comic4, user:, reread_started_at: Time.current)
+      FactoryBot.create(:read_issue, user:, issue: issue6, read_at: Time.current + 1.second)
+
+      # This comic has been re-read, so is not included in results
+      @comic5 = FactoryBot.create(:comic, count_of_issues: 2)
+      issue8 = FactoryBot.create(:issue, comic: @comic5)
+      issue9 = FactoryBot.create(:issue, comic: @comic5)
+      FactoryBot.create(:read_issue, user:, issue: issue8, read_at: 5.hours.ago)
+      FactoryBot.create(:read_issue, user:, issue: issue9, read_at: 4.hours.ago)
+      FactoryBot.create(:comic_reread, comic: @comic5, user:, reread_started_at: 3.hours.ago)
+      FactoryBot.create(:read_issue, user:, issue: issue8, read_at: Time.current)
+      FactoryBot.create(:read_issue, user:, issue: issue9, read_at: Time.current)
     end
 
-    it "returns the users incompleted comics" do
-      expect(user.incompleted_comics.to_a).to eq [@comic3, @comic1]
+    it "returns the users incompleted comics ordered by last read" do
+      expect(user.incompleted_comics.to_a).to eq [@comic4, @comic3, @comic1]
     end
 
     it "does not include hidden comics" do
       FactoryBot.create(:hidden_comic, user:, comic: @comic1)
+      FactoryBot.create(:hidden_comic, user:, comic: @comic4)
       expect(user.incompleted_comics).to eq [@comic3]
     end
   end

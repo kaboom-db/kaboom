@@ -109,13 +109,11 @@ class User < ApplicationRecord
   end
 
   def incompleted_comics
-    comics
-      .joins(:issues)
-      .where.not(id: comics_hidden_from_progress)
-      .select("comics.*, MAX(read_issues.read_at) AS last_read_at")
-      .group("comics.id")
-      .having("COUNT(DISTINCT issues.id) < comics.count_of_issues")
-      .order("last_read_at DESC")
+    ids = incompleted_comic_ids
+
+    Comic
+      .where(id: ids)
+      .in_order_of(:id, ids)
   end
 
   def self.search(query:)
@@ -123,5 +121,39 @@ class User < ApplicationRecord
     results = User.confirmed
     words.each { |word| results = results.where(["lower(username) LIKE ? ", "%#{word}%"]) }
     results
+  end
+
+  private
+
+  def incompleted_comic_ids
+    latest_rereads = ComicReread
+      .where(user_id: id)
+      .select("DISTINCT ON (comic_id) comic_id, reread_started_at")
+      .order("comic_id, reread_started_at DESC")
+      .index_by(&:comic_id)
+
+    comics
+      .joins(:issues)
+      .where.not(id: comics_hidden_from_progress)
+      .select("comics.*, MAX(read_issues.read_at) AS last_read_at")
+      .group("comics.id")
+      .order("last_read_at DESC")
+      .filter_map do |comic|
+        reread_started_at = latest_rereads[comic.id]&.reread_started_at
+
+        read_issues_for_comic = read_issues
+          .joins(:issue)
+          .where(issues: { comic_id: comic.id })
+
+        # Note: N+1 query per comic to count filtered reads
+        # Each query is simple and indexed; consider denormalization if this becomes a bottleneck
+        if reread_started_at
+          read_issues_for_comic = read_issues_for_comic.where(
+            read_issues: { read_at: reread_started_at.. }
+          )
+        end
+
+        comic.id if read_issues_for_comic.distinct.count(:issue_id) < comic.count_of_issues
+      end
   end
 end
