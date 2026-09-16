@@ -156,13 +156,13 @@ class User < ApplicationRecord
 
         read_issues_for_comic = read_issues
           .joins(:issue)
-          .where(issues: { comic_id: comic.id })
+          .where(issues: {comic_id: comic.id})
 
         # Note: N+1 query per comic to count filtered reads
         # Each query is simple and indexed; consider denormalization if this becomes a bottleneck
         if reread_started_at
           read_issues_for_comic = read_issues_for_comic.where(
-            read_issues: { read_at: reread_started_at.. }
+            read_issues: {read_at: reread_started_at..}
           )
         end
 

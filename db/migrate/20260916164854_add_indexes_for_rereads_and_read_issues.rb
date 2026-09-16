@@ -4,6 +4,6 @@ class AddIndexesForRereadsAndReadIssues < ActiveRecord::Migration[8.1]
 
     add_index :comic_rereads,
       [:user_id, :comic_id, :reread_started_at],
-      order: { reread_started_at: :desc }
+      order: {reread_started_at: :desc}
   end
 end

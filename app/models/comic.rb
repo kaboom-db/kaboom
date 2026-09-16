@@ -100,7 +100,7 @@ class Comic < ApplicationRecord
   def year = start_year
 
   def latest_reread_for(user)
-    latest_reread = ComicReread
+    ComicReread
       .where(user:)
       .where(comic: self)
       .order(reread_started_at: :desc)
