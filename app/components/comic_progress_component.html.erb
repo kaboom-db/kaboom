@@ -19,7 +19,12 @@
     </div>
     <div>
       <div class="flex justify-between">
-        <p><%= @progress %>%</p>
+        <p>
+          <% if @latest_reread.present? %>
+            <i class="fa-solid fa-backward mr-1" title="Re-reading"></i>
+          <% end %>
+          <%= @progress %>%
+        </p>
         <div class="flex gap-2">
           <%= button_to hide_comic_path(@comic), method: :post do %>
             <i class="fa-solid fa-ban text-lg"></i>
