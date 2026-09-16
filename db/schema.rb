@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_164321) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_16_164854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_164321) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["comic_id"], name: "index_comic_rereads_on_comic_id"
+    t.index ["user_id", "comic_id", "reread_started_at"], name: "idx_on_user_id_comic_id_reread_started_at_309effa78c", order: { reread_started_at: :desc }
     t.index ["user_id"], name: "index_comic_rereads_on_user_id"
   end
 
@@ -172,6 +173,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_164321) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["issue_id"], name: "index_read_issues_on_issue_id"
+    t.index ["user_id", "issue_id", "read_at"], name: "index_read_issues_on_user_id_and_issue_id_and_read_at"
     t.index ["user_id"], name: "index_read_issues_on_user_id"
   end
 
