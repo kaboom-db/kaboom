@@ -61,7 +61,7 @@ gem "view_component"
 gem "sidekiq", "~> 8.0"
 
 # Schedule sidekiq background jobs
-gem "whenever", "~> 1.0", require: false
+gem "whenever", "~> 1.1", require: false
 
 # Paginate ActiveRecord relations
 gem "will_paginate", "~> 4.0"
