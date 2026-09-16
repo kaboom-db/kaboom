@@ -194,15 +194,20 @@ RSpec.describe User, type: :model do
       @comic_with_reread = FactoryBot.create(:comic, count_of_issues: 1)
       issue4 = FactoryBot.create(:issue, comic: @comic_with_reread)
       FactoryBot.create(:read_issue, issue: issue4, user:, read_at: 1.second.ago)
-      FactoryBot.create(:comic_reread, user:, comic: @comic_with_reread, reread_started_at: Time.current)
+      @reread = FactoryBot.create(:comic_reread, user:, comic: @comic_with_reread, reread_started_at: Time.current)
     end
 
     it "returns the percentage read of a comic, rounded down" do
       expect(user.progress_for(@comic)).to eq 66
     end
 
-    it "accounts for re-reads" do
-      expect(user.progress_for(@comic_with_reread)).to eq 0
+    it "accounts for the latest re-read" do
+      expect(user.progress_for(@comic_with_reread, latest_reread: @reread)).to eq 0
+    end
+
+    it "does not account for any re-reads that do no belong to the comic" do
+      reread = FactoryBot.create(:comic_reread, user:, reread_started_at: Time.current)
+      expect(user.progress_for(@comic_with_reread, latest_reread: reread)).to eq 100
     end
   end
 
@@ -224,7 +229,7 @@ RSpec.describe User, type: :model do
       @comic_with_reread = FactoryBot.create(:comic, count_of_issues: 1)
       issue4 = FactoryBot.create(:issue, comic: @comic_with_reread, absolute_number: 1)
       FactoryBot.create(:read_issue, issue: issue4, user:, read_at: Time.current - 10.seconds)
-      FactoryBot.create(:comic_reread, user:, comic: @comic_with_reread, reread_started_at: Time.current)
+      @reread = FactoryBot.create(:comic_reread, user:, comic: @comic_with_reread, reread_started_at: Time.current)
     end
 
     it "returns all the read issues of the comic for the user, ordered by absolute_number and read_at DESC" do
@@ -232,7 +237,7 @@ RSpec.describe User, type: :model do
     end
 
     it "accounts for the latest reread if there is one" do
-      expect(user.read_issues_for(@comic_with_reread)).to eq []
+      expect(user.read_issues_for(@comic_with_reread, latest_reread: @reread)).to eq []
     end
   end
 
@@ -277,8 +282,8 @@ RSpec.describe User, type: :model do
       it "accounts for rereads" do
         # Issues has been read, but before my re-read started
         FactoryBot.create(:read_issue, issue: @issue3, user:, read_at: 5.seconds.ago)
-        FactoryBot.create(:comic_reread, user:, comic:, reread_started_at: 4.seconds.ago)
-        expect(user.next_up_for(comic)).to eq @issue3
+        reread = FactoryBot.create(:comic_reread, user:, comic:, reread_started_at: 4.seconds.ago)
+        expect(user.next_up_for(comic, latest_reread: reread)).to eq @issue3
       end
     end
 

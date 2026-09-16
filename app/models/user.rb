@@ -84,10 +84,9 @@ class User < ApplicationRecord
     end
   end
 
-  def progress_for(comic)
-    latest_reread = comic.latest_reread_for(self)
+  def progress_for(comic, latest_reread: nil)
     issues = read_issues.includes(:issue).where(issue: {comic: comic})
-    if latest_reread
+    if latest_reread && latest_reread.comic == comic
       issues = issues.where(read_at: latest_reread.reread_started_at..)
     end
     issues = issues.map(&:issue).uniq
@@ -96,9 +95,7 @@ class User < ApplicationRecord
     ((amount_read.to_f / comic.count_of_issues) * 100).floor
   end
 
-  def read_issues_for(comic)
-    latest_reread = comic.latest_reread_for(self)
-
+  def read_issues_for(comic, latest_reread: nil)
     issues = read_issues.joins(:issue).where(issue: {comic: comic}).order("issue.absolute_number DESC").order(read_at: :desc)
     if latest_reread
       issues = issues.where(read_at: latest_reread.reread_started_at..)
@@ -107,8 +104,8 @@ class User < ApplicationRecord
   end
 
   # Returns the next issue depending on read_at or the first unread issue
-  def next_up_for(comic)
-    read_issues_for(comic).first&.issue&.next || comic.ordered_issues.where.not(id: issues_read_since_latest_reread(comic)).first
+  def next_up_for(comic, latest_reread: nil)
+    read_issues_for(comic, latest_reread:).first&.issue&.next || comic.ordered_issues.where.not(id: issues_read_since_reread(comic, reread: latest_reread)).first
   end
 
   # TODO: Possibly make this more efficient with indexes?
@@ -170,12 +167,10 @@ class User < ApplicationRecord
       end
   end
 
-  def issues_read_since_latest_reread(comic)
-    latest_reread = comic.latest_reread_for(self)
-
+  def issues_read_since_reread(comic, reread:)
     issues = read_issues
-    if latest_reread
-      issues = issues.where(read_at: latest_reread.reread_started_at..)
+    if reread
+      issues = issues.where(read_at: reread.reread_started_at..)
     end
     issues.pluck(:issue_id)
   end

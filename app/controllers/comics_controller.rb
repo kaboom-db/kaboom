@@ -146,7 +146,8 @@ class ComicsController < ApplicationController
   end
 
   def read_next_issue
-    issue = current_user.next_up_for(@comic)
+    latest_reread = @comic.latest_reread_for(current_user)
+    issue = current_user.next_up_for(@comic, latest_reread:)
     if issue.present?
       ReadIssue.create(read_at: Time.current, user: current_user, issue:)
     end

@@ -5,7 +5,9 @@ json.array! @incompleted_comics do |comic|
   json.count_of_issues comic.count_of_issues
   json.deck comic.deck
   json.description comic.description
-  next_issue = @user.next_up_for(comic)
+  latest_reread = comic.latest_reread_for(@user)
+  next_issue = @user.next_up_for(comic, latest_reread:)
+  json.reread_active latest_reread.present?
   if next_issue
     json.next_issue do
       json.id next_issue.id

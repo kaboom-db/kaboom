@@ -709,6 +709,16 @@ RSpec.describe "/comics", type: :request do
           expect(read_issue.user).to eq @user
         end
 
+        it "accounts for rereads" do
+          FactoryBot.create(:read_issue, user: @user, issue: @issue, read_at: 1.second.ago)
+          FactoryBot.create(:comic_reread, comic: @comic, user: @user, reread_started_at: Time.current)
+          post read_next_issue_comic_path(@comic)
+          expect(ReadIssue.count).to eq 2
+          read_issue = ReadIssue.last
+          expect(read_issue.issue).to eq @issue
+          expect(read_issue.user).to eq @user
+        end
+
         it "renders the progress sidebar" do
           post read_next_issue_comic_path(@comic)
           assert_select "#comic_progress"
