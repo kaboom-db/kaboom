@@ -188,7 +188,7 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.1.2)
-    honeybadger (6.0.6)
+    honeybadger (6.9.1)
       logger
       ostruct
     i18n (1.15.2)
