@@ -1,11 +1,11 @@
 GIT
   remote: https://github.com/seuros/capistrano-puma.git
-  revision: 75e0be447085428c484e7d2b51347d9be01dc074
+  revision: 00e2cc30ed2d651f943d0e9c4cdabfb1e8fa8883
   specs:
-    capistrano3-puma (7.1.0)
+    capistrano3-puma (8.1.0)
       capistrano (~> 3.7)
       capistrano-bundler
-      puma (>= 6.1, < 8.0)
+      puma (>= 6.1, < 9.0)
 
 GEM
   remote: https://rubygems.org/
